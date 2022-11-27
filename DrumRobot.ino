@@ -30,6 +30,37 @@ BasicDrumSong song;
 void setup() {
   Serial.begin(9600);
 
+  song.initializeBlankPatterns(1, 1);
+  
+  song.setQuarterHit(RIGHT_LEG, 0, 1);
+  song.setQuarterHit(RIGHT_LEG, 0, 3);
+  song.setQuarterHit(RIGHT_ARM, 0, 2);
+  song.setQuarterPos(RIGHT_ARM, 0, 2, 1);
+  song.setQuarterHit(RIGHT_ARM, 0, 4);
+  song.setQuarterPos(RIGHT_ARM, 0, 4, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 1);
+  song.setQuaverPos(LEFT_ARM, 0, 1, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 2);
+  song.setQuaverPos(LEFT_ARM, 0, 2, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 3);
+  song.setQuaverPos(LEFT_ARM, 0, 3, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 4);
+  song.setQuaverPos(LEFT_ARM, 0, 4, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 5);
+  song.setQuaverPos(LEFT_ARM, 0, 5, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 6);
+  song.setQuaverPos(LEFT_ARM, 0, 6, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 7);
+  song.setQuaverPos(LEFT_ARM, 0, 7, 1);
+  song.setQuaverHit(LEFT_ARM, 0, 8);
+  song.setQuaverPos(LEFT_ARM, 0, 8, 2);
+
+  byte pattSeq[1] = {0};
+  song.setPatternSequence(pattSeq);
+  
+  song.printPosPattern(LEFT_ARM, 0);
+  song.printHitPattern(LEFT_ARM, 0);
+  
   song.setBpm(bpm);
   
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);

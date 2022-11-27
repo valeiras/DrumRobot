@@ -13,6 +13,7 @@ const byte nbPosRightLeg = 1;
 const byte nbPosLeftArm = 3;
 const byte nbPosRightArm = 3;
 
+
 struct limbParams{
   byte hitAngle, restAngle, posAngle;
   unsigned int hitTime;

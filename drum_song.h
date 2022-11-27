@@ -14,11 +14,33 @@ class DrumSong {
     DrumSong();
 
     virtual void createPatterns() = 0;
+    
+    void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
+    
     unsigned long getTimeToNextHit(byte limb);
     byte getPosNextHit(byte limb);
 
     void setBpm(unsigned short bpm);
 
+    void setQuarterHit(byte limb, byte patternIndex, byte noteIndex);
+    void setQuaverHit(byte limb, byte patternIndex, byte noteIndex);
+    void setSemiquaverHit(byte limb, byte patternIndex, byte noteIndex);
+    
+    void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
+    void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
+    void setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex);
+    
+    void setQuarterPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
+    void setQuaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
+    void setSemiquaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
+
+    void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern);
+    void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT]);
+    void setPatternSequence(byte pattSeq[]);
+    
+    void printPosPattern(byte limb, byte patternIndex);
+    void printHitPattern(byte limb, byte patternIndex);
+  
   protected:
     unsigned int getNumberOfPositions(byte limb);
     byte* getPosPattern(byte limb, byte patternId);
@@ -28,10 +50,6 @@ class DrumSong {
     unsigned int* getHitPatternPointer(byte limb, byte patternId);
     short* getHitIndexPointer(byte limb);
     byte* getPatternIndexPointer(byte limb);
-
-    void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern);
-    void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT]);
-    void setPatternSequence(byte pattSeq[]);
 
     unsigned short bpm_;
     unsigned int timeQuarter_, timeQuaver_, timeSemiquaver_;

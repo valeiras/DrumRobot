@@ -10,6 +10,25 @@ DrumSong::DrumSong() {
   patternIndexRightArm_ = 0;
 }
 
+void DrumSong::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats) {
+  nbPatterns_ = nbPatterns;
+  nbBeats_ = nbBeats;
+
+  for (int ii = 0; ii < nbPatterns_; ii++) {
+    hitIndexRightLeg_ = 0;
+    hitIndexLeftArm_ = 0;
+    hitIndexRightArm_ = 0;
+
+    for (int jj = 0; jj < SEMIQUAVERS_PER_BEAT; jj++) {
+      posPatternsLeftArm_[ii][jj] = 0;
+      posPatternsRightArm_[ii][jj] = 0;
+    }
+  }
+
+  for (int ii = 0; ii < nbBeats_; ii++) {
+    patternSequence_[ii] = 0;
+  }
+}
 
 unsigned long DrumSong::getTimeToNextHit(byte limb) {
   unsigned int pattern = getHitPattern(limb);
@@ -51,6 +70,89 @@ void DrumSong::setBpm(unsigned short bpm) {
   timeQuarter_ = int(60000.0 / bpm_);       // us per quarter note
   timeQuaver_ = int(timeQuarter_ / 2.0);    // us per quaver note
   timeSemiquaver_ = int(timeQuaver_ / 2.0); // us per semiquaver note
+}
+
+void DrumSong::setQuarterHit(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && 4 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitSet(*pattern, 4 * (noteIndex - 1));
+  }
+}
+
+void DrumSong::setQuaverHit(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && 2 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitSet(*pattern, 2 * (noteIndex - 1));
+  }
+}
+
+void DrumSong::setSemiquaverHit(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitSet(*pattern, noteIndex - 1);
+  }
+}
+
+void DrumSong::setQuarterRest(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && 4 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitClear(*pattern, 4 * (noteIndex - 1));
+  }
+}
+
+void DrumSong::setQuaverRest(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && 2 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitClear(*pattern, 2 * (noteIndex - 1));
+  }
+}
+
+void DrumSong::setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex) {
+  if (noteIndex > 0 && (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    bitClear(*pattern, noteIndex - 1);
+  }
+}
+
+void DrumSong::setQuarterPos(byte limb, byte patternIndex, byte noteIndex, byte pos) {
+  if (noteIndex > 0 && 4 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT ) {
+    byte* posPattern = getPosPattern(limb, patternIndex);
+    posPattern[4 * (noteIndex - 1)] = pos;
+  }
+}
+
+void DrumSong::setQuaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos) {
+  if (noteIndex > 0 && 2 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT ) {
+    byte* posPattern = getPosPattern(limb, patternIndex);
+    posPattern[2 * (noteIndex - 1)] = pos;
+  }
+}
+
+void DrumSong::setSemiquaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos) {
+  if ((noteIndex > 0 && noteIndex - 1) < SEMIQUAVERS_PER_BEAT ) {
+    byte* posPattern = getPosPattern(limb, patternIndex);
+    posPattern[(noteIndex - 1)] = pos;
+  }
+}
+
+void DrumSong::printPosPattern(byte limb, byte patternIndex) {
+  Serial.println("");
+  byte* posPattern = getPosPattern(limb, patternIndex);
+  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    Serial.print(posPattern[ii]);
+    Serial.print(" ");
+  }
+  Serial.println("");
+}
+
+void DrumSong::printHitPattern(byte limb, byte patternIndex) {
+  Serial.println("");
+  unsigned int hitPattern = getHitPattern(limb, patternIndex);
+  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    Serial.print(bitRead(hitPattern, ii));
+    Serial.print(" ");
+  }
+  Serial.println("");
 }
 
 unsigned int DrumSong::getNumberOfPositions(byte limb) {
@@ -172,7 +274,7 @@ void DrumSong::setHitPattern(byte limb, byte hitPatternIndex, unsigned int input
 
 void DrumSong::setPosPattern(byte limb, byte inputPattern[][SEMIQUAVERS_PER_BEAT]) {
   Array<byte[16], MAX_NB_PATTERNS> *pattern = getPosPatternsPointer(limb);
-  
+
   unsigned int nbPos = getNumberOfPositions(limb);
   for (int ii = 0; ii < nbPatterns_; ii++) {
     for (int jj = 0; jj < SEMIQUAVERS_PER_BEAT; jj++) {
