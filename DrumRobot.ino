@@ -25,11 +25,12 @@ unsigned long initTime;
 unsigned short bpm = 150;
 
 DrumRobot robot;
-BasicDrumSong song(bpm);
+BasicDrumSong song; 
 
 void setup() {
   Serial.begin(9600);
 
+  song = BasicDrumSong(bpm);
   // We attach the pins
   robot = DrumRobot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
   robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
@@ -64,10 +65,6 @@ void setup() {
   robot.rest(LEFT_ARM, currPosLeftArm);
   robot.goToPos(RIGHT_ARM, currPosRightArm);
   robot.rest(RIGHT_ARM, currPosRightArm);
-  Serial.println("Curr pos: ");
-  Serial.println(currPosLeftArm);
-  Serial.println("rest Angle: ");
-  Serial.println(robot.getRestAngle(LEFT_ARM, currPosLeftArm));
 
 //  while(true){
 //    if(Serial.available() > 0){
