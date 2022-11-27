@@ -1,5 +1,40 @@
-#include "basic_drum_song.h"
+#include "drum_song_sheets.h"
 
+// -------------------------------------------- SIMPLEST DRUM SONG -----------------------------------------------------
+SimplestDrumSong::SimplestDrumSong(){
+}
+
+SimplestDrumSong::SimplestDrumSong(unsigned short bpm): DrumSong(bpm){
+  nbPatterns_ = 1;
+  nbBeats_ = 1;
+  createPatterns();
+}
+
+void SimplestDrumSong::createPatterns(){
+  hitPatternsRightLeg_[0] = B00110001;
+   
+  hitPatternsLeftArm_[0] = B11111111; 
+  
+  hitPatternsRightArm_[0] = B01000100;
+  
+  byte posPattLeftArm[nbPatterns_][8] = {
+    {2, 2, 2, 2, 2, 2, 2, 2}
+  };
+  
+  byte posPattRightArm[nbPatterns_][8] = {
+    {1, 1, 1, 1, 2, 2, 2, 2}
+  };
+
+  byte pattSeq[nbBeats_] = {0};
+
+  setPosPatternLeftArm(posPattLeftArm);
+  setPosPatternRightArm(posPattRightArm);
+  setPatternSequence(pattSeq);
+
+}
+
+
+// -------------------------------------------- SIMPLEST DRUM SONG -----------------------------------------------------
 BasicDrumSong::BasicDrumSong(){
 }
 

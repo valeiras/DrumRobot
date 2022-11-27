@@ -1,7 +1,6 @@
 #include <Servo.h>
 #include "drum_robot.h"
-#include "basic_drum_song.h"
-#include "simplest_drum_song.h"
+#include "drum_song_sheets.h"
 #include "robot_config.h"
 
 #define BD_HIT_PIN 9
@@ -12,9 +11,6 @@
 
 #define REST 0
 #define HIT 1
-
-DrumRobot robot;
-BasicDrumSong song;
 
 unsigned int initialDelayMs =  1000;
 unsigned long ellapsedTime;
@@ -28,11 +24,12 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 100;
 
+DrumRobot robot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
+BasicDrumSong song(bpm);
+
 void setup() {
   Serial.begin(9600);
-  
-  robot = DrumRobot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
-  
+    
   robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
                         HIT_ANGLE_STICKS_LEFT, REST_ANGLE_STICKS_LEFT, POS_ANGLE_STICKS_LEFT, 
                         HIT_ANGLE_HH, REST_ANGLE_HH, POS_ANGLE_HH,
@@ -40,9 +37,7 @@ void setup() {
                         HIT_ANGLE_STICKS_RIGHT, REST_ANGLE_STICKS_RIGHT, POS_ANGLE_STICKS_RIGHT, 
                         HIT_ANGLE_SN_RIGHT, REST_ANGLE_SN_RIGHT, POS_ANGLE_SN_RIGHT, 
                         HIT_ANGLE_CRASH, REST_ANGLE_CRASH, POS_ANGLE_CRASH);
-                  
-  song = BasicDrumSong(bpm);
-  
+                    
   initTime = millis();
 
   nextInstructionRightLeg = HIT;
