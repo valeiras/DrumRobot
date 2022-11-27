@@ -74,12 +74,12 @@ byte* DrumSong::getPosPattern(byte limb, byte patternId){
 unsigned int DrumSong::getHitPattern(byte limb, byte patternId){
   if(patternId < nbPatterns_){
     switch(limb){
-    case RIGHT_LEG:
-      return hitPatternsRightLeg_[patternId];
-    case LEFT_ARM:
-      return hitPatternsLeftArm_[patternId];
-    case RIGHT_ARM:
-      return hitPatternsRightArm_[patternId];
+      case RIGHT_LEG:
+        return hitPatternsRightLeg_[patternId];
+      case LEFT_ARM:
+        return hitPatternsLeftArm_[patternId];
+      case RIGHT_ARM:
+        return hitPatternsRightArm_[patternId];
     } 
   }
   else{
@@ -91,15 +91,31 @@ unsigned int DrumSong::getHitPattern(byte limb){
   byte patternId;
   
   switch(limb){
-  case RIGHT_LEG:
-    patternId = patternSequence_[patternIndexRightLeg_];
-    return hitPatternsRightLeg_[patternId];
-  case LEFT_ARM:
-    patternId = patternSequence_[patternIndexLeftArm_];
-    return hitPatternsLeftArm_[patternId];
-  case RIGHT_ARM:
-    patternId = patternSequence_[patternIndexRightArm_];
-    return hitPatternsRightArm_[patternId];  
+    case RIGHT_LEG:
+      patternId = patternSequence_[patternIndexRightLeg_];
+      return hitPatternsRightLeg_[patternId];
+    case LEFT_ARM:
+      patternId = patternSequence_[patternIndexLeftArm_];
+      return hitPatternsLeftArm_[patternId];
+    case RIGHT_ARM:
+      patternId = patternSequence_[patternIndexRightArm_];
+      return hitPatternsRightArm_[patternId];  
+  }
+}
+
+unsigned int* DrumSong::getHitPatternPointer(byte limb, byte patternId){
+  if(patternId < nbPatterns_){
+    switch(limb){
+      case RIGHT_LEG:
+        return &hitPatternsRightLeg_[patternId];
+      case LEFT_ARM:
+        return &hitPatternsLeftArm_[patternId];
+      case RIGHT_ARM:
+        return &hitPatternsRightArm_[patternId];
+    } 
+  }
+  else{
+    return new unsigned int;
   }
 }
 
@@ -123,6 +139,19 @@ byte* DrumSong::getPatternIndexPointer(byte limb){
   case RIGHT_ARM:
     return &patternIndexRightArm_;
   }   
+}
+
+void DrumSong::setHitPattern(byte limb, byte hitPatternIndex, unsigned int inputPattern){
+  if(hitPatternIndex < nbPatterns_){
+    unsigned int *pattern = getHitPatternPointer(limb, hitPatternIndex);
+    *pattern = 0;
+    for(unsigned int ii=0; ii<SEMIQUAVERS_PER_BEAT; ii++){
+      if(bitRead(inputPattern, ii)){
+        // We write the pattern from right to left
+        bitSet(*pattern, SEMIQUAVERS_PER_BEAT - ii - 1);
+      }
+    }
+  }
 }
 
 void DrumSong::setPosPatternLeftArm(byte posPatt[][SEMIQUAVERS_PER_BEAT]){

@@ -25,8 +25,11 @@ class DrumSong{
     byte* getPosPattern(byte limb);
     unsigned int getHitPattern(byte limb, byte patternId);
     unsigned int getHitPattern(byte limb);
+    unsigned int* getHitPatternPointer(byte limb, byte patternId);
     short* getHitIndexPointer(byte limb);
     byte* getPatternIndexPointer(byte limb);
+    
+    void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern);
     void setPosPatternLeftArm(byte posPatt[][SEMIQUAVERS_PER_BEAT]);
     void setPosPatternRightArm(byte posPatt[][SEMIQUAVERS_PER_BEAT]);
     void setPatternSequence(byte pattSeq[]);

@@ -45,17 +45,17 @@ BasicDrumSong::BasicDrumSong(unsigned short bpm): DrumSong(bpm){
 }
 
 void BasicDrumSong::createPatterns(){
-  hitPatternsRightLeg_[0] = 0b0000000000000000;
-  hitPatternsRightLeg_[1] = 0b0000010100000001;
-  hitPatternsRightLeg_[2] = 0b0000010100000001;
-   
-  hitPatternsLeftArm_[0] =  0b0010001000100010;
-  hitPatternsLeftArm_[1] =  0b0101010101010101;
-  hitPatternsLeftArm_[2] =  0b0101010101010101;   
+  setHitPattern(RIGHT_LEG, 0, 0b0000000000000000);
+  setHitPattern(RIGHT_LEG, 1, 0b1000000010100000);
+  setHitPattern(RIGHT_LEG, 2, 0b1000000010100000);
+
+  setHitPattern(LEFT_ARM, 0,  0b0100010001000100);
+  setHitPattern(LEFT_ARM, 1,  0b1010101010101010);
+  setHitPattern(LEFT_ARM, 2,  0b1010101010101010);   
   
-  hitPatternsRightArm_[0] = 0b0000000000000000;
-  hitPatternsRightArm_[1] = 0b0101000010010001;
-  hitPatternsRightArm_[2] = 0b1010000010010001; 
+  setHitPattern(RIGHT_ARM, 0, 0b0000000000000000);
+  setHitPattern(RIGHT_ARM, 1, 0b1000100100001010);
+  setHitPattern(RIGHT_ARM, 2, 0b1000100100000101); 
   
   byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
