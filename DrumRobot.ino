@@ -22,14 +22,16 @@ bool moveLeftArm, moveRightArm;
 byte currPosLeftArm, currPosRightArm;
 
 unsigned long initTime;
-unsigned short bpm = 100;
+unsigned short bpm = 150;
 
-DrumRobot robot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
+DrumRobot robot;
 BasicDrumSong song(bpm);
 
 void setup() {
   Serial.begin(9600);
-    
+
+  // We attach the pins
+  robot = DrumRobot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
   robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
                         HIT_ANGLE_STICKS_LEFT, REST_ANGLE_STICKS_LEFT, POS_ANGLE_STICKS_LEFT, 
                         HIT_ANGLE_HH, REST_ANGLE_HH, POS_ANGLE_HH,

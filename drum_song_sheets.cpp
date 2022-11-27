@@ -11,18 +11,18 @@ SimplestDrumSong::SimplestDrumSong(unsigned short bpm): DrumSong(bpm){
 }
 
 void SimplestDrumSong::createPatterns(){
-  hitPatternsRightLeg_[0] = B00110001;
+  hitPatternsRightLeg_[0] = 0b0011000100001111;
    
-  hitPatternsLeftArm_[0] = B11111111; 
+  hitPatternsLeftArm_[0] = 0b1111111100001111; 
   
-  hitPatternsRightArm_[0] = B01000100;
+  hitPatternsRightArm_[0] = 0b0100010000001111;
   
-  byte posPattLeftArm[nbPatterns_][8] = {
-    {2, 2, 2, 2, 2, 2, 2, 2}
+  byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
+    {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
   };
   
-  byte posPattRightArm[nbPatterns_][8] = {
-    {1, 1, 1, 1, 2, 2, 2, 2}
+  byte posPattRightArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2}
   };
 
   byte pattSeq[nbBeats_] = {0};
@@ -45,28 +45,28 @@ BasicDrumSong::BasicDrumSong(unsigned short bpm): DrumSong(bpm){
 }
 
 void BasicDrumSong::createPatterns(){
-  hitPatternsRightLeg_[0] = B00000000;
-  hitPatternsRightLeg_[1] = B00110001;
-  hitPatternsRightLeg_[2] = B00110001;
+  hitPatternsRightLeg_[0] = 0b0000000000000000;
+  hitPatternsRightLeg_[1] = 0b0000010100000001;
+  hitPatternsRightLeg_[2] = 0b0000010100000001;
    
-  hitPatternsLeftArm_[0] = B01010101;
-  hitPatternsLeftArm_[1] = B11111111;
-  hitPatternsLeftArm_[2] = B10101111;   
+  hitPatternsLeftArm_[0] =  0b0010001000100010;
+  hitPatternsLeftArm_[1] =  0b0101010101010101;
+  hitPatternsLeftArm_[2] =  0b0101010101010101;   
   
-  hitPatternsRightArm_[0] = B01010101;
-  hitPatternsRightArm_[1] = B01000100;
-  hitPatternsRightArm_[2] = B01010100; 
+  hitPatternsRightArm_[0] = 0b0000000000000000;
+  hitPatternsRightArm_[1] = 0b0101000010010001;
+  hitPatternsRightArm_[2] = 0b1010000010010001; 
   
-  byte posPattLeftArm[nbPatterns_][8] = {
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 1, 1, 1, 2, 2, 2, 2}
+  byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2}
   };
   
-  byte posPattRightArm[nbPatterns_][8] = {
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1}
+  byte posPattRightArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
   };
 
   byte pattSeq[nbBeats_] = {1, 2, 1, 2, 1, 2, 1, 2, 1, 2};
