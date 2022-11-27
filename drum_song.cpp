@@ -1,11 +1,6 @@
 #include "drum_song.h"
 
 DrumSong::DrumSong() {
-}
-
-DrumSong::DrumSong(unsigned short bpm) {
-  setBpm(bpm);
-
   hitIndexRightLeg_ = -1;
   hitIndexLeftArm_ = -1;
   hitIndexRightArm_ = -1;
@@ -14,6 +9,7 @@ DrumSong::DrumSong(unsigned short bpm) {
   patternIndexLeftArm_ = 0;
   patternIndexRightArm_ = 0;
 }
+
 
 unsigned long DrumSong::getTimeToNextHit(byte limb) {
   unsigned int pattern = getHitPattern(limb);

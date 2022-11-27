@@ -12,7 +12,6 @@
 class DrumSong {
   public:
     DrumSong();
-    DrumSong(unsigned short bpm);
 
     virtual void createPatterns() = 0;
     unsigned long getTimeToNextHit(byte limb);

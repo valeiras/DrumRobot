@@ -7,7 +7,6 @@ class SimplestDrumSong: public DrumSong{
   public:
 
     SimplestDrumSong();
-    SimplestDrumSong(unsigned short bpm);
     void createPatterns();
 
   private:

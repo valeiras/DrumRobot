@@ -30,7 +30,7 @@ BasicDrumSong song;
 void setup() {
   Serial.begin(9600);
 
-  song = BasicDrumSong(bpm);
+  song.setBpm(bpm);
   
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
   robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
