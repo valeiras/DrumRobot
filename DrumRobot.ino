@@ -31,8 +31,8 @@ void setup() {
   Serial.begin(9600);
 
   song = BasicDrumSong(bpm);
-  // We attach the pins
-  robot = DrumRobot(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
+  
+  robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
   robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
                         HIT_ANGLE_STICKS_LEFT, REST_ANGLE_STICKS_LEFT, POS_ANGLE_STICKS_LEFT, 
                         HIT_ANGLE_HH, REST_ANGLE_HH, POS_ANGLE_HH,

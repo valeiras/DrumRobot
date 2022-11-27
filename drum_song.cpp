@@ -60,9 +60,9 @@ void DrumSong::setBpm(unsigned short bpm) {
 unsigned int DrumSong::getNumberOfPositions(byte limb) {
   switch (limb) {
     case LEFT_ARM:
-      return NB_POS_LEFT_ARM;
+      return nbPosLeftArm;
     case RIGHT_ARM:
-      return NB_POS_RIGHT_ARM;
+      return nbPosRightArm;
     default:
       return 0;
   }

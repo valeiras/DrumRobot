@@ -1,16 +1,8 @@
 #include "drum_robot.h"
 
 DrumRobot::DrumRobot(){
-}
-
-DrumRobot::DrumRobot(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin){
+  // We initialize the default parameters
   setupLimbParams();
-  
-  hitServoRightLeg_.attach(bdHitPin); 
-  hitServoLeftArm_.attach(leftHitPin);
-  hitServoRightArm_.attach(rightHitPin);
-  posServoLeftArm_.attach(leftPosPin);
-  posServoRightArm_.attach(rightPosPin);
 }
 
 void DrumRobot::hit(byte limb, byte pos){
@@ -77,6 +69,14 @@ void DrumRobot::goToHitAngle(byte limb, byte hitAngle){
   } 
 }
 
+void DrumRobot::attachServos(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin){  
+  hitServoRightLeg_.attach(bdHitPin); 
+  hitServoLeftArm_.attach(leftHitPin);
+  hitServoRightArm_.attach(rightHitPin);
+  posServoLeftArm_.attach(leftPosPin);
+  posServoRightArm_.attach(rightPosPin);
+}
+
 // We use the default values defined in robot_config.h
 void DrumRobot::setupLimbParams(){
   setupLimbParams(W_SERVO, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
@@ -124,21 +124,21 @@ void DrumRobot::setupLimbParams(float wServo, byte hitAngleBD, byte restAngleBD,
 byte DrumRobot::getHitAngle(byte limb, byte pos){
   switch(limb){
   case RIGHT_LEG:
-    if(pos < NB_POS_RIGHT_LEG){
+    if(pos < nbPosRightLeg){
       return paramsRightLeg_[pos].hitAngle;
     }
     else{
       return 255;
     }
   case LEFT_ARM:
-    if(pos < NB_POS_LEFT_ARM){
+    if(pos < nbPosLeftArm){
       return paramsLeftArm_[pos].hitAngle;
     }
     else{
       return 255;
     }  
   case RIGHT_ARM:
-    if(pos < NB_POS_RIGHT_ARM){
+    if(pos < nbPosRightArm){
       return paramsRightArm_[pos].hitAngle;
     }
     else{
@@ -150,21 +150,21 @@ byte DrumRobot::getHitAngle(byte limb, byte pos){
 byte DrumRobot::getRestAngle(byte limb, byte pos){
     switch(limb){
   case RIGHT_LEG:
-    if(pos < NB_POS_RIGHT_LEG){
+    if(pos < nbPosRightLeg){
       return paramsRightLeg_[pos].restAngle;
     }
     else{
       return 255;
     }
   case LEFT_ARM:
-    if(pos < NB_POS_LEFT_ARM){
+    if(pos < nbPosLeftArm){
       return paramsLeftArm_[pos].restAngle;
     }
     else{
       return 255;
     }  
   case RIGHT_ARM:
-    if(pos < NB_POS_RIGHT_ARM){
+    if(pos < nbPosRightArm){
       return paramsRightArm_[pos].restAngle;
     }
     else{
@@ -176,21 +176,21 @@ byte DrumRobot::getRestAngle(byte limb, byte pos){
 byte DrumRobot::getPosAngle(byte limb, byte pos){
   switch(limb){
   case RIGHT_LEG:
-    if(pos < NB_POS_RIGHT_LEG){
+    if(pos < nbPosRightLeg){
       return paramsRightLeg_[pos].posAngle;
     }
     else{
       return 255;
     }
   case LEFT_ARM:
-    if(pos < NB_POS_LEFT_ARM){
+    if(pos < nbPosLeftArm){
       return paramsLeftArm_[pos].posAngle;
     }
     else{
       return 255;
     }  
   case RIGHT_ARM:
-    if(pos < NB_POS_RIGHT_ARM){
+    if(pos < nbPosRightArm){
       return paramsRightArm_[pos].posAngle;
     }
     else{
@@ -203,21 +203,21 @@ byte DrumRobot::getPosAngle(byte limb, byte pos){
 unsigned int DrumRobot::getHitTime(byte limb, byte pos){
  switch(limb){
   case RIGHT_LEG:
-    if(pos < NB_POS_RIGHT_LEG){
+    if(pos < nbPosRightLeg){
       return paramsRightLeg_[pos].hitTime;
     }
     else{
       return 0;
     }
   case LEFT_ARM:
-    if(pos < NB_POS_LEFT_ARM){
+    if(pos < nbPosLeftArm){
       return paramsLeftArm_[pos].hitTime;
     }
     else{
       return 0;
     }  
   case RIGHT_ARM:
-    if(pos < NB_POS_RIGHT_ARM){
+    if(pos < nbPosRightArm){
       return paramsRightArm_[pos].hitTime;
     }
     else{
@@ -233,21 +233,21 @@ float DrumRobot::getServoSpeed(){
 String DrumRobot::getPosName(byte limb, byte pos){
    switch(limb){
   case RIGHT_LEG:
-    if(pos < NB_POS_RIGHT_LEG){
+    if(pos < nbPosRightLeg){
       return paramsRightLeg_[pos].posName;
     }
     else{
       return "Error";
     }
   case LEFT_ARM:
-    if(pos < NB_POS_LEFT_ARM){
+    if(pos < nbPosLeftArm){
       return paramsLeftArm_[pos].posName;
     }
     else{
       return "Error";
     }  
   case RIGHT_ARM:
-    if(pos < NB_POS_RIGHT_ARM){
+    if(pos < nbPosRightArm){
       return paramsRightArm_[pos].posName;
     }
     else{

@@ -5,13 +5,13 @@
 #include <Servo.h>
 #include "robot_config.h"
 
-#define NB_POS_RIGHT_LEG 1
-#define NB_POS_LEFT_ARM 3
-#define NB_POS_RIGHT_ARM 3
-
 #define RIGHT_LEG 0
 #define LEFT_ARM 1
 #define RIGHT_ARM 2
+
+const byte nbPosRightLeg = 1;
+const byte nbPosLeftArm = 3;
+const byte nbPosRightArm = 3;
 
 struct limbParams{
   byte hitAngle, restAngle, posAngle;
@@ -22,7 +22,6 @@ struct limbParams{
 class DrumRobot{
   public:
     DrumRobot();
-    DrumRobot(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin);
 
     void hit(byte limb, byte pos);
     void rest(byte limb, byte pos);
@@ -38,7 +37,9 @@ class DrumRobot{
     float getServoSpeed();
     
     String getPosName(byte limb, byte pos);
-  
+
+    void attachServos(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin);
+    
     void setupLimbParams(float wServo, byte hutAngleBD, byte restAngleBD, byte posAngleBD, 
                          byte hitAngleSticksLeft, byte restAngleSticksLeft, byte posAngleSticksLeft, 
                          byte hitAngleHH, byte restAngleHH, byte posAngleHH,
@@ -54,7 +55,7 @@ class DrumRobot{
     
     // rotational speed degrees per ms, from the data sheet of the servo
     float wServo_;
-    struct limbParams paramsRightLeg_[NB_POS_RIGHT_LEG], paramsLeftArm_[NB_POS_LEFT_ARM], paramsRightArm_[NB_POS_RIGHT_ARM];
+    struct limbParams paramsRightLeg_[nbPosRightLeg], paramsLeftArm_[nbPosLeftArm], paramsRightArm_[nbPosRightArm];
 };
 
 #endif
