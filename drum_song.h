@@ -13,7 +13,8 @@ class DrumSong {
   public:
     DrumSong();
 
-    virtual void createPatterns() = 0;
+    // Default patterns for the different songs. Empty method in the base class
+    virtual void createPatterns();
     
     void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
     
@@ -22,18 +23,14 @@ class DrumSong {
 
     void setBpm(unsigned short bpm);
 
-    void setQuarterHit(byte limb, byte patternIndex, byte noteIndex);
-    void setQuaverHit(byte limb, byte patternIndex, byte noteIndex);
-    void setSemiquaverHit(byte limb, byte patternIndex, byte noteIndex);
+    void setQuarterHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
+    void setQuaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
+    void setSemiquaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
     
     void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
     void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
     void setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex);
     
-    void setQuarterPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
-    void setQuaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
-    void setSemiquaverPos(byte limb, byte patternIndex, byte noteIndex, byte pos);
-
     void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern);
     void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT]);
     void setPatternSequence(byte pattSeq[]);

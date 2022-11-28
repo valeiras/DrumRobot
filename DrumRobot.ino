@@ -9,9 +9,6 @@
 #define RIGHT_POS_PIN 5
 #define LEFT_POS_PIN 6
 
-#define REST 0
-#define HIT 1
-
 unsigned int initialDelayMs =  1000;
 unsigned long ellapsedTime;
 
@@ -25,35 +22,29 @@ unsigned long initTime;
 unsigned short bpm = 150;
 
 DrumRobot robot;
-BasicDrumSong song; 
+DrumSong song; 
 
 void setup() {
   Serial.begin(9600);
 
   song.initializeBlankPatterns(1, 1);
+
+  int patternId = 0;
   
-  song.setQuarterHit(RIGHT_LEG, 0, 1);
-  song.setQuarterHit(RIGHT_LEG, 0, 3);
-  song.setQuarterHit(RIGHT_ARM, 0, 2);
-  song.setQuarterPos(RIGHT_ARM, 0, 2, 1);
-  song.setQuarterHit(RIGHT_ARM, 0, 4);
-  song.setQuarterPos(RIGHT_ARM, 0, 4, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 1);
-  song.setQuaverPos(LEFT_ARM, 0, 1, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 2);
-  song.setQuaverPos(LEFT_ARM, 0, 2, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 3);
-  song.setQuaverPos(LEFT_ARM, 0, 3, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 4);
-  song.setQuaverPos(LEFT_ARM, 0, 4, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 5);
-  song.setQuaverPos(LEFT_ARM, 0, 5, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 6);
-  song.setQuaverPos(LEFT_ARM, 0, 6, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 7);
-  song.setQuaverPos(LEFT_ARM, 0, 7, 1);
-  song.setQuaverHit(LEFT_ARM, 0, 8);
-  song.setQuaverPos(LEFT_ARM, 0, 8, 2);
+  song.setQuarterHit(RIGHT_LEG, BD, patternId, 1);
+  song.setQuarterHit(RIGHT_LEG, BD, patternId, 3);
+  
+  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 2);
+  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 4);
+
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 1);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 2);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 3);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 4);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 5);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 6);
+  song.setQuaverHit(LEFT_ARM, HH, patternId, 7);
+  song.setQuaverHit(LEFT_ARM, SN_LEFT, patternId, 8);
 
   byte pattSeq[1] = {0};
   song.setPatternSequence(pattSeq);
@@ -64,13 +55,13 @@ void setup() {
   song.setBpm(bpm);
   
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
-  robot.setupLimbParams(0.3, HIT_ANGLE_BD, REST_ANGLE_BD, POS_ANGLE_BD, 
-                        HIT_ANGLE_STICKS_LEFT, REST_ANGLE_STICKS_LEFT, POS_ANGLE_STICKS_LEFT, 
-                        HIT_ANGLE_HH, REST_ANGLE_HH, POS_ANGLE_HH,
-                        HIT_ANGLE_SN_LEFT, REST_ANGLE_SN_LEFT, POS_ANGLE_SN_LEFT, 
-                        HIT_ANGLE_STICKS_RIGHT, REST_ANGLE_STICKS_RIGHT, POS_ANGLE_STICKS_RIGHT, 
-                        HIT_ANGLE_SN_RIGHT, REST_ANGLE_SN_RIGHT, POS_ANGLE_SN_RIGHT, 
-                        HIT_ANGLE_CRASH, REST_ANGLE_CRASH, POS_ANGLE_CRASH);
+  robot.setupLimbParams(0.3, _hitAngle_BD, _restAngle_BD, _posAngle_BD, 
+                        _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft, 
+                        _hitAngleHH, _restAngleHH, _posAngleHH,
+                        _hitAngleSnLeft, _restAngleSnLeft, _posAngleSnLeft, 
+                        _hitAngleSticksRight, _restAngleSticksRight, _posAngleSticksRight, 
+                        _hitAngleSnRight, _restAngleSnRight, _posAngleSnRight, 
+                        _hitAngleCrash, _restAngleCrash, _posAngleCrash);
                     
   initTime = millis();
 

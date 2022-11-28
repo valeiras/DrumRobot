@@ -1,40 +1,58 @@
 #ifndef Robot_config_h
-#define Robotconfig_h
+#define Robot_config_h
 
-#define HIT_ANGLE_BD 50
-#define REST_ANGLE_BD 80
-#define POS_ANGLE_BD 0
+#define RIGHT_LEG 0
+#define LEFT_ARM 1
+#define RIGHT_ARM 2
+
+#define REST 0
+#define HIT 1
+
+#define BD 0
+#define STICK 0
+#define HH 1
+#define SN_LEFT 2
+#define SN_RIGHT 1
+#define CRASH 2
+ 
+const byte _nbPosRightLeg = 1;
+const byte _nbPosLeftArm = 3;
+const byte _nbPosRightArm = 3;
+
+const byte _hitAngle_BD = 50;
+const byte _restAngle_BD = 80;
+const byte _posAngle_BD = 0;
 
 // Left arm, position 0: Sticks
-#define HIT_ANGLE_STICKS_LEFT 40
-#define REST_ANGLE_STICKS_LEFT 50
-#define POS_ANGLE_STICKS_LEFT 30
+const byte _hitAngleSticksLeft = 40;
+const byte _restAngleSticksLeft = 50;
+const byte _posAngleSticksLeft = 30;
 
 // Left arm, position 1: HH
-#define HIT_ANGLE_HH 85
-#define REST_ANGLE_HH 70
-#define POS_ANGLE_HH 55
+const byte _hitAngleHH = 85;
+const byte _restAngleHH = 70;
+const byte _posAngleHH = 55;
 
 // Left arm, position 2: Snare
-#define HIT_ANGLE_SN_LEFT 110
-#define REST_ANGLE_SN_LEFT 85
-#define POS_ANGLE_SN_LEFT 0
+const byte _hitAngleSnLeft = 110;
+const byte _restAngleSnLeft = 85;
+const byte _posAngleSnLeft = 0;
 
 // Right arm, position 0: Sticks
-#define HIT_ANGLE_STICKS_RIGHT 120
-#define REST_ANGLE_STICKS_RIGHT 100
-#define POS_ANGLE_STICKS_RIGHT 0
+const byte _hitAngleSticksRight = 120;
+const byte _restAngleSticksRight = 100;
+const byte _posAngleSticksRight = 0;
 
 // Right arm, position 1:
-#define HIT_ANGLE_SN_RIGHT 70
-#define REST_ANGLE_SN_RIGHT 100
-#define POS_ANGLE_SN_RIGHT 0
+const byte _hitAngleSnRight = 70;
+const byte _restAngleSnRight = 100;
+const byte _posAngleSnRight = 0;
 
 // _Right arm, position 2:
-#define HIT_ANGLE_CRASH 90
-#define REST_ANGLE_CRASH 120
-#define POS_ANGLE_CRASH 100
+const byte _hitAngleCrash = 90;
+const byte _restAngleCrash = 120;
+const byte _posAngleCrash = 100;
 
-#define W_SERVO 0.6
+const float _wServo = 0.6;
 
 #endif
