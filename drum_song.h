@@ -9,6 +9,9 @@
 #define MAX_NB_BEATS 100
 #define SEMIQUAVERS_PER_BEAT 16
 
+#define BITS_FOR_HIT 1
+#define BITS_FOR_POS 3
+
 class DrumSong {
   public:
     DrumSong();
@@ -41,7 +44,10 @@ class DrumSong {
   protected:
     unsigned int getNumberOfPositions(byte limb);
     byte* getPosPattern(byte limb, byte patternId);
-    Array<byte[16], MAX_NB_PATTERNS>* getPosPatternsPointer(byte limb);
+    byte* getHitAndPosPattern(byte limb, byte patternId);
+    Array<byte[16], MAX_NB_PATTERNS>* getArrayPosPatterns(byte limb);
+    Array<byte[16], MAX_NB_PATTERNS>* getArrayHitAndPosPatterns(byte limb);
+    
     unsigned int getHitPattern(byte limb, byte patternId);
     unsigned int getHitPattern(byte limb);
     unsigned int* getHitPatternPointer(byte limb, byte patternId);
@@ -66,7 +72,9 @@ class DrumSong {
 
     // Position patterns are stored as byte arrays, where each elements represents the position of the servo
     Array<byte[16], MAX_NB_PATTERNS> posPatternsLeftArm_, posPatternsRightArm_;
-
+    Array<byte[16], MAX_NB_PATTERNS> hitAndPosPatternsRightLeg_, hitAndPosPatternsLeftArm_, hitAndPosPatternsRightArm_;
+    
+    unsigned int posMask_;
 };
 
 #endif
