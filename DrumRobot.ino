@@ -21,7 +21,7 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 120;
 
-bool printOutput = false;
+bool printOutput = true;
 bool simulation = true;
 
 DrumRobot robot;
