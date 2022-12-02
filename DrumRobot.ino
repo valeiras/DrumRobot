@@ -3,13 +3,13 @@
 #include "drum_song_sheets.h"
 #include "robot_config.h"
 
-#define BD_HIT_PIN 9
-#define RIGHT_HIT_PIN 10
-#define LEFT_HIT_PIN 11
-#define RIGHT_POS_PIN 5
-#define LEFT_POS_PIN 6
+#define BD_HIT_PIN 5
+#define RIGHT_HIT_PIN 6
+#define LEFT_HIT_PIN 9
+#define RIGHT_POS_PIN 10
+#define LEFT_POS_PIN 11
 
-unsigned int initialDelayMs =  1000;
+unsigned int initialDelayMs =  3000;
 unsigned long ellapsedTime;
 
 unsigned long timeNextHitInstructionRightLeg, timeNextHitInstructionLeftArm, timeNextHitInstructionRightArm;
@@ -19,40 +19,86 @@ bool moveLeftArm, moveRightArm;
 byte currPosLeftArm, currPosRightArm;
 
 unsigned long initTime;
-unsigned short bpm = 150;
+unsigned short bpm = 120;
+
+bool printOutput = false;
+bool simulation = true;
 
 DrumRobot robot;
-DrumSong song;
+BasicDrumSong song;
 
 void setup() {
   Serial.begin(9600);
 
-  song.initializeBlankPatterns(1, 1);
+  song.createPatterns(printOutput);
+  //  unsigned int nbBeats = 10;
+  //  unsigned int nbPatterns = 2;
+  //
+  //  song.initializeBlankPatterns(nbPatterns, nbBeats);
 
   int patternId = 0;
 
-  Serial.println("BD");
-  song.setQuarterHit(RIGHT_LEG, BD, patternId, 1);
-  song.setQuarterHit(RIGHT_LEG, BD, patternId, 3);
+  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 1, printOutput);
+  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 2, printOutput);
+  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 3, printOutput);
+  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 4, printOutput);
+  //
+  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 1, printOutput);
+  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 2, printOutput);
+  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 3, printOutput);
+  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 4, printOutput);
+  //
+  //  patternId = 1;
+  //  song.setQuarterHit(RIGHT_LEG, BD, patternId, 1, printOutput);
+  //  song.setQuarterHit(RIGHT_LEG, BD, patternId, 3, printOutput);
+  //  song.setQuaverHit(RIGHT_LEG, BD, patternId, 6);
+  //
+  //  song.setQuarterHit(RIGHT_ARM, CRASH, patternId, 1, printOutput);
+  //  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 2, printOutput);
+  //  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 4, printOutput);
+  //  song.setSemiquaverHit(RIGHT_ARM, SN_RIGHT, patternId, 16);
+  //
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 1);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 2);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 3);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 4);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 5);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 6);
+  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 7);
+  //  song.setQuaverHit(LEFT_ARM, SN_LEFT, patternId, 8);
+  //
+  //  byte pattSeq[nbBeats] = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  //  song.setPatternSequence(pattSeq);
 
-  Serial.println("SN");
-  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 2);
-  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 4);
-
-  song.setQuaverHit(LEFT_ARM, STICK, patternId, 1);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 2);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 3);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 4);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 5);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 6);
-  song.setQuaverHit(LEFT_ARM, HH, patternId, 7);
-  song.setQuaverHit(LEFT_ARM, SN_LEFT, patternId, 8);
-
-  byte pattSeq[1] = {0};
-  song.setPatternSequence(pattSeq);
-
+  Serial.println("");
+  Serial.println("Pattern 0 - RIGHT LEG");
   song.printPosPattern(RIGHT_LEG, 0);
   song.printHitPattern(RIGHT_LEG, 0);
+
+  Serial.println("");
+  Serial.println("Pattern 1 - RIGHT LEG");
+  song.printPosPattern(RIGHT_LEG, 1);
+  song.printHitPattern(RIGHT_LEG, 1);
+
+  Serial.println("");
+  Serial.println("Pattern 0 - LEFT ARM");
+  song.printPosPattern(LEFT_ARM, 0);
+  song.printHitPattern(LEFT_ARM, 0);
+
+  Serial.println("");
+  Serial.println("Pattern 1 - LEFT_ARM");
+  song.printPosPattern(LEFT_ARM, 1);
+  song.printHitPattern(LEFT_ARM, 1);
+
+  Serial.println("");
+  Serial.println("Pattern 0 - RIGHT ARM");
+  song.printPosPattern(RIGHT_ARM, 0);
+  song.printHitPattern(RIGHT_ARM, 0);
+
+  Serial.println("");
+  Serial.println("Pattern 1 - RIGHT ARM");
+  song.printPosPattern(RIGHT_ARM, 1);
+  song.printHitPattern(RIGHT_ARM, 1);
 
   song.setBpm(bpm);
 
@@ -75,11 +121,8 @@ void setup() {
   currPosLeftArm = song.getPosNextHit(LEFT_ARM);
   currPosRightArm = song.getPosNextHit(RIGHT_ARM);
 
-  Serial.println("RIGHT LEG");
   timeNextHitInstructionRightLeg = initTime + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0);
-  Serial.println("LEFT ARM");
   timeNextHitInstructionLeftArm = initTime + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm);
-  Serial.println("RIGHT ARM");
   timeNextHitInstructionRightArm = initTime + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm);
 
   timeNextPosInstructionLeftArm = 0;
@@ -87,7 +130,6 @@ void setup() {
   moveLeftArm = false;
   moveRightArm = false;
 
-  Serial.println("Sending the robot to places");
   robot.rest(RIGHT_LEG, 0);
   robot.goToPos(LEFT_ARM, currPosLeftArm);
   robot.rest(LEFT_ARM, currPosLeftArm);
@@ -104,6 +146,16 @@ void setup() {
   //      }
   //    }
   //  }
+  //  for (byte limb = 0; limb < 3; limb++) {
+  //    for (byte currPos = 0; currPos < 3; currPos++) {
+  //      Serial.print("Limb : ");
+  //      Serial.print(limb);
+  //      Serial.print(", pos : ");
+  //      Serial.println(currPos);
+  //      Serial.println(robot.getPosName(limb, currPos));
+  //    }
+  //  }
+  //  Serial.println("Finish setup");
 }
 
 void loop() {
@@ -135,6 +187,9 @@ void loop() {
 void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction) {
   if (nextInstruction == HIT) {
     robot.hit(limb, 0);
+    if (simulation) {
+      Serial.println(robot.getPosName(limb, 0));
+    }
     timeNextHitInstruction += robot.getHitTime(limb, 0);
     nextInstruction = REST;
   }
@@ -149,6 +204,10 @@ void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeN
 void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction, unsigned long &timeNextPosInstruction, unsigned long currTime, byte &currPos, bool &moveLimb) {
   if (nextInstruction == HIT) {
     robot.hit(limb, currPos);
+    if (simulation) {
+      Serial.println(robot.getPosName(limb, currPos));
+    }
+
     timeNextHitInstruction += robot.getHitTime(limb, currPos);
     nextInstruction = REST;
   }

@@ -7,7 +7,7 @@ class SimplestDrumSong: public DrumSong{
   public:
 
     SimplestDrumSong();
-    void createPatterns();
+    void createPatterns(bool printOutput);
 
   private:
     
@@ -18,7 +18,7 @@ class BasicDrumSong: public DrumSong{
 
     BasicDrumSong();
     BasicDrumSong(unsigned short bpm);
-    void createPatterns();
+    void createPatterns(bool printOutput);
 
   private:
     

@@ -1,18 +1,18 @@
 #include "drum_song.h"
 
 DrumSong::DrumSong() {
-  hitIndexRightLeg_ = -1;
-  hitIndexLeftArm_ = -1;
-  hitIndexRightArm_ = -1;
+  hitIndexRL_ = -1;
+  hitIndexLA_ = -1;
+  hitIndexRA_ = -1;
 
-  patternIndexRightLeg_ = 0;
-  patternIndexLeftArm_ = 0;
-  patternIndexRightArm_ = 0;
+  patternSequenceIndexRL_ = 0;
+  patternSequenceIndexLA_ = 0;
+  patternSequenceIndexRA_ = 0;
 
   posMask_ = B00000111;
 }
 
-void DrumSong::createPatterns() {
+void DrumSong::createPatterns(bool printOutput) {
 
 }
 
@@ -21,16 +21,16 @@ void DrumSong::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbB
   nbBeats_ = nbBeats;
 
   for (int ii = 0; ii < nbPatterns_; ii++) {
-    hitIndexRightLeg_ = 0;
-    hitIndexLeftArm_ = 0;
-    hitIndexRightArm_ = 0;
+    hitPatternsRL_[ii] = 0;
+    hitPatternsLA_[ii] = 0;
+    hitPatternsRA_[ii] = 0;
 
     for (int jj = 0; jj < SEMIQUAVERS_PER_BEAT; jj++) {
-      posPatternsLeftArm_[ii][jj] = 0;
-      posPatternsRightArm_[ii][jj] = 0;
-      hitAndPosPatternsRightLeg_[ii][jj] = 0;
-      hitAndPosPatternsRightArm_[ii][jj] = 0;
-      hitAndPosPatternsLeftArm_[ii][jj] = 0;
+      posPatternsLA_[ii][jj] = 0;
+      posPatternsRA_[ii][jj] = 0;
+      hitAndPosPatternsRL_[ii][jj] = 0;
+      hitAndPosPatternsRA_[ii][jj] = 0;
+      hitAndPosPatternsLA_[ii][jj] = 0;
     }
   }
 
@@ -41,69 +41,86 @@ void DrumSong::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbB
 
 unsigned long DrumSong::getTimeToNextHit(byte limb) {
   unsigned int pattern = getHitPattern(limb);
-  short* hitIndex = getHitIndexPointer(limb);
-  byte* patternIndex = getPatternIndexPointer(limb);
+  signed char* hitIndex = getHitIndexPointer(limb);
+  byte* patternSequenceIndex = getPatternSequenceIndexPointer(limb);
 
-  short copyHitIndex = *hitIndex;
-  short copyPatternIndex = *patternIndex;
-  
+  signed char copyHitIndex = *hitIndex;
+  byte copyPatternSequenceIndex = *patternSequenceIndex;
+  byte patternId = patternSequence_[copyPatternSequenceIndex];
+
   unsigned long timeToNextInstruction = 0;
 
   do {
     // We iterate the pattern. When we get to the end we start again
     if (++(*hitIndex) >= SEMIQUAVERS_PER_BEAT) {
       *hitIndex = 0;
-      *patternIndex = (*patternIndex + 1) % nbBeats_;
+      *patternSequenceIndex = (*patternSequenceIndex + 1) % nbBeats_;
       pattern = getHitPattern(limb);
     }
+
     timeToNextInstruction += timeSemiquaver_;
   } while (!bitRead(pattern, *hitIndex));
 
-  byte* hitAndPosPattern = getHitAndPosPattern(limb, copyPatternIndex);
+  // We repeat the same process with the new array
+
+  byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
   unsigned long newTimeToNextInstruction = 0;
 
   do {
     // We iterate the pattern. When we get to the end we start again
     if (++(copyHitIndex) >= SEMIQUAVERS_PER_BEAT) {
       copyHitIndex = 0;
-      copyPatternIndex = (copyPatternIndex + 1) % nbBeats_;
-      hitAndPosPattern = getHitAndPosPattern(limb, copyPatternIndex);
+      copyPatternSequenceIndex = (copyPatternSequenceIndex + 1) % nbBeats_;
+      patternId = patternSequence_[copyPatternSequenceIndex];
+      hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     }
     newTimeToNextInstruction += timeSemiquaver_;
   } while (!bitRead(hitAndPosPattern[copyHitIndex], 0));
-  
-  if(copyHitIndex != *hitIndex || copyPatternIndex != *patternIndex || newTimeToNextInstruction != timeToNextInstruction){
-    Serial.println("Error in the time to next hit");  
+
+  if (copyHitIndex != *hitIndex || copyPatternSequenceIndex != *patternSequenceIndex || newTimeToNextInstruction != timeToNextInstruction) {
+    Serial.print("Error in the time to next hit -> Limb: ");
+    ////Serial.println(limb);
+    ////Serial.print("Bit : ");
+    ////Serial.println(bitRead(pattern, *hitIndex));
+    ////Serial.print("Pattern : ");
+    ////Serial.println(pattern, BIN);
+    ////Serial.print("New bit: ");
+    ////Serial.println(bitRead(hitAndPosPattern[copyHitIndex], 0));
+    ////Serial.print("New pattern : ");
+    ////Serial.println("");
+    //Serial.print("Hit index ");
+    //Serial.print(*hitIndex);
+    //Serial.print(" - copy hit index ");
+    //Serial.print(copyHitIndex);
+    //Serial.print(" - pattern index ");
+    //Serial.print(*patternSequenceIndex);
+    //Serial.print(" - copy pattern index ");
+    //Serial.print(copyPatternSequenceIndex);
+    //Serial.print(" - time to next instruction ");
+    //Serial.print(timeToNextInstruction);
+    //Serial.print(" - new time to next instruction ");
+    //Serial.println(newTimeToNextInstruction);
+
   }
-  else{
-    Serial.println("So far fo good with the times!");
-  }
-  
-  
-  return timeToNextInstruction;
+
+  return newTimeToNextInstruction;
 }
 
 byte DrumSong::getPosNextHit(byte limb) {
   byte patternId;
   switch (limb) {
     case LEFT_ARM:
-      patternId = patternSequence_[patternIndexLeftArm_];
-      if ((hitAndPosPatternsLeftArm_[patternId][hitIndexLeftArm_] >> BITS_FOR_HIT) != posPatternsLeftArm_[patternId][hitIndexLeftArm_]) {
-        Serial.println("Error!!!");
+      patternId = patternSequence_[patternSequenceIndexLA_];
+      if ((hitAndPosPatternsLA_[patternId][hitIndexLA_] >> BITS_FOR_HIT) != posPatternsLA_[patternId][hitIndexLA_]) {
+        Serial.println("Error in the pos!!!");
       }
-      else {
-        Serial.println("So far so good");
-      }
-      return posPatternsLeftArm_[patternId][hitIndexLeftArm_];
+      return posPatternsLA_[patternId][hitIndexLA_];
     case RIGHT_ARM:
-      patternId = patternSequence_[patternIndexRightArm_];
-      if ((hitAndPosPatternsRightArm_[patternId][hitIndexRightArm_] >> BITS_FOR_HIT) != posPatternsRightArm_[patternId][hitIndexRightArm_]) {
-        Serial.println("Error!!!");
+      patternId = patternSequence_[patternSequenceIndexRA_];
+      if ((hitAndPosPatternsRA_[patternId][hitIndexRA_] >> BITS_FOR_HIT) != posPatternsRA_[patternId][hitIndexRA_]) {
+        Serial.println("Error in the pos!!!");
       }
-      else {
-        Serial.println("So far so good with the pos");
-      }
-      return posPatternsRightArm_[patternId][hitIndexRightArm_];
+      return (hitAndPosPatternsRA_[patternId][hitIndexRA_] >> BITS_FOR_HIT);
     default:
       return 255;
   }
@@ -116,306 +133,104 @@ void DrumSong::setBpm(unsigned short bpm) {
   timeSemiquaver_ = int(timeQuaver_ / 2.0); // us per semiquaver note
 }
 
-void DrumSong::setQuarterHit(byte limb, byte pos, byte patternIndex, byte noteIndex) {
+void DrumSong::setQuarterHit(byte limb, byte pos, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && 4 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < getNumberOfPositions(limb) ) {
-    Serial.print("Setting Quarter hit. Index ");
-    Serial.print(noteIndex);
-    Serial.print(" becomes ");
-    Serial.println(4 * (noteIndex - 1));
- 
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitSet(*pattern, 4 * (noteIndex - 1));
 
-    Serial.print("The pattern becomes ");
-    Serial.println(*pattern, BIN);
-    
-    byte* posPattern = getPosPattern(limb, patternIndex);
-    posPattern[4 * (noteIndex - 1)] = pos;
+    if (limb != RIGHT_LEG) {
+      byte* posPattern = getPosPattern(limb, patternId);
+      posPattern[4 * (noteIndex - 1)] = pos;
+    }
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[4 * (noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
     bitSet(*hitAndPosCurrElement, 0);
     *hitAndPosCurrElement = *hitAndPosCurrElement | (pos << BITS_FOR_HIT);
-
-    Serial.println("Current element: ");
-    Serial.print(*hitAndPosCurrElement);
-    Serial.print(" - Current element in binary: ");
-    Serial.print(*hitAndPosCurrElement, BIN);
-    Serial.print(" - In the array: ");
-    Serial.println(hitAndPosPattern[4 * (noteIndex - 1)]);
-
-  }
-  else{
-    Serial.print("Not setting. Note Index = ");
-    Serial.print(noteIndex);
-    Serial.print(", 4 * (noteIndex - 1) =  ");
-    Serial.print(4 * (noteIndex - 1));
-    Serial.print(", pos =  ");
-    Serial.print(pos);
-    Serial.print(" nb of pos limb =   ");
-    Serial.println(getNumberOfPositions(limb));
-    
   }
 }
 
-void DrumSong::setQuaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex) {
+void DrumSong::setQuaverHit(byte limb, byte pos, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && 2 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < getNumberOfPositions(limb) ) {
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitSet(*pattern, 2 * (noteIndex - 1));
 
-    byte* posPattern = getPosPattern(limb, patternIndex);
+    byte* posPattern = getPosPattern(limb, patternId);
     posPattern[2 * (noteIndex - 1)] = pos;
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[2 * (noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
     bitSet(*hitAndPosCurrElement, 0);
     *hitAndPosCurrElement = *hitAndPosCurrElement | (pos << BITS_FOR_HIT);
-
-    Serial.print("Current element: ");
-    Serial.print(*hitAndPosCurrElement);
-    Serial.print(" - Current element in binary: ");
-    Serial.print(*hitAndPosCurrElement, BIN);
-    Serial.print(" - In the array: ");
-    Serial.println(hitAndPosPattern[2 * (noteIndex - 1)]);
   }
 }
 
-void DrumSong::setSemiquaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex) {
+void DrumSong::setSemiquaverHit(byte limb, byte pos, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < getNumberOfPositions(limb) ) {
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitSet(*pattern, noteIndex - 1);
 
-    byte* posPattern = getPosPattern(limb, patternIndex);
+    byte* posPattern = getPosPattern(limb, patternId);
     posPattern[(noteIndex - 1)] = pos;
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[(noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
     bitSet(*hitAndPosCurrElement, 0);
     *hitAndPosCurrElement = *hitAndPosCurrElement | (pos << BITS_FOR_HIT);
-
-    Serial.print("Current element: ");
-    Serial.print(*hitAndPosCurrElement);
-    Serial.print(" - Current element in binary: ");
-    Serial.print(*hitAndPosCurrElement, BIN);
-    Serial.print(" - In the array: ");
-    Serial.println(hitAndPosPattern[(noteIndex - 1)]);
   }
 }
 
-void DrumSong::setQuarterRest(byte limb, byte patternIndex, byte noteIndex) {
+void DrumSong::setQuarterRest(byte limb, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && 4 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitClear(*pattern, 4 * (noteIndex - 1));
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[4 * (noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
   }
 }
 
-void DrumSong::setQuaverRest(byte limb, byte patternIndex, byte noteIndex) {
+void DrumSong::setQuaverRest(byte limb, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && 2 * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitClear(*pattern, 2 * (noteIndex - 1));
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[2 * (noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
   }
 }
 
-void DrumSong::setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex) {
+void DrumSong::setSemiquaverRest(byte limb, byte patternId, byte noteIndex) {
   if (noteIndex > 0 && (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
-    unsigned int* pattern = getHitPatternPointer(limb, patternIndex);
+    unsigned int* pattern = getHitPatternPointer(limb, patternId);
     bitClear(*pattern, noteIndex - 1);
 
-    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
     byte* hitAndPosCurrElement = &hitAndPosPattern[(noteIndex - 1)];
 
     *hitAndPosCurrElement = 0;
   }
 }
 
-void DrumSong::printPosPattern(byte limb, byte patternIndex) {
-  Serial.println("");
-  byte* posPattern = getPosPattern(limb, patternIndex);
-  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
-    Serial.print(posPattern[ii]);
-    Serial.print(" ");
-  }
-  Serial.println("");
 
-  Serial.println(" With the new method: ");
-  byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
-  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
-    Serial.print((hitAndPosPattern[ii] >> BITS_FOR_HIT) & posMask_);
-    Serial.print(" ");
+void DrumSong::setHitPattern(byte limb, byte patternId, unsigned int inputPattern, bool printOutput) {
+  if (printOutput) {
+    Serial.print("pattern to set: ");
+    Serial.println(inputPattern, BIN);
   }
-  Serial.println("");
-}
 
-void DrumSong::printHitPattern(byte limb, byte patternIndex) {
-  Serial.println("");
-  unsigned int hitPattern = getHitPattern(limb, patternIndex);
-  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
-    Serial.print(bitRead(hitPattern, ii));
-    Serial.print(" ");
-  }
-  Serial.println("");
-
-  Serial.println(" With the new method: ");
-  byte* hitAndPosPattern = getHitAndPosPattern(limb, patternIndex);
-  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
-    Serial.print(bitRead(hitAndPosPattern[ii], 0));
-    Serial.print(" ");
-  }
-  Serial.println("");
-}
-
-unsigned int DrumSong::getNumberOfPositions(byte limb) {
-  switch (limb) {
-    case RIGHT_LEG:
-      return _nbPosRightLeg;
-    case LEFT_ARM:
-      return _nbPosLeftArm;
-    case RIGHT_ARM:
-      return _nbPosRightArm;
-    default:
-      return 0;
-  }
-}
-
-byte* DrumSong::getPosPattern(byte limb, byte patternId) {
   if (patternId < nbPatterns_) {
-    switch (limb) {
-      case LEFT_ARM:
-        return posPatternsLeftArm_[patternId];
-      case RIGHT_ARM:
-        return posPatternsRightArm_[patternId];
-    }
-  }
-  else {
-    return errPosPattern_;
-  }
-}
-
-byte* DrumSong::getHitAndPosPattern(byte limb, byte patternId) {
-  if (patternId < nbPatterns_) {
-    switch (limb) {
-      case RIGHT_LEG:
-        return hitAndPosPatternsRightLeg_[patternId];
-      case LEFT_ARM:
-        return hitAndPosPatternsLeftArm_[patternId];
-      case RIGHT_ARM:
-        return hitAndPosPatternsRightArm_[patternId];
-    }
-  }
-  else {
-    return errPosPattern_;
-  }
-}
-
-Array<byte[16], MAX_NB_PATTERNS>* DrumSong::getArrayPosPatterns(byte limb) {
-  switch (limb) {
-    case LEFT_ARM:
-      return &posPatternsLeftArm_;
-    case RIGHT_ARM:
-      return &posPatternsRightArm_;
-  }
-}
-
-Array<byte[16], MAX_NB_PATTERNS>* DrumSong::getArrayHitAndPosPatterns(byte limb) {
-  switch (limb) {
-    case RIGHT_LEG:
-      return &hitAndPosPatternsRightLeg_;
-    case LEFT_ARM:
-      return &hitAndPosPatternsLeftArm_;
-    case RIGHT_ARM:
-      return &hitAndPosPatternsRightArm_;
-  }
-}
-
-unsigned int DrumSong::getHitPattern(byte limb, byte patternId) {
-  if (patternId < nbPatterns_) {
-    switch (limb) {
-      case RIGHT_LEG:
-        return hitPatternsRightLeg_[patternId];
-      case LEFT_ARM:
-        return hitPatternsLeftArm_[patternId];
-      case RIGHT_ARM:
-        return hitPatternsRightArm_[patternId];
-    }
-  }
-  else {
-    return 0;
-  }
-}
-
-unsigned int DrumSong::getHitPattern(byte limb) {
-  byte patternId;
-
-  switch (limb) {
-    case RIGHT_LEG:
-      patternId = patternSequence_[patternIndexRightLeg_];
-      return hitPatternsRightLeg_[patternId];
-    case LEFT_ARM:
-      patternId = patternSequence_[patternIndexLeftArm_];
-      return hitPatternsLeftArm_[patternId];
-    case RIGHT_ARM:
-      patternId = patternSequence_[patternIndexRightArm_];
-      return hitPatternsRightArm_[patternId];
-  }
-}
-
-unsigned int* DrumSong::getHitPatternPointer(byte limb, byte patternId) {
-  if (patternId < nbPatterns_) {
-    switch (limb) {
-      case RIGHT_LEG:
-        return &hitPatternsRightLeg_[patternId];
-      case LEFT_ARM:
-        return &hitPatternsLeftArm_[patternId];
-      case RIGHT_ARM:
-        return &hitPatternsRightArm_[patternId];
-    }
-  }
-  else {
-    return new unsigned int;
-  }
-}
-
-short* DrumSong::getHitIndexPointer(byte limb) {
-  switch (limb) {
-    case RIGHT_LEG:
-      return &hitIndexRightLeg_;
-    case LEFT_ARM:
-      return &hitIndexLeftArm_;
-    case RIGHT_ARM:
-      return &hitIndexRightArm_;
-  }
-}
-
-byte* DrumSong::getPatternIndexPointer(byte limb) {
-  switch (limb) {
-    case RIGHT_LEG:
-      return &patternIndexRightLeg_;
-    case LEFT_ARM:
-      return &patternIndexLeftArm_;
-    case RIGHT_ARM:
-      return &patternIndexRightArm_;
-  }
-}
-
-void DrumSong::setHitPattern(byte limb, byte hitPatternIndex, unsigned int inputPattern) {
-  if (hitPatternIndex < nbPatterns_) {
-    unsigned int *pattern = getHitPatternPointer(limb, hitPatternIndex);
+    unsigned int *pattern = getHitPatternPointer(limb, patternId);
     *pattern = 0;
     for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
       if (bitRead(inputPattern, ii)) {
@@ -423,16 +238,35 @@ void DrumSong::setHitPattern(byte limb, byte hitPatternIndex, unsigned int input
         bitSet(*pattern, SEMIQUAVERS_PER_BEAT - ii - 1);
       }
     }
+
+    if (printOutput) {
+      Serial.print("pattern old style ");
+      for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+        Serial.print(bitRead(*pattern, ii));
+      }
+      Serial.println("");
+    }
   }
 
-  Array<byte[16], MAX_NB_PATTERNS> *hitAndPosPattern = getArrayHitAndPosPatterns(limb);
-  if (hitPatternIndex < nbPatterns_) {
+
+  byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
+
+  if (patternId < nbPatterns_) {
     for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
       if (bitRead(inputPattern, ii)) {
         // We write the pattern from right to left
-        bitSet((*hitAndPosPattern)[hitPatternIndex][ii], SEMIQUAVERS_PER_BEAT - ii - 1);
+        bitSet(hitAndPosPattern[SEMIQUAVERS_PER_BEAT - 1 - ii], 0);
       }
     }
+  }
+
+  if (printOutput) {
+    Serial.print("pattern new style ");
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+      Serial.print(bitRead(hitAndPosPattern[ii], 0));
+    }
+    Serial.println("");
+    Serial.println("");
   }
 }
 
@@ -456,7 +290,7 @@ void DrumSong::setPosPattern(byte limb, byte inputPattern[][SEMIQUAVERS_PER_BEAT
   for (int ii = 0; ii < nbPatterns_; ii++) {
     for (int jj = 0; jj < SEMIQUAVERS_PER_BEAT; jj++) {
       if (inputPattern[ii][jj] < nbPos) {
-        (*hitAndPosPattern)[ii][jj] = (*hitAndPosPattern)[ii][jj] & (inputPattern[ii][jj] << BITS_FOR_HIT);
+        (*hitAndPosPattern)[ii][jj] = (*hitAndPosPattern)[ii][jj] | (inputPattern[ii][jj] << BITS_FOR_HIT);
       }
       else {
         (*hitAndPosPattern)[ii][jj] = 0;
@@ -473,5 +307,185 @@ void DrumSong::setPatternSequence(byte pattSeq[]) {
     else {
       patternSequence_.push_back(0);
     }
+  }
+}
+
+void DrumSong::printPosPattern(byte limb, byte patternId) {
+  if (limb != RIGHT_LEG) {
+    Serial.println("");
+    Serial.println("Printing pos pattern:");
+
+    Serial.println("With the old method: ");
+    byte* posPattern = getPosPattern(limb, patternId);
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+      Serial.print(posPattern[ii]);
+      Serial.print(" ");
+    }
+    Serial.println("");
+
+    Serial.println("With the new method: ");
+    byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+      Serial.print((hitAndPosPattern[ii] >> BITS_FOR_HIT) & posMask_);
+      Serial.print(" ");
+    }
+    Serial.println("");
+  }
+}
+
+void DrumSong::printHitPattern(byte limb, byte patternId) {
+  Serial.println("");
+  Serial.print("Printing hit pattern number ");
+  Serial.println(patternId);
+
+  Serial.println("With the old method: ");
+  unsigned int hitPattern = getHitPattern(limb, patternId);
+  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    Serial.print(bitRead(hitPattern, ii));
+    Serial.print(" ");
+  }
+  Serial.println("");
+
+  Serial.println("With the new method: ");
+  byte* hitAndPosPattern = getHitAndPosPattern(limb, patternId);
+  for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    Serial.print(bitRead(hitAndPosPattern[ii], 0));
+    Serial.print(" ");
+  }
+  Serial.println("");
+}
+
+unsigned int DrumSong::getNumberOfPositions(byte limb) {
+  switch (limb) {
+    case RIGHT_LEG:
+      return _nbPosRightLeg;
+    case LEFT_ARM:
+      return _nbPosLeftArm;
+    case RIGHT_ARM:
+      return _nbPosRightArm;
+    default:
+      return 0;
+  }
+}
+
+byte* DrumSong::getPosPattern(byte limb, byte patternId) {
+  if (patternId < nbPatterns_) {
+    switch (limb) {
+      case RIGHT_LEG:
+        return errPosPattern_;
+      case LEFT_ARM:
+        return posPatternsLA_[patternId];
+      case RIGHT_ARM:
+        return posPatternsRA_[patternId];
+    }
+  }
+  else {
+    return errPosPattern_;
+  }
+}
+
+byte* DrumSong::getHitAndPosPattern(byte limb, byte patternId) {
+  if (patternId < nbPatterns_) {
+    switch (limb) {
+      case RIGHT_LEG:
+        return hitAndPosPatternsRL_[patternId];
+      case LEFT_ARM:
+        return hitAndPosPatternsLA_[patternId];
+      case RIGHT_ARM:
+        return hitAndPosPatternsRA_[patternId];
+    }
+  }
+  else {
+    return errPosPattern_;
+  }
+}
+
+Array<byte[16], MAX_NB_PATTERNS>* DrumSong::getArrayPosPatterns(byte limb) {
+  switch (limb) {
+    case LEFT_ARM:
+      return &posPatternsLA_;
+    case RIGHT_ARM:
+      return &posPatternsRA_;
+  }
+}
+
+Array<byte[16], MAX_NB_PATTERNS>* DrumSong::getArrayHitAndPosPatterns(byte limb) {
+  switch (limb) {
+    case RIGHT_LEG:
+      return &hitAndPosPatternsRL_;
+    case LEFT_ARM:
+      return &hitAndPosPatternsLA_;
+    case RIGHT_ARM:
+      return &hitAndPosPatternsRA_;
+  }
+}
+
+unsigned int DrumSong::getHitPattern(byte limb, byte patternId) {
+  if (patternId < nbPatterns_) {
+    switch (limb) {
+      case RIGHT_LEG:
+        return hitPatternsRL_[patternId];
+      case LEFT_ARM:
+        return hitPatternsLA_[patternId];
+      case RIGHT_ARM:
+        return hitPatternsRA_[patternId];
+    }
+  }
+  else {
+    return 0;
+  }
+}
+
+unsigned int DrumSong::getHitPattern(byte limb) {
+  byte patternId;
+
+  switch (limb) {
+    case RIGHT_LEG:
+      patternId = patternSequence_[patternSequenceIndexRL_];
+      return hitPatternsRL_[patternId];
+    case LEFT_ARM:
+      patternId = patternSequence_[patternSequenceIndexLA_];
+      return hitPatternsLA_[patternId];
+    case RIGHT_ARM:
+      patternId = patternSequence_[patternSequenceIndexRA_];
+      return hitPatternsRA_[patternId];
+  }
+}
+
+unsigned int* DrumSong::getHitPatternPointer(byte limb, byte patternId) {
+  if (patternId < nbPatterns_) {
+    switch (limb) {
+      case RIGHT_LEG:
+        return &hitPatternsRL_[patternId];
+      case LEFT_ARM:
+        return &hitPatternsLA_[patternId];
+      case RIGHT_ARM:
+        return &hitPatternsRA_[patternId];
+    }
+  }
+  else {
+    return new unsigned int;
+  }
+}
+
+signed char* DrumSong::getHitIndexPointer(byte limb) {
+  switch (limb) {
+    case RIGHT_LEG:
+      return &hitIndexRL_;
+    case LEFT_ARM:
+      return &hitIndexLA_;
+    case RIGHT_ARM:
+      return &hitIndexRA_;
+  }
+}
+
+byte* DrumSong::getPatternSequenceIndexPointer(byte limb) {
+  switch (limb) {
+    case RIGHT_LEG:
+      return &patternSequenceIndexRL_;
+    case LEFT_ARM:
+      return &patternSequenceIndexLA_;
+    case RIGHT_ARM:
+      return &patternSequenceIndexRA_;
   }
 }

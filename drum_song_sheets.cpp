@@ -7,10 +7,12 @@ SimplestDrumSong::SimplestDrumSong(): DrumSong() {
 }
 
 
-void SimplestDrumSong::createPatterns() { 
-  setHitPattern(RIGHT_LEG, 0, 0b1000000010000000);
-  setHitPattern(LEFT_ARM,  0, 0b1010101010101010);
-  setHitPattern(RIGHT_ARM, 0, 0b0010000000100000);
+void SimplestDrumSong::createPatterns(bool printOutput) {
+  initializeBlankPatterns(nbPatterns_, nbBeats_);
+
+  setHitPattern(RIGHT_LEG, 0, 0b1000000010000000, printOutput);
+  setHitPattern(LEFT_ARM,  0, 0b1010101010101010, printOutput);
+  setHitPattern(RIGHT_ARM, 0, 0b0010000000100000, printOutput);
 
   byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
     {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
@@ -29,23 +31,28 @@ void SimplestDrumSong::createPatterns() {
 
 
 // -------------------------------------------- SIMPLEST DRUM SONG -----------------------------------------------------
-BasicDrumSong::BasicDrumSong():DrumSong() {
+BasicDrumSong::BasicDrumSong(): DrumSong() {
   nbPatterns_ = 3;
   nbBeats_ = 10;
 }
 
-void BasicDrumSong::createPatterns() {    
-  setHitPattern(RIGHT_LEG, 0, 0b0000000000000000);
-  setHitPattern(RIGHT_LEG, 1, 0b1000000010100000);
-  setHitPattern(RIGHT_LEG, 2, 0b1000000010100000);
+void BasicDrumSong::createPatterns(bool printOutput) {
+  initializeBlankPatterns(nbPatterns_, nbBeats_);
 
-  setHitPattern(LEFT_ARM, 0,  0b0100010001000100);
-  setHitPattern(LEFT_ARM, 1,  0b1010101010101010);
-  setHitPattern(LEFT_ARM, 2,  0b1010101010101010);
+  setHitPattern(RIGHT_LEG, 0, 0b0000000000000000, printOutput);
+  setHitPattern(RIGHT_LEG, 1, 0b1000000010100000, printOutput);
+  setHitPattern(RIGHT_LEG, 2, 0b1000000010100000, printOutput);
 
-  setHitPattern(RIGHT_ARM, 0, 0b0000000000000000);
-  setHitPattern(RIGHT_ARM, 1, 0b1000100100001010);
-  setHitPattern(RIGHT_ARM, 2, 0b1000100100000101);
+  setHitPattern(LEFT_ARM, 0,  0b1000100010001000, printOutput);
+  setHitPattern(LEFT_ARM, 1,  0b1010101010101010, printOutput);
+  setHitPattern(LEFT_ARM, 2,  0b1010101010101010, printOutput);
+
+  printPosPattern(LEFT_ARM, 0);
+  printHitPattern(LEFT_ARM, 0);
+
+  setHitPattern(RIGHT_ARM, 0, 0b1000100010001000, printOutput);
+  setHitPattern(RIGHT_ARM, 1, 0b1000100100001000, printOutput);
+  setHitPattern(RIGHT_ARM, 2, 0b1000100100000100, printOutput);
 
   byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -55,14 +62,14 @@ void BasicDrumSong::createPatterns() {
 
   byte posPattRightArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
   };
 
-  byte pattSeq[nbBeats_] = {1, 2, 1, 2, 1, 2, 1, 2, 1, 2};
+  byte pattSeq[nbBeats_] = {0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2};
 
   setPosPattern(LEFT_ARM, posPattLeftArm);
   setPosPattern(RIGHT_ARM, posPattRightArm);
-  setPatternSequence(pattSeq);
 
+  setPatternSequence(pattSeq);
 }
