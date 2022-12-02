@@ -15,6 +15,8 @@
 #define SN_RIGHT 1
 #define CRASH 2
  
+const byte _nbLimbs = 3;
+
 const byte _nbPosRightLeg = 1;
 const byte _nbPosLeftArm = 3;
 const byte _nbPosRightArm = 3;

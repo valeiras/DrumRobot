@@ -70,35 +70,27 @@ void setup() {
   //  byte pattSeq[nbBeats] = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
   //  song.setPatternSequence(pattSeq);
 
-  Serial.println("");
-  Serial.println("Pattern 0 - RIGHT LEG");
-  song.printPosPattern(RIGHT_LEG, 0);
-  song.printHitPattern(RIGHT_LEG, 0);
+  if (printOutput) {
+    song.printHitPattern(RIGHT_LEG, 0);
+    song.printHitPattern(RIGHT_LEG, 1);
+    song.printHitPattern(RIGHT_LEG, 2);
 
-  Serial.println("");
-  Serial.println("Pattern 1 - RIGHT LEG");
-  song.printPosPattern(RIGHT_LEG, 1);
-  song.printHitPattern(RIGHT_LEG, 1);
+    song.printHitPattern(LEFT_ARM, 0);
+    song.printHitPattern(LEFT_ARM, 1);
+    song.printHitPattern(LEFT_ARM, 2);
 
-  Serial.println("");
-  Serial.println("Pattern 0 - LEFT ARM");
-  song.printPosPattern(LEFT_ARM, 0);
-  song.printHitPattern(LEFT_ARM, 0);
+    song.printPosPattern(LEFT_ARM, 0);
+    song.printPosPattern(LEFT_ARM, 1);
+    song.printPosPattern(LEFT_ARM, 2);
 
-  Serial.println("");
-  Serial.println("Pattern 1 - LEFT_ARM");
-  song.printPosPattern(LEFT_ARM, 1);
-  song.printHitPattern(LEFT_ARM, 1);
+    song.printHitPattern(RIGHT_ARM, 0);
+    song.printHitPattern(RIGHT_ARM, 1);
+    song.printHitPattern(RIGHT_ARM, 2);
 
-  Serial.println("");
-  Serial.println("Pattern 0 - RIGHT ARM");
-  song.printPosPattern(RIGHT_ARM, 0);
-  song.printHitPattern(RIGHT_ARM, 0);
-
-  Serial.println("");
-  Serial.println("Pattern 1 - RIGHT ARM");
-  song.printPosPattern(RIGHT_ARM, 1);
-  song.printHitPattern(RIGHT_ARM, 1);
+    song.printPosPattern(RIGHT_ARM, 0);
+    song.printPosPattern(RIGHT_ARM, 1);
+    song.printPosPattern(RIGHT_ARM, 2);
+  }
 
   song.setBpm(bpm);
 

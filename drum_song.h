@@ -29,13 +29,15 @@ class DrumSong {
     void setQuarterHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
     void setQuaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
     void setSemiquaverHit(byte limb, byte pos, byte patternIndex, byte noteIndex);
+    void setHit(byte limb, byte pos, byte patternId, byte noteIndex, byte semiquaversPerNote);
     
     void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
     void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
     void setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex);
+    void setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote);
     
     void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern, bool printOutput);
-    void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT]);
+    void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT], bool printOutput);
     void setPatternSequence(byte pattSeq[]);
     
     void printPosPattern(byte limb, byte patternIndex);
@@ -43,22 +45,17 @@ class DrumSong {
   
   protected:
     unsigned int getNumberOfPositions(byte limb);
-    byte* getPosPattern(byte limb, byte patternId);
-    byte* getHitAndPosPattern(byte limb, byte patternId);
-    Array<byte[16], MAX_NB_PATTERNS>* getArrayPosPatterns(byte limb);
-    Array<byte[16], MAX_NB_PATTERNS>* getArrayHitAndPosPatterns(byte limb);
+    byte* getPatternPointer(byte limb, byte patternId);
+    Array<byte[16], MAX_NB_PATTERNS>* getPatternArrayPointer(byte limb);
     
-    unsigned int getHitPattern(byte limb, byte patternId);
-    unsigned int getHitPattern(byte limb);
-    unsigned int* getHitPatternPointer(byte limb, byte patternId);
     signed char* getHitIndexPointer(byte limb);
-    byte* getPatternSequenceIndexPointer(byte limb);
+    byte* getSequenceIndexPointer(byte limb);
 
     unsigned short bpm_;
     unsigned int timeQuarter_, timeQuaver_, timeSemiquaver_;
 
-    signed char hitIndexRL_, hitIndexLA_, hitIndexRA_;                                     // Index of the current instruction in the pattern
-    byte patternSequenceIndexRL_, patternSequenceIndexLA_, patternSequenceIndexRA_;        // Index of the current pattern in the pattern sequence
+    signed char hitIndexRL_, hitIndexLA_, hitIndexRA_;                // Index of the current instruction in the pattern
+    byte sequenceIndexRL_, sequenceIndexLA_, sequenceIndexRA_;        // Index of the current pattern in the pattern sequence
 
     byte nbPatterns_;
     byte nbBeats_;
@@ -67,12 +64,8 @@ class DrumSong {
 
     Array<byte, MAX_NB_BEATS> patternSequence_;
 
-    // Hit patterns are stored as unsigned ints (2 bytes), where each bit represents hit or rest in each semiquaver
-    Array<unsigned int, MAX_NB_PATTERNS> hitPatternsRL_, hitPatternsLA_, hitPatternsRA_;
-
     // Position patterns are stored as byte arrays, where each elements represents the position of the servo
-    Array<byte[16], MAX_NB_PATTERNS> posPatternsLA_, posPatternsRA_;
-    Array<byte[16], MAX_NB_PATTERNS> hitAndPosPatternsRL_, hitAndPosPatternsLA_, hitAndPosPatternsRA_;
+    Array<byte[16], MAX_NB_PATTERNS> patternsRL_, patternsLA_, patternsRA_;
     
     unsigned int posMask_;
 };
