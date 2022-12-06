@@ -17,12 +17,12 @@ class DrumSong {
     DrumSong();
 
     // Default patterns for the different songs. Empty method in the base class
-    virtual void createPatterns(bool printOutput);
+    virtual void createPatterns(bool printOutput=false);
     
     void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
     
-    unsigned long getTimeToNextHit(byte limb);
-    byte getPosNextHit(byte limb);
+    unsigned long getTimeToNextHit(byte limb, bool printOutput=false);
+    byte getPosNextHit(byte limb, bool printOutput=false);
 
     void setBpm(unsigned short bpm);
 

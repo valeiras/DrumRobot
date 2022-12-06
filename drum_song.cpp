@@ -34,7 +34,7 @@ void DrumSong::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbB
   }
 }
 
-unsigned long DrumSong::getTimeToNextHit(byte limb) {
+unsigned long DrumSong::getTimeToNextHit(byte limb, bool printOutput) {
   signed char* hitIndex = &hitIndexes_[limb];
   byte * sequenceIndex = &sequenceIndexes_[limb];
 
@@ -58,7 +58,7 @@ unsigned long DrumSong::getTimeToNextHit(byte limb) {
   return timeToNextInstruction;
 }
 
-byte DrumSong::getPosNextHit(byte limb) {
+byte DrumSong::getPosNextHit(byte limb, bool printOutput) {
   byte sequenceIndex = sequenceIndexes_[limb];
   byte patternId = patternSequence_[sequenceIndex];
   byte* currPattern = patternArrays_[limb][patternId];

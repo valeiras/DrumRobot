@@ -30,7 +30,7 @@ BasicDrumSong song;
 void setup() {
   Serial.begin(9600);
 
-  song.createPatterns(printOutput);
+  song.createPatterns(false);
   //  unsigned int nbBeats = 10;
   //  unsigned int nbPatterns = 2;
   //
@@ -109,18 +109,26 @@ void setup() {
   nextInstructionRightArm = HIT;
   nextInstructionLeftArm = HIT;
 
-  // We set the current position as the first position of the first pattern
-  currPosLeftArm = song.getPosNextHit(LEFT_ARM);
-  currPosRightArm = song.getPosNextHit(RIGHT_ARM);
-
   timeNextHitInstructionRightLeg = initTime + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0);
   timeNextHitInstructionLeftArm = initTime + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm);
   timeNextHitInstructionRightArm = initTime + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm);
 
+  // We set the current position as the first position of the first pattern
+  currPosLeftArm = song.getPosNextHit(LEFT_ARM);
+  currPosRightArm = song.getPosNextHit(RIGHT_ARM);
+
+  if (printOutput) {
+    Serial.print("Pos left arm: ");
+    Serial.println(currPosLeftArm);
+    Serial.print("Pos right arm: ");
+    Serial.println(currPosRightArm);
+  }
+  
   timeNextPosInstructionLeftArm = 0;
   timeNextPosInstructionRightArm = 0;
-  moveLeftArm = false;
-  moveRightArm = false;
+  
+  moveLeftArm = true;
+  moveRightArm = true;
 
   robot.rest(RIGHT_LEG, 0);
   robot.goToPos(LEFT_ARM, currPosLeftArm);
