@@ -1,5 +1,6 @@
 #include <Servo.h>
 #include "drum_robot.h"
+#include "drum_song.h"
 #include "drum_song_sheets.h"
 #include "robot_config.h"
 
@@ -24,25 +25,25 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 120;
 
-bool printOutput = true;
-bool simulation = true;
+bool printOutput = false;
+bool simulation = false;
 bool variableBpm = false;
 int minBpm = 60;
 int maxBpm = 150;
 
 DrumRobot robot;
-BasicDrumSong song;
+DrumSong song;
 
 void setup() {
   Serial.begin(9600);
 
-  song.createPatterns(false);
+  song.createPredefinedPatterns(1, true);
   //  unsigned int nbBeats = 10;
   //  unsigned int nbPatterns = 2;
   //
   //  song.initializeBlankPatterns(nbPatterns, nbBeats);
 
-  int patternId = 0;
+  //int patternId = 0;
 
   //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 1, printOutput);
   //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 2, printOutput);

@@ -12,13 +12,17 @@
 #define BITS_FOR_HIT 1
 #define BITS_FOR_POS 3
 
+#define SIMPLEST_RYTHM 0
+#define BASIC_RYTHM 1
+
 class DrumSong {
   public:
     DrumSong();
 
     // Default patterns for the different songs. Empty method in the base class
     virtual void createPatterns(bool printOutput=false);
-    
+
+    void createPredefinedPatterns(byte rythmName, bool printOutput=false);
     void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
     
     unsigned long getTimeToNextHit(byte limb, bool printOutput=false);
@@ -37,7 +41,6 @@ class DrumSong {
     void setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote);
     
     void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern, bool printOutput);
-    void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT], bool printOutput);
     void setPosPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput=false);
     void setPatternSequence(byte pattSeq[]);
     
