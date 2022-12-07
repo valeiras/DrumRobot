@@ -150,49 +150,35 @@ void DrumSong::setHitPattern(byte limb, byte patternId, unsigned int inputPatter
   }
 }
 
-void DrumSong::setPosPattern(byte limb, byte inputPattern[][SEMIQUAVERS_PER_BEAT], bool printOutput) {
+void DrumSong::setPosPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput) {
   unsigned int nbPos = nbOfPositions_[limb];
-
-  Array<byte[16], MAX_NB_PATTERNS>* patternArray = &patternArrays_[limb];
+  byte* currPattern = patternArrays_[limb][patternId];
+  byte inputPattern[SEMIQUAVERS_PER_BEAT] = {p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16};
+  
   if (printOutput) {
     Serial.println("");
-    Serial.print("Setting pos pattern for limb :");
+    Serial.print("Setting pos pattern ");
+    Serial.print(patternId);
+    Serial.print(" for limb :");
     Serial.println(limb);
   }
 
-  for (int ii = 0; ii < nbPatterns_; ii++) {
-    if (printOutput) {
-      Serial.println("");
-      Serial.print("Setting pos pattern ");
-      Serial.println(ii);
-    }
+  for (int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    if (inputPattern[ii] < nbPos) {
+      currPattern[ii] = currPattern[ii] | (inputPattern[ii] << BITS_FOR_HIT);
 
-    for (int jj = 0; jj < SEMIQUAVERS_PER_BEAT; jj++) {
-      if (inputPattern[ii][jj] < nbPos) {
-        (*patternArray)[ii][jj] = (*patternArray)[ii][jj] | (inputPattern[ii][jj] << BITS_FOR_HIT);
-
-        if (printOutput) {
-          Serial.print(inputPattern[ii][jj]);
-          Serial.print(" ");
-        }
-      }
-      else {
-        if (printOutput) {
-          Serial.println("");
-          Serial.println("Position out of bounds. Seeting 0");
-          Serial.println("");
-        }
-        (*patternArray)[ii][jj] = 0;
+      if (printOutput) {
+        Serial.print(inputPattern[ii]);
+        Serial.print(" ");
       }
     }
-    if (printOutput) {
-      Serial.println("");
-      Serial.print("Position pattern ");
-      Serial.print(ii);
-      Serial.print(" for limb ");
-      Serial.print(limb);
-      Serial.print(" right after: ");
-      printPosPattern(limb, ii);
+    else {
+      if (printOutput) {
+        Serial.println("");
+        Serial.println("Position out of bounds. Seeting 0");
+        Serial.println("");
+      }
+      currPattern[ii] = 0;
     }
   }
 }

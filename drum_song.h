@@ -38,6 +38,7 @@ class DrumSong {
     
     void setHitPattern(byte limb, byte hitPattenIndex, unsigned int pattern, bool printOutput);
     void setPosPattern(byte limb, byte posPatt[][SEMIQUAVERS_PER_BEAT], bool printOutput);
+    void setPosPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput=false);
     void setPatternSequence(byte pattSeq[]);
     
     void printPosPattern(byte limb, byte patternIndex);

@@ -24,8 +24,8 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 120;
 
-bool printOutput = false;
-bool simulation = false;
+bool printOutput = true;
+bool simulation = true;
 bool variableBpm = false;
 int minBpm = 60;
 int maxBpm = 150;
