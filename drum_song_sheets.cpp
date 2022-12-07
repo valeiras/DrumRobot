@@ -45,11 +45,11 @@ void BasicDrumSong::createPatterns(bool printOutput) {
 
   setHitPattern(LEFT_ARM, 0,  0b1000100010001000, printOutput);
   setHitPattern(LEFT_ARM, 1,  0b1010101010101010, printOutput);
-  setHitPattern(LEFT_ARM, 2,  0b1010101010101010, printOutput);
+  setHitPattern(LEFT_ARM, 2,  0b1010101010100101, printOutput);
 
   setHitPattern(RIGHT_ARM, 0, 0b1000100010001000, printOutput);
   setHitPattern(RIGHT_ARM, 1, 0b1000100100001000, printOutput);
-  setHitPattern(RIGHT_ARM, 2, 0b0000100100000101, printOutput);
+  setHitPattern(RIGHT_ARM, 2, 0b0000100100001010, printOutput);
 
   byte posPattLeftArm[nbPatterns_][SEMIQUAVERS_PER_BEAT] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

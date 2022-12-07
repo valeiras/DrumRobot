@@ -9,7 +9,10 @@
 #define RIGHT_POS_PIN 10
 #define LEFT_POS_PIN 11
 
-unsigned int initialDelayMs =  3000;
+#define ANALOG_MIN 0
+#define ANALOG_MAX 1023
+
+unsigned int initialDelay =  1000;
 unsigned long ellapsedTime;
 
 unsigned long timeNextHitInstructionRightLeg, timeNextHitInstructionLeftArm, timeNextHitInstructionRightArm;
@@ -21,8 +24,11 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 120;
 
-bool printOutput = true;
-bool simulation = true;
+bool printOutput = false;
+bool simulation = false;
+bool variableBpm = false;
+int minBpm = 60;
+int maxBpm = 150;
 
 DrumRobot robot;
 BasicDrumSong song;
@@ -92,6 +98,11 @@ void setup() {
     song.printPosPattern(RIGHT_ARM, 2);
   }
 
+  if (variableBpm) {
+    int sensorValue = analogRead(A0);
+    bpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
+    //Serial.println(bpm);
+  }
   song.setBpm(bpm);
 
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
@@ -109,9 +120,9 @@ void setup() {
   nextInstructionRightArm = HIT;
   nextInstructionLeftArm = HIT;
 
-  timeNextHitInstructionRightLeg = initTime + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0);
-  timeNextHitInstructionLeftArm = initTime + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm);
-  timeNextHitInstructionRightArm = initTime + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm);
+  timeNextHitInstructionRightLeg = initTime + initialDelay + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0);
+  timeNextHitInstructionLeftArm = initTime + initialDelay + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm);
+  timeNextHitInstructionRightArm = initTime + initialDelay + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm);
 
   // We set the current position as the first position of the first pattern
   currPosLeftArm = song.getPosNextHit(LEFT_ARM);
@@ -123,10 +134,10 @@ void setup() {
     Serial.print("Pos right arm: ");
     Serial.println(currPosRightArm);
   }
-  
+
   timeNextPosInstructionLeftArm = 0;
   timeNextPosInstructionRightArm = 0;
-  
+
   moveLeftArm = true;
   moveRightArm = true;
 
@@ -182,6 +193,14 @@ void loop() {
     robot.goToPos(RIGHT_ARM, currPosRightArm);
     moveRightArm = false;
   }
+
+  if (variableBpm) {
+    int sensorValue = analogRead(A0);
+    bpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
+    //Serial.println(bpm);
+    song.setBpm(bpm);
+  }
+
 }
 
 void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction) {
@@ -223,6 +242,22 @@ void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long 
       moveLimb = true;
       timeNextPosInstruction = currTime + abs(robot.getHitAngle(limb, currPos) - robot.getRestAngle(limb, nextPos)) / robot.getServoSpeed();
       currPos = nextPos;
+      if (printOutput) {
+        Serial.print("Time next pos instruction for limb ");
+        Serial.print(limb);
+        Serial.print(" at pos ");
+        Serial.print(currPos);
+        Serial.print(" : ");
+        Serial.println(timeNextPosInstruction);
+        Serial.print("Time to go to the next rest position: ");
+        Serial.println(abs(robot.getHitAngle(limb, currPos) - robot.getRestAngle(limb, nextPos)) / robot.getServoSpeed());
+        Serial.print("Current time: ");
+        Serial.print(currTime);
+        Serial.print(" - timeCurrentInstruction: ");
+        Serial.println(timeNextHitInstruction);
+        Serial.print("Time next hit instruction: ");
+        Serial.println(timeNextHitInstruction + timeToNextHit - robot.getHitTime(limb, currPos));
+      }
     }
 
     // We inmmediately go the the rest state of the next posiion
