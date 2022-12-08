@@ -5,7 +5,7 @@
 #include <Servo.h>
 #include "robot_config.h"
 
-struct limbParams{
+struct posParams{
   byte hitAngle, restAngle, posAngle;
   unsigned int hitTime;
   String posName;  // Name of the position, for debugging purposes
@@ -47,7 +47,7 @@ class DrumRobot{
     
     // rotational speed degrees per ms, from the data sheet of the servo
     float wServo_;
-    struct limbParams paramsRightLeg_[_nbPosRightLeg], paramsLeftArm_[_nbPosLeftArm], paramsRightArm_[_nbPosRightArm];
+    struct posParams paramsRightLeg_[_nbPosRightLeg], paramsLeftArm_[_nbPosLeftArm], paramsRightArm_[_nbPosRightArm];
 };
 
 #endif

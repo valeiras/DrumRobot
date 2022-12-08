@@ -8,14 +8,12 @@
 #define REST 0
 #define HIT 1
 
-#define BD 0
-#define STICK 0
-#define HH 1
-#define SN_LEFT 2
-#define SN_RIGHT 1
-#define CRASH 2
- 
-const byte _nbLimbs = 3;
+#define BDRU 1
+#define STCK 1
+#define HHAT 2
+#define SNLT 3
+#define SNRG 2
+#define CRSH 3
 
 const byte _nbPosRightLeg = 1;
 const byte _nbPosLeftArm = 3;

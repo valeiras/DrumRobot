@@ -1,7 +1,6 @@
 #include <Servo.h>
 #include "drum_robot.h"
 #include "drum_song.h"
-#include "drum_song_sheets.h"
 #include "robot_config.h"
 
 #define BD_HIT_PIN 5
@@ -25,8 +24,8 @@ byte currPosLeftArm, currPosRightArm;
 unsigned long initTime;
 unsigned short bpm = 120;
 
-bool printOutput = false;
-bool simulation = false;
+bool printOutput = true;
+bool simulation = true;
 bool variableBpm = false;
 int minBpm = 60;
 int maxBpm = 150;
@@ -37,7 +36,8 @@ DrumSong song;
 void setup() {
   Serial.begin(9600);
 
-  song.createPredefinedPatterns(1, true);
+  song = DrumSong();
+  song.createPredefinedPatterns(BASIC_RYTHM, printOutput);
   //  unsigned int nbBeats = 10;
   //  unsigned int nbPatterns = 2;
   //
@@ -82,6 +82,10 @@ void setup() {
     song.printHitPattern(RIGHT_LEG, 1);
     song.printHitPattern(RIGHT_LEG, 2);
 
+    song.printVelPattern(RIGHT_LEG, 0);
+    song.printVelPattern(RIGHT_LEG, 1);
+    song.printVelPattern(RIGHT_LEG, 2);
+
     song.printHitPattern(LEFT_ARM, 0);
     song.printHitPattern(LEFT_ARM, 1);
     song.printHitPattern(LEFT_ARM, 2);
@@ -90,6 +94,10 @@ void setup() {
     song.printPosPattern(LEFT_ARM, 1);
     song.printPosPattern(LEFT_ARM, 2);
 
+    song.printVelPattern(LEFT_ARM, 0);
+    song.printVelPattern(LEFT_ARM, 1);
+    song.printVelPattern(LEFT_ARM, 2);
+
     song.printHitPattern(RIGHT_ARM, 0);
     song.printHitPattern(RIGHT_ARM, 1);
     song.printHitPattern(RIGHT_ARM, 2);
@@ -97,6 +105,10 @@ void setup() {
     song.printPosPattern(RIGHT_ARM, 0);
     song.printPosPattern(RIGHT_ARM, 1);
     song.printPosPattern(RIGHT_ARM, 2);
+
+    song.printVelPattern(RIGHT_ARM, 0);
+    song.printVelPattern(RIGHT_ARM, 1);
+    song.printVelPattern(RIGHT_ARM, 2);
   }
 
   if (variableBpm) {
