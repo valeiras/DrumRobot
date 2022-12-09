@@ -22,11 +22,12 @@ bool moveLeftArm, moveRightArm;
 byte currPosLeftArm, currPosRightArm;
 
 unsigned long initTime;
-unsigned short bpm = 120;
+unsigned short bpm = 80;
 
-bool printOutput = true;
-bool simulation = true;
+bool printOutput = false;
+bool simulation = false;
 bool variableBpm = false;
+
 int minBpm = 60;
 int maxBpm = 150;
 
@@ -36,79 +37,12 @@ DrumSong song;
 void setup() {
   Serial.begin(9600);
 
+  // -------------------------------------------------------- Patter setting ----------------------------------------------------------
   song = DrumSong();
   song.createPredefinedPatterns(BASIC_RYTHM, printOutput);
-  //  unsigned int nbBeats = 10;
-  //  unsigned int nbPatterns = 2;
-  //
-  //  song.initializeBlankPatterns(nbPatterns, nbBeats);
-
-  //int patternId = 0;
-
-  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 1, printOutput);
-  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 2, printOutput);
-  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 3, printOutput);
-  //  song.setQuarterHit(RIGHT_ARM, STICK, patternId, 4, printOutput);
-  //
-  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 1, printOutput);
-  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 2, printOutput);
-  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 3, printOutput);
-  //  song.setQuarterHit(LEFT_ARM, STICK, patternId, 4, printOutput);
-  //
-  //  patternId = 1;
-  //  song.setQuarterHit(RIGHT_LEG, BD, patternId, 1, printOutput);
-  //  song.setQuarterHit(RIGHT_LEG, BD, patternId, 3, printOutput);
-  //  song.setQuaverHit(RIGHT_LEG, BD, patternId, 6);
-  //
-  //  song.setQuarterHit(RIGHT_ARM, CRASH, patternId, 1, printOutput);
-  //  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 2, printOutput);
-  //  song.setQuarterHit(RIGHT_ARM, SN_RIGHT, patternId, 4, printOutput);
-  //  song.setSemiquaverHit(RIGHT_ARM, SN_RIGHT, patternId, 16);
-  //
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 1);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 2);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 3);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 4);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 5);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 6);
-  //  song.setQuaverHit(LEFT_ARM, HH, patternId, 7);
-  //  song.setQuaverHit(LEFT_ARM, SN_LEFT, patternId, 8);
-  //
-  //  byte pattSeq[nbBeats] = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-  //  song.setPatternSequence(pattSeq);
 
   if (printOutput) {
-    song.printHitPattern(RIGHT_LEG, 0);
-    song.printHitPattern(RIGHT_LEG, 1);
-    song.printHitPattern(RIGHT_LEG, 2);
-
-    song.printVelPattern(RIGHT_LEG, 0);
-    song.printVelPattern(RIGHT_LEG, 1);
-    song.printVelPattern(RIGHT_LEG, 2);
-
-    song.printHitPattern(LEFT_ARM, 0);
-    song.printHitPattern(LEFT_ARM, 1);
-    song.printHitPattern(LEFT_ARM, 2);
-
-    song.printPosPattern(LEFT_ARM, 0);
-    song.printPosPattern(LEFT_ARM, 1);
-    song.printPosPattern(LEFT_ARM, 2);
-
-    song.printVelPattern(LEFT_ARM, 0);
-    song.printVelPattern(LEFT_ARM, 1);
-    song.printVelPattern(LEFT_ARM, 2);
-
-    song.printHitPattern(RIGHT_ARM, 0);
-    song.printHitPattern(RIGHT_ARM, 1);
-    song.printHitPattern(RIGHT_ARM, 2);
-
-    song.printPosPattern(RIGHT_ARM, 0);
-    song.printPosPattern(RIGHT_ARM, 1);
-    song.printPosPattern(RIGHT_ARM, 2);
-
-    song.printVelPattern(RIGHT_ARM, 0);
-    song.printVelPattern(RIGHT_ARM, 1);
-    song.printVelPattern(RIGHT_ARM, 2);
+    song.printPatterns();
   }
 
   if (variableBpm) {
@@ -119,7 +53,8 @@ void setup() {
   song.setBpm(bpm);
 
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
-  robot.setupLimbParams(0.3, _hitAngle_BD, _restAngle_BD, _posAngle_BD,
+  robot.setupLimbParams(0.3, _dirRightLeg, _dirLeftArm, _dirRightArm,
+                        _hitAngle_BD, _restAngle_BD, _posAngle_BD,
                         _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft,
                         _hitAngleHH, _restAngleHH, _posAngleHH,
                         _hitAngleSnLeft, _restAngleSnLeft, _posAngleSnLeft,
@@ -129,13 +64,13 @@ void setup() {
 
   initTime = millis();
 
-  nextInstructionRightLeg = HIT;
-  nextInstructionRightArm = HIT;
-  nextInstructionLeftArm = HIT;
+  nextInstructionRightLeg = HIT_INST;
+  nextInstructionRightArm = HIT_INST;
+  nextInstructionLeftArm = HIT_INST;
 
-  timeNextHitInstructionRightLeg = initTime + initialDelay + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0);
-  timeNextHitInstructionLeftArm = initTime + initialDelay + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm);
-  timeNextHitInstructionRightArm = initTime + initialDelay + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm);
+  timeNextHitInstructionRightLeg = initTime + initialDelay + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0, song.getVelNextHit(RIGHT_LEG), printOutput);
+  timeNextHitInstructionLeftArm = initTime + initialDelay + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm, song.getVelNextHit(LEFT_ARM), printOutput);
+  timeNextHitInstructionRightArm = initTime + initialDelay + song.getTimeToNextHit(RIGHT_ARM) - robot.getHitTime(RIGHT_ARM, currPosRightArm, song.getVelNextHit(RIGHT_ARM), printOutput);
 
   // We set the current position as the first position of the first pattern
   currPosLeftArm = song.getPosNextHit(LEFT_ARM);
@@ -159,27 +94,6 @@ void setup() {
   robot.rest(LEFT_ARM, currPosLeftArm);
   robot.goToPos(RIGHT_ARM, currPosRightArm);
   robot.rest(RIGHT_ARM, currPosRightArm);
-
-  //  while(true){
-  //    if(Serial.available() > 0){
-  //      long hitAngle = Serial.parseInt();
-  //      if(hitAngle > 0){
-  //        robot.goToHitAngle(RIGHT_ARM, hitAngle);
-  //        //robot.goToPosAngle(LEFT_ARM, posAngle);
-  //        Serial.println(hitAngle);
-  //      }
-  //    }
-  //  }
-  //  for (byte limb = 0; limb < 3; limb++) {
-  //    for (byte currPos = 0; currPos < 3; currPos++) {
-  //      Serial.print("Limb : ");
-  //      Serial.print(limb);
-  //      Serial.print(", pos : ");
-  //      Serial.println(currPos);
-  //      Serial.println(robot.getPosName(limb, currPos));
-  //    }
-  //  }
-  //  Serial.println("Finish setup");
 }
 
 void loop() {
@@ -217,34 +131,51 @@ void loop() {
 }
 
 void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction) {
-  if (nextInstruction == HIT) {
-    robot.hit(limb, 0);
+  if (nextInstruction == HIT_INST) {
     if (simulation) {
-      Serial.println(robot.getPosName(limb, 0));
+      Serial.println("");
+      Serial.print(robot.getPosName(limb, 0));
+      Serial.print(" at time ");
+      Serial.println(timeNextHitInstruction);
+
     }
-    timeNextHitInstruction += robot.getHitTime(limb, 0);
-    nextInstruction = REST;
+    robot.hit(limb, 0, song.getVelNextHit(limb), printOutput);
+
+    if (printOutput) {
+      Serial.print("Hit time: ");
+      Serial.println(robot.getHitTime(limb, 0, song.getVelNextHit(limb), false));
+    }
+    timeNextHitInstruction += robot.getHitTime(limb, 0, song.getVelNextHit(limb), printOutput);
+    nextInstruction = REST_INST;
   }
 
-  else if (nextInstruction == REST) {
-    timeNextHitInstruction += song.getTimeToNextHit(limb) - robot.getHitTime(limb, 0);
-    nextInstruction = HIT;
+  else if (nextInstruction == REST_INST) {
+    timeNextHitInstruction += song.getTimeToNextHit(limb) - robot.getHitTime(limb, 0, song.getVelNextHit(limb), false);
+    nextInstruction = HIT_INST;
     robot.rest(limb, 0);
   }
 }
 
 void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction, unsigned long &timeNextPosInstruction, unsigned long currTime, byte &currPos, bool &moveLimb) {
-  if (nextInstruction == HIT) {
-    robot.hit(limb, currPos);
+  if (nextInstruction == HIT_INST) {
     if (simulation) {
-      Serial.println(robot.getPosName(limb, currPos));
+      Serial.println("");
+      Serial.print(robot.getPosName(limb, currPos));
+      Serial.print(" at time ");
+      Serial.println(timeNextHitInstruction);
     }
+    robot.hit(limb, currPos, song.getVelNextHit(limb), printOutput);
 
-    timeNextHitInstruction += robot.getHitTime(limb, currPos);
-    nextInstruction = REST;
+    if (printOutput) {
+      Serial.print("Hit time: ");
+      Serial.println(robot.getHitTime(limb, currPos, song.getVelNextHit(limb), false));
+    }
+    
+    timeNextHitInstruction += robot.getHitTime(limb, currPos, song.getVelNextHit(limb), printOutput);
+    nextInstruction = REST_INST;
   }
 
-  else if (nextInstruction == REST) {
+  else if (nextInstruction == REST_INST) {
     // We get the time to the next hit (thus updating the index)
     unsigned long timeToNextHit = song.getTimeToNextHit(limb);
 
@@ -253,31 +184,15 @@ void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long 
 
     if (currPos != nextPos) {
       moveLimb = true;
-      timeNextPosInstruction = currTime + abs(robot.getHitAngle(limb, currPos) - robot.getRestAngle(limb, nextPos)) / robot.getServoSpeed();
+      timeNextPosInstruction = currTime + abs(robot.getHitAngle(limb, currPos, song.getVelNextHit(limb)) - robot.getRestAngle(limb, nextPos)) / robot.getServoSpeed();
       currPos = nextPos;
-      if (printOutput) {
-        Serial.print("Time next pos instruction for limb ");
-        Serial.print(limb);
-        Serial.print(" at pos ");
-        Serial.print(currPos);
-        Serial.print(" : ");
-        Serial.println(timeNextPosInstruction);
-        Serial.print("Time to go to the next rest position: ");
-        Serial.println(abs(robot.getHitAngle(limb, currPos) - robot.getRestAngle(limb, nextPos)) / robot.getServoSpeed());
-        Serial.print("Current time: ");
-        Serial.print(currTime);
-        Serial.print(" - timeCurrentInstruction: ");
-        Serial.println(timeNextHitInstruction);
-        Serial.print("Time next hit instruction: ");
-        Serial.println(timeNextHitInstruction + timeToNextHit - robot.getHitTime(limb, currPos));
-      }
     }
 
     // We inmmediately go the the rest state of the next posiion
     robot.rest(limb, currPos);
 
-    timeNextHitInstruction += timeToNextHit - robot.getHitTime(limb, currPos);
-    nextInstruction = HIT;
+    timeNextHitInstruction += timeToNextHit - robot.getHitTime(limb, currPos, song.getVelNextHit(limb), false);
+    nextInstruction = HIT_INST;
   }
 }
 

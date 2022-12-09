@@ -16,6 +16,7 @@
 
 #define SIMPLEST_RYTHM 0
 #define BASIC_RYTHM 1
+#define CRESCENDO 2
 
 #define V000 0
 #define V001 1
@@ -51,10 +52,10 @@ class DrumSong {
 
     void setBpm(unsigned short bpm);
 
-    void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex);
-    void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex);
-    void setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex);
-    void setHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, byte semiquaversPerNote);
+    void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+    void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+    void setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+    void setHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput = false);
     
     void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
     void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
@@ -64,7 +65,9 @@ class DrumSong {
     void setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput=false);
     void setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput=false);
     void setPatternSequence(byte pattSeq[]);
-    
+
+    void printPatterns();
+    void printPatterns(byte limb);
     void printPosPattern(byte limb, byte patternIndex);
     void printHitPattern(byte limb, byte patternIndex);
     void printVelPattern(byte limb, byte patternIndex);

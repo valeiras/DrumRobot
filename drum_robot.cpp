@@ -5,16 +5,16 @@ DrumRobot::DrumRobot() {
   setupLimbParams();
 }
 
-void DrumRobot::hit(byte limb, byte pos) {
+void DrumRobot::hit(byte limb, byte pos, byte velocity, bool printOutput) {
   switch (limb) {
     case RIGHT_LEG:
-      hitServoRightLeg_.write(getHitAngle(RIGHT_LEG, pos));
+      hitServoRightLeg_.write(getHitAngle(RIGHT_LEG, pos, velocity));
       break;
     case LEFT_ARM:
-      hitServoLeftArm_.write(getHitAngle(LEFT_ARM, pos));
+      hitServoLeftArm_.write(getHitAngle(LEFT_ARM, pos, velocity));
       break;
     case RIGHT_ARM:
-      hitServoRightArm_.write(getHitAngle(RIGHT_ARM, pos));
+      hitServoRightArm_.write(getHitAngle(RIGHT_ARM, pos, velocity));
       break;
   }
 }
@@ -79,7 +79,8 @@ void DrumRobot::attachServos(byte bdHitPin, byte rightHitPin, byte leftHitPin, b
 
 // We use the default values defined in robot_config.h
 void DrumRobot::setupLimbParams() {
-  setupLimbParams(_wServo, _hitAngle_BD, _restAngle_BD, _posAngle_BD,
+  setupLimbParams(_wServo, _dirRightLeg, _dirLeftArm, _dirRightArm,
+                  _hitAngle_BD, _restAngle_BD, _posAngle_BD,
                   _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft,
                   _hitAngleHH, _restAngleHH, _posAngleHH,
                   _hitAngleSnLeft, _restAngleSnLeft, _posAngleSnLeft,
@@ -89,7 +90,8 @@ void DrumRobot::setupLimbParams() {
 
 }
 
-void DrumRobot::setupLimbParams(float wServo, byte hitAngleBD, byte restAngleBD, byte posAngleBD,
+void DrumRobot::setupLimbParams(float wServo, signed char dirRightLeg, signed char dirLeftArm, signed char dirRightArm,
+                                byte hitAngleBD, byte restAngleBD, byte posAngleBD,
                                 byte hitAngleSticksLeft, byte restAngleSticksLeft, byte posAngleSticksLeft,
                                 byte hitAngleHH, byte restAngleHH, byte posAngleHH,
                                 byte hitAngleSNLeft, byte restAngleSNLeft, byte posAngleSNLeft,
@@ -99,48 +101,44 @@ void DrumRobot::setupLimbParams(float wServo, byte hitAngleBD, byte restAngleBD,
 
   wServo_ = wServo;
 
-  unsigned int hitTimeBD = abs(hitAngleBD - restAngleBD) / wServo_;
-  paramsRightLeg_[0] = {hitAngleBD, restAngleBD, posAngleBD, hitTimeBD, "BD"};
+  dirRightLeg_ = dirRightLeg;
+  dirLeftArm_ = dirLeftArm;
+  dirRightArm_ = dirRightArm;
 
-  unsigned int hitTimeSticksLeft = abs(hitAngleSticksLeft - restAngleSticksLeft) / wServo;
-  paramsLeftArm_[0] = {hitAngleSticksLeft, restAngleSticksLeft, posAngleSticksLeft, hitTimeSticksLeft, "Sticks Left"};
+  paramsRightLeg_[0] = {hitAngleBD, restAngleBD, posAngleBD, "BD"};
 
-  unsigned int hitTimeHH = abs(hitAngleHH - restAngleHH) / wServo_;
-  paramsLeftArm_[1] = {hitAngleHH, restAngleHH, posAngleHH, hitTimeHH, "HH"};
+  paramsLeftArm_[0] = {hitAngleSticksLeft, restAngleSticksLeft, posAngleSticksLeft, "Sticks Left"};
+  paramsLeftArm_[1] = {hitAngleHH, restAngleHH, posAngleHH, "HH"};
+  paramsLeftArm_[2] = {hitAngleSNLeft, restAngleSNLeft, posAngleSNLeft, "SN Left"};
 
-  unsigned int hitTimeSNLeft = abs(hitAngleSNLeft - restAngleSNLeft) / wServo_;
-  paramsLeftArm_[2] = {hitAngleSNLeft, restAngleSNLeft, posAngleSNLeft, hitTimeSNLeft, "SN Left"};
-
-  unsigned int hitTimeSticksRight = abs(hitAngleSticksRight - restAngleSticksRight) / wServo_;
-  paramsRightArm_[0] = {hitAngleSticksRight, restAngleSticksRight, posAngleSticksRight, hitTimeSticksRight, "Sticks Right"};
-
-  unsigned int hitTimeSNRight = abs(hitAngleSNRight - restAngleSNRight) / wServo_;
-  paramsRightArm_[1] = {hitAngleSNRight, restAngleSNRight, posAngleSNRight, hitTimeSNRight, "SN Right"};
-
-  unsigned int hitTimeCrash = abs(hitAngleCrash - restAngleCrash) / wServo_;
-  paramsRightArm_[2] = {hitAngleCrash, restAngleCrash, posAngleCrash, hitTimeCrash, "Crash"};
-
+  paramsRightArm_[0] = {hitAngleSticksRight, restAngleSticksRight, posAngleSticksRight, "Sticks Right"};
+  paramsRightArm_[1] = {hitAngleSNRight, restAngleSNRight, posAngleSNRight, "SN Right"};
+  paramsRightArm_[2] = {hitAngleCrash, restAngleCrash, posAngleCrash, "Crash"};
 }
 
-byte DrumRobot::getHitAngle(byte limb, byte pos) {
+
+byte DrumRobot::getHitAngle(byte limb, byte pos, byte velocity) {
   switch (limb) {
     case RIGHT_LEG:
       if (pos < _nbPosRightLeg) {
-        return paramsRightLeg_[pos].hitAngle;
+        //return paramsRightLeg_[pos].hitAngle;
+        return paramsRightLeg_[pos].hitAngle + dirRightLeg_ * velocity * VEL_MULTIPLIER;
       }
       else {
         return 255;
       }
     case LEFT_ARM:
       if (pos < _nbPosLeftArm) {
-        return paramsLeftArm_[pos].hitAngle;
+        //return paramsLeftArm_[pos].hitAngle;
+        return paramsLeftArm_[pos].hitAngle + dirLeftArm_ * velocity * VEL_MULTIPLIER;
       }
       else {
         return 255;
       }
     case RIGHT_ARM:
       if (pos < _nbPosRightArm) {
-        return paramsRightArm_[pos].hitAngle;
+        //return paramsRightArm_[pos].hitAngle;
+        return paramsRightArm_[pos].hitAngle + dirRightArm_ * velocity * VEL_MULTIPLIER;
       }
       else {
         return 255;
@@ -201,68 +199,61 @@ byte DrumRobot::getPosAngle(byte limb, byte pos) {
 }
 
 
-unsigned int DrumRobot::getHitTime(byte limb, byte pos) {
+unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
   switch (limb) {
     case RIGHT_LEG:
       if (pos < _nbPosRightLeg) {
-        return paramsRightLeg_[pos].hitTime;
-      }
-      else {
-        return 0;
-      }
-    case LEFT_ARM:
-      if (pos < _nbPosLeftArm) {
-        return paramsLeftArm_[pos].hitTime;
-      }
-      else {
-        return 0;
-      }
-    case RIGHT_ARM:
-      if (pos < _nbPosRightArm) {
-        return paramsRightArm_[pos].hitTime;
-      }
-      else {
-        return 0;
-      }
-  }
-}
-
-float DrumRobot::getServoSpeed() {
-  return wServo_;
-}
-
-String DrumRobot::getPosName(byte limb, byte pos) {
-//  Serial.print("Getting pos name. Limb: ");
-//  Serial.print(limb);
-//  Serial.print(", pos: ");
-//  Serial.println(pos);
-  switch (limb) {
-    case RIGHT_LEG:
-      if (pos < _nbPosRightLeg) {
-//        Serial.print("Returning: ");
-//        Serial.println(paramsRightLeg_[pos].posName);
-        return paramsRightLeg_[pos].posName;
-      }
-      else {
-        return "Error";
-      }
-    case LEFT_ARM:
-      if (pos < _nbPosLeftArm) {
-//        Serial.print("Returning: ");
-//        Serial.println(paramsLeftArm_[pos].posName);
-        return paramsLeftArm_[pos].posName;
-      }
-      else {
-        return "Error";
-      }
-    case RIGHT_ARM:
-      if (pos < _nbPosRightArm) {
-//        Serial.print("Returning: ");
-//        Serial.println(paramsRightArm_[pos].posName);
-        return paramsRightArm_[pos].posName;
-      }
-      else {
-        return "Error";
+        float result =   abs(paramsRightLeg_[pos].hitAngle + dirRightLeg_ * velocity * VEL_MULTIPLIER - paramsRightLeg_[pos].restAngle) / wServo_;
+          return round(result);
+        }
+        else {
+          return 0;
+        }
+      case LEFT_ARM:
+        if (pos < _nbPosLeftArm) {
+          float result = abs(paramsLeftArm_[pos].hitAngle + dirLeftArm_ * velocity * VEL_MULTIPLIER - paramsLeftArm_[pos].restAngle) / wServo_;
+          return round(result);
+        }
+        else {
+          return 0;
+        }
+      case RIGHT_ARM:
+        if (pos < _nbPosRightArm) {
+          float result = abs(paramsRightArm_[pos].hitAngle + dirRightArm_ * velocity * VEL_MULTIPLIER - paramsRightArm_[pos].restAngle) / wServo_;
+          return round(result);
+        }
+        else {
+          return 0;
+        }
       }
   }
-}
+
+  float DrumRobot::getServoSpeed() {
+    return wServo_;
+  }
+
+  String DrumRobot::getPosName(byte limb, byte pos) {
+    switch (limb) {
+      case RIGHT_LEG:
+        if (pos < _nbPosRightLeg) {
+          return paramsRightLeg_[pos].posName;
+        }
+        else {
+          return "Error";
+        }
+      case LEFT_ARM:
+        if (pos < _nbPosLeftArm) {
+          return paramsLeftArm_[pos].posName;
+        }
+        else {
+          return "Error";
+        }
+      case RIGHT_ARM:
+        if (pos < _nbPosRightArm) {
+          return paramsRightArm_[pos].posName;
+        }
+        else {
+          return "Error";
+        }
+    }
+  }

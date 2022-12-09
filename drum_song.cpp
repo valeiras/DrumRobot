@@ -44,14 +44,22 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
 
         byte patternId = 0;
 
-        setHitPattern(RIGHT_LEG, patternId, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, REST, REST, REST, REST, REST, REST, printOutput);
-        setHitPattern(LEFT_ARM,  patternId, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, printOutput);
-        setHitPattern(RIGHT_ARM, patternId, REST, REST, REST, REST, SNRG, REST, REST, REST, REST, REST, REST, REST, SNRG, REST, REST, REST, printOutput);
-        
-        //
-        //        setVelPattern(RIGHT_LEG, patternId, 8, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, printOutput);
-        //        setVelPattern(LEFT_ARM, patternId, 12, 0, 8, 0, 12, 0, 8, 0, 15, 0, 8, 0, 12, 0, 8, 0, printOutput);
-        //        setVelPattern(RIGHT_ARM, patternId, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, printOutput);
+        setQuarterHit(RIGHT_LEG, BDRU, V012, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_LEG, BDRU, V008, patternId, 3, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V014, patternId, 6, printOutput);
+
+        setQuaverHit(LEFT_ARM, HHAT, V014, patternId, 1, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V007, patternId, 2, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V012, patternId, 3, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V008, patternId, 4, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V010, patternId, 5, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V006, patternId, 6, printOutput);
+        setQuaverHit(LEFT_ARM, HHAT, V012, patternId, 7, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V009, patternId, 8, printOutput);
+
+        setQuarterHit(RIGHT_ARM, CRSH, V014, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_ARM, SNRG, V014, patternId, 2, printOutput);
+        setQuarterHit(RIGHT_ARM, SNRG, V010, patternId, 4, printOutput);
 
         byte simplestPattSeq[nbBeats_] = {0};
         setPatternSequence(simplestPattSeq);
@@ -76,10 +84,10 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(RIGHT_LEG, patternId0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_LEG, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, printOutput);
-        
+
         setHitPattern(RIGHT_LEG, patternId1, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, BDRU, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_LEG, patternId1, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, VMAX, V000, V000, V000, V000, V000, printOutput);
-        
+
         setHitPattern(RIGHT_LEG, patternId2, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, BDRU, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_LEG, patternId2, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, VMAX, V000, V000, V000, V000, V000, printOutput);
 
@@ -88,27 +96,70 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         // ---------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(LEFT_ARM, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, printOutput);
         setVelPattern(LEFT_ARM, patternId0, V012, V000, V000, V000, V010, V000, V000, V000, V012, V000, V000, V000, V010, V000, V000, V000, printOutput);
-        
+
         setHitPattern(LEFT_ARM, patternId1, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, printOutput);
         setVelPattern(LEFT_ARM, patternId1, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V000, V007, V000, printOutput);
-        
+
         setHitPattern(LEFT_ARM, patternId2, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, REST, SNLT, REST, SNLT, printOutput);
         setVelPattern(LEFT_ARM, patternId2, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V000, V006, V000, V005, printOutput);
 
         // Right arm
         // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(RIGHT_ARM, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, printOutput);
-        setVelPattern(RIGHT_ARM, patternId0, V012, V000, V000, V000, V010, V000, V000, V000, V012, V000, V000, V000, V010, V000, V000, V000, printOutput);
-        
+        setVelPattern(RIGHT_ARM, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, printOutput);
+
         setHitPattern(RIGHT_ARM, patternId1, CRSH, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM, patternId1, V014, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V012, V000, V000, V000, printOutput);
-        
+
         setHitPattern(RIGHT_ARM, patternId2, REST, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, SNRG, REST, printOutput);
         setVelPattern(RIGHT_ARM, patternId2, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
 
         byte basicPattSeq[nbBeats_] = {0, 1, 2, 1, 2, 1, 2, 1, 2, 1};
 
         setPatternSequence(basicPattSeq);
+        break;
+      }
+    case CRESCENDO:
+      {
+        if (printOutput) {
+          Serial.println("Crescendo");
+        }
+        nbPatterns_ = 1;
+        nbBeats_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbBeats_);
+
+        byte patternId = 0;
+
+        setQuaverHit(RIGHT_LEG, BDRU, V001, patternId, 1, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V003, patternId, 2, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V005, patternId, 3, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V007, patternId, 4, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V009, patternId, 5, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V011, patternId, 6, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, V013, patternId, 7, printOutput);
+        setQuaverHit(RIGHT_LEG, BDRU, VMAX, patternId, 8, printOutput);
+
+        setQuaverHit(LEFT_ARM, SNLT, V001, patternId, 1, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V003, patternId, 2, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V005, patternId, 3, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V007, patternId, 4, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V009, patternId, 5, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V011, patternId, 6, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, V013, patternId, 7, printOutput);
+        setQuaverHit(LEFT_ARM, SNLT, VMAX, patternId, 8, printOutput);
+
+        setQuaverHit(RIGHT_ARM, SNRG, V001, patternId, 1, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V003, patternId, 2, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V005, patternId, 3, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V007, patternId, 4, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V009, patternId, 5, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V011, patternId, 6, printOutput);
+        setQuaverHit(RIGHT_ARM, SNRG, V013, patternId, 7, printOutput);
+        setQuaverHit(RIGHT_ARM, CRSH, VMAX, patternId, 8, printOutput);
+
+        byte simplestPattSeq[nbBeats_] = {0};
+        setPatternSequence(simplestPattSeq);
+
         break;
       }
   }
@@ -182,22 +233,22 @@ void DrumSong::setBpm(unsigned short bpm) {
   timeSemiquaver_ = int(timeQuaver_ / 2.0); // us per semiquaver note
 }
 
-void DrumSong::setQuarterHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex) {
+void DrumSong::setQuarterHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
   byte semiquaversPerNote = 4;
-  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote);
+  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote, printOutput);
 }
 
-void DrumSong::setQuaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex) {
-  byte semiquaversPerNote = 4;
-  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote);
+void DrumSong::setQuaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
+  byte semiquaversPerNote = 2;
+  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote, printOutput);
 }
 
-void DrumSong::setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex) {
-  byte semiquaversPerNote = 4;
-  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote);
+void DrumSong::setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
+  byte semiquaversPerNote = 1;
+  setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerNote, printOutput);
 }
 
-void DrumSong::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIndex, byte semiquaversPerNote) {
+void DrumSong::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput) {
   if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < nbOfPositions_[limb] ) {
     // We get the current pattern
     byte* currPattern = patternArrays_[limb][patternId];
@@ -214,6 +265,9 @@ void DrumSong::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIn
 
     // We set the velocity bits
     *currElement = *currElement | (min(vel, maxVel_) << BITS_FOR_HIT + BITS_FOR_POS);
+  }
+  else {
+    Serial.println("Index out of bounds");
   }
 }
 
@@ -240,7 +294,7 @@ void DrumSong::setRest(byte limb, byte patternId, byte noteIndex, byte semiquave
 }
 
 void DrumSong::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7,
-                          byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
+                             byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
 
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
@@ -258,11 +312,11 @@ void DrumSong::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p
     // We reinitialize the element:
     currPattern[ii] = 0;
 
-    if (inputPattern[ii] > 0 && inputPattern[ii] <= nbPos) {
+    if (inputPattern[ii] != REST && inputPattern[ii] <= nbPos) {
       bitSet(currPattern[ii], 0);
 
       // We substract 1 to the position, because we reserve 0 for the rest => we add one to make it different
-      currPattern[ii] = currPattern[ii] | (inputPattern[ii] - 1 << BITS_FOR_HIT);
+      currPattern[ii] = currPattern[ii] | (inputPattern[ii] << BITS_FOR_HIT);
 
       if (printOutput) {
         Serial.print(inputPattern[ii]);
@@ -307,6 +361,20 @@ void DrumSong::setPatternSequence(byte pattSeq[]) {
   }
 }
 
+void DrumSong::printPatterns() {
+  printPatterns(RIGHT_LEG);
+  printPatterns(LEFT_ARM);
+  printPatterns(RIGHT_ARM);
+}
+
+void DrumSong::printPatterns(byte limb) {
+  for (unsigned int ii = 0; ii < nbPatterns_; ii++) {
+    printHitPattern(limb, ii);
+    printPosPattern(limb, ii);
+    printVelPattern(limb, ii);
+  }
+}
+
 void DrumSong::printHitPattern(byte limb, byte patternId) {
   if (limb < nbLimbs_ && patternId < nbPatterns_) {
     Serial.println("");
@@ -314,7 +382,7 @@ void DrumSong::printHitPattern(byte limb, byte patternId) {
     Serial.print(patternId);
     Serial.print(" for limb ");
     Serial.println(limb);
-    
+
     byte* currPattern = patternArrays_[limb][patternId];
     for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
       Serial.print(bitRead(currPattern[ii], 0));
@@ -330,7 +398,7 @@ void DrumSong::printPosPattern(byte limb, byte patternId) {
     Serial.print("Position pattern ");
     Serial.print(patternId);
     Serial.print(" for limb ");
-    Serial.print(limb);
+    Serial.println(limb);
 
     byte* currPattern = patternArrays_[limb][patternId];
     for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
@@ -348,7 +416,7 @@ void DrumSong::printVelPattern(byte limb, byte patternId) {
     Serial.print(patternId);
     Serial.print(" for limb ");
     Serial.println(limb);
-    
+
     byte* currPattern = patternArrays_[limb][patternId];
     for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
       Serial.print((currPattern[ii] & velMask_) >> BITS_FOR_HIT + BITS_FOR_POS);
