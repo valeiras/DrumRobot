@@ -45,12 +45,17 @@ class DrumRobot {
   private:
     void setupLimbParams();
 
-    Servo hitServoRightLeg_, hitServoLeftArm_, posServoLeftArm_, hitServoRightArm_, posServoRightArm_;
-    signed char dirRightLeg_, dirLeftArm_, dirRightArm_;
+    Servo hitServos_[NB_HIT_JOINTS];
+    Servo posServos_[NB_POS_JOINTS];
+    
+    signed char hitDirection_[NB_HIT_JOINTS];
+
+    byte nbPos_[NB_HIT_JOINTS];
 
     // rotational speed degrees per ms, from the data sheet of the servo
     float wServo_;
     struct posParams paramsRightLeg_[_nbPosRightLeg], paramsLeftArm_[_nbPosLeftArm], paramsRightArm_[_nbPosRightArm];
+    posParams posParameters_[NB_HIT_JOINTS][MAX_NB_POS];
 };
 
 #endif

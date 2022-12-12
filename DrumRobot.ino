@@ -17,12 +17,12 @@ unsigned long ellapsedTime;
 
 unsigned long timeNextHitInstructionRightLeg, timeNextHitInstructionLeftArm, timeNextHitInstructionRightArm;
 unsigned long timeNextPosInstructionLeftArm, timeNextPosInstructionRightArm;
-bool nextInstructionRightLeg, nextInstructionLeftArm, nextInstructionRightArm;          // Indicates wheter next instruction is hit or rest
+byte nextInstructionRightLeg, nextInstructionLeftArm, nextInstructionRightArm;          // Indicates wheter next instruction is hit or rest
 bool moveLeftArm, moveRightArm;
 byte currPosLeftArm, currPosRightArm;
 
 unsigned long initTime;
-unsigned short bpm = 80;
+unsigned short bpm = 110;
 
 bool printOutput = false;
 bool simulation = false;
@@ -64,9 +64,9 @@ void setup() {
 
   initTime = millis();
 
-  nextInstructionRightLeg = HIT_INST;
-  nextInstructionRightArm = HIT_INST;
-  nextInstructionLeftArm = HIT_INST;
+  nextInstructionRightLeg = HIT;
+  nextInstructionRightArm = HIT;
+  nextInstructionLeftArm = HIT;
 
   timeNextHitInstructionRightLeg = initTime + initialDelay + song.getTimeToNextHit(RIGHT_LEG) - robot.getHitTime(RIGHT_LEG, 0, song.getVelNextHit(RIGHT_LEG), printOutput);
   timeNextHitInstructionLeftArm = initTime + initialDelay + song.getTimeToNextHit(LEFT_ARM) -  robot.getHitTime(LEFT_ARM, currPosLeftArm, song.getVelNextHit(LEFT_ARM), printOutput);
@@ -86,8 +86,8 @@ void setup() {
   timeNextPosInstructionLeftArm = 0;
   timeNextPosInstructionRightArm = 0;
 
-  moveLeftArm = true;
-  moveRightArm = true;
+  moveLeftArm = false;
+  moveRightArm = false;
 
   robot.rest(RIGHT_LEG, 0);
   robot.goToPos(LEFT_ARM, currPosLeftArm);
@@ -130,8 +130,8 @@ void loop() {
 
 }
 
-void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction) {
-  if (nextInstruction == HIT_INST) {
+void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, byte &nextInstruction) {
+  if (nextInstruction == HIT) {
     if (simulation) {
       Serial.println("");
       Serial.print(robot.getPosName(limb, 0));
@@ -146,18 +146,18 @@ void manageHitInstruction(byte limb, unsigned long ellTime, unsigned long &timeN
       Serial.println(robot.getHitTime(limb, 0, song.getVelNextHit(limb), false));
     }
     timeNextHitInstruction += robot.getHitTime(limb, 0, song.getVelNextHit(limb), printOutput);
-    nextInstruction = REST_INST;
+    nextInstruction = REST;
   }
 
-  else if (nextInstruction == REST_INST) {
+  else if (nextInstruction == REST) {
     timeNextHitInstruction += song.getTimeToNextHit(limb) - robot.getHitTime(limb, 0, song.getVelNextHit(limb), false);
-    nextInstruction = HIT_INST;
+    nextInstruction = HIT;
     robot.rest(limb, 0);
   }
 }
 
-void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, bool &nextInstruction, unsigned long &timeNextPosInstruction, unsigned long currTime, byte &currPos, bool &moveLimb) {
-  if (nextInstruction == HIT_INST) {
+void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long &timeNextHitInstruction, byte &nextInstruction, unsigned long &timeNextPosInstruction, unsigned long currTime, byte &currPos, bool &moveLimb) {
+  if (nextInstruction == HIT) {
     if (simulation) {
       Serial.println("");
       Serial.print(robot.getPosName(limb, currPos));
@@ -172,10 +172,10 @@ void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long 
     }
     
     timeNextHitInstruction += robot.getHitTime(limb, currPos, song.getVelNextHit(limb), printOutput);
-    nextInstruction = REST_INST;
+    nextInstruction = REST;
   }
 
-  else if (nextInstruction == REST_INST) {
+  else if (nextInstruction == REST) {
     // We get the time to the next hit (thus updating the index)
     unsigned long timeToNextHit = song.getTimeToNextHit(limb);
 
@@ -192,7 +192,7 @@ void manageHitAndPosInstruction(byte limb, unsigned long ellTime, unsigned long 
     robot.rest(limb, currPos);
 
     timeNextHitInstruction += timeToNextHit - robot.getHitTime(limb, currPos, song.getVelNextHit(limb), false);
-    nextInstruction = HIT_INST;
+    nextInstruction = HIT;
   }
 }
 

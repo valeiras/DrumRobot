@@ -20,9 +20,9 @@ DrumSong::DrumSong() {
 
   maxVel_ = pow(2, 8 - (BITS_FOR_HIT + BITS_FOR_POS)) - 1;
 
-  nbOfPositions_[0] = _nbPosRightLeg;
-  nbOfPositions_[1] = _nbPosLeftArm;
-  nbOfPositions_[2] = _nbPosRightArm;
+  nbOfPositions_[RIGHT_ARM] = _nbPosRightArm;
+  nbOfPositions_[LEFT_ARM] = _nbPosLeftArm;
+  nbOfPositions_[RIGHT_LEG] = _nbPosRightLeg;
 }
 
 void DrumSong::createPatterns(bool printOutput) {
@@ -317,11 +317,10 @@ void DrumSong::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p
 
       // We substract 1 to the position, because we reserve 0 for the rest => we add one to make it different
       currPattern[ii] = currPattern[ii] | (inputPattern[ii] << BITS_FOR_HIT);
-
-      if (printOutput) {
-        Serial.print(inputPattern[ii]);
-        Serial.print(" ");
-      }
+    }
+    if (printOutput) {
+      Serial.print(inputPattern[ii]);
+      Serial.print(" ");
     }
   }
 }

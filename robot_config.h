@@ -1,14 +1,19 @@
 #ifndef Robot_config_h
 #define Robot_config_h
 
-#define RIGHT_LEG 0
-#define LEFT_ARM 1
-#define RIGHT_ARM 2
+#define LEFT_ARM 0
+#define RIGHT_ARM 1
+#define RIGHT_LEG 2
 
-#define REST_INST 0
-#define HIT_INST 1
+#define NB_HIT_JOINTS 3
+#define NB_POS_JOINTS 2
 
+#define MAX_NB_POS 3
+
+//#define REST_INST 0
+#define HIT 1
 #define REST 255
+
 #define BDRU 0
 #define STCK 0
 #define HHAT 1
