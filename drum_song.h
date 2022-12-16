@@ -47,10 +47,12 @@ class DrumSong {
     void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
     
     unsigned long getTimeToNextHit(byte limb, bool printOutput=false);
+    unsigned long getTimeNextHit(byte limb, bool printOutput=false);
     byte getPosNextHit(byte limb, bool printOutput=false);
     byte getVelNextHit(byte limb, bool printOutput=false);
 
     void setBpm(unsigned short bpm);
+    void setInitialTime(unsigned long initialTime);
 
     void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
     void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
@@ -80,6 +82,7 @@ class DrumSong {
     signed char hitIndexes_[MAX_NB_LIMBS];                                       // Index of the current instruction in the pattern
     byte sequenceIndexes_[MAX_NB_LIMBS];                                         // Index of the current pattern in the pattern sequence
     signed char hitDirection_[MAX_NB_LIMBS];
+    unsigned long timeNextHit_[MAX_NB_LIMBS];
 
     byte nbPatterns_;
     byte nbBeats_;

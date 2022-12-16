@@ -5,8 +5,9 @@ DrumSong::DrumSong() {
   for (unsigned int ii = 0; ii < nbLimbs_; ii++) {
     hitIndexes_[ii] = -1;
     sequenceIndexes_[ii] = 0;
+    timeNextHit_[ii] = 0;
   }
-
+  
   posMask_ = 0;
   velMask_ = 0;
 
@@ -191,7 +192,7 @@ unsigned long DrumSong::getTimeToNextHit(byte limb, bool printOutput) {
   byte patternId = patternSequence_[*sequenceIndex];
   byte* currPattern = patternArrays_[limb][patternId];
 
-  unsigned long timeToNextInstruction = 0;
+  unsigned long timeToNextHit = 0;
 
   do {
     // We iterate the pattern. When we get to the end we start again
@@ -201,10 +202,15 @@ unsigned long DrumSong::getTimeToNextHit(byte limb, bool printOutput) {
       patternId = patternSequence_[*sequenceIndex];
       currPattern = patternArrays_[limb][patternId];
     }
-    timeToNextInstruction += timeSemiquaver_;
+    timeToNextHit += timeSemiquaver_;
   } while (!bitRead(currPattern[*hitIndex], 0));
 
-  return timeToNextInstruction;
+  return timeToNextHit;
+}
+
+unsigned long DrumSong::getTimeNextHit(byte limb, bool printOutput=false){
+  timeNextHit_[limb] += getTimeToNextHit(limb, printOutput);
+  return timeNextHit_[limb];
 }
 
 byte DrumSong::getPosNextHit(byte limb, bool printOutput) {
@@ -231,6 +237,12 @@ void DrumSong::setBpm(unsigned short bpm) {
   timeQuarter_ = int(60000.0 / bpm_);       // us per quarter note
   timeQuaver_ = int(timeQuarter_ / 2.0);    // us per quaver note
   timeSemiquaver_ = int(timeQuaver_ / 2.0); // us per semiquaver note
+}
+
+void DrumSong::setInitialTime(unsigned long initialTime){
+  for (unsigned int ii = 0; ii < nbLimbs_; ii++) {
+    timeNextHit_[ii] = initialTime;
+  }
 }
 
 void DrumSong::setQuarterHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {

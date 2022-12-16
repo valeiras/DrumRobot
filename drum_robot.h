@@ -17,7 +17,7 @@ class DrumRobot {
     DrumRobot();
 
     void hit(byte limb, byte pos, byte velocity, bool printOutput);
-    void rest(byte limb, byte pos);
+    void rest(byte limb, byte pos = 0);
     void goToPos(byte limb, byte pos);
 
     void goToPosAngle(byte limb, byte posAngle);
