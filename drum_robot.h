@@ -47,15 +47,16 @@ class DrumRobot {
 
     Servo hitServos_[NB_HIT_JOINTS];
     Servo posServos_[NB_POS_JOINTS];
-    
+
     signed char hitDirection_[NB_HIT_JOINTS];
 
     byte nbPos_[NB_HIT_JOINTS];
 
     // rotational speed degrees per ms, from the data sheet of the servo
     float wServo_;
-    struct posParams paramsRightLeg_[_nbPosRightLeg], paramsLeftArm_[_nbPosLeftArm], paramsRightArm_[_nbPosRightArm];
-    posParams posParameters_[NB_HIT_JOINTS][MAX_NB_POS];
+    struct posParams paramsLeftArm_[NB_POS_LEFT_ARM], paramsRightArm_[NB_POS_RIGHT_ARM], paramsRightLeg_[NB_POS_RIGHT_LEG];
+    
+    posParams *posParameters_[NB_HIT_JOINTS] = {paramsLeftArm_, paramsRightArm_, paramsRightLeg_};
 };
 
 #endif

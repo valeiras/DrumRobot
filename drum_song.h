@@ -7,7 +7,6 @@
 
 #define MAX_NB_PATTERNS 5
 #define MAX_NB_BEATS 100
-#define MAX_NB_LIMBS 3
 
 #define SEMIQUAVERS_PER_BEAT 16
 
@@ -34,7 +33,6 @@
 #define V013 13
 #define V014 14
 #define VMAX 15
-
 
 class DrumSong {
   public:
@@ -78,11 +76,11 @@ class DrumSong {
     unsigned short bpm_;
     unsigned int timeQuarter_, timeQuaver_, timeSemiquaver_;
 
-    byte nbOfPositions_[MAX_NB_LIMBS];
-    signed char hitIndexes_[MAX_NB_LIMBS];                                       // Index of the current instruction in the pattern
-    byte sequenceIndexes_[MAX_NB_LIMBS];                                         // Index of the current pattern in the pattern sequence
-    signed char hitDirection_[MAX_NB_LIMBS];
-    unsigned long timeNextHit_[MAX_NB_LIMBS];
+    byte nbOfPositions_[NB_HIT_JOINTS];
+    signed char hitIndexes_[NB_HIT_JOINTS];                                       // Index of the current instruction in the pattern
+    byte sequenceIndexes_[NB_HIT_JOINTS];                                         // Index of the current pattern in the pattern sequence
+    signed char hitDirection_[NB_HIT_JOINTS];
+    unsigned long timeNextHit_[NB_HIT_JOINTS];
 
     byte nbPatterns_;
     byte nbBeats_;
@@ -92,8 +90,7 @@ class DrumSong {
 
     Array<byte, MAX_NB_BEATS> patternSequence_;
 
-    // Position patterns are stored as byte arrays, where each elements represents the position of the servo
-    Array<Array<byte[16], MAX_NB_PATTERNS>, MAX_NB_LIMBS> patternArrays_;
+    Array<Array<byte[16], MAX_NB_PATTERNS>, NB_HIT_JOINTS> patternArrays_;
     
     uint8_t posMask_, velMask_;
     byte maxVel_;

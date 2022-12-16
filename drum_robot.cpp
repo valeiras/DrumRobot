@@ -72,9 +72,9 @@ void DrumRobot::setupLimbParams(float wServo, signed char dirRightLeg, signed ch
   posParameters_[RIGHT_ARM][SNRG] = {hitAngleSNRight, restAngleSNRight, posAngleSNRight, "SN Right"};
   posParameters_[RIGHT_ARM][CRSH] = {hitAngleCrash, restAngleCrash, posAngleCrash, "Crash"};
 
-  nbPos_[RIGHT_LEG] = _nbPosRightLeg;
-  nbPos_[LEFT_ARM] = _nbPosLeftArm;
-  nbPos_[RIGHT_ARM] = _nbPosRightArm;
+  nbPos_[RIGHT_LEG] = NB_POS_RIGHT_LEG;
+  nbPos_[LEFT_ARM] = NB_POS_LEFT_ARM;
+  nbPos_[RIGHT_ARM] = NB_POS_RIGHT_ARM;
 }
 
 

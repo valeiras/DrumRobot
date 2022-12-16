@@ -8,7 +8,9 @@
 #define NB_HIT_JOINTS 3
 #define NB_POS_JOINTS 2
 
-#define MAX_NB_POS 3
+#define NB_POS_RIGHT_LEG 1
+#define NB_POS_LEFT_ARM 3
+#define NB_POS_RIGHT_ARM 3
 
 //#define REST_INST 0
 #define HIT 1
@@ -24,10 +26,6 @@
 const signed char _dirRightLeg = -1;
 const signed char _dirLeftArm = +1;
 const signed char _dirRightArm = -1;
-
-const byte _nbPosRightLeg = 1;
-const byte _nbPosLeftArm = 3;
-const byte _nbPosRightArm = 3;
 
 // Right leg, position 0: base drum
 const byte _hitAngle_BD = 59;

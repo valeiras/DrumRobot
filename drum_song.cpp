@@ -21,9 +21,9 @@ DrumSong::DrumSong() {
 
   maxVel_ = pow(2, 8 - (BITS_FOR_HIT + BITS_FOR_POS)) - 1;
 
-  nbOfPositions_[RIGHT_ARM] = _nbPosRightArm;
-  nbOfPositions_[LEFT_ARM] = _nbPosLeftArm;
-  nbOfPositions_[RIGHT_LEG] = _nbPosRightLeg;
+  nbOfPositions_[RIGHT_ARM] = NB_POS_RIGHT_ARM;
+  nbOfPositions_[LEFT_ARM] = NB_POS_LEFT_ARM;
+  nbOfPositions_[RIGHT_LEG] = NB_POS_RIGHT_LEG;
 }
 
 void DrumSong::createPatterns(bool printOutput) {
