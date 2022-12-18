@@ -15,7 +15,8 @@
 
 #define SIMPLEST_RYTHM 0
 #define BASIC_RYTHM 1
-#define CRESCENDO 2
+#define BASIC_RYTHM_WO_ACC 2
+#define CRESCENDO 3
 
 #define V000 0
 #define V001 1
@@ -44,10 +45,10 @@ class DrumSong {
     void createPredefinedPatterns(byte rythmName, bool printOutput=false);
     void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
     
-    unsigned long getTimeToNextHit(byte limb, bool printOutput=false);
-    unsigned long getTimeNextHit(byte limb, bool printOutput=false);
-    byte getPosNextHit(byte limb, bool printOutput=false);
-    byte getVelNextHit(byte limb, bool printOutput=false);
+    void computeNextHit(byte limb, bool printOutput=false);
+    unsigned long getTimeNextHit(byte limb);
+    byte getPosNextHit(byte limb);
+    byte getVelNextHit(byte limb);
 
     void setBpm(unsigned short bpm);
     void setInitialTime(unsigned long initialTime);

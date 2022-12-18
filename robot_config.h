@@ -49,7 +49,7 @@ const byte _posAngleSnLeft = 20;
 
 // Right arm, position 0: Sticks
 const byte _hitAngleSticksRight = 120;
-const byte _restAngleSticksRight = 110;
+const byte _restAngleSticksRight = 100;
 const byte _posAngleSticksRight = 50;
 
 // Right arm, position 1:
