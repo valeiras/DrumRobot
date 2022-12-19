@@ -9,6 +9,8 @@
 #define RIGHT_POS_PIN 10
 #define LEFT_POS_PIN 11
 
+#define BPM_INPUT_PIN A0
+
 #define ANALOG_MIN 0
 #define ANALOG_MAX 1023
 
@@ -23,33 +25,24 @@ byte nextPos[NB_POS_JOINTS];
 unsigned long initTime;
 unsigned short bpm = 110;
 
-bool printOutput = true;
-bool simulation = true;
+bool printOutput = false;
+bool simulation = false;
 bool variableBpm = false;
 
 int minBpm = 60;
 int maxBpm = 150;
 
 DrumRobot robot;
-DrumSong song;
+DrumSong song(bpm);
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song = DrumSong();
-  song.createPredefinedPatterns(BASIC_RYTHM_WO_ACC, false);
+  song.createPredefinedPatterns(BASIC_RYTHM, false);
 
   if (printOutput) {
     song.printPatterns();
-  }
-
-  if (variableBpm) {
-    int sensorValue = analogRead(A0);
-    bpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
-    if (printOutput) {
-      Serial.println(bpm);
-    }
   }
 
   robot.attachServos(BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN, RIGHT_POS_PIN, LEFT_POS_PIN);
@@ -63,8 +56,7 @@ void setup() {
                         _hitAngleCrash, _restAngleCrash, _posAngleCrash);
 
   initTime = millis();
-  
-  song.setBpm(bpm);
+
   song.setInitialTime(initTime + initialDelay);
 
   for (unsigned int limb = 0; limb < NB_POS_JOINTS; limb++) {
@@ -97,6 +89,10 @@ void setup() {
 
 void loop() {
   ellapsedTime = millis() - initTime;
+
+  if (variableBpm) {
+    updateBpm();
+  }
 
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     if (ellapsedTime >= timeNextHitInstruction[limb]) {
@@ -140,7 +136,7 @@ void manageHitInstruction(byte limb, unsigned long currTime) {
 
       if (currentPosition != nextPos[limb]) {
         moveLimb[limb] = true;
-        timeNextPosInstruction[limb] = currTime + abs(robot.getHitAngle(limb, currentPosition, song.getVelNextHit(limb)) - robot.getRestAngle(limb, nextPos[limb])) / robot.getServoSpeed();
+        timeNextPosInstruction[limb] = currTime + abs(robot.getHitAngle(limb, currentPosition, song.getVelNextHit(limb)) - robot.getRestAngle(limb, nextPos[limb])) / (robot.getServoSpeed());
         currentPosition = nextPos[limb];
       }
     }
@@ -155,4 +151,14 @@ void manageHitInstruction(byte limb, unsigned long currTime) {
 void managePosInstruction(byte limb) {
   robot.goToPos(limb, nextPos[limb]);
   moveLimb[limb] = false;
+}
+
+void updateBpm() {
+  int sensorValue = analogRead(BPM_INPUT_PIN);
+  bpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
+  song.setBpm(bpm);
+
+  if (printOutput) {
+    Serial.println(bpm);
+  }
 }

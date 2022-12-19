@@ -1,8 +1,17 @@
 #include "drum_song.h"
 
-DrumSong::DrumSong() {
-  nbLimbs_ = 3;
+DrumSong::DrumSong(unsigned short bpm) {
+  nbLimbs_ = NB_HIT_JOINTS;
+
+  bpm_ = bpm;
+  unsigned long timeQuarter = int(60000.0 / bpm_);  // us per quarter note
+  newTimeSemiquaver_ = int(timeQuarter / 4.0);      // us per semiquaver note
+  timeBpmChange_ = 0;
+  
   for (unsigned int ii = 0; ii < nbLimbs_; ii++) {
+    timeSemiquaver_[ii] = newTimeSemiquaver_;
+    bpmChange_[ii] = false;
+
     hitIndexes_[ii] = -1;
     sequenceIndexes_[ii] = 0;
     timeNextHit_[ii] = 0;
@@ -310,8 +319,6 @@ void DrumSong::computeNextHit(byte limb, bool printOutput = false) {
   byte patternId = patternSequence_[*sequenceIndex];
   byte* currPattern = patternArrays_[limb][patternId];
 
-  unsigned long timeToNextHit = 0;
-
   do {
     // We iterate the pattern. When we get to the end we start again
     if (++(*hitIndex) >= SEMIQUAVERS_PER_BEAT) {
@@ -320,10 +327,13 @@ void DrumSong::computeNextHit(byte limb, bool printOutput = false) {
       patternId = patternSequence_[*sequenceIndex];
       currPattern = patternArrays_[limb][patternId];
     }
-    timeToNextHit += timeSemiquaver_;
-  } while (!bitRead(currPattern[*hitIndex], 0));
+    timeNextHit_[limb] += timeSemiquaver_[limb];
 
-  timeNextHit_[limb] += timeToNextHit;
+    if (bpmChange_[limb] && timeNextHit_[limb] >= timeBpmChange_) {
+      timeSemiquaver_[limb] = newTimeSemiquaver_;
+      bpmChange_[limb] = false;
+    }
+  } while (!bitRead(currPattern[*hitIndex], 0));
 }
 
 unsigned long DrumSong::getTimeNextHit(byte limb) {
@@ -350,9 +360,13 @@ byte DrumSong::getVelNextHit(byte limb) {
 
 void DrumSong::setBpm(unsigned short bpm) {
   bpm_ = bpm;
-  timeQuarter_ = int(60000.0 / bpm_);        // us per quarter note
-  timeQuaver_ = int(timeQuarter_ / 2.0);     // us per quaver note
-  timeSemiquaver_ = int(timeQuaver_ / 2.0);  // us per semiquaver note
+  unsigned long timeQuarter = int(60000.0 / bpm_);  // us per quarter note
+  newTimeSemiquaver_ = int(timeQuarter / 4.0);      // us per semiquaver note
+
+  for (unsigned int ii = 0; ii < nbLimbs_; ii++) {
+    bpmChange_[ii] = true;
+  }
+  timeBpmChange_ = getMaxTimeToNextHit();
 }
 
 void DrumSong::setInitialTime(unsigned long initialTime) {
@@ -548,4 +562,15 @@ void DrumSong::printVelPattern(byte limb, byte patternId) {
     }
     Serial.println("");
   }
+}
+
+unsigned long DrumSong::getMaxTimeToNextHit(){
+  unsigned long maxTime = 0;
+  for(unsigned int ii=0; ii<nbLimbs_; ii++){
+    if(timeNextHit_[ii] > maxTime){
+      maxTime = timeNextHit_[ii];
+    }
+  }
+  
+  return maxTime;
 }

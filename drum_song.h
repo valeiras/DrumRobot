@@ -36,65 +36,68 @@
 #define VMAX 15
 
 class DrumSong {
-  public:
-    DrumSong();
+public:
+  DrumSong(unsigned short bpm);
 
-    // Default patterns for the different songs. Empty method in the base class
-    virtual void createPatterns(bool printOutput=false);
+  // Default patterns for the different songs. Empty method in the base class
+  virtual void createPatterns(bool printOutput = false);
 
-    void createPredefinedPatterns(byte rythmName, bool printOutput=false);
-    void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
-    
-    void computeNextHit(byte limb, bool printOutput=false);
-    unsigned long getTimeNextHit(byte limb);
-    byte getPosNextHit(byte limb);
-    byte getVelNextHit(byte limb);
+  void createPredefinedPatterns(byte rythmName, bool printOutput = false);
+  void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
 
-    void setBpm(unsigned short bpm);
-    void setInitialTime(unsigned long initialTime);
+  void computeNextHit(byte limb, bool printOutput = false);
+  unsigned long getTimeNextHit(byte limb);
+  byte getPosNextHit(byte limb);
+  byte getVelNextHit(byte limb);
 
-    void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
-    void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
-    void setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
-    void setHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput = false);
-    
-    void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
-    void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
-    void setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex);
-    void setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote);
-    
-    void setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput=false);
-    void setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput=false);
-    void setPatternSequence(byte pattSeq[]);
+  void setBpm(unsigned short bpm);
+  void setInitialTime(unsigned long initialTime);
 
-    void printPatterns();
-    void printPatterns(byte limb);
-    void printPosPattern(byte limb, byte patternIndex);
-    void printHitPattern(byte limb, byte patternIndex);
-    void printVelPattern(byte limb, byte patternIndex);
-  
-  protected:
-    unsigned short bpm_;
-    unsigned int timeQuarter_, timeQuaver_, timeSemiquaver_;
+  void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+  void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+  void setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
+  void setHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput = false);
 
-    byte nbOfPositions_[NB_HIT_JOINTS];
-    signed char hitIndexes_[NB_HIT_JOINTS];                                       // Index of the current instruction in the pattern
-    byte sequenceIndexes_[NB_HIT_JOINTS];                                         // Index of the current pattern in the pattern sequence
-    signed char hitDirection_[NB_HIT_JOINTS];
-    unsigned long timeNextHit_[NB_HIT_JOINTS];
+  void setQuarterRest(byte limb, byte patternIndex, byte noteIndex);
+  void setQuaverRest(byte limb, byte patternIndex, byte noteIndex);
+  void setSemiquaverRest(byte limb, byte patternIndex, byte noteIndex);
+  void setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote);
 
-    byte nbPatterns_;
-    byte nbBeats_;
-    byte nbLimbs_;
+  void setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7, byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false);
+  void setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput = false);
+  void setPatternSequence(byte pattSeq[]);
 
-    byte errPosPattern_[16] = {255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255};
+  void printPatterns();
+  void printPatterns(byte limb);
+  void printPosPattern(byte limb, byte patternIndex);
+  void printHitPattern(byte limb, byte patternIndex);
+  void printVelPattern(byte limb, byte patternIndex);
 
-    Array<byte, MAX_NB_BEATS> patternSequence_;
+protected:
+  unsigned long getMaxTimeToNextHit();
+  unsigned short bpm_;
+  unsigned int timeSemiquaver_[NB_HIT_JOINTS], newTimeSemiquaver_;
+  unsigned long timeBpmChange_;
+  bool bpmChange_[NB_HIT_JOINTS];
 
-    Array<Array<byte[16], MAX_NB_PATTERNS>, NB_HIT_JOINTS> patternArrays_;
-    
-    uint8_t posMask_, velMask_;
-    byte maxVel_;
+  byte nbOfPositions_[NB_HIT_JOINTS];
+  signed char hitIndexes_[NB_HIT_JOINTS];  // Index of the current instruction in the pattern
+  byte sequenceIndexes_[NB_HIT_JOINTS];    // Index of the current pattern in the pattern sequence
+  signed char hitDirection_[NB_HIT_JOINTS];
+  unsigned long timeNextHit_[NB_HIT_JOINTS];
+
+  byte nbPatterns_;
+  byte nbBeats_;
+  byte nbLimbs_;
+
+  byte errPosPattern_[16] = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 };
+
+  Array<byte, MAX_NB_BEATS> patternSequence_;
+
+  Array<Array<byte[16], MAX_NB_PATTERNS>, NB_HIT_JOINTS> patternArrays_;
+
+  uint8_t posMask_, velMask_;
+  byte maxVel_;
 };
 
 #endif

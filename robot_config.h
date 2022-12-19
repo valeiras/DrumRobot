@@ -38,14 +38,14 @@ const byte _restAngleSticksLeft = 60;
 const byte _posAngleSticksLeft = 0;
 
 // Left arm, position 1: HH
-const byte _hitAngleHH = 90;
-const byte _restAngleHH = 70;
-const byte _posAngleHH = 60;
+const byte _hitAngleHH = 100;
+const byte _restAngleHH = 90;
+const byte _posAngleHH = 50;
 
 // Left arm, position 2: Snare
-const byte _hitAngleSnLeft = 110;
-const byte _restAngleSnLeft = 95;
-const byte _posAngleSnLeft = 20;
+const byte _hitAngleSnLeft = 120;
+const byte _restAngleSnLeft = 105;
+const byte _posAngleSnLeft = 10;
 
 // Right arm, position 0: Sticks
 const byte _hitAngleSticksRight = 120;
@@ -55,12 +55,12 @@ const byte _posAngleSticksRight = 50;
 // Right arm, position 1:
 const byte _hitAngleSnRight = 87;
 const byte _restAngleSnRight = 98;
-const byte _posAngleSnRight = 35;
+const byte _posAngleSnRight = 45;
 
 // _Right arm, position 2:
-const byte _hitAngleCrash = 110;
-const byte _restAngleCrash = 130;
-const byte _posAngleCrash = 5;
+const byte _hitAngleCrash = 100;
+const byte _restAngleCrash = 120;
+const byte _posAngleCrash = 15;
 
 const float _wServo = 0.6;
 
