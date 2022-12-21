@@ -37,7 +37,7 @@
 
 class DrumSong {
 public:
-  DrumSong(unsigned short bpm);
+  DrumSong();
 
   // Default patterns for the different songs. Empty method in the base class
   virtual void createPatterns(bool printOutput = false);
@@ -76,9 +76,7 @@ public:
 protected:
   unsigned long getMaxTimeToNextHit();
   unsigned short bpm_;
-  unsigned int timeSemiquaver_[NB_HIT_JOINTS], newTimeSemiquaver_;
-  unsigned long timeBpmChange_;
-  bool bpmChange_[NB_HIT_JOINTS];
+  unsigned int timeSemiquaver_;
 
   byte nbOfPositions_[NB_HIT_JOINTS];
   signed char hitIndexes_[NB_HIT_JOINTS];  // Index of the current instruction in the pattern

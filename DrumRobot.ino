@@ -33,13 +33,14 @@ int minBpm = 60;
 int maxBpm = 150;
 
 DrumRobot robot;
-DrumSong song(bpm);
+DrumSong song;
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song.createPredefinedPatterns(BASIC_RYTHM, false);
+  song.setBpm(bpm);
 
   if (printOutput) {
     song.printPatterns();
