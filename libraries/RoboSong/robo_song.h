@@ -7,12 +7,13 @@
 #define MAX_NB_PATTERNS 5
 #define MAX_NB_BEATS 100
 
+#define BITS_FOR_HIT 1
+#define BITS_PER_BYTE 8
+
 #define HIT 1
 #define REST 255
 
 #define SEMIQUAVERS_PER_BEAT 16
-
-#define BITS_PER_BYTE 8
 
 #define V000 0
 #define V001 1
@@ -31,7 +32,7 @@
 #define V014 14
 #define V016 15
 
-template <int NB_LIMBS, int BITS_FOR_HIT, int BITS_FOR_POS>
+template <int NB_LIMBS, int BITS_FOR_POS>
 class RoboSong {
 public:
   RoboSong();
