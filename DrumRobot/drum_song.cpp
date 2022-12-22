@@ -1,6 +1,6 @@
 #include "drum_song.h"
 
-DrumSong::DrumSong() : RoboSong<NB_LIMBS_DRUM, BITS_FOR_HIT_DRUM, BITS_FOR_POS_DRUM>::RoboSong() {
+DrumSong::DrumSong() : RoboSong<NB_LIMBS_DRUM, BITS_FOR_POS_DRUM>::RoboSong() {
   nbOfPositions_[RIGHT_ARM] = NB_POS_RIGHT_ARM;
   nbOfPositions_[LEFT_ARM] = NB_POS_LEFT_ARM;
   nbOfPositions_[RIGHT_LEG] = NB_POS_RIGHT_LEG;

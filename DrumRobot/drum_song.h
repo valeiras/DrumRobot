@@ -7,7 +7,6 @@
 #include "robo_song.h"
 #include "drum_robot_config.h"
 
-#define BITS_FOR_HIT_DRUM 1
 #define BITS_FOR_POS_DRUM 3
 #define NB_LIMBS_DRUM 3
 
@@ -16,7 +15,7 @@
 #define BASIC_RYTHM_WO_ACC 2
 #define CRESCENDO 3
 
-class DrumSong : public RoboSong<NB_LIMBS_DRUM, BITS_FOR_HIT_DRUM, BITS_FOR_POS_DRUM> {
+class DrumSong : public RoboSong<NB_LIMBS_DRUM, BITS_FOR_POS_DRUM> {
 public:
   DrumSong();
 

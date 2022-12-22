@@ -34,8 +34,6 @@ int maxBpm = 150;
 DrumRobot robot;
 DrumSong song;
 
-RoboSong<3, 2, 1> roboSong();
-
 void setup() {
   Serial.begin(9600);
 
