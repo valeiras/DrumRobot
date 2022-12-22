@@ -5,35 +5,6 @@ DrumRobot::DrumRobot() {
   setupLimbParams();
 }
 
-void DrumRobot::hit(byte limb, byte pos, byte velocity, bool printOutput) {
-  hitServos_[limb].write(getHitAngle(limb, pos, velocity));
-}
-
-void DrumRobot::rest(byte limb, byte pos) {
-  hitServos_[limb].write(getRestAngle(limb, pos));
-}
-
-void DrumRobot::goToPos(byte limb, byte pos) {
-  posServos_[limb].write(getPosAngle(limb, pos));
-}
-
-void DrumRobot::goToPosAngle(byte limb, byte posAngle) {
-  posServos_[limb].write(posAngle);
-}
-
-void DrumRobot::goToHitAngle(byte limb, byte hitAngle) {
-  hitServos_[limb].write(hitAngle);
-}
-
-void DrumRobot::attachServos(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin) {
-  hitServos_[LEFT_ARM].attach(leftHitPin);
-  hitServos_[RIGHT_ARM].attach(rightHitPin);
-  hitServos_[RIGHT_LEG].attach(bdHitPin);
-
-  posServos_[LEFT_ARM].attach(leftPosPin);
-  posServos_[RIGHT_ARM].attach(rightPosPin);
-}
-
 // We use the default values defined in robot_config.h
 void DrumRobot::setupLimbParams() {
   setupLimbParams(_wServo, _dirRightLeg, _dirLeftArm, _dirRightArm,
@@ -44,7 +15,6 @@ void DrumRobot::setupLimbParams() {
                   _hitAngleSticksRight, _restAngleSticksRight, _posAngleSticksRight,
                   _hitAngleSnRight, _restAngleSnRight, _posAngleSnRight,
                   _hitAngleCrash, _restAngleCrash, _posAngleCrash);
-
 }
 
 void DrumRobot::setupLimbParams(float wServo, signed char dirRightLeg, signed char dirLeftArm, signed char dirRightArm,
@@ -105,8 +75,7 @@ byte DrumRobot::getPosAngle(byte limb, byte pos) {
   }
 }
 
-
-unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
+unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity) {
   if (pos < nbPos_[limb]) {
     float result = abs(posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER - posParameters_[limb][pos].restAngle) / wServo_;
     return round(result);
@@ -114,10 +83,6 @@ unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool prin
   else {
     return 0;
   }
-}
-
-float DrumRobot::getServoSpeed() {
-  return wServo_;
 }
 
 String DrumRobot::getPosName(byte limb, byte pos) {

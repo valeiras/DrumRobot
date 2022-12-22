@@ -1,37 +1,24 @@
+#include <musician_robot.h>
+
 #ifndef Drum_robot_h
 #define Drum_robot_h
 
-#include "Arduino.h"
-#include <Servo.h>
 #include "drum_robot_config.h"
 
-#define VEL_MULTIPLIER 1
-
-struct posParams {
+struct posParamsDrum {
   byte hitAngle, restAngle, posAngle;
   String posName;  // Name of the position, for debugging purposes
 };
 
-class DrumRobot {
+class DrumRobot : public MusicianRobot<NB_HIT_JOINTS_DRUM, NB_POS_JOINTS_DRUM>{
   public:
     DrumRobot();
-
-    void hit(byte limb, byte pos, byte velocity, bool printOutput);
-    void rest(byte limb, byte pos = 0);
-    void goToPos(byte limb, byte pos);
-
-    void goToPosAngle(byte limb, byte posAngle);
-    void goToHitAngle(byte limb, byte hitAngle);
 
     byte getHitAngle(byte limb, byte pos, byte velocity);
     byte getRestAngle(byte limb, byte pos);
     byte getPosAngle(byte limb, byte pos);
-    unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput);
-    float getServoSpeed();
-
+    unsigned int getHitTime(byte limb, byte pos, byte velocity);
     String getPosName(byte limb, byte pos);
-
-    void attachServos(byte bdHitPin, byte rightHitPin, byte leftHitPin, byte rightPosPin, byte leftPosPin);
 
     void setupLimbParams(float wServo, signed char dirRightLeg, signed char dirLeftArm, signed char dirRightArm,
                          byte hitAngleBD, byte restAngleBD, byte posAngleBD,
@@ -45,18 +32,8 @@ class DrumRobot {
   private:
     void setupLimbParams();
 
-    Servo hitServos_[NB_HIT_JOINTS];
-    Servo posServos_[NB_POS_JOINTS];
-
-    signed char hitDirection_[NB_HIT_JOINTS];
-
-    byte nbPos_[NB_HIT_JOINTS];
-
-    // rotational speed degrees per ms, from the data sheet of the servo
-    float wServo_;
-    struct posParams paramsLeftArm_[NB_POS_LEFT_ARM], paramsRightArm_[NB_POS_RIGHT_ARM], paramsRightLeg_[NB_POS_RIGHT_LEG];
-    
-    posParams *posParameters_[NB_HIT_JOINTS] = {paramsLeftArm_, paramsRightArm_, paramsRightLeg_};
+    struct posParamsDrum paramsLeftArm_[NB_POS_LEFT_ARM], paramsRightArm_[NB_POS_RIGHT_ARM], paramsRightLeg_[NB_POS_RIGHT_LEG];
+    posParamsDrum *posParameters_[NB_HIT_JOINTS_DRUM] = {paramsLeftArm_, paramsRightArm_, paramsRightLeg_};
 };
 
 #endif

@@ -5,8 +5,8 @@
 #define RIGHT_ARM 1
 #define RIGHT_LEG 2
 
-#define NB_HIT_JOINTS 3
-#define NB_POS_JOINTS 2
+#define NB_HIT_JOINTS_DRUM 3
+#define NB_POS_JOINTS_DRUM 2
 
 #define NB_POS_RIGHT_LEG 1
 #define NB_POS_LEFT_ARM 3
