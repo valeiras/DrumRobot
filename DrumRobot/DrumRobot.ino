@@ -49,15 +49,6 @@ void setup() {
   byte posPins[NB_POS_JOINTS_DRUM] = {RIGHT_POS_PIN, LEFT_POS_PIN};
   robot.attachServos(hitPins, posPins);
 
-  robot.setupLimbParams(0.3, _dirRightLeg, _dirLeftArm, _dirRightArm,
-                        _hitAngle_BD, _restAngle_BD, _posAngle_BD,
-                        _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft,
-                        _hitAngleHH, _restAngleHH, _posAngleHH,
-                        _hitAngleSnLeft, _restAngleSnLeft, _posAngleSnLeft,
-                        _hitAngleSticksRight, _restAngleSticksRight, _posAngleSticksRight,
-                        _hitAngleSnRight, _restAngleSnRight, _posAngleSnRight,
-                        _hitAngleCrash, _restAngleCrash, _posAngleCrash);
-
   initTime = millis();
 
   song.setInitialTime(initTime + initialDelay);

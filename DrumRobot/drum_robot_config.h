@@ -24,9 +24,9 @@ const signed char _dirLeftArm = +1;
 const signed char _dirRightArm = -1;
 
 // Right leg, position 0: base drum
-const byte _hitAngle_BD = 59;
-const byte _restAngle_BD = 70;
-const byte _posAngle_BD = 0;
+const byte _hitAngleBD = 59;
+const byte _restAngleBD = 70;
+const byte _posAngleBD = 0;
 
 // Left arm, position 0: Sticks
 const byte _hitAngleSticksLeft = 80;
