@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 #include <Servo.h>
-#include "robot_config.h"
+#include "drum_robot_config.h"
 
 #define VEL_MULTIPLIER 1
 

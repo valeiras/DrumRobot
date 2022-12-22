@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include "drum_robot.h"
 #include "drum_song.h"
-#include "robot_config.h"
+#include "drum_robot_config.h"
 
 #define BD_HIT_PIN 5
 #define RIGHT_HIT_PIN 6
@@ -26,14 +26,15 @@ unsigned long initTime;
 unsigned short bpm = 110;
 
 bool printOutput = false;
-bool simulation = false;
-bool variableBpm = false;
+bool simulation = true;
 
 int minBpm = 60;
 int maxBpm = 150;
 
 DrumRobot robot;
 DrumSong song;
+
+RoboSong<3, 2, 1> roboSong();
 
 void setup() {
   Serial.begin(9600);
@@ -91,10 +92,6 @@ void setup() {
 void loop() {
   ellapsedTime = millis() - initTime;
 
-  if (variableBpm) {
-    updateBpm();
-  }
-
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     if (ellapsedTime >= timeNextHitInstruction[limb]) {
       manageHitInstruction(limb, ellapsedTime);
@@ -105,7 +102,6 @@ void loop() {
     }
   }
 }
-
 
 void manageHitInstruction(byte limb, unsigned long currTime) {
   byte currentPosition = limb < NB_POS_JOINTS ? nextPos[limb] : 0;
@@ -152,14 +148,4 @@ void manageHitInstruction(byte limb, unsigned long currTime) {
 void managePosInstruction(byte limb) {
   robot.goToPos(limb, nextPos[limb]);
   moveLimb[limb] = false;
-}
-
-void updateBpm() {
-  int sensorValue = analogRead(BPM_INPUT_PIN);
-  bpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
-  song.setBpm(bpm);
-
-  if (printOutput) {
-    Serial.println(bpm);
-  }
 }

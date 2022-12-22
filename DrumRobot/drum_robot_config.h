@@ -12,10 +12,6 @@
 #define NB_POS_LEFT_ARM 3
 #define NB_POS_RIGHT_ARM 3
 
-//#define REST_INST 0
-#define HIT 1
-#define REST 255
-
 #define BDRU 0
 #define STCK 0
 #define HHAT 1
