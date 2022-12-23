@@ -1,11 +1,11 @@
-#include <musician_robot.h>
+#include <percu_robot.h>
 
 #ifndef Glocken_robot_h
 #define Glocken_robot_h
 
 #include "glocken_robot_config.h"
 
-class GlockenRobot : public MusicianRobot<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL> {
+class GlockenRobot : public PercuRobot<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL> {
 public:
   GlockenRobot();
 

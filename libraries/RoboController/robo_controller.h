@@ -2,7 +2,7 @@
 #define Robo_controller_h
 
 #include <Array.h>
-#include <musician_robot.h>
+#include <percu_robot.h>
 #include <robo_song.h>
 
 #include "Arduino.h"
@@ -10,7 +10,7 @@
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class RoboController {
  public:
-  RoboController(MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
+  RoboController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
                  bool simulation, bool printOutput);
 
   // This method should be called once all the parameters of the robot and the song have been set
@@ -23,7 +23,7 @@ class RoboController {
   bool isTimeToChangePos(byte limb, unsigned long ellapsedTime);
 
  private:
-  MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
+  PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
   RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song_;
 
   unsigned long timeNextHitInstruction_[NB_HIT_JOINTS], timeNextPosInstruction_[NB_POS_JOINTS];
@@ -35,7 +35,7 @@ class RoboController {
 };
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::RoboController(MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
+RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::RoboController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
                                                                            RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
                                                                            bool simulation, bool printOutput) {
   robot_ = robot;

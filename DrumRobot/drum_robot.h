@@ -1,7 +1,7 @@
 #ifndef Drum_robot_h
 #define Drum_robot_h
 
-#include <musician_robot.h>
+#include <percu_robot.h>
 
 #include "drum_robot_config.h"
 
@@ -10,7 +10,7 @@ struct posParamsDrum {
   String posName;  // Name of the position, for debugging purposes
 };
 
-class DrumRobot : public MusicianRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR> {
+class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR> {
 public:
   DrumRobot();
 

@@ -1,5 +1,5 @@
-#ifndef Robot_config_h
-#define Robot_config_h
+#ifndef Drum_robot_config_h
+#define Drum_robot_config_h
 
 #define LEFT_ARM_DR 0
 #define RIGHT_ARM_DR 1

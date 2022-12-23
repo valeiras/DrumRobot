@@ -1,5 +1,5 @@
-#ifndef Musician_robot_h
-#define Musician_robot_h
+#ifndef Percu_robot_h
+#define Percu_robot_h
 
 #include <Servo.h>
 
@@ -8,13 +8,13 @@
 #define VEL_MULTIPLIER 1
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-class MusicianRobot {
+class PercuRobot {
  public:
-  MusicianRobot();
+  PercuRobot();
 
-  void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
-  void rest(byte limb, byte pos = 0);
-  void goToPos(byte limb, byte pos);
+  virtual void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
+  virtual void rest(byte limb, byte pos = 0);
+  virtual void goToPos(byte limb, byte pos);
 
   void goToPosAngle(byte limb, byte posAngle);
   void goToHitAngle(byte limb, byte hitAngle);
