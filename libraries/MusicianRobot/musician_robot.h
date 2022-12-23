@@ -25,6 +25,7 @@ class MusicianRobot {
   virtual unsigned int getHitTime(byte limb, byte pos, byte velocity) = 0;
   virtual String getPosName(byte limb, byte pos) = 0;
 
+  void setServoSpeed(float wServo);
   float getServoSpeed();
 
   void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]);

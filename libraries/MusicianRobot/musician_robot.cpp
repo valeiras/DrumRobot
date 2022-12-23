@@ -45,6 +45,11 @@ void MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte h
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::setServoSpeed(float wServo) {
+  wServo_ = wServo;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 float MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getServoSpeed() {
   return wServo_;
 }
