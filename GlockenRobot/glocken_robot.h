@@ -17,8 +17,6 @@ public:
 
   void setLimbParams(signed char directions[NB_HIT_JOINTS_GL]);
 
-  void setWServo(float wServo);
-
 private:
   void setLimbParams();
 

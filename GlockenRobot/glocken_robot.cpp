@@ -7,7 +7,7 @@ GlockenRobot::GlockenRobot() {
   nbPos_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbPos_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 
-  setWServo(_wServo);
+  setServoSpeed(_wServoGl);
 }
 
 // We use the default values defined in robot_config.h
@@ -16,10 +16,6 @@ void GlockenRobot::setLimbParams() {
 }
 
 void GlockenRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_GL]) {
-}
-
-void GlockenRobot::setWServo(float wServo) {
-  wServo_ = wServo;
 }
 
 byte GlockenRobot::getHitAngle(byte limb, byte pos, byte velocity) {

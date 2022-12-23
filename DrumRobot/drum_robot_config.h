@@ -58,6 +58,6 @@ const byte _hitAngleCrash = 100;
 const byte _restAngleCrash = 120;
 const byte _posAngleCrash = 15;
 
-const float _wServo = 0.6;
+const float _wServoDr = 0.6;
 
 #endif

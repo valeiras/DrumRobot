@@ -61,6 +61,6 @@ const byte _posAngleDS1 = 0;
 const byte _posAngleE01 = 0;
 const byte _posAngleF01 = 0;
 
-const float _wServo = 0.6;
+const float _wServoGl = 0.6;
 
 #endif

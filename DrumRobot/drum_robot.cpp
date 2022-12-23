@@ -8,7 +8,7 @@ DrumRobot::DrumRobot() {
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbPos_[RIGHT_LEG_DR] = NB_POS_RL_DR;
 
-  setWServo(_wServo);
+  setServoSpeed(_wServoDr);
 }
 
 // We use the default values defined in robot_config.h
@@ -55,10 +55,6 @@ void DrumRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_DR],
   for (unsigned int ii = 0; ii < NB_POS_RL_DR; ii++) {
     posParameters_[RIGHT_LEG_DR][ii] = { anglesRightLeg[ii][0], anglesRightLeg[ii][1], anglesRightLeg[ii][2], namesRightLeg[ii] };
   }
-}
-
-void DrumRobot::setWServo(float wServo){
-  wServo_ = wServo;
 }
 
 byte DrumRobot::getHitAngle(byte limb, byte pos, byte velocity) {

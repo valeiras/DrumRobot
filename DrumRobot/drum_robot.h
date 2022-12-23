@@ -25,8 +25,6 @@ public:
                      byte anglesRightArm[NB_POS_RA_DR][3], String namesRightArm[NB_POS_RA_DR],
                      byte anglesRightLeg[NB_POS_RL_DR][3], String namesRightLeg[NB_POS_RL_DR]);
 
-  void setWServo(float wServo);
-
 private:
   void setLimbParams();
 
