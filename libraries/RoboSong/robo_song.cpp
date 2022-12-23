@@ -327,3 +327,6 @@ unsigned long RoboSong<NB_LIMBS, BITS_FOR_POS>::getMaxTimeToNextHit(){
 
 // DrumSong:
 template class RoboSong<3, 3>;
+
+// GlockenSong:
+template class RoboSong<2, 4>;

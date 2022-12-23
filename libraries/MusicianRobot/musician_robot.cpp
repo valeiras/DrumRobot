@@ -59,4 +59,8 @@ void MusicianRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_H
   }
 }
 
+// Drum Robot
 template class MusicianRobot<3, 2>;
+
+// Glocken Robot:
+template class MusicianRobot<2, 2>;
