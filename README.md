@@ -12,7 +12,9 @@ Base template class for storing the songs. The template takes the following para
 * BITS_FOR_POS: number of bits dedicated in each byte to store the position
 
 ### MusicianRobot
-Base template class for managing the different robots.
+Base template class for managing the different robots. The template takes two parameters, defining the geometry of the robot:
+* NB_HIT_JOINTS
+* NB_POS_JOINTS
 
 ## Drums:
 ### DrumSong
