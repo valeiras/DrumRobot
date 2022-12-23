@@ -1,7 +1,7 @@
-#include <musician_robot.h>
-
 #ifndef Drum_robot_h
 #define Drum_robot_h
+
+#include <musician_robot.h>
 
 #include "drum_robot_config.h"
 

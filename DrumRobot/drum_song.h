@@ -1,7 +1,7 @@
-#include <robo_song.h>
-
 #ifndef Drum_song_h
 #define Drum_song_h
+
+#include <robo_song.h>
 
 #include "Arduino.h"
 #include "robo_song.h"
