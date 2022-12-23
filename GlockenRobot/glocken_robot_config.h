@@ -30,14 +30,14 @@
 #define E01 7
 #define F01 8
 
-const signed char _dirLA_GL = +1;
-const signed char _dirRA_GL = -1;
+const signed char _dirLAGl = +1;
+const signed char _dirRAGl = -1;
 
-const byte _hitAngleRA_GL = 60;
-const byte _restAngleRA_GL = 70;
+const byte _hitAngleLAGl = 70;
+const byte _restAngleLAGl = 60;
 
-const byte _hitAngleLA_GL = 70;
-const byte _restAngleLA_GL = 60;
+const byte _hitAngleRAGl = 60;
+const byte _restAngleRAGl = 70;
 
 // Angles for the left arm
 const byte _posAngleC00 = 0;
