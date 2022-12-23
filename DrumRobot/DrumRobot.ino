@@ -17,10 +17,10 @@
 unsigned int initialDelay = 1000;
 unsigned long ellapsedTime;
 
-unsigned long timeNextHitInstruction[NB_HIT_JOINTS_DRUM], timeNextPosInstruction[NB_POS_JOINTS_DRUM];
-byte nextInstruction[NB_HIT_JOINTS_DRUM];  // Indicates wheter next instruction is hit or rest
-bool moveLimb[NB_POS_JOINTS_DRUM];
-byte nextPos[NB_POS_JOINTS_DRUM];
+unsigned long timeNextHitInstruction[NB_HIT_JOINTS_DR], timeNextPosInstruction[NB_POS_JOINTS_DR];
+byte nextInstruction[NB_HIT_JOINTS_DR];  // Indicates wheter next instruction is hit or rest
+bool moveLimb[NB_POS_JOINTS_DR];
+byte nextPos[NB_POS_JOINTS_DR];
 
 unsigned long initTime;
 unsigned short bpm = 110;
@@ -45,24 +45,25 @@ void setup() {
     song.printPatterns();
   }
 
-  byte hitPins[NB_HIT_JOINTS_DRUM] = {BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN};
-  byte posPins[NB_POS_JOINTS_DRUM] = {RIGHT_POS_PIN, LEFT_POS_PIN};
+  byte hitPins[NB_HIT_JOINTS_DR] = {BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN};
+  byte posPins[NB_POS_JOINTS_DR] = {RIGHT_POS_PIN, LEFT_POS_PIN};
   robot.attachServos(hitPins, posPins);
+  robot.setWServo(0.3);
 
   initTime = millis();
 
   song.setInitialTime(initTime + initialDelay);
 
-  for (unsigned int limb = 0; limb < NB_POS_JOINTS_DRUM; limb++) {
+  for (unsigned int limb = 0; limb < NB_POS_JOINTS_DR; limb++) {
     timeNextPosInstruction[limb] = 0;
     moveLimb[limb] = false;
   }
 
-  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_DRUM; limb++) {
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_DR; limb++) {
     song.computeNextHit(limb, printOutput);
     nextInstruction[limb] = HIT;
 
-    if (limb < NB_POS_JOINTS_DRUM) {
+    if (limb < NB_POS_JOINTS_DR) {
       nextPos[limb] = song.getPosNextHit(limb);
       timeNextHitInstruction[limb] = song.getTimeNextHit(limb) - robot.getHitTime(limb, nextPos[limb], song.getVelNextHit(limb));
       robot.rest(limb, nextPos[limb]);
@@ -84,19 +85,19 @@ void setup() {
 void loop() {
   ellapsedTime = millis() - initTime;
 
-  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_DRUM; limb++) {
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_DR; limb++) {
     if (ellapsedTime >= timeNextHitInstruction[limb]) {
       manageHitInstruction(limb, ellapsedTime);
     }
 
-    if (limb < NB_POS_JOINTS_DRUM && moveLimb[limb] && ellapsedTime >= timeNextPosInstruction[limb]) {
+    if (limb < NB_POS_JOINTS_DR && moveLimb[limb] && ellapsedTime >= timeNextPosInstruction[limb]) {
       managePosInstruction(limb);
     }
   }
 }
 
 void manageHitInstruction(byte limb, unsigned long currTime) {
-  byte currentPosition = limb < NB_POS_JOINTS_DRUM ? nextPos[limb] : 0;
+  byte currentPosition = limb < NB_POS_JOINTS_DR ? nextPos[limb] : 0;
 
   if (nextInstruction[limb] == HIT) {
     if (simulation) {
@@ -119,7 +120,7 @@ void manageHitInstruction(byte limb, unsigned long currTime) {
   else if (nextInstruction[limb] == REST) {
     song.computeNextHit(limb, printOutput);
 
-    if (limb < NB_POS_JOINTS_DRUM) {
+    if (limb < NB_POS_JOINTS_DR) {
       // We check if we need to move
       nextPos[limb] = song.getPosNextHit(limb);
 

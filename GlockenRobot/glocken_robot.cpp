@@ -4,18 +4,18 @@ GlockenRobot::GlockenRobot() {
   // We initialize the default parameters
   setLimbParams();
 
-  nbPos_[LEFT_ARM_GLOCK] = NB_POS_LAG;
-  nbPos_[RIGHT_ARM_GLOCK] = NB_POS_RAG;
+  nbPos_[LEFT_ARM_GL] = NB_POS_LA_GL;
+  nbPos_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 
   setWServo(_wServo);
 }
 
 // We use the default values defined in robot_config.h
 void GlockenRobot::setLimbParams() {
-  signed char directions[NB_HIT_JOINTS_GLOCK] = { _dirLAG, _dirRAG };
+  signed char directions[NB_HIT_JOINTS_GL] = { _dirLA_GL, _dirRA_GL };
 }
 
-void GlockenRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_GLOCK]) {
+void GlockenRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_GL]) {
 }
 
 void GlockenRobot::setWServo(float wServo) {

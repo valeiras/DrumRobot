@@ -1,9 +1,9 @@
 #include "glocken_song.h"
 
 GlockenSong::GlockenSong()
-  : RoboSong<NB_LIMBS_GLOCK, BITS_FOR_POS_GLOCK>::RoboSong() {
-  nbOfPositions_[LEFT_ARM_GLOCK] = NB_POS_LAG;
-  nbOfPositions_[RIGHT_ARM_GLOCK] = NB_POS_RAG;
+  : RoboSong<NB_LIMBS_GL, BITS_FOR_POS_GL>::RoboSong() {
+  nbOfPositions_[LEFT_ARM_GL] = NB_POS_LA_GL;
+  nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
 
 void GlockenSong::createPredefinedPatterns(byte rythmName, bool printOutput = false) {

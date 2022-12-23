@@ -1,14 +1,14 @@
 #ifndef Glocken_robot_config_h
 #define Glocken_robot_config_h
 
-#define LEFT_ARM_GLOCK 0
-#define RIGHT_ARM_GLOCK 1
+#define LEFT_ARM_GL 0
+#define RIGHT_ARM_GL 1
 
-#define NB_HIT_JOINTS_GLOCK 2
-#define NB_POS_JOINTS_GLOCK 2
+#define NB_HIT_JOINTS_GL 2
+#define NB_POS_JOINTS_GL 2
 
-#define NB_POS_LAG 9
-#define NB_POS_RAG 9
+#define NB_POS_LA_GL 9
+#define NB_POS_RA_GL 9
 
 #define C00 0
 #define CS0 1
@@ -30,14 +30,14 @@
 #define E01 7
 #define F01 8
 
-const signed char _dirLAG = +1;
-const signed char _dirRAG = -1;
+const signed char _dirLA_GL = +1;
+const signed char _dirRA_GL = -1;
 
-const byte _hitAngleRAG = 60;
-const byte _restAngleRAG = 70;
+const byte _hitAngleRA_GL = 60;
+const byte _restAngleRA_GL = 70;
 
-const byte _hitAngleLAG = 70;
-const byte _restAngleLAG = 60;
+const byte _hitAngleLA_GL = 70;
+const byte _restAngleLA_GL = 60;
 
 // Angles for the left arm
 const byte _posAngleC00 = 0;
