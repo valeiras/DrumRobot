@@ -23,7 +23,7 @@ unsigned long initTime;
 unsigned short bpm = 110;
 
 bool printOutput = false;
-bool simulation = true;
+bool simulation = false;
 
 int minBpm = 60;
 int maxBpm = 150;
@@ -43,10 +43,9 @@ void setup() {
     song.printPatterns();
   }
 
-  byte hitPins[NB_HIT_JOINTS_DR] = {BD_HIT_PIN, RIGHT_HIT_PIN, LEFT_HIT_PIN};
-  byte posPins[NB_POS_JOINTS_DR] = {RIGHT_POS_PIN, LEFT_POS_PIN};
+  byte hitPins[NB_HIT_JOINTS_DR] = {LEFT_HIT_PIN, RIGHT_HIT_PIN, BD_HIT_PIN};
+  byte posPins[NB_POS_JOINTS_DR] = {LEFT_POS_PIN, RIGHT_POS_PIN};
   robot.attachServos(hitPins, posPins);
-  robot.setServoSpeed(0.3);
 
   initTime = millis();
   song.setInitialTime(initTime + initialDelay);

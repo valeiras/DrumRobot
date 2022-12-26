@@ -17,7 +17,7 @@ public:
   byte getHitAngle(byte limb, byte pos, byte velocity);
   byte getRestAngle(byte limb, byte pos);
   byte getPosAngle(byte limb, byte pos);
-  unsigned int getHitTime(byte limb, byte pos, byte velocity);
+  unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0);
   String getPosName(byte limb, byte pos);
 
   void setLimbParams(signed char directions[NB_HIT_JOINTS_DR],
