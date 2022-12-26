@@ -10,25 +10,25 @@
 #define NB_POS_LA_GL 9
 #define NB_POS_RA_GL 9
 
-#define C00 0
-#define CS0 1
-#define D00 2
-#define DS0 3
-#define E00 4
-#define F00 5
-#define FS0 6
-#define G00 7
-#define GS0 8
+#define C00_GL 0
+#define CS0_GL 1
+#define D00_GL 2
+#define DS0_GL 3
+#define E00_GL 4
+#define F00_GL 5
+#define FS0_GL 6
+#define G00_GL 7
+#define GS0_GL 8
 
-#define A00 0
-#define AS0 1
-#define B00 2
-#define C01 3
-#define CS1 4
-#define D01 5
-#define DS1 6
-#define E01 7
-#define F01 8
+#define A00_GL 0
+#define AS0_GL 1
+#define B00_GL 2
+#define C01_GL 3
+#define CS1_GL 4
+#define D01_GL 5
+#define DS1_GL 6
+#define E01_GL 7
+#define F01_GL 8
 
 const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
