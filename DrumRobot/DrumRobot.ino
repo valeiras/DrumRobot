@@ -20,24 +20,23 @@ unsigned int initialDelay = 1000;
 unsigned long ellapsedTime;
 
 unsigned long initTime;
-unsigned short bpm = 110;
+unsigned short bpm = 100;
 
 bool printOutput = false;
-bool simulation = false;
+bool simulation = true;
 
 int minBpm = 60;
 int maxBpm = 150;
 
 DrumRobot robot;
 DrumSong song;
-RoboController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> roboController(&robot, &song, simulation, printOutput);
+RoboController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> roboController(&robot, &song, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song.createPredefinedPatterns(BASIC_RYTHM, false);
-  song.setBpm(bpm);
+  song.createPredefinedPatterns(QUARTER_NOTES, false);
 
   if (printOutput) {
     song.printPatterns();
@@ -48,20 +47,11 @@ void setup() {
   robot.attachServos(hitPins, posPins);
 
   initTime = millis();
-  song.setInitialTime(initTime + initialDelay);
-
+  roboController.setInitialTime(initTime + initialDelay);
   roboController.initializeRobot();
 }
 
 void loop() {
   ellapsedTime = millis() - initTime;
-
-  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_DR; limb++) {
-    if (ellapsedTime >= roboController.getTimeNextHitInstruction(limb)) {
-      roboController.manageHitInstruction(limb, ellapsedTime);
-    }
-    if (roboController.isTimeToChangePos(limb, ellapsedTime)){
-      roboController.managePosInstruction(limb);
-    }
-  }
+  roboController.goToTime(ellapsedTime, printOutput);
 }

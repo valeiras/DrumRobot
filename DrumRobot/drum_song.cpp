@@ -1,6 +1,7 @@
 #include "drum_song.h"
 
-DrumSong::DrumSong() : RoboSong<NB_LIMBS_DR, BITS_FOR_POS_DR>::RoboSong() {
+DrumSong::DrumSong()
+  : RoboSong<NB_LIMBS_DR, BITS_FOR_POS_DR>::RoboSong() {
   nbOfPositions_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbOfPositions_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbOfPositions_[RIGHT_LEG_DR] = NB_POS_RL_DR;
@@ -252,6 +253,37 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuaverHit(RIGHT_ARM_DR, SNRG, V011, patternId, 6, printOutput);
         setQuaverHit(RIGHT_ARM_DR, SNRG, V013, patternId, 7, printOutput);
         setQuaverHit(RIGHT_ARM_DR, CRSH, V016, patternId, 8, printOutput);
+
+        byte simplestPattSeq[nbBeats_] = { 0 };
+        setPatternSequence(simplestPattSeq);
+
+        break;
+      }
+    case QUARTER_NOTES:
+      {
+        if (printOutput) {
+          Serial.println("Crescendo");
+        }
+        nbPatterns_ = 1;
+        nbBeats_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbBeats_);
+
+        byte patternId = 0;
+
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V016, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V016, patternId, 2, printOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V016, patternId, 3, printOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V016, patternId, 4, printOutput);
+
+        setQuarterHit(LEFT_ARM_DR, SNLT, V016, patternId, 1, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNLT, V016, patternId, 2, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNLT, V016, patternId, 3, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNLT, V016, patternId, 4, printOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V016, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V016, patternId, 2, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V016, patternId, 3, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V016, patternId, 4, printOutput);
 
         byte simplestPattSeq[nbBeats_] = { 0 };
         setPatternSequence(simplestPattSeq);

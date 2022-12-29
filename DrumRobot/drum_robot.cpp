@@ -87,7 +87,7 @@ unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool prin
     if (printOutput) {
       Serial.print("Hit angle : ");
       Serial.print(posParameters_[limb][pos].hitAngle);
-      Serial.print(", extra due ti velocity: ");
+      Serial.print(", extra due to velocity: ");
       Serial.print(hitDirection_[limb] * velocity * VEL_MULTIPLIER);
       Serial.print(", rest angle : ");
       Serial.print(posParameters_[limb][pos].restAngle);

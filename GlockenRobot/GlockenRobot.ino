@@ -29,14 +29,13 @@ int maxBpm = 150;
 
 GlockenRobot robot;
 GlockenSong song;
-RoboController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, simulation, printOutput);
+RoboController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song.createPredefinedPatterns(0, false);
-  song.setBpm(bpm);
 
   if (printOutput) {
     song.printPatterns();
@@ -45,24 +44,13 @@ void setup() {
   byte hitPins[NB_HIT_JOINTS_GL] = { RIGHT_HIT_PIN_GL, LEFT_HIT_PIN_GL };
   byte posPins[NB_POS_JOINTS_GL] = { RIGHT_POS_PIN_GL, LEFT_POS_PIN_GL };
   robot.attachServos(hitPins, posPins);
-  robot.setServoSpeed(0.3);
 
   initTime = millis();
-  song.setInitialTime(initTime + initialDelay);
-
+  roboController.setInitialTime(initTime + initialDelay);
   roboController.initializeRobot();
 }
 
 void loop() {
   ellapsedTime = millis() - initTime;
-
-  for (unsigned int limb = 0; limb < NB_HIT_JOINTS_GL; limb++) {
-    if (ellapsedTime >= roboController.getTimeNextHitInstruction(limb)) {
-      roboController.manageHitInstruction(limb, ellapsedTime);
-    }
-
-    if (roboController.isTimeToChangePos(limb, ellapsedTime)) {
-      roboController.managePosInstruction(limb);
-    }
-  }
+  roboController.goToTime(ellapsedTime, printOutput);
 }

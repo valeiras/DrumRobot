@@ -14,6 +14,7 @@
 #define BASIC_RYTHM 1
 #define BASIC_RYTHM_WO_ACC 2
 #define CRESCENDO 3
+#define QUARTER_NOTES 4
 
 class DrumSong : public RoboSong<NB_LIMBS_DR, BITS_FOR_POS_DR> {
 public:
