@@ -49,8 +49,8 @@ const byte _restAngleSticksRight = 105;
 const byte _posAngleSticksRight = 50;
 
 // Right arm, position 1:
-const byte _hitAngleSnRight = 82;
-const byte _restAngleSnRight = 93;
+const byte _hitAngleSnRight = 80;
+const byte _restAngleSnRight = 95;
 const byte _posAngleSnRight = 40;
 
 // _Right arm, position 2:

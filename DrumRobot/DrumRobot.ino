@@ -24,6 +24,7 @@ unsigned short bpm = 100;
 
 bool printOutput = false;
 bool simulation = false;
+bool variableBpm = true;
 
 int minBpm = 60;
 int maxBpm = 150;
@@ -54,4 +55,13 @@ void setup() {
 void loop() {
   ellapsedTime = millis() - initTime;
   roboController.goToTime(ellapsedTime, printOutput);
+
+  if(variableBpm){
+    int sensorValue = analogRead(BPM_INPUT_PIN);
+    int newBpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
+    if(newBpm != bpm){
+      bpm=newBpm;
+      roboController.setBpm(bpm);
+    }
+  }
 }
