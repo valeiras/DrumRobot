@@ -48,7 +48,7 @@ class RoboSong {
   byte getSemiquaversToNextHit(byte limb);
   
   void goToNextSemiquaver(bool printOutput = 0);
-  void goToFirstSemiquaver();
+  void goToFirstSemiquaver(bool printOutput = 0);
   void computeNextHit(byte limb, bool printOutput = false);
 
   void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
@@ -83,8 +83,8 @@ class RoboSong {
   unsigned short bpm_;
   unsigned int timeSemiquaver_;
 
-  signed char currSemiquaver_;
-  unsigned char currSequenceIdx_;
+  signed char currSemiquaver_[NB_LIMBS];
+  unsigned char currSequenceIdx_[NB_LIMBS];
   byte semiquaversToNextHit_[NB_LIMBS], nextPos_[NB_LIMBS], nextVel_[NB_LIMBS];
 
   signed char hitDirection_[NB_LIMBS];

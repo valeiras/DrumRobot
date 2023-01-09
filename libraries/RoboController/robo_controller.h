@@ -37,7 +37,7 @@ class RoboController {
 
   unsigned short bpm_;
   unsigned int timePerSemiquaver_;
-  unsigned long timeCurrSemiquaver_;
+  unsigned long timeNextSemiquaver_;
 
   bool simulation_, printOutput_;
 };
@@ -62,17 +62,27 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot
     moveLimb_[limb] = false;
   }
 
-  song_->goToFirstSemiquaver();
+  song_->goToFirstSemiquaver(printOutput_);
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     nextInstruction_[limb] = HIT;
 
     if (limb < NB_POS_JOINTS) {
       nextPos_[limb] = song_->getPosNextHit(limb);
-      timeNextHitInstruction_[limb] = timeCurrSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb));
+      timeNextHitInstruction_[limb] = timeNextSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb));
+      if (printOutput_) {
+        Serial.print("Computing time for next hit for limb ");
+        Serial.println(limb);
+        Serial.print("Semiquavers to next hit: ");
+        Serial.print(song_->getSemiquaversToNextHit(limb));
+        Serial.print(", hit time: ");
+        Serial.print(robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb)));
+        Serial.print(", result: ");
+        Serial.println(timeNextHitInstruction_[limb]);
+      }
       robot_->rest(limb, nextPos_[limb]);
       robot_->goToPos(limb, nextPos_[limb]);
     } else {
-      timeNextHitInstruction_[limb] = timeCurrSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, 0, song_->getVelNextHit(limb));
+      timeNextHitInstruction_[limb] = timeNextSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, 0, song_->getVelNextHit(limb));
       robot_->rest(limb);
     }
   }
@@ -80,17 +90,23 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setInitialTime(unsigned long initialTime) {
-  timeCurrSemiquaver_ = initialTime;
+  timeNextSemiquaver_ = initialTime;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
-  if (printOutput) {
-    Serial.print("Curr time: ");
-    Serial.print(currTime);
-    Serial.print(", time curr semiquaver: ");
-    Serial.println(timeCurrSemiquaver_);
-  }
+  //   if (printOutput) {
+  //     Serial.print("Curr time: ");
+  //     Serial.print(currTime);
+  //     Serial.print(", time curr semiquaver: ");
+  //     Serial.println(timeNextSemiquaver_);
+  //     for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++){
+  //       Serial.print("Time next hit instruction for limb ");
+  //       Serial.print(ii);
+  //       Serial.print(" = ");
+  //       Serial.println(timeNextHitInstruction_[ii]);
+  //     }
+  //   }
 
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     if (currTime >= timeNextHitInstruction_[limb]) {
@@ -101,9 +117,22 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
     }
   }
 
-  if (currTime > timeCurrSemiquaver_) {
-    timeCurrSemiquaver_ += timePerSemiquaver_;
+  while (currTime > timeNextSemiquaver_) {
+    timeNextSemiquaver_ += timePerSemiquaver_;
     song_->goToNextSemiquaver();
+    if (printOutput_) {
+      Serial.print("Going to next semiquaver at time: ");
+      Serial.print(currTime);
+      Serial.println(". Semiquavers to next hit: ");
+      for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
+        Serial.print("limb ");
+        Serial.print(limb);
+        Serial.print(": ");
+        Serial.print(song_->getSemiquaversToNextHit(limb));
+        Serial.print(". Time next instruction: ");
+        Serial.println(timeNextHitInstruction_[limb]);
+      }
+    }
   }
 }
 
@@ -120,16 +149,14 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
     }
     robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), printOutput_);
 
-    if (printOutput_) {
-      Serial.print("Hit time: ");
-      Serial.println(robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb), printOutput_));
-    }
-
     timeNextHitInstruction_[limb] += robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
     nextInstruction_[limb] = REST;
-  } else if (nextInstruction_[limb] == REST) {
     song_->computeNextHit(limb, printOutput_);
-
+    if (printOutput_) {
+      Serial.print("Computed next hit. Semiquavers to next hit: ");
+      Serial.println(song_->getSemiquaversToNextHit(limb));
+    }
+  } else if (nextInstruction_[limb] == REST) {
     if (limb < NB_POS_JOINTS) {
       // We check if we need to move
       nextPos_[limb] = song_->getPosNextHit(limb);
@@ -141,7 +168,21 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
       }
     }
 
-    timeNextHitInstruction_[limb] = timeCurrSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
+    timeNextHitInstruction_[limb] = timeNextSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
+    if (printOutput_) {
+      Serial.print("Computing time for next hit for limb ");
+      Serial.println(limb);
+      Serial.print("Semiquavers to next hit: ");
+      Serial.print(song_->getSemiquaversToNextHit(limb));
+      Serial.print(", hit time: ");
+      Serial.println(robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb)));
+      Serial.print("timePerSemiquaver: ");
+      Serial.print(timePerSemiquaver_);
+      Serial.print(", current time: ");
+      Serial.print(timeNextSemiquaver_);
+      Serial.print(", result: ");
+      Serial.println(timeNextHitInstruction_[limb]);
+    }
     nextInstruction_[limb] = HIT;
     // We inmmediately go the the rest state of the next posiion
     robot_->rest(limb, nextPos_[limb]);
@@ -168,7 +209,7 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigned
   // We update the hit instructions
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     if (nextInstruction_[limb] == HIT) {
-      timeNextHitInstruction_[limb] = timeCurrSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb));
+      timeNextHitInstruction_[limb] = timeNextSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb));
     }
   }
 }
