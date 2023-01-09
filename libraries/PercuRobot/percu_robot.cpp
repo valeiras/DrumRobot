@@ -8,7 +8,9 @@ template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte velocity, bool printOutput) {
   if (printOutput) {
     Serial.print("Hitting limb: ");
-    Serial.println(limb);
+    Serial.print(limb);
+    Serial.print(", with angle: ");
+    Serial.println(getHitAngle(limb, pos, velocity));
   }
 
   if (limb < NB_HIT_JOINTS) {
@@ -17,9 +19,17 @@ void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte vel
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::rest(byte limb, byte pos) {
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::rest(byte limb, byte pos, bool printOutput) {
   if (limb < NB_HIT_JOINTS) {
     hitServos_[limb].write(getRestAngle(limb, pos));
+  }
+  if (printOutput) {
+    Serial.print("Limb ");
+    Serial.print(limb);
+    Serial.print(" going to rest angle: ");
+    Serial.println(getRestAngle(limb, pos));
+    Serial.print("pos = ");
+    Serial.println(pos);
   }
 }
 

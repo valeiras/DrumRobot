@@ -13,7 +13,7 @@ class PercuRobot {
   PercuRobot();
 
   virtual void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
-  virtual void rest(byte limb, byte pos = 0);
+  virtual void rest(byte limb, byte pos = 0, bool printOutput = 0);
   virtual void goToPos(byte limb, byte pos);
 
   void goToPosAngle(byte limb, byte posAngle);

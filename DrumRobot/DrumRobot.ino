@@ -23,7 +23,7 @@ unsigned long initTime;
 unsigned short bpm = 100;
 
 bool printOutput = false;
-bool simulation = true;
+bool simulation = false;
 
 int minBpm = 60;
 int maxBpm = 150;
