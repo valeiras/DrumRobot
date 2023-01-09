@@ -22,7 +22,7 @@ class PercuRobot {
   virtual byte getHitAngle(byte limb, byte pos, byte velocity) = 0;
   virtual byte getRestAngle(byte limb, byte pos) = 0;
   virtual byte getPosAngle(byte limb, byte pos) = 0;
-  virtual unsigned int getHitTime(byte limb, byte pos, byte velocity) = 0;
+  virtual unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0) = 0;
   virtual String getPosName(byte limb, byte pos) = 0;
 
   void setServoSpeed(float wServo);

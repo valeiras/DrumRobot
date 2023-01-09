@@ -36,7 +36,7 @@ void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song.createPredefinedPatterns(QUARTER_NOTES, false);
+  song.createPredefinedPatterns(BASIC_RYTHM, false);
 
   if (printOutput) {
     song.printPatterns();

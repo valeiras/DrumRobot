@@ -2,6 +2,7 @@
 
 DrumSong::DrumSong()
   : RoboSong<NB_LIMBS_DR, BITS_FOR_POS_DR>::RoboSong() {
+    Serial.println("Drum song constructor");
   nbOfPositions_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbOfPositions_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbOfPositions_[RIGHT_LEG_DR] = NB_POS_RL_DR;

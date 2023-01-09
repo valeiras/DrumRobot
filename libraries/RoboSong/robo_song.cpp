@@ -1,27 +1,26 @@
 #include "robo_song.h"
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-RoboSong<NB_LIMBS, BITS_FOR_POS>::RoboSong(){
+RoboSong<NB_LIMBS, BITS_FOR_POS>::RoboSong() {
+  for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
+    semiquaversToNextHit_[ii] = 1;
+  }
 
-      for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
-        hitIndexes_[ii] = -1;
-        sequenceIndexes_[ii] = 0;
-        timeNextHit_[ii] = 0;
-      }
+  currSemiquaver_ = -1;
+  currSequenceIdx_ = 0;
+  posMask_ = 0;
+  velMask_ = 0;
 
-      posMask_ = 0;
-      velMask_ = 0;
+  for (unsigned int ii = BITS_FOR_HIT; ii < BITS_FOR_HIT + BITS_FOR_POS; ii++) {
+    bitSet(posMask_, ii);
+  }
 
-      for (unsigned int ii = BITS_FOR_HIT; ii < BITS_FOR_HIT + BITS_FOR_POS; ii++) {
-        bitSet(posMask_, ii);
-      }
+  for (unsigned int ii = BITS_FOR_HIT + BITS_FOR_POS; ii < BITS_PER_BYTE; ii++) {
+    bitSet(velMask_, ii);
+  }
 
-      for (unsigned int ii = BITS_FOR_HIT + BITS_FOR_POS; ii < BITS_PER_BYTE; ii++) {
-        bitSet(velMask_, ii);
-      }
-
-      unsigned int bits_for_vel = BITS_PER_BYTE - (BITS_FOR_HIT + BITS_FOR_POS);
-      maxVel_ = pow(2, bits_for_vel) - 1;
+  unsigned int bitsForVel = BITS_PER_BYTE - (BITS_FOR_HIT + BITS_FOR_POS);
+  maxVel_ = pow(2, bitsForVel) - 1;
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
@@ -44,64 +43,82 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPa
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
-  signed char* hitIndex = &hitIndexes_[limb];
-  byte* sequenceIndex = &sequenceIndexes_[limb];
-
-  // We get the current pattern
-  byte patternId = patternSequence_[*sequenceIndex];
-  byte* currPattern = patternArrays_[limb][patternId];
-
-  do {
-    // We iterate the pattern. When we get to the end we start again
-    if (++(*hitIndex) >= SEMIQUAVERS_PER_BEAT) {
-      *hitIndex = 0;
-      *sequenceIndex = (*sequenceIndex + 1) % nbBeats_;
-      patternId = patternSequence_[*sequenceIndex];
-      currPattern = patternArrays_[limb][patternId];
-    }
-    timeNextHit_[limb] += timeSemiquaver_;
-
-  } while (!bitRead(currPattern[*hitIndex], 0));
-}
-
-template <int NB_LIMBS, int BITS_FOR_POS>
-unsigned long RoboSong<NB_LIMBS, BITS_FOR_POS>::getTimeNextHit(byte limb) {
-  return timeNextHit_[limb];
-}
-
-template <int NB_LIMBS, int BITS_FOR_POS>
 byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getPosNextHit(byte limb) {
-  byte sequenceIndex = sequenceIndexes_[limb];
-  byte patternId = patternSequence_[sequenceIndex];
-  byte* currPattern = patternArrays_[limb][patternId];
-  unsigned char hitIndex = hitIndexes_[limb];
-
-  return ((currPattern[hitIndex] & posMask_) >> BITS_FOR_HIT);
+  return nextPos_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelNextHit(byte limb) {
-  byte sequenceIndex = sequenceIndexes_[limb];
-  byte patternId = patternSequence_[sequenceIndex];
-  byte* currPattern = patternArrays_[limb][patternId];
-  unsigned char hitIndex = hitIndexes_[limb];
-
-  return ((currPattern[hitIndex] & velMask_) >> BITS_FOR_HIT + BITS_FOR_POS);
+  return nextVel_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setBpm(unsigned short bpm) {
-  bpm_ = bpm;
-  unsigned long timeQuarter = int(60000.0 / bpm_);  // us per quarter note
-  timeSemiquaver_ = int(timeQuarter / 4.0);      // us per semiquaver note
+byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getSemiquaversToNextHit(byte limb) {
+  return semiquaversToNextHit_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setInitialTime(unsigned long initialTime) {
-  for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
-    timeNextHit_[ii] = initialTime;
+void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
+  if (++currSemiquaver_ >= SEMIQUAVERS_PER_BEAT) {
+    currSemiquaver_ = 0;
+    currSequenceIdx_ = (currSequenceIdx_ + 1) % nbBeats_;
   }
+
+  if(printOutput){
+    Serial.print("Curr semiquaver: ");
+    Serial.print(currSemiquaver_);
+    Serial.print("Curr sequence index ");
+    Serial.print(currSequenceIdx_);
+  }
+
+  for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
+    if (--semiquaversToNextHit_[limb] == 0) {
+      Serial.println("This should not be happening!");
+      computeNextHit(limb);
+    }
+  }
+}
+
+template <int NB_LIMBS, int BITS_FOR_POS>
+void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver() {
+  // We start from -1, to ensure that hits in the first semiquaver are not missed
+  currSemiquaver_ = -1;
+  currSequenceIdx_ = 0;
+
+  for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
+    computeNextHit(limb);
+    // We substract one, to compensate for the fact that we started from -1
+    semiquaversToNextHit_[limb]--;
+  }
+
+  // We displace to the first semiquaver, which has index 0;
+  currSemiquaver_ = 0;
+}
+
+template <int NB_LIMBS, int BITS_FOR_POS>
+void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
+  signed char semiquaver = currSemiquaver_;
+  unsigned char sequenceIdx = currSequenceIdx_;
+  semiquaversToNextHit_[limb] = 0;
+
+  // We get the current pattern
+  byte patternId = patternSequence_[sequenceIdx];
+  byte* currPattern = patternArrays_[limb][patternId];
+
+  do {
+    // We iterate the pattern. When we get to the end we start again
+    if (++semiquaver >= SEMIQUAVERS_PER_BEAT) {
+      semiquaver = 0;
+      sequenceIdx = (sequenceIdx + 1) % nbBeats_;
+      patternId = patternSequence_[sequenceIdx];
+      currPattern = patternArrays_[limb][patternId];
+    }
+    semiquaversToNextHit_[limb]++;
+
+  } while (!bitRead(currPattern[semiquaver], 0));
+
+  nextPos_[limb] = getPosFromNoteData(currPattern[semiquaver]);
+  nextVel_[limb] = getVelFromNoteData(currPattern[semiquaver]);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
@@ -173,11 +190,10 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setRest(byte limb, byte patternId, byte n
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7,
-                             byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
-
+                                                     byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
-  byte inputPattern[SEMIQUAVERS_PER_BEAT] = { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16 };
+  byte inputPattern[SEMIQUAVERS_PER_BEAT] = {p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16};
 
   if (printOutput) {
     Serial.println("");
@@ -208,7 +224,7 @@ template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
-  byte inputPattern[SEMIQUAVERS_PER_BEAT] = { v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16 };
+  byte inputPattern[SEMIQUAVERS_PER_BEAT] = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16};
 
   if (printOutput) {
     Serial.println("");
@@ -308,20 +324,17 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::printVelPattern(byte limb, byte patternId
     Serial.println("");
   }
 }
-
 template <int NB_LIMBS, int BITS_FOR_POS>
-unsigned long RoboSong<NB_LIMBS, BITS_FOR_POS>::getMaxTimeToNextHit(){
-  unsigned long maxTime = 0;
-  for(unsigned int ii=0; ii<NB_LIMBS; ii++){
-    if(timeNextHit_[ii] > maxTime){
-      maxTime = timeNextHit_[ii];
-    }
-  }
-
-  return maxTime;
+byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getPosFromNoteData(byte noteData) {
+  return ((noteData & posMask_) >> BITS_FOR_HIT);
 }
 
-// We need to tell the compiler to compile the required templates. This can also be achieved by 
+template <int NB_LIMBS, int BITS_FOR_POS>
+byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelFromNoteData(byte noteData) {
+  return ((noteData & velMask_) >> BITS_FOR_HIT + BITS_FOR_POS);
+}
+
+// We need to tell the compiler to compile the required templates. This can also be achieved by
 // putting all the implementation on the header file, but we have decided to allow only tested versions
 // of the RoboSong<NB_LIMBS, BITS_FOR_HIT, BITS_FOR_POS>
 
@@ -330,3 +343,5 @@ template class RoboSong<3, 3>;
 
 // GlockenSong:
 template class RoboSong<2, 4>;
+
+template class RoboSong<3, 5>;

@@ -1,8 +1,13 @@
 #include "drum_robot.h"
 
 DrumRobot::DrumRobot() {
+  Serial.println("Drum robot constructor");
+
   // We initialize the default parameters
   setLimbParams();
+
+  Serial.print("Just set limb params. Name: ");
+  Serial.println(getPosName(1, 0));
 
   nbPos_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;

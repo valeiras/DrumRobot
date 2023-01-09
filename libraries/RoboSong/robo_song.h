@@ -43,13 +43,13 @@ class RoboSong {
   virtual void createPredefinedPatterns(byte rythmName, bool printOutput = false) = 0;
   void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
 
-  void computeNextHit(byte limb, bool printOutput = false);
-  unsigned long getTimeNextHit(byte limb);
   byte getPosNextHit(byte limb);
   byte getVelNextHit(byte limb);
-
-  void setBpm(unsigned short bpm);
-  void setInitialTime(unsigned long initialTime);
+  byte getSemiquaversToNextHit(byte limb);
+  
+  void goToNextSemiquaver(bool printOutput = 0);
+  void goToFirstSemiquaver();
+  void computeNextHit(byte limb, bool printOutput = false);
 
   void setQuarterHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
   void setQuaverHit(byte limb, byte pos, byte velocity, byte patternIndex, byte noteIndex, bool printOutput = false);
@@ -77,16 +77,17 @@ class RoboSong {
   byte nbBeats_;
 
  private:
-  unsigned long getMaxTimeToNextHit();
+  byte getPosFromNoteData(byte noteData);
+  byte getVelFromNoteData(byte noteData);
+
   unsigned short bpm_;
   unsigned int timeSemiquaver_;
 
-  signed char hitIndexes_[NB_LIMBS];  // Index of the current instruction in the pattern
-  byte sequenceIndexes_[NB_LIMBS];    // Index of the current pattern in the pattern sequence
-  signed char hitDirection_[NB_LIMBS];
-  unsigned long timeNextHit_[NB_LIMBS];
+  signed char currSemiquaver_;
+  unsigned char currSequenceIdx_;
+  byte semiquaversToNextHit_[NB_LIMBS], nextPos_[NB_LIMBS], nextVel_[NB_LIMBS];
 
-  byte errPosPattern_[16] = {255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255};
+  signed char hitDirection_[NB_LIMBS];
 
   Array<byte, MAX_NB_BEATS> patternSequence_;
 
