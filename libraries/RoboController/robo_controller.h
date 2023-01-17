@@ -7,6 +7,8 @@
 
 #include "Arduino.h"
 
+#define POS_SECURITY_FACTOR 0.5
+
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class RoboController {
  public:
@@ -154,7 +156,7 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
 
       if (currentPosition != nextPos_[limb]) {
         moveLimb_[limb] = true;
-        timeNextPosInstruction_[limb] = currTime + abs(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)) - robot_->getRestAngle(limb, nextPos_[limb])) / (robot_->getServoSpeed());
+        timeNextPosInstruction_[limb] = currTime + abs(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)) - robot_->getRestAngle(limb, nextPos_[limb])) / (POS_SECURITY_FACTOR*robot_->getServoSpeed());
         currentPosition = nextPos_[limb];
       }
       robot_->rest(limb, nextPos_[limb]);

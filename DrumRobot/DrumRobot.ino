@@ -20,11 +20,11 @@ unsigned int initialDelay = 1000;
 unsigned long ellapsedTime;
 
 unsigned long initTime;
-unsigned short bpm = 100;
+unsigned short bpm = 125;
 
 bool printOutput = false;
 bool simulation = false;
-bool variableBpm = true;
+bool variableBpm = false;
 
 int minBpm = 60;
 int maxBpm = 150;
