@@ -28,7 +28,7 @@ class PercuRobot {
   void setServoSpeed(float wServo);
   float getServoSpeed();
 
-  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]);
+  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput = 0);
 
  protected:
   signed char hitDirection_[NB_HIT_JOINTS];

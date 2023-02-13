@@ -31,7 +31,7 @@
 #define V012 12
 #define V013 13
 #define V014 14
-#define V016 15
+#define V015 15
 
 
 template <int NB_LIMBS, int BITS_FOR_POS>

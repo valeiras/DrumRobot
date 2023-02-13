@@ -60,13 +60,13 @@ byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getSemiquaversToNextHit(byte limb) {
 template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
   for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
-   if(printOutput){
+    if (printOutput) {
       Serial.print("Limb ");
       Serial.print(limb);
       Serial.print(" : ");
       Serial.print(semiquaversToNextHit_[limb] - 1);
       Serial.println(" semiquavers to next hit");
-   }
+    }
     if (--semiquaversToNextHit_[limb] < 0) {
       Serial.println("This should not be happening!");
     }
@@ -75,6 +75,10 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
+  if (printOutput) {
+    Serial.println("Going to first semiquaver");
+  }
+
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
     semiquaversToNextHit_[ii] = 0;
     currSemiquaver_[ii] = -1;
@@ -82,7 +86,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
   }
 
   for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
-    computeNextHit(limb, false);
+    computeNextHit(limb, printOutput);
     // We substract one, to compensate for the fact that we started from -1
     semiquaversToNextHit_[limb]--;
     if (printOutput) {
@@ -120,6 +124,17 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutpu
 
   currSemiquaver_[limb] = semiquaver;
   currSequenceIdx_[limb] = sequenceIdx;
+
+  if (printOutput) {
+    Serial.print("Next hit for limb ");
+    Serial.print(limb);
+    Serial.print(" occurs at pattern ");
+    Serial.print(sequenceIdx);
+    Serial.print(" and semiquaver ");
+    Serial.println(semiquaver);
+    Serial.print("The corresponding position is: ");
+    Serial.println(nextPos_[limb]);
+  }
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>

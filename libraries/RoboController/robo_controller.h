@@ -139,6 +139,7 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
       Serial.print(currentPosition);
       Serial.print(", hit angle: ");
       Serial.println(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)));
+      Serial.println("");
     }
     robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), simulation_);
 

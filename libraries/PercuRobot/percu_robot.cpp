@@ -65,9 +65,15 @@ float PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getServoSpeed() {
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]) {
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput) {
   for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++) {
     hitServos_[ii].attach(hitPins[ii]);
+    if(printOutput){
+      Serial.print("Attaching hit servo ");
+      Serial.print(ii);
+      Serial.print(" to pin ");
+      Serial.println(hitPins[ii]);
+    }
   }
   for (unsigned int ii = 0; ii < NB_POS_JOINTS; ii++) {
     posServos_[ii].attach(posPins[ii]);
