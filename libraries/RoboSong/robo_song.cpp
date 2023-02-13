@@ -60,13 +60,13 @@ byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getSemiquaversToNextHit(byte limb) {
 template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
   for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
-   if(printOutput){
+    if (printOutput) {
       Serial.print("Limb ");
       Serial.print(limb);
       Serial.print(" : ");
       Serial.print(semiquaversToNextHit_[limb] - 1);
       Serial.println(" semiquavers to next hit");
-   }
+    }
     if (--semiquaversToNextHit_[limb] < 0) {
       Serial.println("This should not be happening!");
     }
@@ -75,14 +75,23 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
+  if (printOutput) {
+    Serial.print("Going to first semiquaver. Nb of limbs: ");
+    Serial.println(NB_LIMBS);
+  }
+
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
+   if(printOutput){
+      Serial.print("initalizing limb ");
+      Serial.println(ii);
+   }
     semiquaversToNextHit_[ii] = 0;
     currSemiquaver_[ii] = -1;
     currSequenceIdx_[ii] = 0;
   }
 
   for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
-    computeNextHit(limb, false);
+    computeNextHit(limb, printOutput);
     // We substract one, to compensate for the fact that we started from -1
     semiquaversToNextHit_[limb]--;
     if (printOutput) {
@@ -98,6 +107,14 @@ template <int NB_LIMBS, int BITS_FOR_POS>
 void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
   signed char semiquaver = currSemiquaver_[limb];
   unsigned char sequenceIdx = currSequenceIdx_[limb];
+  if(printOutput){
+    Serial.print("Limb: ");
+    Serial.print(limb);
+    Serial.print(", Initial semiquaver: ");
+    Serial.print(currSemiquaver_[limb]);
+    Serial.print("Initial sequence index: ");
+    Serial.println(sequenceIdx);
+  }
 
   // We get the current pattern
   byte patternId = patternSequence_[sequenceIdx];
@@ -120,6 +137,17 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutpu
 
   currSemiquaver_[limb] = semiquaver;
   currSequenceIdx_[limb] = sequenceIdx;
+
+  if (printOutput) {
+    Serial.print("Next hit for limb ");
+    Serial.print(limb);
+    Serial.print(" occurs at pattern ");
+    Serial.print(sequenceIdx);
+    Serial.print(" and semiquaver ");
+    Serial.println(semiquaver);
+    Serial.print("The corresponding position is: ");
+    Serial.println(nextPos_[limb]);
+  }
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
@@ -340,7 +368,7 @@ byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelFromNoteData(byte noteData) {
 // of the RoboSong<NB_LIMBS, BITS_FOR_HIT, BITS_FOR_POS>
 
 // DrumSong:
-template class RoboSong<3, 3>;
+template class RoboSong<4, 3>;
 
 // GlockenSong:
 template class RoboSong<2, 4>;

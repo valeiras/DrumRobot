@@ -4,14 +4,17 @@
 #define LEFT_ARM_DR 0
 #define RIGHT_ARM_DR 1
 #define RIGHT_LEG_DR 2
+#define HEAD_DR 3
 
-#define NB_HIT_JOINTS_DR 3
+#define NB_HIT_JOINTS_DR 4
 #define NB_POS_JOINTS_DR 2
 
 #define NB_POS_LA_DR 3
 #define NB_POS_RA_DR 3
 #define NB_POS_RL_DR 1
+#define NB_POS_HD_DR 1
 
+#define HEAD 0
 #define BDRU 0
 #define STCK 0
 #define HHAT 1
@@ -22,9 +25,15 @@
 const signed char _dirRLDr = -1;
 const signed char _dirLADr = +1;
 const signed char _dirRADr = -1;
+const signed char _dirHead = +1;
+
+// Head
+const byte _hitAngleHD = 40;
+const byte _restAngleHD = 95;
+const byte _posAngleHD = 0;
 
 // Right leg, position 0: base drum
-const byte _hitAngleBD = 50;
+const byte _hitAngleBD = 70;
 const byte _restAngleBD = 95;
 const byte _posAngleBD = 0;
 

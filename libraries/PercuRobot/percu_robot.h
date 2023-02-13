@@ -12,7 +12,7 @@ class PercuRobot {
  public:
   PercuRobot();
 
-  virtual void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
+  virtual void hit(byte limb, byte pos, byte velocity);
   virtual void rest(byte limb, byte pos = 0, bool printOutput = 0);
   virtual void goToPos(byte limb, byte pos);
 
@@ -28,7 +28,7 @@ class PercuRobot {
   void setServoSpeed(float wServo);
   float getServoSpeed();
 
-  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]);
+  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput = 0);
 
  protected:
   signed char hitDirection_[NB_HIT_JOINTS];

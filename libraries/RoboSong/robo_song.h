@@ -6,7 +6,7 @@
 #include "Arduino.h"
 
 #define MAX_NB_PATTERNS 5
-#define MAX_NB_BEATS 100
+#define MAX_NB_BEATS 50
 
 #define BITS_FOR_HIT 1
 #define BITS_PER_BYTE 8
@@ -31,7 +31,7 @@
 #define V012 12
 #define V013 13
 #define V014 14
-#define V016 15
+#define V015 15
 
 
 template <int NB_LIMBS, int BITS_FOR_POS>
