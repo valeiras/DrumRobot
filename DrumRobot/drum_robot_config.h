@@ -24,7 +24,7 @@ const signed char _dirLADr = +1;
 const signed char _dirRADr = -1;
 
 // Right leg, position 0: base drum
-const byte _hitAngleBD = 70;
+const byte _hitAngleBD = 50;
 const byte _restAngleBD = 95;
 const byte _posAngleBD = 0;
 

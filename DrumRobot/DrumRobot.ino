@@ -5,13 +5,18 @@
 #include "drum_song.h"
 #include "drum_robot_config.h"
 
-#define BD_HIT_PIN 5
-#define RIGHT_HIT_PIN 6
-#define LEFT_HIT_PIN 9
-#define RIGHT_POS_PIN 10
-#define LEFT_POS_PIN 11
+#define BD_HIT_PIN 3
+#define LEFT_HIT_PIN 6
+#define RIGHT_HIT_PIN 9
+#define LEFT_POS_PIN 10
+#define RIGHT_POS_PIN 11
 
-#define BPM_INPUT_PIN A0
+#define BPM_INPUT_PIN A1
+#define ANALOG_INPUT_PIN1 A0
+#define ANALOG_INPUT_PIN2 A2
+#define ANALOG_INPUT_PIN3 A3
+#define DIGITAL_INPUT_PIN2 12
+#define DIGITAL_INPUT_PIN3 13
 
 #define ANALOG_MIN 0
 #define ANALOG_MAX 1023
@@ -50,6 +55,15 @@ void setup() {
   initTime = millis();
   roboController.setInitialTime(initTime + initialDelay);
   roboController.initializeRobot();
+
+  pinMode(BPM_INPUT_PIN, INPUT); 
+  pinMode(ANALOG_INPUT_PIN1, INPUT); 
+  pinMode(ANALOG_INPUT_PIN2, INPUT); 
+  pinMode(ANALOG_INPUT_PIN3, INPUT);
+
+  pinMode(DIGITAL_INPUT_PIN2, INPUT); 
+  pinMode(DIGITAL_INPUT_PIN3, INPUT);
+
 }
 
 void loop() {

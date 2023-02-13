@@ -6,11 +6,53 @@ GlockenSong::GlockenSong()
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
 
-void GlockenSong::createPredefinedPatterns(byte rythmName, bool printOutput = false) {
-  switch (rythmName) {
-    // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
+void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = false) {
+  switch (songName) {
+    // -------------------------------------------- FRERE JACQUES -----------------------------------------------------
+    case FRERE_JACQUES:
     default:
+      {
+        nbPatterns_ = 4;
+        nbBeats_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbBeats_);
 
-      break;
+        byte patternId0 = 0;
+        byte patternId1 = 1;
+        byte patternId2 = 2;
+        byte patternId3 = 3;
+
+        // Left Arm
+        // -----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, patternId0, C00G, REST, REST, REST, D00G, REST, REST, REST, E00G, REST, REST, REST, C00G, REST, REST, REST, printOutput);
+        setVelPattern(LEFT_ARM_GL, patternId0, V015, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V015, V000, V000, V000, printOutput);
+
+        setHitPattern(LEFT_ARM_GL, patternId1, E00G, REST, REST, REST, F00G, REST, REST, REST, G00G, REST, REST, REST, REST, REST, REST, REST, printOutput);
+        setVelPattern(LEFT_ARM_GL, patternId1, V012, V000, V000, V000, V009, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
+
+        setHitPattern(LEFT_ARM_GL, patternId2, G00G, REST, A00G, REST, G00G, REST, F00G, REST, E00G, REST, REST, REST, C00G, REST, REST, REST, printOutput);
+        setVelPattern(LEFT_ARM_GL, patternId2, V012, V000, V006, V000, V009, V000, V008, V000, V008, V000, V000, V000, V010, V000, V000, V000, printOutput);
+
+        setHitPattern(LEFT_ARM_GL, patternId3, D00G, REST, REST, REST, G00G, REST, REST, REST, C00G, REST, REST, REST, REST, REST, REST, REST, printOutput);
+        setVelPattern(LEFT_ARM_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, printOutput);
+
+        // Right Arm
+        // -----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, patternId0, E01G, REST, REST, REST, D01G, REST, REST, REST, E01G, REST, REST, REST, C01G, REST, REST, REST, printOutput);
+        setVelPattern(RIGHT_ARM_GL, patternId0, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V006, V000, V000, V000, printOutput);
+
+        setHitPattern(RIGHT_ARM_GL, patternId1, E01G, REST, REST, REST, C01G, REST, REST, REST, D01G, REST, C01G, REST, B00G, REST, C01G, REST, printOutput);
+        setVelPattern(RIGHT_ARM_GL, patternId1, V012, V000, V000, V000, V009, V000, V000, V000, V008, V000, V015, V000, V015, V000, V012, V000, printOutput);
+
+        setHitPattern(RIGHT_ARM_GL, patternId2, D01G, REST, E01G, REST, D01G, REST, F01G, REST, E01G, REST, REST, REST, C01G, REST, REST, REST, printOutput);
+        setVelPattern(RIGHT_ARM_GL, patternId2, V012, V000, V006, V000, V009, V000, V008, V000, V008, V000, V000, V000, V010, V000, V000, V000, printOutput);
+
+        setHitPattern(RIGHT_ARM_GL, patternId3, D01G, REST, REST, REST, D01G, REST, REST, REST, C01G, REST, REST, REST, REST, REST, REST, REST, printOutput);
+        setVelPattern(RIGHT_ARM_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V000, V000, V000, V000, printOutput);
+
+        byte frereJacquesPattSeq[nbBeats_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
+        setPatternSequence(frereJacquesPattSeq);
+
+        break;
+      }
   }
 }
