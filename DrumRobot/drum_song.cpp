@@ -33,18 +33,18 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 3, printOutput);
         setQuaverHit(RIGHT_LEG_DR, BDRU, V014, patternId, 6, printOutput);
 
-        setQuaverHit(LEFT_ARM_DR, HHAT, V014, patternId, 1, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId, 2, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 3, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId, 4, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId, 5, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId, 6, printOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 7, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V009, patternId, 8, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V014, patternId, 1, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V007, patternId, 2, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V012, patternId, 3, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V008, patternId, 4, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V010, patternId, 5, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V006, patternId, 6, printOutput);
+        setQuaverHit(LEFT_ARM_DR, HHSN, V012, patternId, 7, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNCR, V009, patternId, 8, printOutput);
 
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 1, printOutput);
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 2, printOutput);
-        setQuarterHit(RIGHT_ARM_DR, CRSH, V010, patternId, 4, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, HHSN, V014, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, HHSN, V014, patternId, 2, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNCR, V010, patternId, 4, printOutput);
 
         byte simplestPattSeq[nbBeats_] = { 0 };
         setPatternSequence(simplestPattSeq);
@@ -57,60 +57,47 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         if (printOutput) {
           Serial.println("Basic rythm");
         }
-        nbPatterns_ = 3;
+        nbPatterns_ = 2;
         nbBeats_ = 10;
         initializeBlankPatterns(nbPatterns_, nbBeats_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
-        byte patternId2 = 2;
 
         // Head
         // ----------------------------------------0001----------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(HEAD_DR, patternId0, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, printOutput);
-        setVelPattern(HEAD_DR, patternId0, V000, V000, V000, V000, V012, V000, V000, V000, V008, V000, V000, V000, V008, V000, V000, V000, printOutput);
+        setHitPattern(HEAD_DR, patternId0, HEAD, REST, REST, REST, REST, REST, REST, REST, HEAD, REST, HEAD, REST, REST, REST, REST, REST, printOutput);
+        setVelPattern(HEAD_DR, patternId0, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
 
         setHitPattern(HEAD_DR, patternId1, HEAD, REST, REST, REST, REST, REST, REST, REST, HEAD, REST, HEAD, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(HEAD_DR, patternId1, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
 
-        setHitPattern(HEAD_DR, patternId2, HEAD, REST, REST, REST, REST, REST, REST, REST, HEAD, REST, HEAD, REST, REST, REST, REST, REST, printOutput);
-        setVelPattern(HEAD_DR, patternId2, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
-
         // Right leg
         // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(RIGHT_LEG_DR, patternId0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, printOutput);
-        setVelPattern(RIGHT_LEG_DR, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, printOutput);
+        setHitPattern(RIGHT_LEG_DR, patternId0, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, BDRU, REST, REST, REST, REST, REST, printOutput);
+        setVelPattern(RIGHT_LEG_DR, patternId0, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
 
         setHitPattern(RIGHT_LEG_DR, patternId1, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, BDRU, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_LEG_DR, patternId1, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
 
-        setHitPattern(RIGHT_LEG_DR, patternId2, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, BDRU, REST, REST, REST, REST, REST, printOutput);
-        setVelPattern(RIGHT_LEG_DR, patternId2, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
-
 
         // Left arm
         // ---------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(LEFT_ARM_DR, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, printOutput);
-        setVelPattern(LEFT_ARM_DR, patternId0, V012, V000, V000, V000, V010, V000, V000, V000, V012, V000, V000, V000, V010, V000, V000, V000, printOutput);
+        setHitPattern(LEFT_ARM_DR, patternId0, REST, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, printOutput);
+        setVelPattern(LEFT_ARM_DR, patternId0, V000, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V000, V007, V000, printOutput);
 
-        setHitPattern(LEFT_ARM_DR, patternId1, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, printOutput);
-        setVelPattern(LEFT_ARM_DR, patternId1, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V000, V007, V000, printOutput);
-
-        setHitPattern(LEFT_ARM_DR, patternId2, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, HHAT, REST, REST, SNLT, REST, SNLT, printOutput);
-        setVelPattern(LEFT_ARM_DR, patternId2, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V000, V006, V000, V005, printOutput);
+        setHitPattern(LEFT_ARM_DR, patternId1, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, REST, SNSN, REST, SNCR, printOutput);
+        setVelPattern(LEFT_ARM_DR, patternId1, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V000, V006, V000, V005, printOutput);
 
         // Right arm
         // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(RIGHT_ARM_DR, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, printOutput);
-        setVelPattern(RIGHT_ARM_DR, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, printOutput);
+        setHitPattern(RIGHT_ARM_DR, patternId0, SNCR, REST, REST, REST, HHSN, REST, REST, HHSN, REST, REST, REST, REST, HHSN, REST, REST, REST, printOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId0, V014, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V012, V000, V000, V000, printOutput);
 
-        setHitPattern(RIGHT_ARM_DR, patternId1, CRSH, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, REST, REST, printOutput);
-        setVelPattern(RIGHT_ARM_DR, patternId1, V014, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V012, V000, V000, V000, printOutput);
+        setHitPattern(RIGHT_ARM_DR, patternId1, REST, REST, REST, REST, HHSN, REST, REST, HHSN, REST, REST, REST, REST, SNSN, REST, SNSN, REST, printOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId1, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
 
-        setHitPattern(RIGHT_ARM_DR, patternId2, REST, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, SNRG, REST, printOutput);
-        setVelPattern(RIGHT_ARM_DR, patternId2, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
-
-        byte basicPattSeq[nbBeats_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+        byte basicPattSeq[nbBeats_] = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
 
         setPatternSequence(basicPattSeq);
         break;
@@ -144,23 +131,23 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuaverHit(RIGHT_LEG_DR, BDRU, V013, patternId, 7, printOutput);
         setQuaverHit(RIGHT_LEG_DR, BDRU, V015, patternId, 8, printOutput);
 
-        setQuaverHit(LEFT_ARM_DR, SNLT, V001, patternId, 1, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V003, patternId, 2, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V005, patternId, 3, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V007, patternId, 4, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V009, patternId, 5, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V011, patternId, 6, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V013, patternId, 7, printOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V015, patternId, 8, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V001, patternId, 1, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V003, patternId, 2, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V005, patternId, 3, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V007, patternId, 4, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V009, patternId, 5, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V011, patternId, 6, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNSN, V013, patternId, 7, printOutput);
+        setQuaverHit(LEFT_ARM_DR, SNCR, V015, patternId, 8, printOutput);
 
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V001, patternId, 1, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V003, patternId, 2, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V005, patternId, 3, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V007, patternId, 4, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V009, patternId, 5, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V011, patternId, 6, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, SNRG, V013, patternId, 7, printOutput);
-        setQuaverHit(RIGHT_ARM_DR, CRSH, V015, patternId, 8, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V001, patternId, 1, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V003, patternId, 2, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V005, patternId, 3, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V007, patternId, 4, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V009, patternId, 5, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V011, patternId, 6, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNSN, V013, patternId, 7, printOutput);
+        setQuaverHit(RIGHT_ARM_DR, SNCR, V015, patternId, 8, printOutput);
 
         byte simplestPattSeq[nbBeats_] = { 0 };
         setPatternSequence(simplestPattSeq);
@@ -188,15 +175,15 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_LEG_DR, BDRU, V015, patternId, 3, printOutput);
         setQuarterHit(RIGHT_LEG_DR, BDRU, V015, patternId, 4, printOutput);
 
-        setQuarterHit(LEFT_ARM_DR, SNLT, V015, patternId, 1, printOutput);
-        setQuarterHit(LEFT_ARM_DR, SNLT, V015, patternId, 2, printOutput);
-        setQuarterHit(LEFT_ARM_DR, SNLT, V015, patternId, 3, printOutput);
-        setQuarterHit(LEFT_ARM_DR, SNLT, V015, patternId, 4, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNSN, V015, patternId, 1, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNSN, V015, patternId, 2, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNSN, V015, patternId, 3, printOutput);
+        setQuarterHit(LEFT_ARM_DR, SNSN, V015, patternId, 4, printOutput);
 
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 1, printOutput);
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 2, printOutput);
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 3, printOutput);
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 4, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 1, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 2, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 3, printOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 4, printOutput);
 
         byte simplestPattSeq[nbBeats_] = { 0 };
         setPatternSequence(simplestPattSeq);

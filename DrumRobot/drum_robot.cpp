@@ -16,15 +16,15 @@ void DrumRobot::setLimbParams() {
 
   signed char directions[NB_HIT_JOINTS_DR] = { _dirLADr, _dirRLDr, _dirRADr };
 
-  byte anglesLeftArm[NB_POS_LA_DR][3] = { { _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft },
-                                          { _hitAngleHH, _restAngleHH, _posAngleHH },
-                                          { _hitAngleSnLeft, _restAngleSnLeft, _posAngleSnLeft } };
-  String namesLeftArm[NB_POS_LA_DR] = { "Sticks Left", "HH", "SN Left" };
+  byte anglesLeftArm[NB_POS_LA_DR][3] = { { _hitAngleHH, _restAngleHH, _posAngleHHSn },
+                                          { _hitAngleSnL, _restAngleSnL, _posAngleSnSn },
+                                          { _hitAngleSnL, _restAngleSnL, _posAngleSnCr } };
+  String namesLeftArm[NB_POS_LA_DR] = { "HH", "SN Left", "SN Left" };
 
-  byte anglesRightArm[NB_POS_RA_DR][3] = { { _hitAngleSticksRight, _restAngleSticksRight, _posAngleSticksRight },
-                                           { _hitAngleSnRight, _restAngleSnRight, _posAngleSnRight },
-                                           { _hitAngleCrash, _restAngleCrash, _posAngleCrash } };
-  String namesRightArm[NB_POS_RA_DR] = { "Sticks Right", "SN Right", "Crash" };
+  byte anglesRightArm[NB_POS_RA_DR][3] = { { _hitAngleSnR, _restAngleSnR, _posAngleHHSn },
+                                           { _hitAngleSnR, _restAngleSnR, _posAngleSnSn },
+                                           { _hitAngleCr, _restAngleCr, _posAngleSnCr } };
+  String namesRightArm[NB_POS_RA_DR] = { "SN Right", "SN Right", "Crash" };
 
   byte anglesRightLeg[NB_POS_RL_DR][3] = { { _hitAngleBD, _restAngleBD, _posAngleBD } };
   String namesRightLeg[NB_POS_RL_DR] = { "BD" };
