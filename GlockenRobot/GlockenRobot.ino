@@ -5,6 +5,7 @@
 #include "glocken_song.h"
 #include "glocken_robot_config.h"
 
+#define HEAD_HIT_PIN_GL 3
 #define LEFT_HIT_PIN_GL 5
 #define RIGHT_HIT_PIN_GL 6
 #define LEFT_POS_PIN_GL 9

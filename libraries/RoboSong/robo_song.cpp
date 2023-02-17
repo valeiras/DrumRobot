@@ -371,6 +371,4 @@ byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelFromNoteData(byte noteData) {
 template class RoboSong<4, 3>;
 
 // GlockenSong:
-template class RoboSong<2, 4>;
-
-template class RoboSong<3, 5>;
+template class RoboSong<3, 4>;

@@ -120,9 +120,15 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
     if (simulation_) {
       Serial.println(robot_->getPosName(limb, currentPosition));
     }
-     robot_->hit(limb, currentPosition, song_->getVelNextHit(limb));
+     robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), printOutput_);
 
     timeNextHitInstruction_[limb] += robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
+    if(printOutput_){
+      Serial.print("Time to rest for limb ");
+      Serial.print(limb);
+      Serial.print(": ");
+      Serial.println(robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb), printOutput_));
+    }
     nextInstruction_[limb] = REST;
     song_->computeNextHit(limb, printOutput_);
   } else if (nextInstruction_[limb] == REST) {
@@ -135,7 +141,7 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
         timeNextPosInstruction_[limb] = currTime + abs(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)) - robot_->getRestAngle(limb, nextPos_[limb])) / (POS_SECURITY_FACTOR*robot_->getServoSpeed());
         currentPosition = nextPos_[limb];
       }
-      robot_->rest(limb, nextPos_[limb]);
+      robot_->rest(limb, nextPos_[limb], printOutput_);
     }
     else{
       robot_->rest(limb);

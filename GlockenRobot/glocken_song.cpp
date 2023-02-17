@@ -1,7 +1,7 @@
 #include "glocken_song.h"
 
 GlockenSong::GlockenSong()
-  : RoboSong<NB_LIMBS_GL, BITS_FOR_POS_GL>::RoboSong() {
+  : RoboSong<NB_HIT_JOINTS_GL, BITS_FOR_POS_GL>::RoboSong() {
   nbOfPositions_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
@@ -48,6 +48,20 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
 
         setHitPattern(RIGHT_ARM_GL, patternId3, D01G, REST, REST, REST, D01G, REST, REST, REST, C01G, REST, REST, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V000, V000, V000, V000, printOutput);
+
+        // Head
+        // ------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_GL, patternId0, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDRG, REST, REST, REST, printOutput);
+        setVelPattern(HEAD_GL, patternId0, V015, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V015, V000, V000, V000, printOutput);
+
+        setHitPattern(HEAD_GL, patternId1, HDRG, REST, REST, REST, HDCN, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, printOutput);
+        setVelPattern(HEAD_GL, patternId1, V012, V000, V000, V000, V009, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, printOutput);
+
+        setHitPattern(HEAD_GL, patternId2, HDRG, REST, REST, REST, HDLF, REST, HDRG, REST, HDLF, REST, HDRG, REST, HDCN, REST, REST, REST, printOutput);
+        setVelPattern(HEAD_GL, patternId2, V012, V000, V006, V000, V009, V000, V008, V000, V008, V000, V000, V000, V010, V000, V000, V000, printOutput);
+
+        setHitPattern(HEAD_GL, patternId3, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, printOutput);
+        setVelPattern(HEAD_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, printOutput);
 
         byte frereJacquesPattSeq[nbBeats_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
         setPatternSequence(frereJacquesPattSeq);
