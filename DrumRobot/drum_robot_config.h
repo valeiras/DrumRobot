@@ -44,8 +44,8 @@ const byte _hitAngleSnL = 125;
 const byte _restAngleSnL = 105;
 
 // Right arm, position 0 and 1: Snare
-const byte _hitAngleSnR = 105;
-const byte _restAngleSnR = 85;
+const byte _hitAngleSnR = 85;
+const byte _restAngleSnR = 105;
 
 // _Right arm, position 2: Crash
 const byte _hitAngleCr = 90;
