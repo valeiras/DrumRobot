@@ -10,7 +10,9 @@
 #define LEFT_HIT_PIN 6
 #define RIGHT_HIT_PIN 9
 #define HIPS_POS_PIN 10
-#define USELESS_PIN 11
+
+// This is a temporary hack: this was supposed to be the left pos servo, but we are using it to move the head against the movement of the hips
+#define HEAD_POS_PIN 11
 
 #define BPM_INPUT_PIN A1
 #define ANALOG_INPUT_PIN1 A0

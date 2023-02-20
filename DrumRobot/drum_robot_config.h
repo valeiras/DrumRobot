@@ -26,36 +26,36 @@ const signed char _dirRADr = -1;
 const signed char _dirHead = +1;
 
 // Head
-const byte _hitAngleHD = 70;
-const byte _restAngleHD = 110;
+const byte _hitAngleHD = 80;
+const byte _restAngleHD = 95;
 const byte _posAngleHD = 0;
 
 // Right leg, position 0: base drum
-const byte _hitAngleBD = 70;
-const byte _restAngleBD = 95;
+const byte _hitAngleBD = 87;
+const byte _restAngleBD = 92;
 const byte _posAngleBD = 0;
 
 // Left arm, position 0: HH-Snare
-const byte _hitAngleHH = 110;
-const byte _restAngleHH = 100;
+const byte _hitAngleHH = 85;
+const byte _restAngleHH = 60;
 
 // Left arm, positions 1 and 2: Snare
-const byte _hitAngleSnL = 125;
-const byte _restAngleSnL = 105;
+const byte _hitAngleSnL = 70;
+const byte _restAngleSnL = 50;
 
 // Right arm, position 0 and 1: Snare
-const byte _hitAngleSnR = 85;
-const byte _restAngleSnR = 105;
+const byte _hitAngleSnR = 95;
+const byte _restAngleSnR = 115;
 
 // _Right arm, position 2: Crash
-const byte _hitAngleCr = 90;
-const byte _restAngleCr = 110;
+const byte _hitAngleCr = 110;
+const byte _restAngleCr = 130;
 
 // Positions for left and right arms
-const byte _posAngleHHSn = 150;
-const byte _posAngleSnSn = 125;
-const byte _posAngleSnCr = 90;
+const byte _posAngleHHSn = 125;
+const byte _posAngleSnSn = 90;
+const byte _posAngleSnCr = 70;
 
-const float _wServoDr = 0.35;
+const float _wServoDr = 0.6;
 
 #endif
