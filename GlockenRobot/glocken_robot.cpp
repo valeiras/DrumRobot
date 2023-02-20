@@ -12,16 +12,16 @@ GlockenRobot::GlockenRobot() {
 
 // We use the default values defined in robot_config.h
 void GlockenRobot::setLimbParams() {
-  byte posAnglesLeft[NB_POS_LA_GL] = { _posAngleC00, _posAngleCS0, _posAngleD00, _posAngleDS0, _posAngleE00,
-                                       _posAngleF00, _posAngleFS0, _posAngleG00, _posAngleGS0, _posAngleA00 };
+  byte posAnglesLeft[NB_POS_LA_GL] = { _posAngleC00L, _posAngleCS0L, _posAngleD00L, _posAngleDS0L,
+                                       _posAngleE00L, _posAngleF00L, _posAngleFS0L, _posAngleG00L };
 
-  byte posAnglesRight[NB_POS_RA_GL] = { _posAngleAS0, _posAngleB00, _posAngleC01, _posAngleCS1,
-                                        _posAngleD01, _posAngleDS1, _posAngleE01, _posAngleF01 };
+  byte posAnglesRight[NB_POS_RA_GL] = { _posAngleG00R, _posAngleGS0R, _posAngleA00R, _posAngleAS0R,
+                                        _posAngleB00R, _posAngleC01R, _posAngleCS1R, _posAngleD01R };
 
   byte posAnglesHead[NB_POS_HD_GL] = { _posAngleHdL, _posAngleHdC, _posAngleHdR };
 
-  String posNamesLeft[NB_POS_LA_GL] = { "C00", "CS0", "D00", "DS0", "E00", "F00", "FS0", "G00", "GS0", "A00" };
-  String posNamesRight[NB_POS_RA_GL] = { "AS0", "B00", "C01", "CS1", "D01", "DS1", "E01", "F01" };
+  String posNamesLeft[NB_POS_LA_GL] = { "C00", "CS0", "D00", "DS0", "E00", "F00", "FS0", "G00" };
+  String posNamesRight[NB_POS_RA_GL] = { "G00", "GS0", "AS0", "B00", "C01", "CS1", "D01", "DS1" };
   String posNamesHead[NB_POS_RA_GL] = { "Left", "Center", "Right" };
 
   setLimbParams(_dirLAGl, _dirRAGl, _dirHdGl,

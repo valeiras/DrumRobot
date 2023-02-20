@@ -45,7 +45,7 @@ void setup() {
     song.printPatterns();
   }
 
-  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
+  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL, HEAD_HIT_PIN_GL };
   byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
   robot.attachServos(hitPins, posPins, printOutput);
 

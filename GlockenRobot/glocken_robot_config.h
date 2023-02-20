@@ -8,29 +8,27 @@
 #define NB_HIT_JOINTS_GL 3
 #define NB_POS_JOINTS_GL 3
 
-#define NB_POS_LA_GL 10
+#define NB_POS_LA_GL 8
 #define NB_POS_RA_GL 8
 #define NB_POS_HD_GL 3
 
-#define C00G 0
-#define CS0G 1
-#define D00G 2
-#define DS0G 3
-#define E00G 4
-#define F00G 5
-#define FS0G 6
-#define G00G 7
-#define GS0G 8
-#define A00G 9
+#define C00L 0
+#define CS0L 1
+#define D00L 2
+#define DS0L 3
+#define E00L 4
+#define F00L 5
+#define FS0L 6
+#define G00L 7
 
-#define AS0G 0
-#define B00G 1
-#define C01G 2
-#define CS1G 3
-#define D01G 4
-#define DS1G 5
-#define E01G 6
-#define F01G 7
+#define GS0R 0
+#define A00R 1
+#define AS0R 2
+#define B00R 3
+#define C01R 4
+#define CS1R 5
+#define D01R 6
+#define DS1R 7
 
 #define HDLF 0
 #define HDCN 1
@@ -40,36 +38,35 @@ const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
 const signed char _dirHdGl = +1;
 
-const byte _hitAngleLAGl = 120;
-const byte _restAngleLAGl = 105;
+const byte _hitAngleLAGl = 131;
+const byte _restAngleLAGl = 115;
 
-const byte _hitAngleRAGl = 70;
-const byte _restAngleRAGl = 85;
+const byte _hitAngleRAGl = 60;
+const byte _restAngleRAGl = 80;
 
-const byte _hitAngleHdGl = 0;
-const byte _restAngleHdGl = 0;
+const byte _hitAngleHdGl = 120;
+const byte _restAngleHdGl = 90;
 
 // Angles for the left arm
-const byte _posAngleC00 = 168;
-const byte _posAngleCS0 = 146;
-const byte _posAngleD00 = 130;
-const byte _posAngleDS0 = 114;
-const byte _posAngleE00 = 97;
-const byte _posAngleF00 = 85;
-const byte _posAngleFS0 = 80;
-const byte _posAngleG00 = 75;
-const byte _posAngleGS0 = 70;
-const byte _posAngleA00 = 60;
+const byte _posAngleC00L = 172;
+const byte _posAngleCS0L = 155;
+const byte _posAngleD00L = 137;
+const byte _posAngleDS0L = 121;
+const byte _posAngleE00L = 106;
+const byte _posAngleF00L = 85;
+const byte _posAngleFS0L = 71;
+const byte _posAngleG00L = 53;
 
 // Angles for the right arm
-const byte _posAngleAS0 = 108;
-const byte _posAngleB00 = 1;
-const byte _posAngleC01 = 93;
-const byte _posAngleCS1 = 71;
-const byte _posAngleD01 = 49;
-const byte _posAngleDS1 = 33;
-const byte _posAngleE01 = 12;
-const byte _posAngleF01 = 0;
+const byte _posAngleG00R = 113;
+const byte _posAngleGS0R = 98;
+const byte _posAngleA00R = 80;
+const byte _posAngleAS0R = 61;
+const byte _posAngleB00R = 43;
+const byte _posAngleC01R = 26;
+const byte _posAngleCS1R = 0;
+const byte _posAngleD01R = 0;
+
 
 // Angles for the head
 const byte _posAngleHdL = 110;
