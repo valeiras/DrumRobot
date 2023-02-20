@@ -2,7 +2,6 @@
 #define Drum_robot_h
 
 #include <percu_robot.h>
-
 #include "drum_robot_config.h"
 
 struct posParamsDrum {

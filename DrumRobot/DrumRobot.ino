@@ -9,8 +9,8 @@
 #define BD_HIT_PIN 5
 #define LEFT_HIT_PIN 6
 #define RIGHT_HIT_PIN 9
-#define LEFT_POS_PIN 10
-#define RIGHT_POS_PIN 11
+#define HIPS_POS_PIN 10
+#define USELESS_PIN 11
 
 #define BPM_INPUT_PIN A1
 #define ANALOG_INPUT_PIN1 A0
@@ -51,7 +51,7 @@ void setup() {
   }
 
   byte hitPins[NB_HIT_JOINTS_DR] = { LEFT_HIT_PIN, RIGHT_HIT_PIN, BD_HIT_PIN, HEAD_HIT_PIN };
-  byte posPins[NB_POS_JOINTS_DR] = { LEFT_POS_PIN, RIGHT_POS_PIN };
+  byte posPins[NB_POS_JOINTS_DR] = { HIPS_POS_PIN, USELESS_PIN };
   robot.attachServos(hitPins, posPins);
 
   initTime = millis();
