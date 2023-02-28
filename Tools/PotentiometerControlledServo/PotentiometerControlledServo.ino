@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 Servo servo1;
-const int SERVOPIN = 3;
+const int SERVOPIN = 10;
 const int POTPIN = A0;
 
 int potVal;

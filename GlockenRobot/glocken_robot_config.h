@@ -38,14 +38,14 @@ const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
 const signed char _dirHdGl = +1;
 
-const byte _hitAngleLAGl = 131;
-const byte _restAngleLAGl = 115;
+const byte _hitAngleLAGl = 145;
+const byte _restAngleLAGl = 130;
 
-const byte _hitAngleRAGl = 60;
-const byte _restAngleRAGl = 80;
+const byte _hitAngleRAGl = 40;
+const byte _restAngleRAGl = 60;
 
-const byte _hitAngleHdGl = 120;
-const byte _restAngleHdGl = 90;
+const byte _hitAngleHdGl = 125;
+const byte _restAngleHdGl = 105;
 
 // Angles for the left arm
 const byte _posAngleC00L = 172;

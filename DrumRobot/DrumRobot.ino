@@ -53,7 +53,7 @@ void setup() {
   }
 
   byte hitPins[NB_HIT_JOINTS_DR] = { LEFT_HIT_PIN, RIGHT_HIT_PIN, BD_HIT_PIN, HEAD_HIT_PIN };
-  byte posPins[NB_POS_JOINTS_DR] = { HIPS_POS_PIN, USELESS_PIN };
+  byte posPins[NB_POS_JOINTS_DR] = { HIPS_POS_PIN, HEAD_POS_PIN };
   robot.attachServos(hitPins, posPins);
 
   initTime = millis();

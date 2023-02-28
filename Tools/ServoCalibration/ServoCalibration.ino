@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-#define SERVO_PIN 6
+#define SERVO_PIN 3
 
 Servo servo1;
 
