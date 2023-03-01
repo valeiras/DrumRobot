@@ -8,17 +8,20 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
-#ifndef PSTR
-#define PSTR  // Make Arduino Due happy
-#endif
+#define MS_PER_MIN 60000
 
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int brightness, int address);
+  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int lightPin, int brightness, int address, int bpm);
 
   void setMode(uint8_t mode);
-  void doLighting();
+  void setBpm(uint8_t bpm);
+
+  void doLighting(unsigned long currTime);
+  void doNameLighting(unsigned long ellapsedTime);
+  void doBlinkLighting();
+  void doLogoLighting();
 
   void treatStartMsg();
   void treatResyncMsg();
@@ -27,12 +30,14 @@ public:
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
 private:
-  uint8_t mode_;
+  uint8_t mode_, bpm_;
   Adafruit_NeoMatrix *matrix_;
+  int lightPin_;
 
   uint16_t primaryColors_[3];
   int x_, pass_;
   bool hasStarted_, blink_;
+  unsigned long initTime_, lastBlink_, blinkingTime_;
 };
 
 #endif

@@ -7,7 +7,7 @@
 #define ANALOG_MIN 0
 #define ANALOG_MAX 1023
 
-#define MIN_BPM_CHANGE 3
+#define MIN_BPM_CHANGE 5
 
 const uint16_t RESYNC_TIME = 10000;
 uint8_t bpm = 90;
@@ -16,7 +16,7 @@ unsigned int initialDelay = 1000;
 unsigned long ellapsedTime, initTime, lastResync;
 
 bool printOutput = true;
-bool variableBpm = false;
+bool variableBpm = true;
 bool hasStarted = false;
 
 short minBpm = 60;
@@ -32,8 +32,6 @@ void setup() {
     Serial.begin(9600);
   }
 
-  Serial.println("Setup");
-
   pinMode(BPM_INPUT_PIN, INPUT);
   pinMode(BUTTON1_PIN, INPUT);
 
@@ -44,7 +42,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("[RoboMaster] Loop");
   ellapsedTime = millis() - initTime;
   if (!hasStarted) {
     if (ellapsedTime >= initialDelay) {
@@ -60,7 +57,7 @@ void loop() {
       int newBpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
       if (abs(newBpm - bpm) >= MIN_BPM_CHANGE) {
         bpm = newBpm;
-        //notifyRobots(BPM_CHANGE, bpm);
+        notifyRobots(BPM_CHANGE, bpm);
       }
     }
     if (ellapsedTime - lastResync >= RESYNC_TIME) {
@@ -71,9 +68,7 @@ void loop() {
     int currButtonState = digitalRead(BUTTON1_PIN);
     if (currButtonState == HIGH && lastButtonState == LOW) {
       currLightMode = ++currLightMode % NB_LIGHTING_MODES;
-      Serial.println("[RoboMaster] Mode change!");
       sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, lightingModes[currLightMode]);
-      //sendMessage(LIGHTING_ADDRESS, MODE_CHANGE);
     }
     lastButtonState = currButtonState;
   }
@@ -82,28 +77,23 @@ void loop() {
 void notifyRobots(uint8_t messageType) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
     if (robotIsPresent[ii]) {
-      Serial.print("[RoboMaster] Sending simple message to robot: ");
-      Serial.println(robotAddresses[ii]);
       sendMessage(robotAddresses[ii], messageType);
-      Serial.println("[RoboMaster] Message sent");
     }
   }
 }
 
 void notifyRobots(uint8_t messageType, uint8_t messageContent) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
-    sendMessage(robotAddresses[ii], messageType, messageContent);
+    if (robotIsPresent[ii]) {
+      sendMessage(robotAddresses[ii], messageType, messageContent);
+    }
   }
 }
 
 void sendMessage(uint8_t robotAddress, uint8_t messageType) {
-  Serial.println("[RoboMaster] Beggining transmission");
   Wire.beginTransmission(robotAddress);
-  Serial.println("[RoboMaster] Writing");
   Wire.write(messageType);
-  Serial.println("[RoboMaster] Ending transmission");
   Wire.endTransmission();
-  Serial.println("[RoboMaster] Done transmission");
 }
 
 void sendMessage(uint8_t robotAddress, uint8_t messageType, uint8_t messageContent) {

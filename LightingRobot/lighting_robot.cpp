@@ -2,7 +2,7 @@
 
 LightingRobot::LightingRobot() {}
 
-LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int brightness, int address)
+LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int lightPin, int brightness, int address, int bpm)
   : RoboReceptor(address) {
 
   // MATRIX DECLARATION:
@@ -44,54 +44,106 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
   hasStarted_ = false;
 
   mode_ = NAME_MODE;
+  setBpm(bpm);
+
+  initTime_ = 0;
+  lastBlink_ = 0;
+  blink_ = true;
+
+  lightPin_ = lightPin;
+  pinMode(lightPin_, OUTPUT);
 }
 
 void LightingRobot::setMode(uint8_t mode) {
   mode_ = mode;
 }
 
-void LightingRobot::doLighting() {
+void LightingRobot::setBpm(uint8_t bpm) {
+  bpm_ = bpm;
+  blinkingTime_ = MS_PER_MIN / (16 * bpm_);
+  // Serial.print("[Lighting robot] Setting bpm: ");
+  // Serial.println(bpm);
+}
+
+void LightingRobot::doLighting(unsigned long currTime) {
   if (hasStarted_) {
+    unsigned long ellapsedTime = currTime - initTime_;
+    // Serial.print("[LightingRobot] Curr time: ");
+    // Serial.println(currTime);
+    // Serial.print("[LightingRobot] Ellapsed time: ");
+    // Serial.println(ellapsedTime);
+    // Serial.print("[LightingRobot] Blinking time: ");
+    // Serial.println(blinkingTime_);
+    if (ellapsedTime - lastBlink_ > blinkingTime_) {
+      //Serial.println("[LightingRobot] Change blinking state!");
+      blink_ = !blink_;
+      //lastBlink_ += blinkingTime_;
+      lastBlink_ = ellapsedTime;
+      x_--;
+    }
     switch (mode_) {
       case NAME_MODE:
-        matrix_->fillScreen(0);
-        matrix_->setCursor(x_, 5);
-        matrix_->print(F("MEKANIKA"));
-        if (--x_ < -36) {
-          x_ = matrix_->width();
-          if (++pass_ >= 3) pass_ = 0;
-          matrix_->setTextColor(primaryColors_[pass_]);
-        }
-        matrix_->show();
+        doNameLighting(ellapsedTime);
         break;
       case BLINKING_MODE:
-        if (blink_) {
-          matrix_->fillScreen(matrix_->Color(0, 0, 0));
-        } else {
-          matrix_->fillScreen(matrix_->Color(0, 20, 0));
-        }
-        blink_ = !blink_;
+        doBlinkLighting();
         break;
       case LOGO_MODE:
-        if (blink_) {
-          matrix_->fillScreen(matrix_->Color(0, 0, 0));
-        } else {
-          matrix_->fillScreen(matrix_->Color(100, 0, 0));
-        }
-        blink_ = !blink_;
+        doLogoLighting();
         break;
     }
+  } else {
+    initTime_ = currTime;
+  }
+}
+
+void LightingRobot::doNameLighting(unsigned long ellapsedTime) {
+  matrix_->fillScreen(0);
+  matrix_->setCursor(x_, 5);
+  matrix_->print(F("MEKANIKA  "));
+  if (x_ < -36) {
+    x_ = matrix_->width();
+    if (++pass_ >= 3) pass_ = 0;
+    matrix_->setTextColor(primaryColors_[pass_]);
+  }
+  matrix_->show();
+  digitalWrite(lightPin_, HIGH);
+}
+
+void LightingRobot::doBlinkLighting() {
+  if (blink_) {
+    matrix_->fillScreen(matrix_->Color(0, 0, 0));
+    matrix_->show();
+    digitalWrite(lightPin_, HIGH);
+  } else {
+    matrix_->fillScreen(matrix_->Color(0, 50, 0));
+    matrix_->show();
+    digitalWrite(lightPin_, LOW);
+  }
+}
+
+void LightingRobot::doLogoLighting() {
+  if (blink_) {
+    matrix_->fillScreen(matrix_->Color(0, 0, 0));
+    matrix_->show();
+    digitalWrite(lightPin_, HIGH);
+  } else {
+    matrix_->fillScreen(matrix_->Color(50, 0, 0));
+    matrix_->show();
+    digitalWrite(lightPin_, LOW);
   }
 }
 
 void LightingRobot::treatStartMsg() {
   hasStarted_ = true;
+  lastBlink_ = initTime_;
 }
 
 void LightingRobot::treatResyncMsg() {
 }
 
 void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
+  setBpm(messageContent);
 }
 
 void LightingRobot::treatModeChangeMsg(uint8_t messageContent) {
