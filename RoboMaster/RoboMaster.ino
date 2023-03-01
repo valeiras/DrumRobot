@@ -1,14 +1,13 @@
-#include <robo_communication.h>
 #include <Wire.h>
+#include <robo_communication.h>
 
 #define BPM_INPUT_PIN A0
+#define BUTTON1_PIN 2
 
 #define ANALOG_MIN 0
 #define ANALOG_MAX 1023
 
 #define MIN_BPM_CHANGE 3
-
-#define NB_ROBOTS 3
 
 const uint16_t RESYNC_TIME = 10000;
 uint8_t bpm = 90;
@@ -16,35 +15,44 @@ uint8_t bpm = 90;
 unsigned int initialDelay = 1000;
 unsigned long ellapsedTime, initTime, lastResync;
 
-bool printOutput = false;
+bool printOutput = true;
 bool variableBpm = false;
 bool hasStarted = false;
 
 short minBpm = 60;
 short maxBpm = 150;
 
-short robotAddresses[NB_ROBOTS] = { DRUM_ADDRESS, GLOCKEN_ADDRESS, MUSIC_BOX_ADDRESS };
+int lastButtonState = LOW;
+int currLightMode = 0;
+
+bool robotIsPresent[NB_ROBOTS] = { false, false, false, true };
 
 void setup() {
   if (printOutput) {
     Serial.begin(9600);
   }
 
+  Serial.println("Setup");
+
   pinMode(BPM_INPUT_PIN, INPUT);
+  pinMode(BUTTON1_PIN, INPUT);
 
   Wire.begin();
-  notifyRobots(SET_RESYNC_TIME, RESYNC_TIME);
+  //notifyRobots(SET_RESYNC_TIME, RESYNC_TIME);
 
   initTime = millis();
 }
 
 void loop() {
+  Serial.println("[RoboMaster] Loop");
   ellapsedTime = millis() - initTime;
   if (!hasStarted) {
     if (ellapsedTime >= initialDelay) {
       // We start robots
+      Serial.println("[RoboMaster] Start!");
       notifyRobots(START);
       lastResync = ellapsedTime;
+      hasStarted = true;
     }
   } else {
     if (variableBpm) {
@@ -52,19 +60,33 @@ void loop() {
       int newBpm = map(sensorValue, ANALOG_MIN, ANALOG_MAX, minBpm, maxBpm);
       if (abs(newBpm - bpm) >= MIN_BPM_CHANGE) {
         bpm = newBpm;
-        notifyRobots(BPM_CHANGE, bpm);
+        //notifyRobots(BPM_CHANGE, bpm);
       }
     }
-    if( ellapsedTime - lastResync >= RESYNC_TIME){
-      notifyRobots(RESYNC);
+    if (ellapsedTime - lastResync >= RESYNC_TIME) {
+      //notifyRobots(RESYNC);
       lastResync += RESYNC_TIME;
     }
+
+    int currButtonState = digitalRead(BUTTON1_PIN);
+    if (currButtonState == HIGH && lastButtonState == LOW) {
+      currLightMode = ++currLightMode % NB_LIGHTING_MODES;
+      Serial.println("[RoboMaster] Mode change!");
+      sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, lightingModes[currLightMode]);
+      //sendMessage(LIGHTING_ADDRESS, MODE_CHANGE);
+    }
+    lastButtonState = currButtonState;
   }
 }
 
-void notifyRobots(short messageType) {
+void notifyRobots(uint8_t messageType) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
-    sendMessage(robotAddresses[ii], messageType);
+    if (robotIsPresent[ii]) {
+      Serial.print("[RoboMaster] Sending simple message to robot: ");
+      Serial.println(robotAddresses[ii]);
+      sendMessage(robotAddresses[ii], messageType);
+      Serial.println("[RoboMaster] Message sent");
+    }
   }
 }
 
@@ -75,9 +97,13 @@ void notifyRobots(uint8_t messageType, uint8_t messageContent) {
 }
 
 void sendMessage(uint8_t robotAddress, uint8_t messageType) {
+  Serial.println("[RoboMaster] Beggining transmission");
   Wire.beginTransmission(robotAddress);
+  Serial.println("[RoboMaster] Writing");
   Wire.write(messageType);
+  Serial.println("[RoboMaster] Ending transmission");
   Wire.endTransmission();
+  Serial.println("[RoboMaster] Done transmission");
 }
 
 void sendMessage(uint8_t robotAddress, uint8_t messageType, uint8_t messageContent) {
@@ -88,16 +114,16 @@ void sendMessage(uint8_t robotAddress, uint8_t messageType, uint8_t messageConte
 }
 
 void sendMessage(uint8_t robotAddress, uint8_t messageType, uint16_t messageContent) {
-  uint8_t messageArray[BYTES_PER_INT];
-  intToArray(messageContent, messageArray);
+  uint8_t messageArray[BYTES_PER_UINT16];
+  uint16ToArray(messageContent, messageArray);
 
   Wire.beginTransmission(robotAddress);
   Wire.write(messageType);
-  Wire.write(messageArray, BYTES_PER_INT);
+  Wire.write(messageArray, BYTES_PER_UINT16);
   Wire.endTransmission();
 }
 
-void intToArray(uint16_t inputNumber, uint8_t* arr) {
+void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
   arr[0] = inputNumber & MASK_BYTE0;
   arr[1] = inputNumber & MASK_BYTE1;
 }

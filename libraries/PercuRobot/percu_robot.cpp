@@ -6,15 +6,14 @@ PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot() {
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte velocity, bool printOutput) {
-  if (printOutput) {
-    Serial.print("Hitting limb: ");
-    Serial.print(limb);
-    Serial.print(", with angle: ");
-    Serial.println(getHitAngle(limb, pos, velocity));
-  }
-
   if (limb < NB_HIT_JOINTS) {
     hitServos_[limb].write(getHitAngle(limb, pos, velocity));
+    if(printOutput){
+      Serial.print("Limb ");
+      Serial.print(limb);
+      Serial.print(" going to hit angle ");
+      Serial.println(getHitAngle(limb, pos, velocity));
+    }
   }
 }
 
@@ -81,7 +80,7 @@ void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_
 }
 
 // Drum Robot
-template class PercuRobot<3, 2>;
+template class PercuRobot<4, 2>;
 
 // Glocken Robot:
-template class PercuRobot<2, 2>;
+template class PercuRobot<3, 3>;
