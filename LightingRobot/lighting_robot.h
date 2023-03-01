@@ -9,11 +9,12 @@
 #include <Adafruit_NeoPixel.h>
 
 #define MS_PER_MIN 60000
+#define NB_OF_SPOTLIGHTS 6
 
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int lightPin, int brightness, int address, int bpm);
+  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPin[NB_OF_SPOTLIGHTS], int brightness, int address, int bpm);
 
   void setMode(uint8_t mode);
   void setBpm(uint8_t bpm);
@@ -31,8 +32,9 @@ public:
 
 private:
   uint8_t mode_, bpm_;
-  Adafruit_NeoMatrix *matrix_;
-  int lightPin_;
+  Adafruit_NeoMatrix *ledMatrix_;
+  int spotlightPins_[NB_OF_SPOTLIGHTS];
+  int currSpotlightOn_;
 
   uint16_t primaryColors_[3];
   int x_, pass_;
