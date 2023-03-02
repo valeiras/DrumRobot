@@ -1,8 +1,7 @@
 #ifndef Percu_robot_h
 #define Percu_robot_h
 
-#include <Servo.h>
-
+#include "Servo.h"
 #include "Arduino.h"
 
 #define VEL_MULTIPLIER 1
@@ -40,5 +39,64 @@ class PercuRobot {
   Servo hitServos_[NB_HIT_JOINTS];
   Servo posServos_[NB_POS_JOINTS];
 };
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot() {
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte velocity, bool printOutput) {
+  if (limb < NB_HIT_JOINTS) {
+    hitServos_[limb].write(getHitAngle(limb, pos, velocity));
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::rest(byte limb, byte pos, bool printOutput) {
+  if (limb < NB_HIT_JOINTS) {
+    hitServos_[limb].write(getRestAngle(limb, pos));
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToPos(byte limb, byte pos) {
+  if (limb < NB_POS_JOINTS) {
+    posServos_[limb].write(getPosAngle(limb, pos));
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToPosAngle(byte limb, byte posAngle) {
+  if (limb < NB_POS_JOINTS) {
+    posServos_[limb].write(posAngle);
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte hitAngle) {
+  if (limb < NB_HIT_JOINTS) {
+    hitServos_[limb].write(hitAngle);
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::setServoSpeed(float wServo) {
+  wServo_ = wServo;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+float PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getServoSpeed() {
+  return wServo_;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput) {
+  for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++) {
+    hitServos_[ii].attach(hitPins[ii]);
+  }
+  for (unsigned int ii = 0; ii < NB_POS_JOINTS; ii++) {
+    posServos_[ii].attach(posPins[ii]);
+  }
+}
 
 #endif

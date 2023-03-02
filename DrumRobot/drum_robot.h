@@ -10,7 +10,7 @@ struct posParamsDrum {
   String posName;  // Name of the position, for debugging purposes
 };
 
-class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR> {
+class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR>{
 public:
   DrumRobot();
 
@@ -30,6 +30,8 @@ private:
 
   struct posParamsDrum paramsLeftArm_[NB_POS_LA_DR], paramsRightArm_[NB_POS_RA_DR], paramsRightLeg_[NB_POS_RL_DR];
   posParamsDrum *posParameters_[NB_HIT_JOINTS_DR] = { paramsLeftArm_, paramsRightArm_, paramsRightLeg_ };
+
+  bool hasStarted_;
 };
 
 #endif

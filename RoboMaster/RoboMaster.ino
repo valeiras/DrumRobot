@@ -25,7 +25,7 @@ short maxBpm = 150;
 int lastButtonState = LOW;
 int currLightMode = 0;
 
-bool robotIsPresent[NB_ROBOTS] = { false, false, false, true };
+bool robotIsPresent[NB_ROBOTS] = { true, false, false, true };
 
 void setup() {
   if (printOutput) {

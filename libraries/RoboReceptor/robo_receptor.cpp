@@ -4,7 +4,6 @@ RoboReceptor::RoboReceptor() {
 }
 
 RoboReceptor::RoboReceptor(int address) {
-  Serial.println("[RoboReceptor] Constructor");
   Wire.begin(address);
   Wire.onReceive(receiveMessage);
 }

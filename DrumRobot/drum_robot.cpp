@@ -1,8 +1,6 @@
 #include "drum_robot.h"
 
 DrumRobot::DrumRobot() {
-  Serial.println("Drum robot constructor");
-
   // We initialize the default parameters
   setLimbParams();
 
@@ -14,6 +12,8 @@ DrumRobot::DrumRobot() {
   nbPos_[RIGHT_LEG_DR] = NB_POS_RL_DR;
 
   setServoSpeed(_wServoDr);
+
+  hasStarted_ = false;
 }
 
 // We use the default values defined in robot_config.h
@@ -89,16 +89,6 @@ byte DrumRobot::getPosAngle(byte limb, byte pos) {
 unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
   if (pos < nbPos_[limb]) {
     float result = abs(posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER - posParameters_[limb][pos].restAngle) / wServo_;
-    if (printOutput) {
-      Serial.print("Hit angle : ");
-      Serial.print(posParameters_[limb][pos].hitAngle);
-      Serial.print(", extra due to velocity: ");
-      Serial.print(hitDirection_[limb] * velocity * VEL_MULTIPLIER);
-      Serial.print(", rest angle : ");
-      Serial.print(posParameters_[limb][pos].restAngle);
-      Serial.print(", result:  ");
-      Serial.println(result);
-    }
     return round(result);
   } else {
     return 0;

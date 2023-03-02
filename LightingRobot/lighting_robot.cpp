@@ -54,7 +54,7 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
     spotlightPins_[ii] = spotlightPins[ii];
     pinMode(spotlightPins_[ii], OUTPUT);
   }
-  currSpotlightOn_ = 0;
+  currSpotlightOn_ = 2;
 }
 
 void LightingRobot::setMode(uint8_t mode) {
@@ -71,7 +71,7 @@ void LightingRobot::doLighting(unsigned long currTime) {
     unsigned int ellapsedTime = currTime - initTime_;
     if (ellapsedTime - lastBlink_ > blinkingTime_) {
       blink_ = !blink_;
-      currSpotlightOn_ = (++currSpotlightOn_ % NB_OF_SPOTLIGHTS);
+      currSpotlightOn_ = 2;//(++currSpotlightOn_ % NB_OF_SPOTLIGHTS);
       //lastBlink_ += blinkingTime_;
       lastBlink_ = ellapsedTime;
       x_--;
