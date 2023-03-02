@@ -1,5 +1,5 @@
-#include <Servo.h>
 #include <robo_controller.h>
+#include <robo_communication.h>
 
 #include "glocken_robot.h"
 #include "glocken_song.h"
@@ -10,29 +10,16 @@
 #define LEFT_POS_PIN_GL 9
 #define RIGHT_POS_PIN_GL 10
 
-#define BPM_INPUT_PIN A0
-
-#define ANALOG_MIN 0
-#define ANALOG_MAX 1023
-
-unsigned int initialDelay = 1000;
-unsigned long ellapsedTime;
-
-unsigned long initTime;
 unsigned short bpm = 100;
 
 bool printOutput = false;
 bool simulation = false;
-bool variableBpm = false;
-
-int minBpm = 60;
-int maxBpm = 150;
 
 byte songName = FRERE_JACQUES;
 
 GlockenRobot robot = GlockenRobot();
 GlockenSong song = GlockenSong();
-RoboController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, bpm, simulation, printOutput);
+RoboController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);
@@ -48,12 +35,9 @@ void setup() {
   byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
   robot.attachServos(hitPins, posPins, printOutput);
 
-  initTime = millis();
-  roboController.setInitialTime(initTime + initialDelay);
-  roboController.initializeRobot();
+  roboController.setReceptor();
 }
 
 void loop() {
-  ellapsedTime = millis() - initTime;
-  roboController.goToTime(ellapsedTime, printOutput);
+  roboController.goToTime(millis(), printOutput);
 }
