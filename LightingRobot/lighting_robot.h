@@ -1,6 +1,8 @@
 #ifndef Lighting_robot_h
 #define Lighting_robot_h
 
+#include "gear.h"
+
 #include <robo_receptor.h>
 #include <robo_communication.h>
 
@@ -9,21 +11,19 @@
 #include <Adafruit_NeoPixel.h>
 
 #define MS_PER_MIN 60000
-#define NB_OF_SPOTLIGHTS 6
+#define NB_SPOTLIGHTS 6
+
+#define NB_COLORS 3
 
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPin[NB_OF_SPOTLIGHTS], int brightness, int address, int bpm);
+  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
 
-  void setMode(uint8_t mode);
   void setBpm(uint8_t bpm);
 
   void doLighting(unsigned long currTime);
-  void doNameLighting(unsigned long ellapsedTime);
-  void doBlinkLighting();
-  void doLogoLighting();
-
+  
   void treatStartMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
@@ -31,15 +31,29 @@ public:
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
 private:
-  uint8_t mode_, bpm_;
-  Adafruit_NeoMatrix *ledMatrix_;
-  int spotlightPins_[NB_OF_SPOTLIGHTS];
-  int currSpotlightOn_;
+  void doMatrixName(unsigned long ellapsedTime);
+  void doMatrixBlinking(unsigned long ellapsedTime);
+  void doMatrixLogo(unsigned long ellapsedTime);
+  
+  void doSpotlightBlinking(unsigned long ellapsedTime);
+  void doSpotlightSequence(unsigned long ellapsedTime);
+  void doSpotlightConstant(unsigned long ellapsedTime);
 
-  uint16_t primaryColors_[3];
+  void clearAllLights();
+  void clearMatrix();
+  void turnOffSpotlights();
+  void turnOnSpotlights();
+
+  uint8_t matrixMode_, spotlightMode_, bpm_;
+  int w_, h_;
+  Adafruit_NeoMatrix *ledMatrix_;
+  int spotlightPins_[NB_SPOTLIGHTS];
+  int currSpotlight_;
+
+  uint16_t primaryColors_[NB_COLORS];
   int x_, pass_;
-  bool hasStarted_, blink_;
-  unsigned long initTime_, lastBlink_, blinkingTime_;
+  bool hasStarted_, matrixOn_, spotlightOn_;
+  unsigned long lastLightingTime_, lastMatrixBlinkingTime_, lastSpotlightBlinkingTime_, blinkingInterval_;
 };
 
 #endif
