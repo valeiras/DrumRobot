@@ -23,7 +23,8 @@ short minBpm = 60;
 short maxBpm = 150;
 
 int lastButtonState = LOW;
-int currLightMode = 0;
+int currSpotlightMode = 0;
+int currMatrixMode = 0;
 
 bool robotIsPresent[NB_ROBOTS] = { true, false, false, true };
 
@@ -67,8 +68,11 @@ void loop() {
 
     int currButtonState = digitalRead(BUTTON1_PIN);
     if (currButtonState == HIGH && lastButtonState == LOW) {
-      currLightMode = ++currLightMode % NB_LIGHTING_MODES;
-      sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, lightingModes[currLightMode]);
+      currMatrixMode = ++currMatrixMode % NB_MATRIX_MODES;
+      currSpotlightMode = ++currSpotlightMode % NB_SPOTLIGHT_MODES;
+
+      notifyChangeLightingMode(matrixModes[currMatrixMode], MATRIX);
+      //notifyChangeLightingMode(spotlightModes[currSpotlightMode], SPOTLIGHT);
     }
     lastButtonState = currButtonState;
   }
@@ -116,4 +120,9 @@ void sendMessage(uint8_t robotAddress, uint8_t messageType, uint16_t messageCont
 void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
   arr[0] = inputNumber & MASK_BYTE0;
   arr[1] = inputNumber & MASK_BYTE1;
+}
+
+void notifyChangeLightingMode(uint8_t lightingMode, uint8_t elementBit) {
+  uint8_t messageContent = (lightingMode << BITS_PER_ELEMENT_IDENTIFIER) | elementBit;
+  sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, messageContent);
 }

@@ -13,7 +13,7 @@ RoboReceptor::setReceptor() {
 }
 
 uint16_t arrayToUint16(uint8_t* arr) {
-  return arr[0] | arr[1] << BYTES_PER_UINT8 * BITS_PER_BYTE;
+  return arr[0] | (arr[1] << BYTES_PER_UINT8 * BITS_PER_BYTE);
 }
 
 void receiveMessage(int howMany) {

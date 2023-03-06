@@ -1,5 +1,5 @@
-#ifndef Robo_controller_h
-#define Robo_controller_h
+#ifndef Percu_controller_h
+#define Percu_controller_h
 
 #include <Array.h>
 #include <percu_robot.h>
@@ -11,9 +11,9 @@
 #define POS_SECURITY_FACTOR 0.5
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-class RoboController : public RoboReceptor {
+class PercuController : public RoboReceptor {
  public:
-  RoboController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
+  PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
                  int address, unsigned short bpm, bool simulation, bool printOutput);
 
   // This method should be called once all the parameters of the robot and the song have been set
@@ -54,7 +54,7 @@ class RoboController : public RoboReceptor {
 };
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::RoboController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
+PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
                                                                            RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
                                                                            unsigned short bpm, bool simulation, bool printOutput) : RoboReceptor(address) {
   robot_ = robot;
@@ -67,7 +67,7 @@ RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::RoboController(Percu
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot() {
   for (unsigned int limb = 0; limb < NB_POS_JOINTS; limb++) {
     timeNextPosInstruction_[limb] = 0;
     moveLimb_[limb] = false;
@@ -90,12 +90,12 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setInitialTime(unsigned long initialTime) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setInitialTime(unsigned long initialTime) {
   timeNextSemiquaver_ = initialTime;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
   if (hasStarted_) {
     unsigned long ellapsedTime = currTime - initialTime_;
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
@@ -117,7 +117,7 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstruction(byte limb, unsigned long currTime) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstruction(byte limb, unsigned long currTime) {
   byte currentPosition = limb < NB_POS_JOINTS ? nextPos_[limb] : 0;
 
   if (nextInstruction_[limb] == HIT) {
@@ -151,18 +151,18 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstru
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::managePosInstruction(byte limb) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::managePosInstruction(byte limb) {
   robot_->goToPos(limb, nextPos_[limb]);
   moveLimb_[limb] = false;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-bool RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::isTimeToChangePos(byte limb, unsigned long ellapsedTime) {
+bool PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::isTimeToChangePos(byte limb, unsigned long ellapsedTime) {
   return (limb < NB_POS_JOINTS && moveLimb_[limb] && ellapsedTime >= timeNextPosInstruction_[limb]);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigned short bpm) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigned short bpm) {
   bpm_ = bpm;
   unsigned long timeQuarter = int(60000.0 / bpm_);  // us per quarter note
   timePerSemiquaver_ = int(timeQuarter / 4.0);      // us per semiquaver note
@@ -176,27 +176,27 @@ void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigned
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
   hasStarted_ = true;
   initializeRobot();
   Serial.println("Starting");
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatResyncMsg() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatResyncMsg() {
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmChangeMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmChangeMsg(uint8_t messageContent) {
   setBpm(messageContent);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatModeChangeMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatModeChangeMsg(uint8_t messageContent) {
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void RoboController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatSetResyncTimeMsg(uint16_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatSetResyncTimeMsg(uint16_t messageContent) {
 }
 
 #endif

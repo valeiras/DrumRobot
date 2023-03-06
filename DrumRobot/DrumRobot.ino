@@ -1,5 +1,5 @@
-#include <Servo.h>
-#include <robo_controller.h>
+#include <percu_controller.h>
+#include <robo_communication.h>
 
 #include "drum_robot.h"
 #include "drum_song.h"
@@ -18,7 +18,7 @@ bool simulation = false;
 
 DrumRobot robot;
 DrumSong song;
-RoboController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> roboController(&robot, &song, DRUM_ADDRESS, bpm, simulation, printOutput);
+PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> roboController(&robot, &song, DRUM_ADDRESS, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);

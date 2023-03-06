@@ -1,4 +1,4 @@
-#include <robo_controller.h>
+#include <percu_controller.h>
 #include <robo_communication.h>
 
 #include "glocken_robot.h"
@@ -19,7 +19,7 @@ byte songName = FRERE_JACQUES;
 
 GlockenRobot robot = GlockenRobot();
 GlockenSong song = GlockenSong();
-RoboController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
+PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);
