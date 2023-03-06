@@ -5,7 +5,7 @@
 #include "Arduino.h"
 
 #define MAX_NB_PATTERNS 5
-#define MAX_NB_BEATS 50
+#define MAX_NB_MEASURES 50
 
 #define BITS_FOR_HIT 1
 #define BITS_PER_BYTE 8
@@ -13,7 +13,7 @@
 #define HIT 1
 #define REST 255
 
-#define SEMIQUAVERS_PER_BEAT 16
+#define SEMIQUAVERS_PER_MEASURE 16
 
 #define V000 0
 #define V001 1
@@ -40,7 +40,7 @@ class PercuSong {
 
   // Default patterns for the different songs. Empty method in the base class
   virtual void createPredefinedPatterns(byte rythmName, bool printOutput = false) = 0;
-  void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats);
+  void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbMeasures);
 
   byte getPosNextHit(byte limb);
   byte getVelNextHit(byte limb);
@@ -73,7 +73,7 @@ class PercuSong {
  protected:
   byte nbOfPositions_[NB_LIMBS];
   byte nbPatterns_;
-  byte nbBeats_;
+  byte nbMeasures_;
 
  private:
   byte getPosFromNoteData(byte noteData);
@@ -88,7 +88,7 @@ class PercuSong {
 
   signed char hitDirection_[NB_LIMBS];
 
-  Array<byte, MAX_NB_BEATS> patternSequence_;
+  Array<byte, MAX_NB_MEASURES> patternSequence_;
 
   Array<Array<byte[16], MAX_NB_PATTERNS>, NB_LIMBS> patternArrays_;
 
@@ -120,19 +120,19 @@ PercuSong<NB_LIMBS, BITS_FOR_POS>::PercuSong() {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void PercuSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbMeasures) {
   nbPatterns_ = nbPatterns;
-  nbBeats_ = nbBeats;
+  nbMeasures_ = nbMeasures;
 
   for (int limb = 0; limb < NB_LIMBS; limb++) {
     for (int patternId = 0; patternId < nbPatterns_; patternId++) {
       byte* currPattern = patternArrays_[limb][patternId];
-      for (int noteIndex = 0; noteIndex < SEMIQUAVERS_PER_BEAT; noteIndex++) {
+      for (int noteIndex = 0; noteIndex < SEMIQUAVERS_PER_MEASURE; noteIndex++) {
         currPattern[noteIndex] = 0;
       }
     }
 
-    for (int ii = 0; ii < nbBeats_; ii++) {
+    for (int ii = 0; ii < nbMeasures_; ii++) {
       patternSequence_[ii] = 0;
     }
   }
@@ -189,9 +189,9 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutp
 
   do {
     // We iterate the pattern. When we get to the end we start again
-    if (++semiquaver >= SEMIQUAVERS_PER_BEAT) {
+    if (++semiquaver >= SEMIQUAVERS_PER_MEASURE) {
       semiquaver = 0;
-      sequenceIdx = (sequenceIdx + 1) % nbBeats_;
+      sequenceIdx = (sequenceIdx + 1) % nbMeasures_;
       patternId = patternSequence_[sequenceIdx];
       currPattern = patternArrays_[limb][patternId];
     }
@@ -226,7 +226,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverHit(byte limb, byte pos, by
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput) {
-  if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < nbOfPositions_[limb]) {
+  if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_MEASURE && pos < nbOfPositions_[limb]) {
     // We get the current pattern
     byte* currPattern = patternArrays_[limb][patternId];
     byte* currElement = &currPattern[semiquaversPerNote * (noteIndex - 1)];
@@ -267,7 +267,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverRest(byte limb, byte patter
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote) {
-  if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
+  if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_MEASURE) {
     byte* currPattern = patternArrays_[limb][patternId];
     currPattern[semiquaversPerNote * (noteIndex - 1)] = 0;
   }
@@ -278,9 +278,9 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::setHitPattern(byte limb, byte patternId,
                                                      byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
-  byte inputPattern[SEMIQUAVERS_PER_BEAT] = {p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16};
+  byte inputPattern[SEMIQUAVERS_PER_MEASURE] = {p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16};
 
-  for (int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+  for (int ii = 0; ii < SEMIQUAVERS_PER_MEASURE; ii++) {
     // We reinitialize the element:
     currPattern[ii] = 0;
 
@@ -297,16 +297,16 @@ template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
-  byte inputPattern[SEMIQUAVERS_PER_BEAT] = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16};
+  byte inputPattern[SEMIQUAVERS_PER_MEASURE] = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16};
 
-  for (int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+  for (int ii = 0; ii < SEMIQUAVERS_PER_MEASURE; ii++) {
     currPattern[ii] = currPattern[ii] | (min(inputPattern[ii], maxVel_) << BITS_FOR_HIT + BITS_FOR_POS);
   }
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::setPatternSequence(byte pattSeq[]) {
-  for (int ii = 0; ii < nbBeats_; ii++) {
+  for (int ii = 0; ii < nbMeasures_; ii++) {
     if (pattSeq[ii] < nbPatterns_) {
       patternSequence_.push_back(pattSeq[ii]);
     } else {
@@ -341,7 +341,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::printHitPattern(byte limb, byte patternI
     Serial.println(limb);
 
     byte* currPattern = patternArrays_[limb][patternId];
-    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_MEASURE; ii++) {
       Serial.print(bitRead(currPattern[ii], 0));
       Serial.print(" ");
     }
@@ -359,7 +359,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::printPosPattern(byte limb, byte patternI
     Serial.println(limb);
 
     byte* currPattern = patternArrays_[limb][patternId];
-    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_MEASURE; ii++) {
       Serial.print((currPattern[ii] & posMask_) >> BITS_FOR_HIT);
       Serial.print(" ");
     }
@@ -377,7 +377,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::printVelPattern(byte limb, byte patternI
     Serial.println(limb);
 
     byte* currPattern = patternArrays_[limb][patternId];
-    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_BEAT; ii++) {
+    for (unsigned int ii = 0; ii < SEMIQUAVERS_PER_MEASURE; ii++) {
       Serial.print((currPattern[ii] & velMask_) >> BITS_FOR_HIT + BITS_FOR_POS);
       Serial.print(" ");
     }

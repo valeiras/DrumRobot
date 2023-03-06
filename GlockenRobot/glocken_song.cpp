@@ -13,8 +13,8 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
     default:
       {
         nbPatterns_ = 4;
-        nbBeats_ = 8;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
@@ -49,7 +49,7 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
         setHitPattern(RIGHT_ARM_GL, patternId3, D01G, REST, REST, REST, D01G, REST, REST, REST, C01G, REST, REST, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V000, V000, V000, V000, printOutput);
 
-        byte frereJacquesPattSeq[nbBeats_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
+        byte frereJacquesPattSeq[nbMeasures_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
         setPatternSequence(frereJacquesPattSeq);
 
         break;

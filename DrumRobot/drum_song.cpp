@@ -18,8 +18,8 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
           Serial.println("Simplest rythm");
         }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -40,7 +40,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 2, printOutput);
         setQuarterHit(RIGHT_ARM_DR, CRSH, V010, patternId, 4, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
@@ -52,8 +52,8 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
           Serial.println("Basic rythm");
         }
         nbPatterns_ = 3;
-        nbBeats_ = 10;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 10;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
@@ -126,7 +126,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
 
         setHitPattern(RIGHT_ARM_DR, patternId2, REST, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, SNRG, REST, printOutput);
         setVelPattern(RIGHT_ARM_DR, patternId2, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
-        byte basicPattSeq[nbBeats_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+        byte basicPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
 
         setPatternSequence(basicPattSeq);
         break;
@@ -138,8 +138,8 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
           Serial.println("Basic rythm without accents");
         }
         nbPatterns_ = 3;
-        nbBeats_ = 10;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 10;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
@@ -212,7 +212,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
 
         setHitPattern(RIGHT_ARM_DR, patternId2, REST, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, SNRG, REST, printOutput);
         setVelPattern(RIGHT_ARM_DR, patternId2, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, printOutput);
-        byte basicPattSeq[nbBeats_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+        byte basicPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
 
         setPatternSequence(basicPattSeq);
         break;
@@ -223,8 +223,8 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
           Serial.println("Crescendo");
         }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -255,7 +255,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuaverHit(RIGHT_ARM_DR, SNRG, V013, patternId, 7, printOutput);
         setQuaverHit(RIGHT_ARM_DR, CRSH, V015, patternId, 8, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
@@ -266,8 +266,8 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
           Serial.println("Crescendo");
         }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -286,7 +286,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 3, printOutput);
         setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId, 4, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
