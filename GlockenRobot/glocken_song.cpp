@@ -1,7 +1,7 @@
 #include "glocken_song.h"
 
 GlockenSong::GlockenSong()
-  : RoboSong<NB_LIMBS_GL, BITS_FOR_POS_GL>::RoboSong() {
+  : PercuSong<NB_LIMBS_GL, BITS_FOR_POS_GL>::PercuSong() {
   nbOfPositions_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }

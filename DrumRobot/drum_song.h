@@ -1,10 +1,9 @@
 #ifndef Drum_song_h
 #define Drum_song_h
 
-#include <robo_song.h>
+#include <percu_song.h>
+#include <Arduino.h>
 
-#include "Arduino.h"
-#include "robo_song.h"
 #include "drum_robot_config.h"
 
 #define BITS_FOR_POS_DR 3
@@ -16,7 +15,7 @@
 #define CRESCENDO 3
 #define QUARTER_NOTES 4
 
-class DrumSong : public RoboSong<NB_LIMBS_DR, BITS_FOR_POS_DR> {
+class DrumSong : public PercuSong<NB_LIMBS_DR, BITS_FOR_POS_DR> {
 public:
   DrumSong();
 

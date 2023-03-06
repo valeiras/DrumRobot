@@ -3,8 +3,8 @@
 
 #include <Array.h>
 #include <percu_robot.h>
+#include <percu_song.h>
 #include <robo_receptor.h>
-#include <robo_song.h>
 
 #include "Arduino.h"
 
@@ -13,8 +13,8 @@
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class PercuController : public RoboReceptor {
  public:
-  PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
-                 int address, unsigned short bpm, bool simulation, bool printOutput);
+  PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
+                  int address, unsigned short bpm, bool simulation, bool printOutput);
 
   // This method should be called once all the parameters of the robot and the song have been set
   void initializeRobot();
@@ -38,7 +38,7 @@ class PercuController : public RoboReceptor {
 
  private:
   PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
-  RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song_;
+  PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song_;
 
   unsigned long timeNextHitInstruction_[NB_HIT_JOINTS], timeNextPosInstruction_[NB_POS_JOINTS];
   byte nextInstruction_[NB_HIT_JOINTS];
@@ -55,8 +55,8 @@ class PercuController : public RoboReceptor {
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
-                                                                           RoboSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
-                                                                           unsigned short bpm, bool simulation, bool printOutput) : RoboReceptor(address) {
+                                                                             PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
+                                                                             unsigned short bpm, bool simulation, bool printOutput) : RoboReceptor(address) {
   robot_ = robot;
   song_ = song;
 

@@ -1,5 +1,5 @@
-#ifndef Robo_song_h
-#define Robo_song_h
+#ifndef Percu_song_h
+#define Percu_song_h
 
 #include <Array.h>
 #include "Arduino.h"
@@ -34,9 +34,9 @@
 
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-class RoboSong {
+class PercuSong {
  public:
-  RoboSong();
+  PercuSong();
 
   // Default patterns for the different songs. Empty method in the base class
   virtual void createPredefinedPatterns(byte rythmName, bool printOutput = false) = 0;
@@ -97,7 +97,7 @@ class RoboSong {
 };
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-RoboSong<NB_LIMBS, BITS_FOR_POS>::RoboSong() {
+PercuSong<NB_LIMBS, BITS_FOR_POS>::PercuSong() {
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
     semiquaversToNextHit_[ii] = 0;
     currSemiquaver_[ii] = -1;
@@ -120,7 +120,7 @@ RoboSong<NB_LIMBS, BITS_FOR_POS>::RoboSong() {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbBeats) {
   nbPatterns_ = nbPatterns;
   nbBeats_ = nbBeats;
 
@@ -139,22 +139,22 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::initializeBlankPatterns(unsigned int nbPa
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getPosNextHit(byte limb) {
+byte PercuSong<NB_LIMBS, BITS_FOR_POS>::getPosNextHit(byte limb) {
   return nextPos_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelNextHit(byte limb) {
+byte PercuSong<NB_LIMBS, BITS_FOR_POS>::getVelNextHit(byte limb) {
   return nextVel_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getSemiquaversToNextHit(byte limb) {
+byte PercuSong<NB_LIMBS, BITS_FOR_POS>::getSemiquaversToNextHit(byte limb) {
   return semiquaversToNextHit_[limb];
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
   for (unsigned int limb = 0; limb < NB_LIMBS; limb++) {
     if (--semiquaversToNextHit_[limb] < 0) {
       Serial.println("This should not be happening!");
@@ -163,7 +163,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToNextSemiquaver(bool printOutput) {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
 
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
     semiquaversToNextHit_[ii] = 0;
@@ -179,7 +179,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
   signed char semiquaver = currSemiquaver_[limb];
   unsigned char sequenceIdx = currSequenceIdx_[limb];
 
@@ -207,25 +207,25 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutpu
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setQuarterHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setQuarterHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
   byte semiquaversPerQuarter = 4;
   setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerQuarter, printOutput);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setQuaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setQuaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
   byte semiquaversPerQuaver = 2;
   setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerQuaver, printOutput);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverHit(byte limb, byte pos, byte velocity, byte patternId, byte noteIndex, bool printOutput) {
   byte semiquaversPerSemiquaver = 1;
   setHit(limb, pos, velocity, patternId, noteIndex, semiquaversPerSemiquaver, printOutput);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setHit(byte limb, byte pos, byte vel, byte patternId, byte noteIndex, byte semiquaversPerNote, bool printOutput) {
   if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT && pos < nbOfPositions_[limb]) {
     // We get the current pattern
     byte* currPattern = patternArrays_[limb][patternId];
@@ -248,25 +248,25 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setHit(byte limb, byte pos, byte vel, byt
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setQuarterRest(byte limb, byte patternId, byte noteIndex) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setQuarterRest(byte limb, byte patternId, byte noteIndex) {
   byte semiquaversPerQuarter = 4;
   setRest(limb, patternId, noteIndex, semiquaversPerQuarter);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setQuaverRest(byte limb, byte patternId, byte noteIndex) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setQuaverRest(byte limb, byte patternId, byte noteIndex) {
   byte semiquaversPerQuaver = 2;
   setRest(limb, patternId, noteIndex, semiquaversPerQuaver);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverRest(byte limb, byte patternId, byte noteIndex) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setSemiquaverRest(byte limb, byte patternId, byte noteIndex) {
   byte semiquaversPerSemiquaver = 1;
   setRest(limb, patternId, noteIndex, semiquaversPerSemiquaver);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setRest(byte limb, byte patternId, byte noteIndex, byte semiquaversPerNote) {
   if (noteIndex > 0 && semiquaversPerNote * (noteIndex - 1) < SEMIQUAVERS_PER_BEAT) {
     byte* currPattern = patternArrays_[limb][patternId];
     currPattern[semiquaversPerNote * (noteIndex - 1)] = 0;
@@ -274,7 +274,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setRest(byte limb, byte patternId, byte n
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7,
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setHitPattern(byte limb, byte patternId, byte p1, byte p2, byte p3, byte p4, byte p5, byte p6, byte p7,
                                                      byte p8, byte p9, byte p10, byte p11, byte p12, byte p13, byte p14, byte p15, byte p16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
@@ -294,7 +294,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setHitPattern(byte limb, byte patternId, 
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput = false) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId, byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, byte v12, byte v13, byte v14, byte v15, byte v16, bool printOutput = false) {
   unsigned int nbPos = nbOfPositions_[limb];
   byte* currPattern = patternArrays_[limb][patternId];
   byte inputPattern[SEMIQUAVERS_PER_BEAT] = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16};
@@ -305,7 +305,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId, 
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::setPatternSequence(byte pattSeq[]) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::setPatternSequence(byte pattSeq[]) {
   for (int ii = 0; ii < nbBeats_; ii++) {
     if (pattSeq[ii] < nbPatterns_) {
       patternSequence_.push_back(pattSeq[ii]);
@@ -316,14 +316,14 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::setPatternSequence(byte pattSeq[]) {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::printPatterns() {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::printPatterns() {
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
     printPatterns(ii);
   }
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::printPatterns(byte limb) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::printPatterns(byte limb) {
   for (unsigned int ii = 0; ii < nbPatterns_; ii++) {
     printHitPattern(limb, ii);
     printPosPattern(limb, ii);
@@ -332,7 +332,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::printPatterns(byte limb) {
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::printHitPattern(byte limb, byte patternId) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::printHitPattern(byte limb, byte patternId) {
   if (limb < NB_LIMBS && patternId < nbPatterns_) {
     Serial.println("");
     Serial.print("Hit pattern ");
@@ -350,7 +350,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::printHitPattern(byte limb, byte patternId
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::printPosPattern(byte limb, byte patternId) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::printPosPattern(byte limb, byte patternId) {
   if (limb < NB_LIMBS && patternId < nbPatterns_) {
     Serial.println("");
     Serial.print("Position pattern ");
@@ -368,7 +368,7 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::printPosPattern(byte limb, byte patternId
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-void RoboSong<NB_LIMBS, BITS_FOR_POS>::printVelPattern(byte limb, byte patternId) {
+void PercuSong<NB_LIMBS, BITS_FOR_POS>::printVelPattern(byte limb, byte patternId) {
   if (limb < NB_LIMBS && patternId < nbPatterns_) {
     Serial.println("");
     Serial.print("Velocity pattern ");
@@ -385,12 +385,12 @@ void RoboSong<NB_LIMBS, BITS_FOR_POS>::printVelPattern(byte limb, byte patternId
   }
 }
 template <int NB_LIMBS, int BITS_FOR_POS>
-byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getPosFromNoteData(byte noteData) {
+byte PercuSong<NB_LIMBS, BITS_FOR_POS>::getPosFromNoteData(byte noteData) {
   return ((noteData & posMask_) >> BITS_FOR_HIT);
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
-byte RoboSong<NB_LIMBS, BITS_FOR_POS>::getVelFromNoteData(byte noteData) {
+byte PercuSong<NB_LIMBS, BITS_FOR_POS>::getVelFromNoteData(byte noteData) {
   return ((noteData & velMask_) >> BITS_FOR_HIT + BITS_FOR_POS);
 }
 
