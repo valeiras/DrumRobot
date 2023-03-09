@@ -43,10 +43,16 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
   primaryColors_[1] = ledMatrix_->Color(0, 255, 0);
   primaryColors_[2] = ledMatrix_->Color(0, 0, 255);
 
-  ledMatrix_->setTextColor(primaryColors_[0]);
+  // We set the palette colors:
+  paletteColors_[0] = ledMatrix_->Color(43, 53, 103);
+  paletteColors_[1] = ledMatrix_->Color(186, 215, 233);
+  paletteColors_[2] = ledMatrix_->Color(252, 255, 231);
+  paletteColors_[3] = ledMatrix_->Color(235, 69, 95);
+
+  ledMatrix_->setTextColor(paletteColors_[0]);
 
   x_ = -ledMatrix_->width();
-  pass_ = 0;
+  currColorIndex_ = 0;
   hasStarted_ = false;
   currBitmap_ = 0;
 
@@ -70,7 +76,7 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
 
 void LightingRobot::setBpm(uint8_t bpm) {
   bpm_ = bpm;
-  blinkingInterval_ = MS_PER_MIN / (bpm_);
+  blinkingInterval_ = MS_PER_MIN / (bpm_*4);
 }
 
 void LightingRobot::doLighting(unsigned long currTime) {
@@ -86,6 +92,12 @@ void LightingRobot::doLighting(unsigned long currTime) {
         break;
       case MATRIX_LOGO_MODE:
         doMatrixLogo(currTime);
+        break;
+      case MATRIX_RECTANGLES_MODE:
+        doMatrixRectangles(currTime);
+        break;
+      case MATRIX_BARS_MODE:
+        doMatrixBars(currTime);
         break;
     }
     switch (spotlightMode_) {
@@ -114,8 +126,8 @@ void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
     ledMatrix_->print(F("MEKANIKA"));
     if (x_ > 36) {
       x_ = -ledMatrix_->width();
-      if (++pass_ >= NB_COLORS) pass_ = 0;
-      ledMatrix_->setTextColor(primaryColors_[pass_]);
+      if (++currColorIndex_ >= NB_PALETTE_COLORS) currColorIndex_ = 0;
+      ledMatrix_->setTextColor(paletteColors_[currColorIndex_]);
     }
     ledMatrix_->show();
   }
@@ -126,8 +138,8 @@ void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
     matrixOn_ = !matrixOn_;
     lastMatrixBlinkingTime_ += blinkingInterval_;
     if (matrixOn_) {
-      pass_ = ++pass_ % 3;
-      ledMatrix_->fillScreen(primaryColors_[pass_]);
+      currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
+      ledMatrix_->fillScreen(paletteColors_[currColorIndex_]);
       ledMatrix_->show();
     } else {
       ledMatrix_->fillScreen(0);
@@ -149,6 +161,41 @@ void LightingRobot::doMatrixLogo(unsigned long ellapsedTime) {
     lastMatrixBlinkingTime_ += blinkingInterval_;
     ledMatrix_->drawRGBBitmap(0, 0, image_data_gear[currBitmap_], w_, h_);
     ledMatrix_->show();
+  }
+}
+
+void LightingRobot::doMatrixRectangles(unsigned long ellapsedTime) {
+  Serial.println("Rectangles");
+  if (ellapsedTime - lastMatrixBlinkingTime_ >= blinkingInterval_) {
+    Serial.println("Changing");
+    ledMatrix_->clear();
+    lastMatrixBlinkingTime_ += blinkingInterval_;
+
+    unsigned int minDimension = min(w_, h_);
+    unsigned int halfSize = ceil(minDimension / 2.0);
+
+    unsigned int colorIdx = currColorIndex_;
+    for (unsigned int ii = 0; ii < halfSize; ii++) {
+      ledMatrix_->drawRect(ii, ii, w_ - 2 * ii, h_ - 2 * ii, paletteColors_[colorIdx]);
+      colorIdx = ++colorIdx % NB_PALETTE_COLORS;
+    }
+    ledMatrix_->show();
+    currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
+  }
+}
+
+void LightingRobot::doMatrixBars(unsigned long ellapsedTime) {
+  if (ellapsedTime - lastMatrixBlinkingTime_ >= blinkingInterval_) {
+    ledMatrix_->clear();
+    lastMatrixBlinkingTime_ += blinkingInterval_;
+
+    unsigned int colorIdx = currColorIndex_;
+    for (unsigned int ii = 0; ii < w_; ii += BAR_WIDTH) {
+      ledMatrix_->drawLine(ii, 0, ii + BAR_WIDTH, h_ - 1, paletteColors_[colorIdx]);
+      colorIdx = ++colorIdx % NB_PALETTE_COLORS;
+    }
+    ledMatrix_->show();
+    currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
   }
 }
 

@@ -10,10 +10,15 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
+#include <math.h>
+
 #define MS_PER_MIN 60000
 #define NB_SPOTLIGHTS 6
 
-#define NB_COLORS 3
+#define NB_PRIMARY_COLORS 3
+#define NB_PALETTE_COLORS 4
+
+#define BAR_WIDTH 2
 
 class LightingRobot : public RoboReceptor {
 public:
@@ -34,6 +39,8 @@ private:
   void doMatrixName(unsigned long ellapsedTime);
   void doMatrixBlinking(unsigned long ellapsedTime);
   void doMatrixLogo(unsigned long ellapsedTime);
+  void doMatrixRectangles(unsigned long ellapsedTime);
+  void doMatrixBars(unsigned long ellapsedTime);
   
   void doSpotlightBlinking(unsigned long ellapsedTime);
   void doSpotlightSequence(unsigned long ellapsedTime);
@@ -50,8 +57,8 @@ private:
   int spotlightPins_[NB_SPOTLIGHTS];
   int currSpotlight_;
 
-  uint16_t primaryColors_[NB_COLORS];
-  int x_, pass_, currBitmap_;
+  uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
+  int x_, currColorIndex_, currBitmap_;
   bool hasStarted_, matrixOn_, spotlightOn_;
   unsigned long lastLightingTime_, lastMatrixBlinkingTime_, lastSpotlightBlinkingTime_, blinkingInterval_;
 };

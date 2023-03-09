@@ -8,7 +8,7 @@
 #define SPOTLIGHT_PIN6 7
 #define LED_MATRIX_PIN 9
 
-const int BRIGHTNESS = 32;
+const int BRIGHTNESS = 64;
 const int MATRIX_WIDTH = 16;
 const int MATRIX_HEIGHT = 16;
 
