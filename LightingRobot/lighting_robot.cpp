@@ -2,7 +2,7 @@
 
 LightingRobot::LightingRobot() {}
 
-LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPins[NB_OF_SPOTLIGHTS], int brightness, int address, int bpm)
+LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address, int bpm)
   : RoboReceptor(address) {
 
   // MATRIX DECLARATION:
@@ -24,8 +24,14 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
   //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
   //   NEO_GRBW    Pixels are wired for GRBW bitstream (RGB+W NeoPixel products)
   //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-  ledMatrix_ = new Adafruit_NeoMatrix(matrixWidth, matrixHeight, matrixPin,
-                                      NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
+  // ledMatrix_ = new Adafruit_NeoMatrix(matrixWidth, matrixHeight, nbMatricesHor, nbMatricesVert, matrixPin,
+  //                                     NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
+  //                                     NEO_GRB + NEO_KHZ800);
+
+  w_ = matrixWidth;
+  h_ = matrixHeight;
+  ledMatrix_ = new Adafruit_NeoMatrix(w_, h_, matrixPin,
+                                      NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
                                       NEO_GRB + NEO_KHZ800);
 
   ledMatrix_->begin();
@@ -39,99 +45,145 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, i
 
   ledMatrix_->setTextColor(primaryColors_[0]);
 
-  x_ = ledMatrix_->width();
+  x_ = -ledMatrix_->width();
   pass_ = 0;
   hasStarted_ = false;
+  currBitmap_ = 0;
 
-  mode_ = NAME_MODE;
+  matrixMode_ = MATRIX_OFF_MODE;
+  spotlightMode_ = SPOTLIGHT_OFF_MODE;
   setBpm(bpm);
 
-  initTime_ = 0;
-  lastBlink_ = 0;
-  blink_ = true;
+  lastMatrixBlinkingTime_ = 0;
+  lastSpotlightBlinkingTime_ = 0;
+  matrixOn_ = false;
+  spotlightOn_ = false;
 
-  for (unsigned int ii = 0; ii < NB_OF_SPOTLIGHTS; ii++) {
+  for (unsigned int ii = 0; ii < NB_SPOTLIGHTS; ii++) {
     spotlightPins_[ii] = spotlightPins[ii];
     pinMode(spotlightPins_[ii], OUTPUT);
   }
-  currSpotlightOn_ = 2;
-}
+  currSpotlight_ = 2;
 
-void LightingRobot::setMode(uint8_t mode) {
-  mode_ = mode;
+  clearAllLights();
 }
 
 void LightingRobot::setBpm(uint8_t bpm) {
   bpm_ = bpm;
-  blinkingTime_ = MS_PER_MIN / (16 * bpm_);
+  blinkingInterval_ = MS_PER_MIN / (bpm_);
 }
 
 void LightingRobot::doLighting(unsigned long currTime) {
   if (hasStarted_) {
-    unsigned int ellapsedTime = currTime - initTime_;
-    if (ellapsedTime - lastBlink_ > blinkingTime_) {
-      blink_ = !blink_;
-      currSpotlightOn_ = 2;//(++currSpotlightOn_ % NB_OF_SPOTLIGHTS);
-      //lastBlink_ += blinkingTime_;
-      lastBlink_ = ellapsedTime;
-      x_--;
-    }
-    switch (mode_) {
-      case NAME_MODE:
-        doNameLighting(ellapsedTime);
+    switch (matrixMode_) {
+      case MATRIX_OFF_MODE:
         break;
-      case BLINKING_MODE:
-        doBlinkLighting();
+      case MATRIX_BLINKING_MODE:
+        doMatrixBlinking(currTime);
         break;
-      case LOGO_MODE:
-        doLogoLighting();
+      case MATRIX_NAME_MODE:
+        doMatrixName(currTime);
+        break;
+      case MATRIX_LOGO_MODE:
+        doMatrixLogo(currTime);
         break;
     }
-  } else {
-    initTime_ = currTime;
+    switch (spotlightMode_) {
+      case SPOTLIGHT_OFF_MODE:
+        break;
+      case SPOTLIGHT_BLINKING_MODE:
+        doSpotlightBlinking(currTime);
+        break;
+      case SPOTLIGHT_SEQUENCE_MODE:
+        doSpotlightSequence(currTime);
+        break;
+      case SPOTLIGHT_CONSTANT_MODE:
+        doSpotlightConstant(currTime);
+        break;
+    }
+  }
+  lastLightingTime_ = currTime;
+}
+
+void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
+  if (ellapsedTime - lastMatrixBlinkingTime_ >= blinkingInterval_) {
+    lastMatrixBlinkingTime_ += blinkingInterval_;
+    x_++;
+    ledMatrix_->fillScreen(0);
+    ledMatrix_->setCursor(x_, 5);
+    ledMatrix_->print(F("MEKANIKA"));
+    if (x_ > 36) {
+      x_ = -ledMatrix_->width();
+      if (++pass_ >= NB_COLORS) pass_ = 0;
+      ledMatrix_->setTextColor(primaryColors_[pass_]);
+    }
+    ledMatrix_->show();
   }
 }
 
-void LightingRobot::doNameLighting(unsigned long ellapsedTime) {
-  ledMatrix_->fillScreen(0);
-  ledMatrix_->setCursor(x_, 5);
-  ledMatrix_->print(F("MEKANIKA"));
-  if (x_ < -36) {
-    x_ = ledMatrix_->width();
-    if (++pass_ >= 3) pass_ = 0;
-    ledMatrix_->setTextColor(primaryColors_[pass_]);
-  }
-  ledMatrix_->show();
-  digitalWrite(spotlightPins_[currSpotlightOn_], HIGH);
-}
-
-void LightingRobot::doBlinkLighting() {
-  if (blink_) {
-    ledMatrix_->fillScreen(ledMatrix_->Color(0, 0, 0));
-    ledMatrix_->show();
-    digitalWrite(spotlightPins_[currSpotlightOn_], HIGH);
-  } else {
-    ledMatrix_->fillScreen(ledMatrix_->Color(0, 50, 0));
-    ledMatrix_->show();
-    digitalWrite(spotlightPins_[currSpotlightOn_], LOW);
+void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
+  if (ellapsedTime - lastMatrixBlinkingTime_ >= blinkingInterval_) {
+    matrixOn_ = !matrixOn_;
+    lastMatrixBlinkingTime_ += blinkingInterval_;
+    if (matrixOn_) {
+      pass_ = ++pass_ % 3;
+      ledMatrix_->fillScreen(primaryColors_[pass_]);
+      ledMatrix_->show();
+    } else {
+      ledMatrix_->fillScreen(0);
+      ledMatrix_->show();
+    }
   }
 }
 
-void LightingRobot::doLogoLighting() {
-  if (blink_) {
-    ledMatrix_->fillScreen(ledMatrix_->Color(0, 0, 0));
+void LightingRobot::doMatrixLogo(unsigned long ellapsedTime) {
+  if (!matrixOn_) {
+    ledMatrix_->clear();
+    ledMatrix_->drawRGBBitmap(0, 0, image_data_gear[currBitmap_], w_, h_);
     ledMatrix_->show();
-    digitalWrite(spotlightPins_[currSpotlightOn_], HIGH);
-  } else {
-    ledMatrix_->fillScreen(ledMatrix_->Color(50, 0, 0));
+    matrixOn_ = true;
+  }
+  if (ellapsedTime - lastMatrixBlinkingTime_ >= blinkingInterval_) {
+    currBitmap_ = ++currBitmap_ % NB_POSITIONS;
+    ledMatrix_->clear();
+    lastMatrixBlinkingTime_ += blinkingInterval_;
+    ledMatrix_->drawRGBBitmap(0, 0, image_data_gear[currBitmap_], w_, h_);
     ledMatrix_->show();
-    digitalWrite(spotlightPins_[currSpotlightOn_], LOW);
+  }
+}
+
+void LightingRobot::doSpotlightBlinking(unsigned long ellapsedTime) {
+  if (ellapsedTime - lastSpotlightBlinkingTime_ >= blinkingInterval_) {
+    spotlightOn_ = !spotlightOn_;
+    lastSpotlightBlinkingTime_ += blinkingInterval_;
+    if (spotlightOn_) {
+      turnOnSpotlights();
+    } else {
+      turnOffSpotlights();
+    }
+  }
+}
+
+void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
+  if (ellapsedTime - lastSpotlightBlinkingTime_ >= blinkingInterval_) {
+    digitalWrite(spotlightPins_[currSpotlight_], LOW);
+    currSpotlight_ = ++currSpotlight_ % NB_SPOTLIGHTS;
+    digitalWrite(spotlightPins_[currSpotlight_], HIGH);
+    lastSpotlightBlinkingTime_ += blinkingInterval_;
+  }
+}
+
+void LightingRobot::doSpotlightConstant(unsigned long ellapsedTime) {
+  if (!spotlightOn_) {
+    turnOnSpotlights();
+    spotlightOn_ = true;
   }
 }
 
 void LightingRobot::treatStartMsg() {
   hasStarted_ = true;
-  lastBlink_ = initTime_;
+  lastSpotlightBlinkingTime_ = lastLightingTime_;
+  lastMatrixBlinkingTime_ = lastLightingTime_;
 }
 
 void LightingRobot::treatResyncMsg() {
@@ -142,8 +194,49 @@ void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
 }
 
 void LightingRobot::treatModeChangeMsg(uint8_t messageContent) {
-  mode_ = messageContent;
+  uint8_t element = messageContent & MASK_ELEMENT_IDENTIFIER;
+  uint8_t mode = (messageContent & MASK_LIGHTING_MODE) >> BITS_PER_ELEMENT_IDENTIFIER;
+  Serial.print("Element: ");
+  Serial.println(element);
+  switch (element) {
+    case MATRIX:
+      Serial.print("[LightingRobot] Matrix mode: ");
+      Serial.println(mode);
+      matrixMode_ = mode;
+      clearMatrix();
+      lastMatrixBlinkingTime_ = lastLightingTime_;
+      break;
+    case SPOTLIGHT:
+      spotlightMode_ = mode;
+      turnOffSpotlights();
+      lastSpotlightBlinkingTime_ = lastLightingTime_;
+      break;
+  }
 }
 
 void LightingRobot::treatSetResyncTimeMsg(uint16_t messageContent) {
+}
+
+void LightingRobot::clearAllLights() {
+  clearMatrix();
+  turnOffSpotlights();
+}
+
+void LightingRobot::clearMatrix() {
+  ledMatrix_->clear();
+  ledMatrix_->show();
+  matrixOn_ = false;
+}
+
+void LightingRobot::turnOffSpotlights() {
+  for (unsigned int ii = 0; ii < NB_SPOTLIGHTS; ii++) {
+    digitalWrite(spotlightPins_[ii], LOW);
+  }
+  spotlightOn_ = false;
+}
+
+void LightingRobot::turnOnSpotlights() {
+  for (unsigned int ii = 0; ii < NB_SPOTLIGHTS; ii++) {
+    digitalWrite(spotlightPins_[ii], HIGH);
+  }
 }

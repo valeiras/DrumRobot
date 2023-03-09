@@ -18,7 +18,7 @@
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
+  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
 
   void setBpm(uint8_t bpm);
 
@@ -51,7 +51,7 @@ private:
   int currSpotlight_;
 
   uint16_t primaryColors_[NB_COLORS];
-  int x_, pass_;
+  int x_, pass_, currBitmap_;
   bool hasStarted_, matrixOn_, spotlightOn_;
   unsigned long lastLightingTime_, lastMatrixBlinkingTime_, lastSpotlightBlinkingTime_, blinkingInterval_;
 };

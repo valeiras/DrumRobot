@@ -72,7 +72,7 @@ void loop() {
       currSpotlightMode = ++currSpotlightMode % NB_SPOTLIGHT_MODES;
 
       notifyChangeLightingMode(matrixModes[currMatrixMode], MATRIX);
-      //notifyChangeLightingMode(spotlightModes[currSpotlightMode], SPOTLIGHT);
+      notifyChangeLightingMode(spotlightModes[2], SPOTLIGHT);
     }
     lastButtonState = currButtonState;
   }
