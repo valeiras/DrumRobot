@@ -1,6 +1,9 @@
 #include "glocken_robot.h"
 
 GlockenRobot::GlockenRobot() {
+}
+
+GlockenRobot::GlockenRobot(byte hitPins[NB_HIT_JOINTS_GL], byte posPins[NB_POS_JOINTS_GL]){
   // We initialize the default parameters
   setLimbParams();
 
@@ -8,6 +11,7 @@ GlockenRobot::GlockenRobot() {
   nbPos_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 
   setServoSpeed(_wServoGl);
+  attachServos(hitPins, posPins);
 }
 
 // We use the default values defined in robot_config.h
