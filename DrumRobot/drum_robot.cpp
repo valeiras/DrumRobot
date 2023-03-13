@@ -1,11 +1,11 @@
 #include "drum_robot.h"
 
 DrumRobot::DrumRobot() {
+}
+
+DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR]) {
   // We initialize the default parameters
   setLimbParams();
-
-  Serial.print("Just set limb params. Name: ");
-  Serial.println(getPosName(1, 0));
 
   nbPos_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;
@@ -14,6 +14,7 @@ DrumRobot::DrumRobot() {
   setServoSpeed(_wServoDr);
 
   hasStarted_ = false;
+  attachServos(hitPins, posPins);
 }
 
 // We use the default values defined in robot_config.h
