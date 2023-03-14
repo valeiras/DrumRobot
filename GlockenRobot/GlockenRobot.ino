@@ -17,23 +17,23 @@ bool simulation = false;
 
 byte songName = FRERE_JACQUES;
 
-GlockenRobot *robot;
-GlockenSong *song;
-PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(robot, song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
+GlockenRobot robot = GlockenRobot();
+GlockenSong song = GlockenSong();
+PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(&robot, &song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
 
 void setup() {
   Serial.begin(9600);
 
-  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
-  byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
-  robot = new GlockenRobot(hitPins, posPins);
-
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song->createPredefinedPatterns(songName, false);
+  song.createPredefinedPatterns(songName, false);
 
   if (printOutput) {
-    song->printPatterns();
+    song.printPatterns();
   }
+
+  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
+  byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
+  robot.attachServos(hitPins, posPins, printOutput);
 
   roboController.setReceptor();
 }

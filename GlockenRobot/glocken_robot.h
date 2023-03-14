@@ -9,8 +9,6 @@ class GlockenRobot : public PercuRobot<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL> {
 public:
   GlockenRobot();
 
-  GlockenRobot(byte hitPins[NB_HIT_JOINTS_GL], byte posPins[NB_POS_JOINTS_GL]);
-
   byte getHitAngle(byte limb, byte pos, byte velocity);
   byte getRestAngle(byte limb, byte pos);
   byte getPosAngle(byte limb, byte pos);
@@ -18,7 +16,7 @@ public:
   String getPosName(byte limb, byte pos);
 
   void setLimbParams(signed char directionLeft, signed char directionRight,
-                     byte hitAngleLeft, byte hitAngleRight,
+                     byte hitAngleLeft, byte hitAngleRight, 
                      byte restAngleLeft, byte restAngleRight,
                      byte posAnglesLeft[NB_POS_LA_GL], byte posAnglesRight[NB_POS_RA_GL],
                      String posNamesLeft[NB_POS_LA_GL], String posNamesRight[NB_POS_RA_GL]);
