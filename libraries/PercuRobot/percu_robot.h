@@ -1,15 +1,15 @@
 #ifndef Percu_robot_h
 #define Percu_robot_h
 
-#include "Servo.h"
 #include "Arduino.h"
+#include "Servo.h"
 
 #define VEL_MULTIPLIER 1
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 class PercuRobot {
  public:
-  PercuRobot();
+  PercuRobot(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]);
 
   virtual void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
   virtual void rest(byte limb, byte pos = 0, bool printOutput = 0);
@@ -27,9 +27,10 @@ class PercuRobot {
   void setServoSpeed(float wServo);
   float getServoSpeed();
 
+ protected:
+  virtual void setLimbParams() = 0;
   void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput = 0);
 
- protected:
   signed char hitDirection_[NB_HIT_JOINTS];
   byte nbPos_[NB_HIT_JOINTS];
   // rotational speed degrees per ms
@@ -41,7 +42,8 @@ class PercuRobot {
 };
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot() {
+PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]) {
+  attachServos(hitPins, posPins);
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>

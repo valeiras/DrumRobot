@@ -1,20 +1,14 @@
 #include "drum_robot.h"
 
-DrumRobot::DrumRobot() {
-}
-
-DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR]) {
-  // We initialize the default parameters
-  setLimbParams();
-
+DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR]) : PercuRobot(hitPins, posPins) {
   nbPos_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbPos_[RIGHT_LEG_DR] = NB_POS_RL_DR;
 
+  // We initialize the default parameters
+  setLimbParams();
+  
   setServoSpeed(_wServoDr);
-
-  hasStarted_ = false;
-  attachServos(hitPins, posPins);
 }
 
 // We use the default values defined in robot_config.h
