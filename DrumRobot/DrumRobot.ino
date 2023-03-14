@@ -16,27 +16,29 @@ unsigned short bpm = 120;
 bool printOutput = false;
 bool simulation = false;
 
-DrumRobot robot;
-DrumSong song;
-PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> roboController(&robot, &song, DRUM_ADDRESS, bpm, simulation, printOutput);
+DrumRobot *robot;
+DrumSong *song;
+PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> *roboController;
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song.createPredefinedPatterns(BASIC_RYTHM, false);
-
+  song = new DrumSong();
+  song->createPredefinedPatterns(BASIC_RYTHM, false);
   if (printOutput) {
-    song.printPatterns();
+    song->printPatterns();
   }
 
+  // -------------------------------------------------------- Servo attaching ----------------------------------------------------------
   byte hitPins[NB_HIT_JOINTS_DR] = { LEFT_HIT_PIN, RIGHT_HIT_PIN, BD_HIT_PIN };
   byte posPins[NB_POS_JOINTS_DR] = { LEFT_POS_PIN, RIGHT_POS_PIN };
-  robot.attachServos(hitPins, posPins);
+  robot = new DrumRobot(hitPins, posPins);
 
-  roboController.setReceptor();
+  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, bpm, simulation, printOutput);
+  roboController->setReceptor();
 }
 
 void loop() {
-  roboController.goToTime(millis(), printOutput);
+  roboController->goToTime(millis(), printOutput);
 }

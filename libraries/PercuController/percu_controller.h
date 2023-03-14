@@ -19,7 +19,6 @@ class PercuController : public RoboReceptor {
   // This method should be called once all the parameters of the robot and the song have been set
   void initializeRobot();
 
-  void setInitialTime(unsigned long currTime);
   void goToTime(unsigned long currTime, bool printOutput = 0);
 
   void manageHitInstruction(byte limb, unsigned long currTime);
@@ -61,6 +60,7 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   song_ = song;
 
   setBpm(bpm);
+  hasStarted_ = false;
 
   simulation_ = simulation;
   printOutput_ = printOutput;
@@ -79,7 +79,9 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobo
 
     if (limb < NB_POS_JOINTS) {
       nextPos_[limb] = song_->getPosNextHit(limb);
+
       timeNextHitInstruction_[limb] = timeNextSemiquaver_ + song_->getSemiquaversToNextHit(limb) * timePerSemiquaver_ - robot_->getHitTime(limb, nextPos_[limb], song_->getVelNextHit(limb));
+
       robot_->rest(limb, nextPos_[limb]);
       robot_->goToPos(limb, nextPos_[limb]);
     } else {
@@ -90,14 +92,8 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobo
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setInitialTime(unsigned long initialTime) {
-  timeNextSemiquaver_ = initialTime;
-}
-
-template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
   if (hasStarted_) {
-    unsigned long ellapsedTime = currTime - initialTime_;
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
       if (currTime >= timeNextHitInstruction_[limb]) {
         manageHitInstruction(limb, currTime);
@@ -178,6 +174,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigne
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
   hasStarted_ = true;
+  timeNextSemiquaver_ = initialTime_;
   initializeRobot();
 }
 

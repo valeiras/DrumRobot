@@ -12,7 +12,7 @@ struct posParamsDrum {
 
 class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR>{
 public:
-  DrumRobot();
+  DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR]);
 
   byte getHitAngle(byte limb, byte pos, byte velocity);
   byte getRestAngle(byte limb, byte pos);
@@ -30,8 +30,6 @@ private:
 
   struct posParamsDrum paramsLeftArm_[NB_POS_LA_DR], paramsRightArm_[NB_POS_RA_DR], paramsRightLeg_[NB_POS_RL_DR];
   posParamsDrum *posParameters_[NB_HIT_JOINTS_DR] = { paramsLeftArm_, paramsRightArm_, paramsRightLeg_ };
-
-  bool hasStarted_;
 };
 
 #endif
