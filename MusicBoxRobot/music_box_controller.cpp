@@ -1,6 +1,5 @@
 #include "music_box_controller.h"
 
-
 MusicBoxController::MusicBoxController()
   : RoboReceptor() {
 }
@@ -9,6 +8,8 @@ MusicBoxController::MusicBoxController(int address, MusicBoxRobot* robot, MusicB
   : RoboReceptor(address) {
     robot_ = robot;
     song_ = song;
+    
+    robot_->initializeRobot();
 }
 
 void MusicBoxController::treatStartMsg() {
