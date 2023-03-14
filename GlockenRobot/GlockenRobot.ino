@@ -19,7 +19,7 @@ byte songName = FRERE_JACQUES;
 
 GlockenRobot *robot;
 GlockenSong *song;
-PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> roboController(robot, song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
+PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> *roboController;
 
 void setup() {
   Serial.begin(9600);
@@ -35,9 +35,10 @@ void setup() {
     song->printPatterns();
   }
 
-  roboController.setReceptor();
+  roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
+  roboController->setReceptor();
 }
 
 void loop() {
-  roboController.goToTime(millis(), printOutput);
+  roboController->goToTime(millis(), printOutput);
 }

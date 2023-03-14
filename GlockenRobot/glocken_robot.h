@@ -7,8 +7,6 @@
 
 class GlockenRobot : public PercuRobot<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL> {
 public:
-  GlockenRobot();
-
   GlockenRobot(byte hitPins[NB_HIT_JOINTS_GL], byte posPins[NB_POS_JOINTS_GL]);
 
   byte getHitAngle(byte limb, byte pos, byte velocity);
