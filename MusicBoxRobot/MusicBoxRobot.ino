@@ -7,17 +7,23 @@
 #define SERVO_PIN 6
 #define SENSOR_PIN A0
 
-MusicBoxRobot *robot = new MusicBoxRobot(SERVO_PIN, SENSOR_PIN);
-MusicBoxSong *song = new MusicBoxSong();
+MusicBoxRobot *robot;
+MusicBoxSong *song;
 
-MusicBoxController controller(MUSIC_BOX_ADDRESS, robot, song);
+MusicBoxController *controller;
 
 void setup() {
-  // put your setup code here, to run once:
+  robot = new MusicBoxRobot(SERVO_PIN, SENSOR_PIN);
+  song = new MusicBoxSong();
 
+  song->setOnInstruction(64);
+  song->setOffInstruction(16);
+  song->setOnInstruction(64);
+  song->setOffInstruction(16);
+  
+  controller = new MusicBoxController(MUSIC_BOX_ADDRESS, robot, song);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
 }
