@@ -13,6 +13,7 @@
 #include <math.h>
 
 #define MS_PER_MIN 60000
+#define SEMIQUAVERS_PER_BAR 4
 #define NB_SPOTLIGHTS 6
 
 #define NB_PRIMARY_COLORS 3
@@ -23,12 +24,12 @@
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
+  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
 
   void setBpm(uint8_t bpm);
 
   void doLighting(unsigned long currTime);
-  
+
   void treatStartMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
@@ -41,10 +42,17 @@ private:
   void doMatrixLogo(unsigned long ellapsedTime);
   void doMatrixRectangles(unsigned long ellapsedTime);
   void doMatrixBars(unsigned long ellapsedTime);
-  
+
   void doSpotlightBlinking(unsigned long ellapsedTime);
   void doSpotlightSequence(unsigned long ellapsedTime);
-  void doSpotlightConstant(unsigned long ellapsedTime);
+
+  void initializeMatrixMode();
+  void initializeSpotlightMode();
+
+  void printMatrixName();
+  void printMatrixLogo();
+  void printMatrixRectangles();
+  void printMatrixBars();
 
   void clearAllLights();
   void clearMatrix();
@@ -59,8 +67,10 @@ private:
 
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
-  bool hasStarted_, matrixOn_, spotlightOn_;
-  unsigned long lastLightingTime_, lastMatrixBlinkingTime_, lastSpotlightBlinkingTime_, blinkingInterval_;
+  bool hasStarted_, matrixOn_, spotlightsOn_;
+  unsigned long lastSemiquaverChange_, semiquaverInterval_;
+  unsigned int halfSize_;
+  bool semiquaverChange_;
 };
 
 #endif

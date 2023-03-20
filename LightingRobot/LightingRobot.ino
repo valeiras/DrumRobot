@@ -11,16 +11,19 @@
 const int BRIGHTNESS = 64;
 const int MATRIX_WIDTH = 16;
 const int MATRIX_HEIGHT = 16;
+const int NB_MATRICES_HOR = 3;
+const int NB_MATRICES_VERT = 1;
 
 LightingRobot lightRobot;
 
 int bpm = 120;
 
+
 int spotlightPins[NB_SPOTLIGHTS] = {SPOTLIGHT_PIN1, SPOTLIGHT_PIN2, SPOTLIGHT_PIN3, SPOTLIGHT_PIN4, SPOTLIGHT_PIN5, SPOTLIGHT_PIN6};
 
 void setup() {
   Serial.begin(9600);
-  lightRobot = LightingRobot(MATRIX_WIDTH, MATRIX_HEIGHT, LED_MATRIX_PIN, spotlightPins, BRIGHTNESS, LIGHTING_ADDRESS, bpm);
+  lightRobot = LightingRobot(MATRIX_WIDTH, MATRIX_HEIGHT, NB_MATRICES_HOR, NB_MATRICES_VERT, LED_MATRIX_PIN, spotlightPins, BRIGHTNESS, LIGHTING_ADDRESS, bpm);
   lightRobot.setReceptor();
 }
 
