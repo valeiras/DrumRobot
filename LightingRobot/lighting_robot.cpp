@@ -3,7 +3,7 @@
 LightingRobot::LightingRobot() {}
 
 LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert,
-                             int matrixPin, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address, int bpm)
+                             int matrixPin, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address)
   : RoboReceptor(address) {
 
   // MATRIX DECLARATION:
@@ -32,12 +32,11 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
                                       NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
                                       NEO_GRB + NEO_KHZ800);
 
-  // ledMatrix_ = new Adafruit_NeoMatrix(w_, h_, matrixPin,
-  //                                     NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
-  //                                     NEO_GRB + NEO_KHZ800);
 
   unsigned int minDimension = min(w_, h_);
   halfSize_ = ceil(minDimension / 2.0);
+
+  nbMtxHor_ = nbMatricesHor;
 
   ledMatrix_->begin();
   ledMatrix_->setTextWrap(false);
@@ -63,7 +62,7 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
 
   matrixMode_ = MATRIX_OFF_MODE;
   spotlightMode_ = SPOTLIGHT_OFF_MODE;
-  setBpm(bpm);
+  setBpm(DEFAULT_BPM);
 
   lastSemiquaverChange_ = 0;
   semiquaverChange_ = false;
@@ -79,14 +78,13 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
 
 void LightingRobot::setBpm(uint8_t bpm) {
   bpm_ = bpm;
-  semiquaverInterval_ = MS_PER_MIN / (bpm_ * SEMIQUAVERS_PER_BAR);
+  semiquaverInterval_ = MS_PER_MIN / (bpm_*SEMIQUAVERS_PER_BAR);
 }
 
 void LightingRobot::doLighting(unsigned long currTime) {
   if (hasStarted_) {
     if (lastSemiquaverChange_ - currTime >= semiquaverInterval_) {
       semiquaverChange_ = true;
-      lastSemiquaverChange_ = currTime;
       lastSemiquaverChange_ += semiquaverInterval_;
     } else {
       semiquaverChange_ = false;
@@ -142,7 +140,10 @@ void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
     matrixOn_ = !matrixOn_;
     if (matrixOn_) {
       currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
-      ledMatrix_->fillScreen(paletteColors_[currColorIndex_]);
+      for(unsigned int ii=0; ii<nbMtxHor_; ii++){
+        unsigned int colorIdx = (currColorIndex_ + ii) % NB_PALETTE_COLORS;
+        ledMatrix_->fillRect(ii*w_, 0, w_, h_ , paletteColors_[colorIdx]);
+      }
       ledMatrix_->show();
     } else {
       ledMatrix_->clear();
@@ -191,7 +192,6 @@ void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
 }
 
 void LightingRobot::treatStartMsg() {
-  Serial.println("Start!");
   hasStarted_ = true;
 }
 

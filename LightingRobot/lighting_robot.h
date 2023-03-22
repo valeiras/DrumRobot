@@ -24,7 +24,7 @@
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address, int bpm);
+  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address);
 
   void setBpm(uint8_t bpm);
 
@@ -60,7 +60,7 @@ private:
   void turnOnSpotlights();
 
   uint8_t matrixMode_, spotlightMode_, bpm_;
-  int w_, h_;
+  unsigned int w_, h_, nbMtxHor_;
   Adafruit_NeoMatrix *ledMatrix_;
   int spotlightPins_[NB_SPOTLIGHTS];
   int currSpotlight_;
