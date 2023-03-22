@@ -3,7 +3,7 @@
 LightingRobot::LightingRobot() {}
 
 LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert,
-                             int matrixPin, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address)
+                             FastLED_NeoMatrix *fastLedMatrix, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address)
   : RoboReceptor(address) {
 
   // MATRIX DECLARATION:
@@ -28,34 +28,31 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
   w_ = matrixWidth;
   h_ = matrixHeight;
 
-  ledMatrix_ = new Adafruit_NeoMatrix(matrixWidth, matrixHeight, nbMatricesHor, nbMatricesVert, matrixPin,
-                                      NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
-                                      NEO_GRB + NEO_KHZ800);
-
+  fastLedMatrix_ = fastLedMatrix;
 
   unsigned int minDimension = min(w_, h_);
   halfSize_ = ceil(minDimension / 2.0);
 
   nbMtxHor_ = nbMatricesHor;
 
-  ledMatrix_->begin();
-  ledMatrix_->setTextWrap(false);
-  ledMatrix_->setBrightness(brightness);
+  fastLedMatrix_->begin();
+  fastLedMatrix_->setTextWrap(false);
+  fastLedMatrix_->setBrightness(brightness);
 
   // We set the primary colors
-  primaryColors_[0] = ledMatrix_->Color(255, 0, 0);
-  primaryColors_[1] = ledMatrix_->Color(0, 255, 0);
-  primaryColors_[2] = ledMatrix_->Color(0, 0, 255);
+  primaryColors_[0] = fastLedMatrix_->Color(255, 0, 0);
+  primaryColors_[1] = fastLedMatrix_->Color(0, 255, 0);
+  primaryColors_[2] = fastLedMatrix_->Color(0, 0, 255);
 
   // We set the palette colors:
-  paletteColors_[0] = ledMatrix_->Color(43, 53, 103);
-  paletteColors_[1] = ledMatrix_->Color(186, 215, 233);
-  paletteColors_[2] = ledMatrix_->Color(252, 255, 231);
-  paletteColors_[3] = ledMatrix_->Color(235, 69, 95);
+  paletteColors_[0] = fastLedMatrix_->Color(43, 53, 103);
+  paletteColors_[1] = fastLedMatrix_->Color(186, 215, 233);
+  paletteColors_[2] = fastLedMatrix_->Color(252, 255, 231);
+  paletteColors_[3] = fastLedMatrix_->Color(235, 69, 95);
 
-  ledMatrix_->setTextColor(paletteColors_[0]);
+  fastLedMatrix_->setTextColor(paletteColors_[0]);
 
-  x_ = -ledMatrix_->width();
+  x_ = -fastLedMatrix_->width();
   currColorIndex_ = 0;
   hasStarted_ = false;
   currBitmap_ = 0;
@@ -127,11 +124,11 @@ void LightingRobot::doLighting(unsigned long currTime) {
 }
 
 void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
-  if (quarterNoteChange_) {
+  if (semiquaverChange_) {
     if (++x_ > 36) {
-      x_ = -ledMatrix_->width();
+      x_ = -fastLedMatrix_->width();
       currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
-      ledMatrix_->setTextColor(paletteColors_[currColorIndex_]);
+      fastLedMatrix_->setTextColor(paletteColors_[currColorIndex_]);
     }
     printMatrixName();
   }
@@ -144,12 +141,12 @@ void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
       currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
       for (unsigned int ii = 0; ii < nbMtxHor_; ii++) {
         unsigned int colorIdx = (currColorIndex_ + ii) % NB_PALETTE_COLORS;
-        ledMatrix_->fillRect(ii * w_, 0, w_, h_, paletteColors_[colorIdx]);
+        fastLedMatrix_->fillRect(ii * w_, 0, w_, h_, paletteColors_[colorIdx]);
       }
-      ledMatrix_->show();
+      fastLedMatrix_->show();
     } else {
-      ledMatrix_->clear();
-      ledMatrix_->show();
+      fastLedMatrix_->clear();
+      fastLedMatrix_->show();
     }
   }
 }
@@ -229,8 +226,8 @@ void LightingRobot::clearAllLights() {
 }
 
 void LightingRobot::clearMatrix() {
-  ledMatrix_->clear();
-  ledMatrix_->show();
+  fastLedMatrix_->clear();
+  fastLedMatrix_->show();
   matrixOn_ = false;
 }
 
@@ -286,45 +283,45 @@ void LightingRobot::initializeSpotlightMode() {
 }
 
 void LightingRobot::printMatrixName() {
-  ledMatrix_->clear();
-  ledMatrix_->setCursor(x_, 5);
-  ledMatrix_->print(F("MEKANIKA"));
-  ledMatrix_->show();
+  fastLedMatrix_->clear();
+  fastLedMatrix_->setCursor(x_, 5);
+  fastLedMatrix_->print(F("MEKANIKA"));
+  fastLedMatrix_->show();
 }
 
 void LightingRobot::printMatrixLogo() {
-  ledMatrix_->clear();
+  fastLedMatrix_->clear();
   for (unsigned int ii = 0; ii < nbMtxHor_; ii++) {
     unsigned int bitmapIdx = (currBitmap_ + ii) % NB_POSITIONS;
-    ledMatrix_->drawRGBBitmap(ii * w_, 0, image_data_gear[bitmapIdx], w_, h_);
+    fastLedMatrix_->drawRGBBitmap(ii * w_, 0, image_data_gear[bitmapIdx], w_, h_);
   }
-  ledMatrix_->show();
+  fastLedMatrix_->show();
 }
 
 void LightingRobot::printMatrixRectangles() {
-  ledMatrix_->clear();
+  fastLedMatrix_->clear();
 
   unsigned int colorIdx = currColorIndex_;
   for (unsigned int ii = 0; ii < halfSize_; ii++) {
     for (unsigned int jj = 0; jj < nbMtxHor_; jj++) {
-      ledMatrix_->drawRect(ii + jj * w_, ii, w_ - 2 * ii, h_ - 2 * ii, paletteColors_[colorIdx]);
+      fastLedMatrix_->drawRect(ii + jj * w_, ii, w_ - 2 * ii, h_ - 2 * ii, paletteColors_[colorIdx]);
     }
     colorIdx = ++colorIdx % NB_PALETTE_COLORS;
   }
 
-  ledMatrix_->show();
+  fastLedMatrix_->show();
 }
 
 void LightingRobot::printMatrixBars() {
-  ledMatrix_->clear();
+  fastLedMatrix_->clear();
 
   unsigned int colorIdx = currColorIndex_;
   for (unsigned int ii = 0; ii < w_ * nbMtxHor_; ii += BAR_WIDTH) {
-    ledMatrix_->drawLine(ii, 0, ii + BAR_WIDTH, h_ - 1, paletteColors_[colorIdx]);
+    fastLedMatrix_->drawLine(ii, 0, ii + BAR_WIDTH, h_ - 1, paletteColors_[colorIdx]);
     colorIdx = ++colorIdx % NB_PALETTE_COLORS;
   }
 
-  ledMatrix_->show();
+  fastLedMatrix_->show();
 }
 
 void LightingRobot::checkNoteChanges(unsigned long currTime) {

@@ -7,8 +7,8 @@
 #include <robo_communication.h>
 
 #include <Adafruit_GFX.h>
-#include <Adafruit_NeoMatrix.h>
-#include <Adafruit_NeoPixel.h>
+#include <FastLED.h>
+#include <FastLED_NeoMatrix.h>
 
 #include <math.h>
 
@@ -30,7 +30,8 @@
 class LightingRobot : public RoboReceptor {
 public:
   LightingRobot();
-  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, int matrixPin, int spotlightPin[NB_SPOTLIGHTS], int brightness, int address);
+  LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, FastLED_NeoMatrix *fastLedMatrix,
+                int spotlightPin[NB_SPOTLIGHTS], int brightness, int address);
 
   void setBpm(uint8_t bpm);
 
@@ -69,7 +70,8 @@ private:
 
   uint8_t matrixMode_, spotlightMode_, bpm_;
   unsigned int w_, h_, nbMtxHor_;
-  Adafruit_NeoMatrix *ledMatrix_;
+  FastLED_NeoMatrix *fastLedMatrix_;
+
   int spotlightPins_[NB_SPOTLIGHTS];
   int currSpotlight_;
 

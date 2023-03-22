@@ -1,5 +1,8 @@
 #include "lighting_robot.h"
 
+#include <FastLED.h>
+#include <FastLED_NeoMatrix.h>
+
 #define SPOTLIGHT_PIN1 2
 #define SPOTLIGHT_PIN2 3
 #define SPOTLIGHT_PIN3 4
@@ -14,13 +17,21 @@ const int MATRIX_HEIGHT = 16;
 const int NB_MATRICES_HOR = 3;
 const int NB_MATRICES_VERT = 1;
 
+const int NUM_LEDS = MATRIX_WIDTH * MATRIX_HEIGHT * NB_MATRICES_HOR * NB_MATRICES_VERT;
+CRGB leds[NUM_LEDS];
+
 LightingRobot lightRobot;
 
-int spotlightPins[NB_SPOTLIGHTS] = {SPOTLIGHT_PIN1, SPOTLIGHT_PIN2, SPOTLIGHT_PIN3, SPOTLIGHT_PIN4, SPOTLIGHT_PIN5, SPOTLIGHT_PIN6};
+int spotlightPins[NB_SPOTLIGHTS] = { SPOTLIGHT_PIN1, SPOTLIGHT_PIN2, SPOTLIGHT_PIN3, SPOTLIGHT_PIN4, SPOTLIGHT_PIN5, SPOTLIGHT_PIN6 };
 
 void setup() {
   Serial.begin(9600);
-  lightRobot = LightingRobot(MATRIX_WIDTH, MATRIX_HEIGHT, NB_MATRICES_HOR, NB_MATRICES_VERT, LED_MATRIX_PIN, spotlightPins, BRIGHTNESS, LIGHTING_ADDRESS);
+  FastLED.addLeds<NEOPIXEL, LED_MATRIX_PIN>(leds, NUM_LEDS);
+  FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(leds, MATRIX_WIDTH, MATRIX_HEIGHT, NB_MATRICES_HOR, NB_MATRICES_VERT,
+                                                    NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG);
+                                      
+                                    
+  lightRobot = LightingRobot(MATRIX_WIDTH, MATRIX_HEIGHT, NB_MATRICES_HOR, NB_MATRICES_VERT, matrix, spotlightPins, BRIGHTNESS, LIGHTING_ADDRESS);
   lightRobot.setReceptor();
 }
 
