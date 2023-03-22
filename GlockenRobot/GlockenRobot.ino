@@ -10,8 +10,6 @@
 #define LEFT_POS_PIN_GL 9
 #define RIGHT_POS_PIN_GL 10
 
-unsigned short bpm = 100;
-
 bool printOutput = false;
 bool simulation = false;
 
@@ -24,18 +22,19 @@ PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> *roboContro
 void setup() {
   Serial.begin(9600);
 
-  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
-  byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
-  robot = new GlockenRobot(hitPins, posPins);
-
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
+  song = new GlockenSong();
   song->createPredefinedPatterns(songName, false);
-
   if (printOutput) {
     song->printPatterns();
   }
 
-  roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, bpm, simulation, printOutput);
+  // ------------------------------------------------------- Servo Attaching ---------------------------------------------
+  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
+  byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
+  robot = new GlockenRobot(hitPins, posPins);
+
+  roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, simulation, printOutput);
   roboController->setReceptor();
 }
 

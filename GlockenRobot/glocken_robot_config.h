@@ -33,33 +33,33 @@
 const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
 
-const byte _hitAngleLAGl = 120;
-const byte _restAngleLAGl = 105;
+const byte _hitAngleLAGl = 122;
+const byte _restAngleLAGl = 107;
 
-const byte _hitAngleRAGl = 70;
-const byte _restAngleRAGl = 85;
+const byte _hitAngleRAGl = 68;
+const byte _restAngleRAGl = 83;
 
 // Angles for the left arm
-const byte _posAngleC00 = 168;
-const byte _posAngleCS0 = 146;
-const byte _posAngleD00 = 130;
-const byte _posAngleDS0 = 114;
-const byte _posAngleE00 = 97;
-const byte _posAngleF00 = 72;
-const byte _posAngleFS0 = 58;
-const byte _posAngleG00 = 37;
-const byte _posAngleGS0 = 19;
-const byte _posAngleA00 = 0;
+const byte _posAngleC00 = 180;
+const byte _posAngleCS0 = 165;
+const byte _posAngleD00 = 145;
+const byte _posAngleDS0 = 128;
+const byte _posAngleE00 = 110;
+const byte _posAngleF00 = 85;
+const byte _posAngleFS0 = 70;
+const byte _posAngleG00 = 48;
+const byte _posAngleGS0 = 33;
+const byte _posAngleA00 = 18;
 
 // Angles for the right arm
-const byte _posAngleAS0 = 136;
-const byte _posAngleB00 = 117;
-const byte _posAngleC01 = 93;
-const byte _posAngleCS1 = 71;
-const byte _posAngleD01 = 49;
-const byte _posAngleDS1 = 33;
-const byte _posAngleE01 = 12;
-const byte _posAngleF01 = 0;
+const byte _posAngleAS0 = 150;
+const byte _posAngleB00 = 130;
+const byte _posAngleC01 = 110;
+const byte _posAngleCS1 = 90;
+const byte _posAngleD01 = 70;
+const byte _posAngleDS1 = 50;
+const byte _posAngleE01 = 30;
+const byte _posAngleF01 = 15;
 
 const float _wServoGl = 0.6;
 
