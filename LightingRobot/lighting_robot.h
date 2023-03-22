@@ -13,7 +13,13 @@
 #include <math.h>
 
 #define MS_PER_MIN 60000
-#define SEMIQUAVERS_PER_BAR 4
+#define SEMIQUAVERS_PER_BEAT 2
+
+#define SEMIQUAVERS_PER_WHOLE_NOTE 16
+#define SEMIQUAVERS_PER_HALF_NOTE 8
+#define SEMIQUAVERS_PER_QUARTER_NOTE 4
+#define SEMIQUAVERS_PER_QUAVER 2
+
 #define NB_SPOTLIGHTS 6
 
 #define NB_PRIMARY_COLORS 3
@@ -59,6 +65,8 @@ private:
   void turnOffSpotlights();
   void turnOnSpotlights();
 
+  void checkNoteChanges(unsigned long currTime);
+
   uint8_t matrixMode_, spotlightMode_, bpm_;
   unsigned int w_, h_, nbMtxHor_;
   Adafruit_NeoMatrix *ledMatrix_;
@@ -68,9 +76,12 @@ private:
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
   bool hasStarted_, matrixOn_, spotlightsOn_;
+
   unsigned long lastSemiquaverChange_, semiquaverInterval_;
+  unsigned int semiquaverCount_;
+
+  bool wholeNoteChange_, halfNoteChange_, quarterNoteChange_, quaverChange_, semiquaverChange_;
   unsigned int halfSize_;
-  bool semiquaverChange_;
 };
 
 #endif

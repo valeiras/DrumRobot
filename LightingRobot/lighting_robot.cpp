@@ -64,8 +64,13 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
   spotlightMode_ = SPOTLIGHT_OFF_MODE;
   setBpm(DEFAULT_BPM);
 
-  lastSemiquaverChange_ = 0;
+  wholeNoteChange_ = false;
+  halfNoteChange_ = false;
+  quarterNoteChange_ = false;
+  quaverChange_ = false;
   semiquaverChange_ = false;
+
+  lastSemiquaverChange_ = 0;
 
   for (unsigned int ii = 0; ii < NB_SPOTLIGHTS; ii++) {
     spotlightPins_[ii] = spotlightPins[ii];
@@ -78,17 +83,14 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
 
 void LightingRobot::setBpm(uint8_t bpm) {
   bpm_ = bpm;
-  semiquaverInterval_ = MS_PER_MIN / (bpm_*SEMIQUAVERS_PER_BAR);
+
+  semiquaverInterval_ = MS_PER_MIN / (bpm_ * SEMIQUAVERS_PER_BEAT);
 }
 
 void LightingRobot::doLighting(unsigned long currTime) {
   if (hasStarted_) {
-    if (lastSemiquaverChange_ - currTime >= semiquaverInterval_) {
-      semiquaverChange_ = true;
-      lastSemiquaverChange_ += semiquaverInterval_;
-    } else {
-      semiquaverChange_ = false;
-    }
+    checkNoteChanges(currTime);
+
     switch (matrixMode_) {
       case MATRIX_OFF_MODE:
         break;
@@ -125,7 +127,7 @@ void LightingRobot::doLighting(unsigned long currTime) {
 }
 
 void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quarterNoteChange_) {
     if (++x_ > 36) {
       x_ = -ledMatrix_->width();
       currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
@@ -136,13 +138,13 @@ void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
 }
 
 void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quaverChange_) {
     matrixOn_ = !matrixOn_;
     if (matrixOn_) {
       currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
-      for(unsigned int ii=0; ii<nbMtxHor_; ii++){
+      for (unsigned int ii = 0; ii < nbMtxHor_; ii++) {
         unsigned int colorIdx = (currColorIndex_ + ii) % NB_PALETTE_COLORS;
-        ledMatrix_->fillRect(ii*w_, 0, w_, h_ , paletteColors_[colorIdx]);
+        ledMatrix_->fillRect(ii * w_, 0, w_, h_, paletteColors_[colorIdx]);
       }
       ledMatrix_->show();
     } else {
@@ -153,28 +155,28 @@ void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
 }
 
 void LightingRobot::doMatrixLogo(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quarterNoteChange_) {
     currBitmap_ = ++currBitmap_ % NB_POSITIONS;
     printMatrixLogo();
   }
 }
 
 void LightingRobot::doMatrixRectangles(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quaverChange_) {
     currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
     printMatrixRectangles();
   }
 }
 
 void LightingRobot::doMatrixBars(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quarterNoteChange_) {
     currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
     printMatrixBars();
   }
 }
 
 void LightingRobot::doSpotlightBlinking(unsigned long ellapsedTime) {
-  if (semiquaverChange_) {
+  if (quaverChange_) {
     if (spotlightsOn_) {
       turnOffSpotlights();
     } else {
@@ -193,6 +195,7 @@ void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
 
 void LightingRobot::treatStartMsg() {
   hasStarted_ = true;
+  turnOnSpotlights();
 }
 
 void LightingRobot::treatResyncMsg() {
@@ -291,7 +294,10 @@ void LightingRobot::printMatrixName() {
 
 void LightingRobot::printMatrixLogo() {
   ledMatrix_->clear();
-  ledMatrix_->drawRGBBitmap(0, 0, image_data_gear[currBitmap_], w_, h_);
+  for (unsigned int ii = 0; ii < nbMtxHor_; ii++) {
+    unsigned int bitmapIdx = (currBitmap_ + ii) % NB_POSITIONS;
+    ledMatrix_->drawRGBBitmap(ii * w_, 0, image_data_gear[bitmapIdx], w_, h_);
+  }
   ledMatrix_->show();
 }
 
@@ -300,7 +306,9 @@ void LightingRobot::printMatrixRectangles() {
 
   unsigned int colorIdx = currColorIndex_;
   for (unsigned int ii = 0; ii < halfSize_; ii++) {
-    ledMatrix_->drawRect(ii, ii, w_ - 2 * ii, h_ - 2 * ii, paletteColors_[colorIdx]);
+    for (unsigned int jj = 0; jj < nbMtxHor_; jj++) {
+      ledMatrix_->drawRect(ii + jj * w_, ii, w_ - 2 * ii, h_ - 2 * ii, paletteColors_[colorIdx]);
+    }
     colorIdx = ++colorIdx % NB_PALETTE_COLORS;
   }
 
@@ -311,10 +319,43 @@ void LightingRobot::printMatrixBars() {
   ledMatrix_->clear();
 
   unsigned int colorIdx = currColorIndex_;
-  for (unsigned int ii = 0; ii < w_; ii += BAR_WIDTH) {
+  for (unsigned int ii = 0; ii < w_ * nbMtxHor_; ii += BAR_WIDTH) {
     ledMatrix_->drawLine(ii, 0, ii + BAR_WIDTH, h_ - 1, paletteColors_[colorIdx]);
     colorIdx = ++colorIdx % NB_PALETTE_COLORS;
   }
 
   ledMatrix_->show();
+}
+
+void LightingRobot::checkNoteChanges(unsigned long currTime) {
+  semiquaverChange_ = false;
+  quaverChange_ = false;
+  quarterNoteChange_ = false;
+  halfNoteChange_ = false;
+  wholeNoteChange_ = false;
+
+
+  if (lastSemiquaverChange_ - currTime >= semiquaverInterval_) {
+    semiquaverChange_ = true;
+    lastSemiquaverChange_ += semiquaverInterval_;
+    semiquaverCount_++;
+
+    if (semiquaverCount_ % SEMIQUAVERS_PER_WHOLE_NOTE == 0) {
+      semiquaverCount_ = 0;
+
+      wholeNoteChange_ = true;
+      halfNoteChange_ = true;
+      quarterNoteChange_ = true;
+      quaverChange_ = true;
+    } else if (semiquaverCount_ % SEMIQUAVERS_PER_HALF_NOTE == 0) {
+      halfNoteChange_ = true;
+      quarterNoteChange_ = true;
+      quaverChange_ = true;
+    } else if (semiquaverCount_ % SEMIQUAVERS_PER_QUARTER_NOTE == 0) {
+      quarterNoteChange_ = true;
+      quaverChange_ = true;
+    } else if (semiquaverCount_ % SEMIQUAVERS_PER_QUAVER == 0) {
+      quaverChange_ = true;
+    }
+  }
 }
