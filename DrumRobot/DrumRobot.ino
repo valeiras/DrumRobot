@@ -11,8 +11,6 @@
 #define LEFT_POS_PIN 10
 #define RIGHT_POS_PIN 11
 
-unsigned short bpm = 120;
-
 bool printOutput = false;
 bool simulation = false;
 
@@ -35,7 +33,7 @@ void setup() {
   byte posPins[NB_POS_JOINTS_DR] = { LEFT_POS_PIN, RIGHT_POS_PIN };
   robot = new DrumRobot(hitPins, posPins);
 
-  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, bpm, simulation, printOutput);
+  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, simulation, printOutput);
   roboController->setReceptor();
 }
 

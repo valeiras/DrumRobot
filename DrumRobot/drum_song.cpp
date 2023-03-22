@@ -13,9 +13,6 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
     case SIMPLEST_RYTHM:
     default:
       {
-        if (printOutput) {
-          Serial.println("Simplest rythm");
-        }
         nbPatterns_ = 1;
         nbMeasures_ = 1;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
