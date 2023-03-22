@@ -15,7 +15,7 @@
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 const uint16_t RESYNC_TIME = 10000;
-uint8_t bpm = 90;
+uint8_t bpm = DEFAULT_BPM;
 
 unsigned int initialDelay = 1000;
 unsigned long ellapsedTime, initTime, lastResync;
@@ -25,7 +25,7 @@ bool variableBpm = true;
 short minBpm = 60;
 short maxBpm = 150;
 
-bool robotIsPresent[NB_ROBOTS] = { true, false, false, true };
+bool robotIsPresent[NB_ROBOTS] = { true, true, false, true };
 
 void setup() {
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
@@ -34,6 +34,7 @@ void setup() {
   MIDI.setHandleControlChange(handleCCMessage);
 
   Wire.begin();
+  notifyRobots(BPM_CHANGE, bpm);
   //notifyRobots(SET_RESYNC_TIME, RESYNC_TIME);
 
   pinMode(LED_PIN, OUTPUT);
