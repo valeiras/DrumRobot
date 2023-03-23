@@ -1,7 +1,7 @@
-#include <percu_robot.h>
-
 #ifndef Glocken_robot_h
 #define Glocken_robot_h
+
+#include <percu_robot.h>
 
 #include "glocken_robot_config.h"
 

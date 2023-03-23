@@ -19,12 +19,6 @@ uint16_t arrayToUint16(uint8_t* arr) {
 void receiveMessage(int howMany) {
   MessageType msgType = Wire.read();
 
-//   Serial.println("[RoboReceptor] Message Received");
-//   Serial.print("[RoboReceptor] Message type: ");
-//   Serial.println(msgType);
-//   Serial.print("[RoboReceptor] Nb of bytes: ");
-//   Serial.println(howMany);
-
   switch (howMany) {
     case 1:
       switch (msgType) {
@@ -41,6 +35,9 @@ void receiveMessage(int howMany) {
       switch (msgType) {
         case BPM_CHANGE:
           receptor->treatBpmChangeMsg(msgContent8);
+          break;
+        case BPM_IDX_CHANGE:
+          receptor->treatBpmIdxChangeMsg(msgContent8);
           break;
         case MODE_CHANGE:
           receptor->treatModeChangeMsg(msgContent8);

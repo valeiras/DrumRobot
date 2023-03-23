@@ -59,7 +59,7 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
 
   matrixMode_ = MATRIX_OFF_MODE;
   spotlightMode_ = SPOTLIGHT_OFF_MODE;
-  setBpm(DEFAULT_BPM);
+  setBpm(bpmValues[DEFAULT_BPM_IDX]);
 
   wholeNoteChange_ = false;
   halfNoteChange_ = false;
@@ -79,8 +79,13 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
 }
 
 void LightingRobot::setBpm(uint8_t bpm) {
-  bpm_ = bpm;
+  setBpm(float(bpm));
+}
 
+void LightingRobot::setBpm(float bpm) {
+  Serial.print("Setting bpm: ");
+  Serial.println(bpm);
+  bpm_ = bpm;
   semiquaverInterval_ = MS_PER_MIN / (bpm_ * SEMIQUAVERS_PER_BEAT);
 }
 
@@ -191,6 +196,7 @@ void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
 }
 
 void LightingRobot::treatStartMsg() {
+  Serial.println("Start!!");
   hasStarted_ = true;
   turnOnSpotlights();
 }
@@ -200,6 +206,12 @@ void LightingRobot::treatResyncMsg() {
 
 void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
   setBpm(messageContent);
+}
+
+void LightingRobot::treatBpmIdxChangeMsg(uint8_t messageContent) {
+  Serial.print("Setting bpm idx ");
+  Serial.println(messageContent);
+  setBpm(bpmValues[messageContent]);
 }
 
 void LightingRobot::treatModeChangeMsg(uint8_t messageContent) {
@@ -331,10 +343,25 @@ void LightingRobot::checkNoteChanges(unsigned long currTime) {
   halfNoteChange_ = false;
   wholeNoteChange_ = false;
 
+  // Serial.println("--------------------------------");
+  // Serial.print("semiquaver interval: ");
+  // Serial.println(semiquaverInterval_);
+  // Serial.print("currTime: ");
+  // Serial.println(currTime);
+  // Serial.print("last change: ");
+  // Serial.println(lastSemiquaverChange_);
+  // Serial.print("time ellapsed: ");
+  // Serial.println(currTime - lastSemiquaverChange_);
 
-  if (lastSemiquaverChange_ - currTime >= semiquaverInterval_) {
+
+  if (currTime - lastSemiquaverChange_ >= semiquaverInterval_) {
     semiquaverChange_ = true;
     lastSemiquaverChange_ += semiquaverInterval_;
+    // Serial.print("Increasing lastSemiquaverChange to: ");
+    // Serial.println(lastSemiquaverChange_);
+    // Serial.print("Because semiquaver interval was: ");
+    // Serial.println(semiquaverInterval_);
+    
     semiquaverCount_++;
 
     if (semiquaverCount_ % SEMIQUAVERS_PER_WHOLE_NOTE == 0) {

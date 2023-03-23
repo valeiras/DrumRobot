@@ -14,10 +14,15 @@
 #define MATRIX 0
 #define SPOTLIGHT 1
 
+#define DEFAULT_BPM 90
+#define DEFAULT_BPM_IDX 17
+#define NB_BPM_VALUES 29
+
 enum MessageType {
   START,
   RESYNC,
   BPM_CHANGE,
+  BPM_IDX_CHANGE,
   MODE_CHANGE,
   SET_RESYNC_TIME
 };

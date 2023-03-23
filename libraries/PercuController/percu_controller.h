@@ -2,6 +2,7 @@
 #define Percu_controller_h
 
 #include <Array.h>
+#include <bpm_values.h>
 #include <percu_robot.h>
 #include <percu_song.h>
 #include <robo_receptor.h>
@@ -14,7 +15,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class PercuController : public RoboReceptor {
  public:
   PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
-                  int address, unsigned short bpm, bool simulation, bool printOutput);
+                  int address, bool simulation, bool printOutput);
 
   // This method should be called once all the parameters of the robot and the song have been set
   void initializeRobot();
@@ -26,12 +27,14 @@ class PercuController : public RoboReceptor {
 
   bool isTimeToChangePos(byte limb, unsigned long ellapsedTime);
 
-  void setBpm(unsigned short bpm);
+  void setBpm(uint8_t bpm);
+  void setBpm(float bpm);
 
   // Inherited methods from RoboReceptor
   void treatStartMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
+  void treatBpmIdxChangeMsg(uint8_t messageContent);
   void treatModeChangeMsg(uint8_t messageContent);
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
@@ -44,7 +47,7 @@ class PercuController : public RoboReceptor {
   bool moveLimb_[NB_POS_JOINTS];
   byte nextPos_[NB_POS_JOINTS];
 
-  unsigned short bpm_;
+  float bpm_;
   unsigned int timePerSemiquaver_;
   unsigned long timeNextSemiquaver_, initialTime_;
 
@@ -55,11 +58,11 @@ class PercuController : public RoboReceptor {
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
                                                                              PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
-                                                                             unsigned short bpm, bool simulation, bool printOutput) : RoboReceptor(address) {
+                                                                             bool simulation, bool printOutput) : RoboReceptor(address) {
   robot_ = robot;
   song_ = song;
 
-  setBpm(bpm);
+  setBpm(bpmValues[DEFAULT_BPM_IDX]);
   hasStarted_ = false;
 
   simulation_ = simulation;
@@ -158,7 +161,12 @@ bool PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::isTimeToChange
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigned short bpm) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(uint8_t bpm) {
+  setBpm(float(bpm));
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(float bpm) {
   bpm_ = bpm;
   unsigned long timeQuarter = int(60000.0 / bpm_);  // us per quarter note
   timePerSemiquaver_ = int(timeQuarter / 4.0);      // us per semiquaver note
@@ -173,9 +181,11 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(unsigne
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
-  hasStarted_ = true;
-  timeNextSemiquaver_ = initialTime_;
-  initializeRobot();
+  hasStarted_ = !hasStarted_;
+  if (hasStarted_) {
+    timeNextSemiquaver_ = initialTime_;
+    initializeRobot();
+  }
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -185,6 +195,11 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatResyncMsg
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmChangeMsg(uint8_t messageContent) {
   setBpm(messageContent);
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmIdxChangeMsg(uint8_t messageContent) {
+  setBpm(bpmValues[messageContent]);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>

@@ -5,6 +5,7 @@
 
 #include <robo_receptor.h>
 #include <robo_communication.h>
+#include <bpm_values.h>
 
 #include <Adafruit_GFX.h>
 #include <FastLED.h>
@@ -34,12 +35,14 @@ public:
                 int spotlightPin[NB_SPOTLIGHTS], int brightness, int address);
 
   void setBpm(uint8_t bpm);
+  void setBpm(float bpm); 
 
   void doLighting(unsigned long currTime);
 
   void treatStartMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
+  void treatBpmIdxChangeMsg(uint8_t messageContent);
   void treatModeChangeMsg(uint8_t messageContent);
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
@@ -68,7 +71,8 @@ private:
 
   void checkNoteChanges(unsigned long currTime);
 
-  uint8_t matrixMode_, spotlightMode_, bpm_;
+  uint8_t matrixMode_, spotlightMode_;
+  float bpm_;
   unsigned int w_, h_, nbMtxHor_;
   FastLED_NeoMatrix *fastLedMatrix_;
 
