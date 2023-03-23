@@ -16,6 +16,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 const uint16_t RESYNC_TIME = 10000;
 uint8_t bpm = DEFAULT_BPM;
+uint8_t bpmIdx = DEFAULT_BPM_IDX;
 
 unsigned int initialDelay = 1000;
 unsigned long ellapsedTime, initTime, lastResync;
@@ -34,7 +35,8 @@ void setup() {
   MIDI.setHandleControlChange(handleCCMessage);
 
   Wire.begin();
-  notifyRobots(BPM_CHANGE, bpm);
+  //notifyRobots(BPM_CHANGE, bpm);
+  notifyRobots(BPM_IDX_CHANGE, bpmIdx);
   //notifyRobots(SET_RESYNC_TIME, RESYNC_TIME);
 
   pinMode(LED_PIN, OUTPUT);
@@ -60,6 +62,14 @@ void notifyRobots(uint8_t messageType) {
 }
 
 void notifyRobots(uint8_t messageType, uint8_t messageContent) {
+  for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
+    if (robotIsPresent[ii]) {
+      sendMessage(robotAddresses[ii], messageType, messageContent);
+    }
+  }
+}
+
+void notifyRobots(uint8_t messageType, uint16_t messageContent) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
     if (robotIsPresent[ii]) {
       sendMessage(robotAddresses[ii], messageType, messageContent);
@@ -147,10 +157,10 @@ void handleCCMessage(byte channel, byte number, byte value) {
   switch (number) {
     case POT1:
       if (variableBpm) {
-        int newBpm = map(value, CC_MIN, CC_MAX, minBpm, maxBpm);
-        if (abs(newBpm - bpm) >= MIN_BPM_CHANGE) {
-          bpm = newBpm;
-          notifyRobots(BPM_CHANGE, bpm);
+        int newBpmIdx = map(value, CC_MAX, CC_MIN, 0, NB_BPM_VALUES - 1);
+        if (newBpmIdx != bpmIdx) {
+          bpmIdx = newBpmIdx;
+          notifyRobots(BPM_IDX_CHANGE, bpmIdx);
         }
       }
       break;
