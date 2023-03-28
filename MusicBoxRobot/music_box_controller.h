@@ -19,6 +19,7 @@ public:
                      int address, bool simulation, bool printOutput);
 
   void treatStartMsg();
+  void treatStopMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
   void treatBpmIdxChangeMsg(uint8_t messageContent);
@@ -29,7 +30,7 @@ public:
 
 private:
   uint8_t nbSemiquaversNextInstruction_, semiquaverCount_;
-  bool currInstructionIsOn_;
+  bool currInstructionIsOn_, firstMbAfterStart_;
 
   MusicBoxRobot* mbRobot_;
   MusicBoxSong* mbSong_;

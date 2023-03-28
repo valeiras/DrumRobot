@@ -12,6 +12,7 @@ class RoboReceptor {
   setReceptor();
 
   virtual void treatStartMsg() = 0;
+  virtual void treatStopMsg() = 0;
   virtual void treatResyncMsg() = 0;
   virtual void treatBpmChangeMsg(uint8_t messageContent) = 0;
   virtual void treatBpmIdxChangeMsg(uint8_t messageContent) = 0;  

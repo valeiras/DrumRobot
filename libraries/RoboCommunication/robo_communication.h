@@ -20,6 +20,7 @@
 
 enum MessageType {
   START,
+  STOP,
   RESYNC,
   BPM_CHANGE,
   BPM_IDX_CHANGE,

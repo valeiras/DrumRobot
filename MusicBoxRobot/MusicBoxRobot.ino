@@ -30,10 +30,10 @@ void setup() {
   mbRobot = new MusicBoxRobot(MUSIC_BOX_PIN, SENSOR_PIN);
   mbSong = new MusicBoxSong();
 
-  mbSong->setOffInstruction(16);
-  mbSong->setOnInstruction(112);
-  mbSong->setOffInstruction(16);
-  mbSong->setOnInstruction(112);
+  for (unsigned int ii = 0; ii < 10; ii++) {
+    mbSong->setOnInstruction(112);
+    mbSong->setOffInstruction(16);
+  }
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   prcSong = new MusicBoxPercuSong();
@@ -51,5 +51,5 @@ void setup() {
 }
 
 void loop() {
-   controller->goToTime(millis());
+  controller->goToTime(millis());
 }

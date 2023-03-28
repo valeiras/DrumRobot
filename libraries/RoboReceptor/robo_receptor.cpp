@@ -25,6 +25,9 @@ void receiveMessage(int howMany) {
         case START:
           receptor->treatStartMsg();
           break;
+        case STOP:
+          receptor->treatStopMsg();
+          break;
         case RESYNC:
           receptor->treatResyncMsg();
           break;

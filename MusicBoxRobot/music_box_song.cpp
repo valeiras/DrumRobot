@@ -14,9 +14,6 @@ void MusicBoxSong::setOffInstruction(uint8_t nbSemiquavers) {
 }
 
 bool MusicBoxSong::getNextInstruction(uint8_t &nbSemiquavers) {
-  Serial.print("Curr instruction index: ");
-  Serial.println(currInstructionIndex_);
-
   currInstructionIndex_ = ++currInstructionIndex_ % nbInstructions_;
   nbSemiquavers = ((instructions_[currInstructionIndex_] & SEMIQUAVERS_MASK) >> BITS_FOR_ON_OFF) + 1;
   return bitRead(instructions_[currInstructionIndex_], 0);
@@ -44,4 +41,8 @@ void MusicBoxSong::printInstructions() {
     Serial.print(((instructions_[ii] & SEMIQUAVERS_MASK) >> BITS_FOR_ON_OFF) + 1);
     Serial.println(" semiquavers");
   }
+}
+
+void MusicBoxSong::restartSong(){
+  currInstructionIndex_ = -1;
 }

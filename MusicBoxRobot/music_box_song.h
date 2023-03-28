@@ -26,6 +26,7 @@ public:
   bool getNextInstruction(uint8_t &nbSemiquavers);
 
   void printInstructions();
+  void restartSong();
 
 private:
   void setInstruction(uint8_t nbSemiquavers, bool onOrOff);
