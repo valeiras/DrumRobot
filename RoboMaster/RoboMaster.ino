@@ -26,7 +26,8 @@ bool variableBpm = true;
 short minBpm = 60;
 short maxBpm = 150;
 
-bool robotIsPresent[NB_ROBOTS] = { true, true, false, true };
+// ------------------------------- DRUM -GLOCK -MBOX -LIGHT
+bool robotIsPresent[NB_ROBOTS] = { true, false, true, false };
 
 void setup() {
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
@@ -45,6 +46,10 @@ void setup() {
 }
 
 void loop() {
+  // digitalWrite(LED_BUILTIN, HIGH);
+  // delay(100);
+  // digitalWrite(LED_BUILTIN, LOW);
+  // delay(100);
   ellapsedTime = millis() - initTime;
   MIDI.read();
   if (ellapsedTime - lastResync >= RESYNC_TIME) {
@@ -106,8 +111,10 @@ void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
 }
 
 void notifyChangeLightingMode(uint8_t lightingMode, uint8_t elementBit) {
-  uint8_t messageContent = (lightingMode << BITS_PER_ELEMENT_IDENTIFIER) | elementBit;
-  sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, messageContent);
+  if (robotIsPresent[3]) {
+    uint8_t messageContent = (lightingMode << BITS_PER_ELEMENT_IDENTIFIER) | elementBit;
+    sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, messageContent);
+  }
 }
 
 void handleNoteOn(byte channel, byte pitch, byte velocity) {

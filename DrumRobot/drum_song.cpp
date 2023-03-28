@@ -44,9 +44,6 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
     case BASIC_RYTHM:
       {
         // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
-        if (printOutput) {
-          Serial.println("Basic rythm");
-        }
         nbPatterns_ = 3;
         nbMeasures_ = 10;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
@@ -130,9 +127,6 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
     case BASIC_RYTHM_WO_ACC:
       {
         // -------------------------------------------- BASIC RYTHM WITHOUT ACCENTS -----------------------------------------------------
-        if (printOutput) {
-          Serial.println("Basic rythm without accents");
-        }
         nbPatterns_ = 3;
         nbMeasures_ = 10;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
@@ -215,9 +209,6 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
       }
     case CRESCENDO:
       {
-        if (printOutput) {
-          Serial.println("Crescendo");
-        }
         nbPatterns_ = 1;
         nbMeasures_ = 1;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
@@ -258,9 +249,6 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
       }
     case QUARTER_NOTES:
       {
-        if (printOutput) {
-          Serial.println("Crescendo");
-        }
         nbPatterns_ = 1;
         nbMeasures_ = 1;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);

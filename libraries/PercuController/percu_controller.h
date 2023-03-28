@@ -17,10 +17,9 @@ class PercuController : public RoboReceptor {
   PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
                   int address, bool simulation, bool printOutput);
 
-  // This method should be called once all the parameters of the robot and the song have been set
-  void initializeRobot();
+  void initialize();
 
-  void goToTime(unsigned long currTime, bool printOutput = 0);
+  virtual int goToTime(unsigned long currTime, bool printOutput = 0);
 
   void manageHitInstruction(byte limb, unsigned long currTime);
   void managePosInstruction(byte limb);
@@ -31,12 +30,15 @@ class PercuController : public RoboReceptor {
   void setBpm(float bpm);
 
   // Inherited methods from RoboReceptor
-  void treatStartMsg();
-  void treatResyncMsg();
-  void treatBpmChangeMsg(uint8_t messageContent);
-  void treatBpmIdxChangeMsg(uint8_t messageContent);
-  void treatModeChangeMsg(uint8_t messageContent);
-  void treatSetResyncTimeMsg(uint16_t messageContent);
+  virtual void treatStartMsg();
+  virtual void treatResyncMsg();
+  virtual void treatBpmChangeMsg(uint8_t messageContent);
+  virtual void treatBpmIdxChangeMsg(uint8_t messageContent);
+  virtual void treatModeChangeMsg(uint8_t messageContent);
+  virtual void treatSetResyncTimeMsg(uint16_t messageContent);
+
+ protected:
+  bool hasStarted_, firstAfterStart_;
 
  private:
   PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
@@ -51,7 +53,6 @@ class PercuController : public RoboReceptor {
   unsigned int timePerSemiquaver_;
   unsigned long timeNextSemiquaver_, initialTime_;
 
-  bool hasStarted_;
   bool simulation_, printOutput_;
 };
 
@@ -64,13 +65,16 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
 
   setBpm(bpmValues[DEFAULT_BPM_IDX]);
   hasStarted_ = false;
+  firstAfterStart_ = false;
+
+  // initialize();
 
   simulation_ = simulation;
   printOutput_ = printOutput;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobot() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize() {
   for (unsigned int limb = 0; limb < NB_POS_JOINTS; limb++) {
     timeNextPosInstruction_[limb] = 0;
     moveLimb_[limb] = false;
@@ -95,7 +99,9 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initializeRobo
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
+int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
+  int semiquaversEllapsed = 0;
+
   if (hasStarted_) {
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
       if (currTime >= timeNextHitInstruction_[limb]) {
@@ -108,11 +114,13 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsig
 
     while (currTime > timeNextSemiquaver_) {
       timeNextSemiquaver_ += timePerSemiquaver_;
+      semiquaversEllapsed++;
       song_->goToNextSemiquaver();
     }
   } else {
     initialTime_ = currTime;
   }
+  return semiquaversEllapsed;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -181,10 +189,14 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setBpm(float b
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(100);
+  digitalWrite(LED_BUILTIN, LOW);
+
   hasStarted_ = !hasStarted_;
   if (hasStarted_) {
-    timeNextSemiquaver_ = initialTime_;
-    initializeRobot();
+    timeNextSemiquaver_ = initialTime_ + timePerSemiquaver_;
+    initialize();
   }
 }
 

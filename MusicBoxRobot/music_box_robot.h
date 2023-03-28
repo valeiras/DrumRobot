@@ -4,20 +4,24 @@
 #include <Servo.h>
 #include <Arduino.h>
 
-#define MIN_POS 0
-#define MAX_POS 360
-#define MIN_ANALOG_READ 0
-#define MAX_ANALOG_READ 1023
+#define V_MIN 87
+#define V_MAX 59
+#define STOP 90
 
 class MusicBoxRobot {
 public:
   MusicBoxRobot();
   MusicBoxRobot(int servoPin, int sensorPin);
 
-  void goToPos(int vel);
-  int getPos();
-  
-  void setVel(int vel);
+  void goToPos(uint16_t pos, uint8_t vel);
+  void goToInitialPos();
+
+  uint16_t getSensorRead();
+  uint16_t getPos();
+
+  void setVelOrder(uint8_t velOrder);
+  void stop();
+
 private:
   Servo servo_;
   int sensorPin_;
