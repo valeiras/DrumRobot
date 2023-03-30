@@ -52,7 +52,7 @@ inline float timesPerSemiquaver[NB_BPM_VALUES] = {
     137.42,
     146.51,
     157.08,
-    167.60,
+    161.67,
     180.99,
     197.31,
     215.96,

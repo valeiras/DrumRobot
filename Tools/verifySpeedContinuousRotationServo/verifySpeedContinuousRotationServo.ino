@@ -22,7 +22,7 @@ unsigned long timeEllapsed, timeStart;
 
 int currOrder = 76;
 
-const int nbLoops = 100;
+const int nbLoops = 10;
 
 void setup() {
   Serial.begin(9600);

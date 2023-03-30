@@ -31,8 +31,8 @@ void setup() {
   mbSong = new MusicBoxSong();
 
   for (unsigned int ii = 0; ii < 10; ii++) {
-    mbSong->setOnInstruction(112);
     mbSong->setOffInstruction(16);
+    mbSong->setOnInstruction(112);
   }
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------

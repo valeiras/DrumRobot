@@ -65,10 +65,9 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   robot_ = robot;
   song_ = song;
 
-  setBpm(bpmValues[DEFAULT_BPM_IDX]);
+  setTimePerSemiquaver(timesPerSemiquaver[DEFAULT_BPM_IDX]);
   hasStarted_ = false;
   firstAfterStart_ = false;
-  Serial.println("Constructor -> false");
 
   simulation_ = simulation;
   printOutput_ = printOutput;
