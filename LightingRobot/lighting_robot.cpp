@@ -1,9 +1,7 @@
 #include "lighting_robot.h"
 
-LightingRobot::LightingRobot() {}
-
 LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert,
-                             FastLED_NeoMatrix *fastLedMatrix, int spotlightPins[NB_SPOTLIGHTS], int brightness, int address)
+                             FastLED_NeoMatrix *fastLedMatrix, int spotlightPins[NB_SPOTLIGHTS], int meterPins[NB_METERS], int brightness, int address)
   : RoboReceptor(address) {
 
   // MATRIX DECLARATION:
@@ -68,12 +66,18 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
   semiquaverChange_ = false;
 
   lastSemiquaverChange_ = 0;
+  lastQuarterNoteChange_ = 0;
 
   for (unsigned int ii = 0; ii < NB_SPOTLIGHTS; ii++) {
     spotlightPins_[ii] = spotlightPins[ii];
     pinMode(spotlightPins_[ii], OUTPUT);
   }
   currSpotlight_ = 0;
+
+  for (unsigned int ii = 0; ii < NB_METERS; ii++) {
+    meterPins_[ii] = meterPins[ii];
+    pinMode(meterPins_[ii], OUTPUT);
+  }
 
   clearAllLights();
 }
@@ -83,10 +87,9 @@ void LightingRobot::setBpm(uint8_t bpm) {
 }
 
 void LightingRobot::setBpm(float bpm) {
-  Serial.print("Setting bpm: ");
-  Serial.println(bpm);
   bpm_ = bpm;
   semiquaverInterval_ = MS_PER_MIN / (bpm_ * SEMIQUAVERS_PER_BEAT);
+  quarterNoteInterval_ = 4 * semiquaverInterval_;
 }
 
 void LightingRobot::doLighting(unsigned long currTime) {
@@ -97,19 +100,19 @@ void LightingRobot::doLighting(unsigned long currTime) {
       case MATRIX_OFF_MODE:
         break;
       case MATRIX_BLINKING_MODE:
-        doMatrixBlinking(currTime);
+        doMatrixBlinking();
         break;
       case MATRIX_NAME_MODE:
-        doMatrixName(currTime);
+        doMatrixName();
         break;
       case MATRIX_LOGO_MODE:
-        doMatrixLogo(currTime);
+        doMatrixLogo();
         break;
       case MATRIX_RECTANGLES_MODE:
-        doMatrixRectangles(currTime);
+        doMatrixRectangles();
         break;
       case MATRIX_BARS_MODE:
-        doMatrixBars(currTime);
+        doMatrixBars();
         break;
     }
     switch (spotlightMode_) {
@@ -117,18 +120,19 @@ void LightingRobot::doLighting(unsigned long currTime) {
       case SPOTLIGHT_CONSTANT_MODE:
         break;
       case SPOTLIGHT_BLINKING_MODE:
-        doSpotlightBlinking(currTime);
+        doSpotlightBlinking();
         break;
       case SPOTLIGHT_SEQUENCE_MODE:
-        doSpotlightSequence(currTime);
+        doSpotlightSequence();
         break;
     }
+    doMeterMovement(currTime);
   } else {
     lastSemiquaverChange_ = currTime;
   }
 }
 
-void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
+void LightingRobot::doMatrixName() {
   if (semiquaverChange_) {
     if (++x_ > 36) {
       x_ = -fastLedMatrix_->width();
@@ -139,7 +143,7 @@ void LightingRobot::doMatrixName(unsigned long ellapsedTime) {
   }
 }
 
-void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
+void LightingRobot::doMatrixBlinking() {
   if (quaverChange_) {
     matrixOn_ = !matrixOn_;
     if (matrixOn_) {
@@ -156,28 +160,28 @@ void LightingRobot::doMatrixBlinking(unsigned long ellapsedTime) {
   }
 }
 
-void LightingRobot::doMatrixLogo(unsigned long ellapsedTime) {
+void LightingRobot::doMatrixLogo() {
   if (quarterNoteChange_) {
     currBitmap_ = ++currBitmap_ % NB_POSITIONS;
     printMatrixLogo();
   }
 }
 
-void LightingRobot::doMatrixRectangles(unsigned long ellapsedTime) {
+void LightingRobot::doMatrixRectangles() {
   if (quaverChange_) {
     currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
     printMatrixRectangles();
   }
 }
 
-void LightingRobot::doMatrixBars(unsigned long ellapsedTime) {
+void LightingRobot::doMatrixBars() {
   if (quarterNoteChange_) {
     currColorIndex_ = ++currColorIndex_ % NB_PALETTE_COLORS;
     printMatrixBars();
   }
 }
 
-void LightingRobot::doSpotlightBlinking(unsigned long ellapsedTime) {
+void LightingRobot::doSpotlightBlinking() {
   if (quaverChange_) {
     if (spotlightsOn_) {
       turnOffSpotlights();
@@ -187,7 +191,7 @@ void LightingRobot::doSpotlightBlinking(unsigned long ellapsedTime) {
   }
 }
 
-void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
+void LightingRobot::doSpotlightSequence() {
   if (semiquaverChange_) {
     digitalWrite(spotlightPins_[currSpotlight_], LOW);
     currSpotlight_ = ++currSpotlight_ % NB_SPOTLIGHTS;
@@ -195,10 +199,22 @@ void LightingRobot::doSpotlightSequence(unsigned long ellapsedTime) {
   }
 }
 
+void LightingRobot::doMeterMovement(unsigned long currTime) {
+  int output = max(0, MAX_METER_OUTPUT * (1 - float(currTime - lastQuarterNoteChange_) / quarterNoteInterval_));
+  for (unsigned int ii = 0; ii < NB_METERS; ii++) {
+    analogWrite(meterPins_[ii], output);
+  }
+}
+
 void LightingRobot::treatStartMsg() {
-  Serial.println("Start!!");
   hasStarted_ = true;
   turnOnSpotlights();
+}
+
+void LightingRobot::treatStopMsg() {
+  hasStarted_ = false;
+  clearAllLights();
+  clearMeters();
 }
 
 void LightingRobot::treatResyncMsg() {
@@ -209,8 +225,6 @@ void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
 }
 
 void LightingRobot::treatBpmIdxChangeMsg(uint8_t messageContent) {
-  Serial.print("Setting bpm idx ");
-  Serial.println(messageContent);
   setBpm(bpmValues[messageContent]);
 }
 
@@ -235,6 +249,12 @@ void LightingRobot::treatSetResyncTimeMsg(uint16_t messageContent) {
 void LightingRobot::clearAllLights() {
   clearMatrix();
   turnOffSpotlights();
+}
+
+void LightingRobot::clearMeters() {
+  for (unsigned int ii = 0; ii < NB_METERS; ii++) {
+    analogWrite(meterPins_[ii], 0);
+  }
 }
 
 void LightingRobot::clearMatrix() {
@@ -343,25 +363,10 @@ void LightingRobot::checkNoteChanges(unsigned long currTime) {
   halfNoteChange_ = false;
   wholeNoteChange_ = false;
 
-  // Serial.println("--------------------------------");
-  // Serial.print("semiquaver interval: ");
-  // Serial.println(semiquaverInterval_);
-  // Serial.print("currTime: ");
-  // Serial.println(currTime);
-  // Serial.print("last change: ");
-  // Serial.println(lastSemiquaverChange_);
-  // Serial.print("time ellapsed: ");
-  // Serial.println(currTime - lastSemiquaverChange_);
-
-
   if (currTime - lastSemiquaverChange_ >= semiquaverInterval_) {
     semiquaverChange_ = true;
     lastSemiquaverChange_ += semiquaverInterval_;
-    // Serial.print("Increasing lastSemiquaverChange to: ");
-    // Serial.println(lastSemiquaverChange_);
-    // Serial.print("Because semiquaver interval was: ");
-    // Serial.println(semiquaverInterval_);
-    
+
     semiquaverCount_++;
 
     if (semiquaverCount_ % SEMIQUAVERS_PER_WHOLE_NOTE == 0) {
@@ -371,13 +376,19 @@ void LightingRobot::checkNoteChanges(unsigned long currTime) {
       halfNoteChange_ = true;
       quarterNoteChange_ = true;
       quaverChange_ = true;
+
+      lastQuarterNoteChange_ = currTime;
     } else if (semiquaverCount_ % SEMIQUAVERS_PER_HALF_NOTE == 0) {
       halfNoteChange_ = true;
       quarterNoteChange_ = true;
       quaverChange_ = true;
+
+      lastQuarterNoteChange_ = currTime;
     } else if (semiquaverCount_ % SEMIQUAVERS_PER_QUARTER_NOTE == 0) {
       quarterNoteChange_ = true;
       quaverChange_ = true;
+
+      lastQuarterNoteChange_ = currTime;
     } else if (semiquaverCount_ % SEMIQUAVERS_PER_QUAVER == 0) {
       quaverChange_ = true;
     }

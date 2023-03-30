@@ -27,7 +27,7 @@ short minBpm = 60;
 short maxBpm = 150;
 
 // ------------------------------- DRUM -GLOCK -MBOX -LIGHT
-bool robotIsPresent[NB_ROBOTS] = { true, false, true, false };
+bool robotIsPresent[NB_ROBOTS] = { false, false, false, true };
 
 void setup() {
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
