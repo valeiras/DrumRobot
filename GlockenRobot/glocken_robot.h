@@ -1,13 +1,13 @@
-#include <percu_robot.h>
-
 #ifndef Glocken_robot_h
 #define Glocken_robot_h
+
+#include <percu_robot.h>
 
 #include "glocken_robot_config.h"
 
 class GlockenRobot : public PercuRobot<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL> {
 public:
-  GlockenRobot();
+  GlockenRobot(byte hitPins[NB_HIT_JOINTS_GL], byte posPins[NB_POS_JOINTS_GL]);
 
   byte getHitAngle(byte limb, byte pos, byte velocity);
   byte getRestAngle(byte limb, byte pos);

@@ -1,8 +1,7 @@
 #include "drum_song.h"
 
 DrumSong::DrumSong()
-  : RoboSong<NB_HIT_JOINTS_DR, BITS_FOR_POS_DR>::RoboSong() {
-  Serial.println("Drum song constructor");
+  : PercuSong<NB_HIT_JOINTS_DR, BITS_FOR_POS_DR>::PercuSong() {
   nbOfPositions_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbOfPositions_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbOfPositions_[RIGHT_LEG_DR] = NB_POS_RL_DR;
@@ -15,12 +14,9 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
     case SIMPLEST_RYTHM:
     default:
       {
-        if (printOutput) {
-          Serial.println("Simplest rythm");
-        }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -46,7 +42,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_ARM_DR, HHSN, V014, patternId, 2, printOutput);
         setQuarterHit(RIGHT_ARM_DR, SNCR, V010, patternId, 4, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
@@ -54,12 +50,9 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
     case BASIC_RYTHM:
       {
         // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
-        if (printOutput) {
-          Serial.println("Basic rythm");
-        }
         nbPatterns_ = 2;
-        nbBeats_ = 10;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 10;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
@@ -97,19 +90,16 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setHitPattern(RIGHT_ARM_DR, patternId1, REST, REST, REST, REST, HHSN, REST, REST, HHSN, REST, REST, REST, REST, SNSN, REST, SNSN, REST, printOutput);
         setVelPattern(RIGHT_ARM_DR, patternId1, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
 
-        byte basicPattSeq[nbBeats_] = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+        byte basicPattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
 
         setPatternSequence(basicPattSeq);
         break;
       }
     case CRESCENDO:
       {
-        if (printOutput) {
-          Serial.println("Crescendo");
-        }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -149,19 +139,16 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuaverHit(RIGHT_ARM_DR, SNSN, V013, patternId, 7, printOutput);
         setQuaverHit(RIGHT_ARM_DR, SNCR, V015, patternId, 8, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
       }
     case QUARTER_NOTES:
       {
-        if (printOutput) {
-          Serial.println("Crescendo");
-        }
         nbPatterns_ = 1;
-        nbBeats_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
 
@@ -185,7 +172,7 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 3, printOutput);
         setQuarterHit(RIGHT_ARM_DR, SNSN, V015, patternId, 4, printOutput);
 
-        byte simplestPattSeq[nbBeats_] = { 0 };
+        byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;

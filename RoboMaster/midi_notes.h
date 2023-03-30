@@ -1,0 +1,36 @@
+#define C03 48
+#define CS3 49
+#define D03 50
+#define DS3 51
+#define E03 52
+#define F03 53
+#define FS3 54
+#define G03 55
+#define GS3 56
+#define A03 57
+#define AS3 58
+#define B03 59
+#define C04 60
+#define CS4 61
+#define D04 62
+#define DS4 63
+#define E04 64
+#define F04 65
+#define FS4 66
+#define G04 67
+#define GS4 68
+#define A04 69
+#define AS4 70
+#define B04 71
+#define C05 72
+
+#define POT1 74
+#define POT2 71
+#define POT3 79
+#define POT4 78
+#define POT5 14
+#define POT6 15
+#define POT7 73
+#define POT8 09
+
+#define MOD 01

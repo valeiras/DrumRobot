@@ -1,0 +1,60 @@
+#ifndef Robo_communication_h
+#define Robo_communication_h
+
+#include <Arduino.h>
+#include <Wire.h>
+
+#define NB_ROBOTS 4
+
+#define DRUM_ADDRESS 1
+#define GLOCKEN_ADDRESS 2
+#define MUSIC_BOX_ADDRESS 3
+#define LIGHTING_ADDRESS 4
+
+#define MATRIX 0
+#define SPOTLIGHT 1
+
+#define DEFAULT_BPM 90
+#define DEFAULT_BPM_IDX 17
+#define NB_BPM_VALUES 29
+
+enum MessageType {
+  START,
+  STOP,
+  RESYNC,
+  BPM_CHANGE,
+  BPM_IDX_CHANGE,
+  MODE_CHANGE,
+  SET_RESYNC_TIME
+};
+
+enum MatrixModes {
+  MATRIX_OFF_MODE,
+  MATRIX_BLINKING_MODE,
+  MATRIX_NAME_MODE,
+  MATRIX_LOGO_MODE,
+  MATRIX_RECTANGLES_MODE,
+  MATRIX_BARS_MODE
+};
+
+enum SpotlightModes {
+  SPOTLIGHT_OFF_MODE,
+  SPOTLIGHT_BLINKING_MODE,
+  SPOTLIGHT_SEQUENCE_MODE,
+  SPOTLIGHT_CONSTANT_MODE,
+};
+
+inline uint8_t robotAddresses[NB_ROBOTS] = {DRUM_ADDRESS, GLOCKEN_ADDRESS, MUSIC_BOX_ADDRESS, LIGHTING_ADDRESS};
+
+#define MASK_BYTE0 0x00FF
+#define MASK_BYTE1 0xFF00
+
+#define MASK_LIGHTING_MODE 0b11111110
+#define MASK_ELEMENT_IDENTIFIER 0b00000001
+#define BITS_PER_ELEMENT_IDENTIFIER 1
+
+#define BITS_PER_BYTE 8
+#define BYTES_PER_UINT8 1
+#define BYTES_PER_UINT16 2
+
+#endif

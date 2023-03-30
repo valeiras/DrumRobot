@@ -1,11 +1,12 @@
 #include "glocken_robot.h"
 
-GlockenRobot::GlockenRobot() {
-  // We initialize the default parameters
-  setLimbParams();
-
+GlockenRobot::GlockenRobot(byte hitPins[NB_HIT_JOINTS_GL], byte posPins[NB_POS_JOINTS_GL])
+  : PercuRobot(hitPins, posPins) {
   nbPos_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbPos_[RIGHT_ARM_GL] = NB_POS_RA_GL;
+
+  // We initialize the default parameters
+  setLimbParams();
 
   setServoSpeed(_wServoGl);
 }

@@ -1,7 +1,7 @@
 #include "glocken_song.h"
 
 GlockenSong::GlockenSong()
-  : RoboSong<NB_HIT_JOINTS_GL, BITS_FOR_POS_GL>::RoboSong() {
+  : PercuSong<NB_HIT_JOINTS_GL, BITS_FOR_POS_GL>::PercuSong() {
   nbOfPositions_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
@@ -13,8 +13,8 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
     default:
       {
         nbPatterns_ = 4;
-        nbBeats_ = 8;
-        initializeBlankPatterns(nbPatterns_, nbBeats_);
+        nbMeasures_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
         byte patternId1 = 1;
@@ -63,7 +63,7 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
         setHitPattern(HEAD_GL, patternId3, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, printOutput);
         setVelPattern(HEAD_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, printOutput);
 
-        byte frereJacquesPattSeq[nbBeats_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
+        byte frereJacquesPattSeq[nbMeasures_] = { 0, 0, 1, 1, 2, 2, 3, 3 };
         setPatternSequence(frereJacquesPattSeq);
 
         break;

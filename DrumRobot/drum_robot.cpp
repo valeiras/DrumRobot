@@ -1,6 +1,7 @@
 #include "drum_robot.h"
 
-DrumRobot::DrumRobot() {
+DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR])
+  : PercuRobot(hitPins, posPins) {
   nbPos_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbPos_[RIGHT_LEG_DR] = NB_POS_RL_DR;
@@ -8,12 +9,12 @@ DrumRobot::DrumRobot() {
 
   // We initialize the default parameters
   setLimbParams();
+
+  setServoSpeed(_wServoDr);
 }
 
 // We use the default values defined in robot_config.h
 void DrumRobot::setLimbParams() {
-  setServoSpeed(_wServoDr);
-
   signed char directions[NB_HIT_JOINTS_DR] = { _dirLADr, _dirRLDr, _dirRADr };
 
   byte anglesLeftArm[NB_POS_LA_DR][3] = { { _hitAngleHH, _restAngleHH, _posAngleHHSn },
@@ -94,19 +95,6 @@ byte DrumRobot::getPosAngle(byte limb, byte pos) {
 unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
   if (pos < nbPos_[limb]) {
     float result = abs(posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER - posParameters_[limb][pos].restAngle) / wServo_;
-    if (printOutput) {
-      Serial.println("");
-      Serial.print("Limb ");
-      Serial.print(limb);
-      Serial.print(", Hit angle : ");
-      Serial.print(posParameters_[limb][pos].hitAngle);
-      Serial.print(", extra due to velocity: ");
-      Serial.print(hitDirection_[limb] * velocity * VEL_MULTIPLIER);
-      Serial.print(", rest angle : ");
-      Serial.print(posParameters_[limb][pos].restAngle);
-      Serial.print(", result:  ");
-      Serial.println(result);
-    }
     return round(result);
   } else {
     return 0;
