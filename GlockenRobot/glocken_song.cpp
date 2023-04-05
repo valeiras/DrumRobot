@@ -37,16 +37,16 @@ void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = fal
 
         // Right Arm
         // -----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(RIGHT_ARM_GL, patternId0, A00R, REST, REST, REST, D01R, REST, REST, REST, A00R, REST, REST, REST, C01R, REST, REST, REST, printOutput);
+        setHitPattern(RIGHT_ARM_GL, patternId0, A00R, REST, REST, REST, C01R, REST, REST, REST, A00R, REST, REST, REST, C01R, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId0, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V006, V000, V000, V000, printOutput);
 
-        setHitPattern(RIGHT_ARM_GL, patternId1, A00R, REST, REST, REST, C01R, REST, REST, REST, D01R, REST, C01R, REST, B00R, REST, C01R, REST, printOutput);
+        setHitPattern(RIGHT_ARM_GL, patternId1, A00R, REST, REST, REST, C01R, REST, REST, REST, C01R, REST, C01R, REST, B00R, REST, C01R, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId1, V012, V000, V000, V000, V009, V000, V000, V000, V008, V000, V015, V000, V015, V000, V012, V000, printOutput);
 
-        setHitPattern(RIGHT_ARM_GL, patternId2, D01R, REST, A00R, REST, D01R, REST, C01R, REST, A00R, REST, REST, REST, C01R, REST, REST, REST, printOutput);
+        setHitPattern(RIGHT_ARM_GL, patternId2, C01R, REST, A00R, REST, C01R, REST, C01R, REST, A00R, REST, REST, REST, C01R, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId2, V012, V000, V006, V000, V009, V000, V008, V000, V008, V000, V000, V000, V010, V000, V000, V000, printOutput);
 
-        setHitPattern(RIGHT_ARM_GL, patternId3, D01R, REST, REST, REST, D01R, REST, REST, REST, C01R, REST, REST, REST, REST, REST, REST, REST, printOutput);
+        setHitPattern(RIGHT_ARM_GL, patternId3, C01R, REST, REST, REST, C01R, REST, REST, REST, C01R, REST, REST, REST, REST, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_GL, patternId3, V009, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V000, V000, V000, V000, printOutput);
 
         // Head

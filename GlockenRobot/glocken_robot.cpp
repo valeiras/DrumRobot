@@ -17,12 +17,12 @@ void GlockenRobot::setLimbParams() {
                                        _posAngleE00L, _posAngleF00L, _posAngleFS0L, _posAngleG00L };
 
   byte posAnglesRight[NB_POS_RA_GL] = { _posAngleG00R, _posAngleGS0R, _posAngleA00R, _posAngleAS0R,
-                                        _posAngleB00R, _posAngleC01R, _posAngleCS1R, _posAngleD01R };
+                                        _posAngleB00R, _posAngleC01R };
 
   byte posAnglesHead[NB_POS_HD_GL] = { _posAngleHdL, _posAngleHdC, _posAngleHdR };
 
   String posNamesLeft[NB_POS_LA_GL] = { "C00", "CS0", "D00", "DS0", "E00", "F00", "FS0", "G00" };
-  String posNamesRight[NB_POS_RA_GL] = { "G00", "GS0", "AS0", "B00", "C01", "CS1", "D01", "DS1" };
+  String posNamesRight[NB_POS_RA_GL] = { "G00", "GS0", "A00", "AS0", "B00", "C01"};
   String posNamesHead[NB_POS_RA_GL] = { "Left", "Center", "Right" };
 
   setLimbParams(_dirLAGl, _dirRAGl, _dirHdGl,
