@@ -53,6 +53,7 @@ LightingRobot::LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHo
   x_ = -fastLedMatrix_->width();
   currColorIndex_ = 0;
   hasStarted_ = false;
+  firstAfterStart_ = false;
   currBitmap_ = 0;
 
   matrixMode_ = MATRIX_OFF_MODE;
@@ -94,6 +95,11 @@ void LightingRobot::setBpm(float bpm) {
 
 void LightingRobot::doLighting(unsigned long currTime) {
   if (hasStarted_) {
+    if(firstAfterStart_){
+      lastSemiquaverChange_ = currTime;
+      firstAfterStart_ = false;
+    }
+
     checkNoteChanges(currTime);
 
     switch (matrixMode_) {
@@ -202,33 +208,43 @@ void LightingRobot::doSpotlightSequence() {
 void LightingRobot::doMeterMovement(unsigned long currTime) {
   int output = max(0, MAX_METER_OUTPUT * (1 - float(currTime - lastQuarterNoteChange_) / quarterNoteInterval_));
   for (unsigned int ii = 0; ii < NB_METERS; ii++) {
-    analogWrite(meterPins_[ii], output);
+    analogWrite(meterPins_[ii], hasStarted_ * output);
   }
 }
 
 void LightingRobot::treatStartMsg() {
-  hasStarted_ = true;
-  turnOnSpotlights();
+  if (!hasStarted_) {
+    Serial.println("Start!!");
+    hasStarted_ = true;
+    firstAfterStart_ = true;
+    turnOnSpotlights();
+  }
 }
 
 void LightingRobot::treatStopMsg() {
-  hasStarted_ = false;
-  clearAllLights();
-  clearMeters();
+  if (hasStarted_) {
+    Serial.println("Stop!!");
+    hasStarted_ = false;
+    clearAllLights();
+    clearMeters();
+  }
 }
 
 void LightingRobot::treatResyncMsg() {
 }
 
 void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
+  Serial.println("Change bpm!");
   setBpm(messageContent);
 }
 
 void LightingRobot::treatBpmIdxChangeMsg(uint8_t messageContent) {
+  Serial.println("Change bpm!");
   setBpm(bpmValues[messageContent]);
 }
 
 void LightingRobot::treatModeChangeMsg(uint8_t messageContent) {
+  Serial.println("Mode change!!");
   uint8_t element = messageContent & MASK_ELEMENT_IDENTIFIER;
   uint8_t mode = (messageContent & MASK_LIGHTING_MODE) >> BITS_PER_ELEMENT_IDENTIFIER;
   switch (element) {
@@ -252,7 +268,11 @@ void LightingRobot::clearAllLights() {
 }
 
 void LightingRobot::clearMeters() {
+  Serial.println("Clearing meters: ");
   for (unsigned int ii = 0; ii < NB_METERS; ii++) {
+    Serial.print("Pin ");
+    Serial.print(meterPins_[ii]);
+    Serial.println(" set to 0");
     analogWrite(meterPins_[ii], 0);
   }
 }

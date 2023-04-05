@@ -87,7 +87,7 @@ private:
 
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
-  bool hasStarted_, matrixOn_, spotlightsOn_;
+  bool hasStarted_, firstAfterStart_, matrixOn_, spotlightsOn_;
 
   unsigned long lastSemiquaverChange_, semiquaverInterval_;
   unsigned long lastQuarterNoteChange_, quarterNoteInterval_;
