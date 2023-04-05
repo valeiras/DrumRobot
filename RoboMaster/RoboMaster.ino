@@ -27,7 +27,7 @@ short minBpm = 60;
 short maxBpm = 150;
 
 // ------------------------------- DRUM -GLOCK -MBOX -LIGHT
-bool robotIsPresent[NB_ROBOTS] = { false, false, false, true };
+bool robotIsPresent[NB_ROBOTS] = { false, true, false, false};
 
 void setup() {
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
@@ -37,7 +37,7 @@ void setup() {
 
   Wire.begin();
   //notifyRobots(BPM_CHANGE, bpm);
-  notifyRobots(BPM_IDX_CHANGE, bpmIdx);
+  //notifyRobots(BPM_IDX_CHANGE, bpmIdx);
   //notifyRobots(SET_RESYNC_TIME, RESYNC_TIME);
 
   pinMode(LED_PIN, OUTPUT);
@@ -120,41 +120,41 @@ void notifyChangeLightingMode(uint8_t lightingMode, uint8_t elementBit) {
 void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
-    case C03:
+    case PAD_A09:
       notifyChangeLightingMode(MATRIX_OFF_MODE, MATRIX);
       break;
-    case D03:
+    case PAD_A10:
       notifyChangeLightingMode(MATRIX_BLINKING_MODE, MATRIX);
       break;
-    case E03:
+    case PAD_A11:
       notifyChangeLightingMode(MATRIX_NAME_MODE, MATRIX);
       break;
-    case F03:
+    case PAD_A12:
       notifyChangeLightingMode(MATRIX_LOGO_MODE, MATRIX);
       break;
-    case G03:
+    case PAD_A05:
       notifyChangeLightingMode(MATRIX_RECTANGLES_MODE, MATRIX);
       break;
-    case A03:
+    case PAD_A06:
       notifyChangeLightingMode(MATRIX_BARS_MODE, MATRIX);
       break;
-    case C04:
+    case PAD_A01:
       notifyChangeLightingMode(SPOTLIGHT_OFF_MODE, SPOTLIGHT);
       break;
-    case D04:
+    case PAD_A02:
       notifyChangeLightingMode(SPOTLIGHT_BLINKING_MODE, SPOTLIGHT);
       break;
-    case E04:
+    case PAD_A03:
       notifyChangeLightingMode(SPOTLIGHT_SEQUENCE_MODE, SPOTLIGHT);
       break;
-    case F04:
+    case PAD_A04:
       notifyChangeLightingMode(SPOTLIGHT_CONSTANT_MODE, SPOTLIGHT);
       break;
-    case B04:
-      notifyRobots(STOP);
-      break;
-    case C05:
+    case PAD_A15:
       notifyRobots(START);
+      break;
+    case PAD_A16:
+      notifyRobots(STOP);
       break;
   }
 }
