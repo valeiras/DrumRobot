@@ -43,6 +43,8 @@ class PercuController : public RoboReceptor {
   bool hasStarted_, firstAfterStart_;
 
  private:
+  void sendRobotToRest();
+
   PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
   PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song_;
 
@@ -212,6 +214,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStopMsg() {
   if (hasStarted_) {
     hasStarted_ = false;
+    sendRobotToRest();
   }
 }
 
@@ -235,6 +238,17 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatModeChang
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatSetResyncTimeMsg(uint16_t messageContent) {
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::sendRobotToRest() {
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
+    if (limb < NB_POS_JOINTS) {
+      robot_->rest(limb, nextPos_[limb]);
+    } else {
+      robot_->rest(limb, 0, true);
+    }
+  }
 }
 
 #endif

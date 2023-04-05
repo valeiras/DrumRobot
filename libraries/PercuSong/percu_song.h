@@ -166,10 +166,6 @@ template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::goToFirstSemiquaver(bool printOutput) {
 
   for (unsigned int ii = 0; ii < NB_LIMBS; ii++) {
-   if(printOutput){
-      Serial.print("initalizing limb ");
-      Serial.println(ii);
-   }
     semiquaversToNextHit_[ii] = 0;
     currSemiquaver_[ii] = -1;
     currSequenceIdx_[ii] = 0;
@@ -186,14 +182,6 @@ template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutput = false) {
   signed char semiquaver = currSemiquaver_[limb];
   unsigned char sequenceIdx = currSequenceIdx_[limb];
-  if(printOutput){
-    Serial.print("Limb: ");
-    Serial.print(limb);
-    Serial.print(", Initial semiquaver: ");
-    Serial.print(currSemiquaver_[limb]);
-    Serial.print("Initial sequence index: ");
-    Serial.println(sequenceIdx);
-  }
 
   // We get the current pattern
   byte patternId = patternSequence_[sequenceIdx];
@@ -216,17 +204,6 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::computeNextHit(byte limb, bool printOutp
 
   currSemiquaver_[limb] = semiquaver;
   currSequenceIdx_[limb] = sequenceIdx;
-
-  if (printOutput) {
-    Serial.print("Next hit for limb ");
-    Serial.print(limb);
-    Serial.print(" occurs at pattern ");
-    Serial.print(sequenceIdx);
-    Serial.print(" and semiquaver ");
-    Serial.println(semiquaver);
-    Serial.print("The corresponding position is: ");
-    Serial.println(nextPos_[limb]);
-  }
 }
 
 template <int NB_LIMBS, int BITS_FOR_POS>
