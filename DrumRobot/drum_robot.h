@@ -9,7 +9,7 @@ struct posParamsDrum {
   String posName;  // Name of the position, for debugging purposes
 };
 
-class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR>{
+class DrumRobot : public PercuRobot<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR> {
 public:
   DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR]);
 
@@ -26,6 +26,8 @@ public:
                      byte anglesHead[NB_POS_HD_DR][3], String namesHead[NB_POS_HD_DR]);
 
   void printPosNames();
+
+  // void goToPos(byte limb, byte pos);
 
 private:
   void setLimbParams();

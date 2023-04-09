@@ -37,7 +37,7 @@ public:
                 int spotlightPins[NB_SPOTLIGHTS], int meterPins[NB_METERS], int brightness, int address);
 
   void setBpm(uint8_t bpm);
-  void setBpm(float bpm); 
+  void setBpm(float bpm);
 
   void doLighting(unsigned long currTime);
 
@@ -47,6 +47,7 @@ public:
   void treatBpmChangeMsg(uint8_t messageContent);
   void treatBpmIdxChangeMsg(uint8_t messageContent);
   void treatModeChangeMsg(uint8_t messageContent);
+  void treatBrightnessChangeMsg(uint8_t messageContent);
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
 private:
@@ -72,6 +73,7 @@ private:
   void clearAllLights();
   void clearMeters();
   void clearMatrix();
+  void turnOnMatrix();
   void turnOffSpotlights();
   void turnOnSpotlights();
 
@@ -87,7 +89,9 @@ private:
 
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
-  bool hasStarted_, firstAfterStart_, matrixOn_, spotlightsOn_;
+  bool hasStarted_, firstAfterStart_, firstAfterStop_, firstAfterMatrixModeChange_, firstAfterSpotlightModeChange_, matrixOn_, spotlightsOn_;
+  bool isBpmChangePending_, isBrightnessChangePending_;
+  float pendingBpm_, pendingBrightness_;
 
   unsigned long lastSemiquaverChange_, semiquaverInterval_;
   unsigned long lastQuarterNoteChange_, quarterNoteInterval_;
@@ -95,6 +99,7 @@ private:
 
   bool wholeNoteChange_, halfNoteChange_, quarterNoteChange_, quaverChange_, semiquaverChange_;
   unsigned int halfSize_;
+  bool matrixPending_;
 };
 
 #endif

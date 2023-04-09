@@ -25,9 +25,9 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
         setQuarterHit(HEAD_DR, HEAD, V008, patternId, 3, printOutput);
         setQuarterHit(HEAD_DR, HEAD, V014, patternId, 3, printOutput);
 
-        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId, 1, printOutput);
-        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 3, printOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 1, printOutput);
         setQuaverHit(RIGHT_LEG_DR, BDRU, V014, patternId, 6, printOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 3, printOutput);
 
         setQuaverHit(LEFT_ARM_DR, HHSN, V014, patternId, 1, printOutput);
         setQuaverHit(LEFT_ARM_DR, HHSN, V007, patternId, 2, printOutput);
@@ -75,15 +75,15 @@ void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false
 
 
         // Left arm
-        // ---------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+        // ---------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(LEFT_ARM_DR, patternId0, REST, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, printOutput);
         setVelPattern(LEFT_ARM_DR, patternId0, V000, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V000, V007, V000, printOutput);
 
-        setHitPattern(LEFT_ARM_DR, patternId1, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, REST, SNSN, REST, SNCR, printOutput);
+        setHitPattern(LEFT_ARM_DR, patternId1, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, REST, REST, REST, SNSN, REST, SNCR, printOutput);
         setVelPattern(LEFT_ARM_DR, patternId1, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V000, V006, V000, V005, printOutput);
 
         // Right arm
-        // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+        // ---------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(RIGHT_ARM_DR, patternId0, SNCR, REST, REST, REST, HHSN, REST, REST, HHSN, REST, REST, REST, REST, HHSN, REST, REST, REST, printOutput);
         setVelPattern(RIGHT_ARM_DR, patternId0, V014, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V012, V000, V000, V000, printOutput);
 

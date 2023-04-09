@@ -11,7 +11,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   servo1.write(90);
-  delay(1000);
-  servo1.write(90);
-  delay(1000);
+  delay(100);
+  servo1.write(70);
+  delay(100);
 }

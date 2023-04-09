@@ -40,7 +40,8 @@ class PercuController : public RoboReceptor {
   virtual void treatSetResyncTimeMsg(uint16_t messageContent);
 
  protected:
-  bool hasStarted_, firstAfterStart_;
+  bool hasStarted_, firstAfterStart_, firstAfterStop_, isBpmChangePending_;
+  float pendingBpm_;
 
  private:
   void sendRobotToRest();
@@ -70,9 +71,12 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   setTimePerSemiquaver(timesPerSemiquaver[DEFAULT_BPM_IDX]);
   hasStarted_ = false;
   firstAfterStart_ = false;
+  isBpmChangePending_ = false;
 
   simulation_ = simulation;
   printOutput_ = printOutput;
+
+  sendRobotToRest();
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -106,6 +110,11 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
   int semiquaversEllapsed = 0;
 
+  if (isBpmChangePending_) {
+    setBpm(pendingBpm_);
+    isBpmChangePending_ = false;
+  }
+
   if (hasStarted_) {
     if (firstAfterStart_) {
       initialize(currTime);
@@ -126,6 +135,10 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
       song_->goToNextSemiquaver();
     }
   } else {
+    if (firstAfterStop_) {
+      sendRobotToRest();
+      firstAfterStop_ = false;
+    }
     initialTime_ = currTime;
   }
   return semiquaversEllapsed;
@@ -214,7 +227,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStopMsg() {
   if (hasStarted_) {
     hasStarted_ = false;
-    sendRobotToRest();
+    firstAfterStop_ = true;
   }
 }
 
@@ -224,12 +237,14 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatResyncMsg
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmChangeMsg(uint8_t messageContent) {
-  setBpm(messageContent);
+  isBpmChangePending_ = true;
+  pendingBpm_ = messageContent;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmIdxChangeMsg(uint8_t messageContent) {
-  setTimePerSemiquaver(timesPerSemiquaver[messageContent]);
+  isBpmChangePending_ = true;
+  pendingBpm_ = bpmValues[messageContent];
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -243,11 +258,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatSetResync
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::sendRobotToRest() {
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
-    if (limb < NB_POS_JOINTS) {
-      robot_->rest(limb, nextPos_[limb]);
-    } else {
-      robot_->rest(limb, 0, true);
-    }
+    robot_->rest(limb);
   }
 }
 

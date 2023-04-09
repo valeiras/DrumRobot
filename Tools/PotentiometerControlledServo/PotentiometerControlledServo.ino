@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 Servo servo1;
-const int SERVOPIN = 10;
+const int SERVOPIN = 9;
 const int POTPIN = A0;
 
 int potVal;
@@ -16,7 +16,7 @@ void loop() {
   potVal = analogRead(POTPIN);
   ang = map(potVal, 0, 1023, 0, 180);
   servo1.write(ang);
-  delay(20);
+  delay(100);
   Serial.print("Lectura: ");
   Serial.print(potVal);
   Serial.print(", angulo: ");

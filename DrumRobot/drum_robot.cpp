@@ -18,13 +18,13 @@ void DrumRobot::setLimbParams() {
   signed char directions[NB_HIT_JOINTS_DR] = { _dirLADr, _dirRLDr, _dirRADr };
 
   byte anglesLeftArm[NB_POS_LA_DR][3] = { { _hitAngleHH, _restAngleHH, _posAngleHHSn },
-                                          { _hitAngleSnL, _restAngleSnL, _posAngleSnSn },
-                                          { _hitAngleSnL, _restAngleSnL, _posAngleSnCr } };
+                                          { _hitAngleSn1L, _restAngleSn1L, _posAngleSnSn },
+                                          { _hitAngleSn2L, _restAngleSn2L, _posAngleSnCr } };
   String namesLeftArm[NB_POS_LA_DR] = { "HH", "SN Left", "SN Left" };
 
   // These angles are used for a temporaty hack: we use the left pos servo to move the head against the movement of the hips
-  byte anglesRightArm[NB_POS_RA_DR][3] = { { _hitAngleSnR, _restAngleSnR, 2 * 90 - _posAngleHHSn },
-                                           { _hitAngleSnR, _restAngleSnR, 2 * 90 - _posAngleSnSn },
+  byte anglesRightArm[NB_POS_RA_DR][3] = { { _hitAngleSn1R, _restAngleSn1R, 2 * 90 - _posAngleHHSn },
+                                           { _hitAngleSn2R, _restAngleSn2R, 2 * 90 - _posAngleSnSn },
                                            { _hitAngleCr, _restAngleCr, 2 * 90 - _posAngleSnCr } };
   String namesRightArm[NB_POS_RA_DR] = { "SN Right", "SN Right", "Crash" };
 

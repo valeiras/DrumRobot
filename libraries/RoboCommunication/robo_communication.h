@@ -11,6 +11,11 @@
 #define MUSIC_BOX_ADDRESS 3
 #define LIGHTING_ADDRESS 4
 
+#define DRUM_ROBOT 0
+#define GLOCKEN_ROBOT 1
+#define MUSIC_BOX_ROBOT 2
+#define LIGHTING_ROBOT 3
+
 #define MATRIX 0
 #define SPOTLIGHT 1
 
@@ -25,6 +30,7 @@ enum MessageType {
   BPM_CHANGE,
   BPM_IDX_CHANGE,
   MODE_CHANGE,
+  BRIGHTNESS_CHANGE,
   SET_RESYNC_TIME
 };
 

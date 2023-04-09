@@ -5,7 +5,7 @@
 
 #define SPOTLIGHT_PIN1 2
 #define SPOTLIGHT_PIN2 3
-#define SPOTLIGHT_PIN3 4
+#define SPOTLIGHT_PIN3 8 // Pin 4 is not working
 #define SPOTLIGHT_PIN4 5
 #define SPOTLIGHT_PIN5 6
 #define SPOTLIGHT_PIN6 7
@@ -28,7 +28,6 @@ int spotlightPins[NB_SPOTLIGHTS] = { SPOTLIGHT_PIN1, SPOTLIGHT_PIN2, SPOTLIGHT_P
 int meterPins[NB_METERS] = { METER_PIN1, METER_PIN2 };
 
 void setup() {
-  Serial.begin(9600);
   FastLED.addLeds<NEOPIXEL, LED_MATRIX_PIN>(leds, NUM_LEDS);
   FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(leds, MATRIX_WIDTH, MATRIX_HEIGHT, NB_MATRICES_HOR, NB_MATRICES_VERT,
                                                     NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG);

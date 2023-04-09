@@ -33,12 +33,13 @@ class PercuRobot {
 
   signed char hitDirection_[NB_HIT_JOINTS];
   byte nbPos_[NB_HIT_JOINTS];
+  Servo posServos_[NB_POS_JOINTS];
+
   // rotational speed degrees per ms
   float wServo_;
 
  private:
   Servo hitServos_[NB_HIT_JOINTS];
-  Servo posServos_[NB_POS_JOINTS];
 };
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>

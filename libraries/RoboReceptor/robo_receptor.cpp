@@ -45,6 +45,9 @@ void receiveMessage(int howMany) {
         case MODE_CHANGE:
           receptor->treatModeChangeMsg(msgContent8);
           break;
+        case BRIGHTNESS_CHANGE:
+          receptor->treatBrightnessChangeMsg(msgContent8);
+          break;
       }
       break;
     case 3:
@@ -55,4 +58,7 @@ void receiveMessage(int howMany) {
       receptor->treatSetResyncTimeMsg(msgContent16);
       break;
   }
+}
+
+void RoboReceptor::treatBrightnessChangeMsg(uint8_t messageContent) {
 }
