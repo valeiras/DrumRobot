@@ -15,7 +15,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class PercuController : public RoboReceptor {
  public:
   PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
-                  int address, bool simulation, bool printOutput);
+                  int address, bool isSimulation, bool printOutput);
 
   void initialize(unsigned long currTime);
 
@@ -37,10 +37,13 @@ class PercuController : public RoboReceptor {
   virtual void treatBpmChangeMsg(uint8_t messageContent);
   virtual void treatBpmIdxChangeMsg(uint8_t messageContent);
   virtual void treatModeChangeMsg(uint8_t messageContent);
+  virtual void treatLimbStopMsg(uint8_t messageContent);
+  virtual void treatLimbStartMsg(uint8_t messageContent);
   virtual void treatSetResyncTimeMsg(uint16_t messageContent);
 
  protected:
-  bool hasStarted_, firstAfterStart_, firstAfterStop_, isBpmChangePending_;
+  bool hasStarted_, isFirstAfterStart_, isFirstAfterStop_, isBpmChangePending_;
+  bool isLimbActive_[NB_HIT_JOINTS], isActivationPending_[NB_HIT_JOINTS];
   float pendingBpm_;
 
  private:
@@ -58,22 +61,26 @@ class PercuController : public RoboReceptor {
   unsigned int timePerSemiquaver_;
   unsigned long timeNextSemiquaver_, initialTime_;
 
-  bool simulation_, printOutput_;
+  bool isSimulation_, printOutput_;
 };
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
                                                                              PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
-                                                                             bool simulation, bool printOutput) : RoboReceptor(address) {
+                                                                             bool isSimulation, bool printOutput) : RoboReceptor(address) {
   robot_ = robot;
   song_ = song;
 
   setTimePerSemiquaver(timesPerSemiquaver[DEFAULT_BPM_IDX]);
   hasStarted_ = false;
-  firstAfterStart_ = false;
+  isFirstAfterStart_ = false;
   isBpmChangePending_ = false;
 
-  simulation_ = simulation;
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
+    isActivationPending_[limb] = false;
+  }
+
+  isSimulation_ = isSimulation;
   printOutput_ = printOutput;
 
   sendRobotToRest();
@@ -114,11 +121,21 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
     setBpm(pendingBpm_);
     isBpmChangePending_ = false;
   }
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
+    if (isActivationPending_[limb]) {
+      if (isLimbActive_[limb]) {
+        robot_->activateLimb(limb);
+      } else {
+        robot_->deactivateLimb(limb);
+      }
+      isActivationPending_[limb] = false;
+    }
+  }
 
   if (hasStarted_) {
-    if (firstAfterStart_) {
+    if (isFirstAfterStart_) {
       initialize(currTime);
-      firstAfterStart_ = false;
+      isFirstAfterStart_ = false;
     }
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
       if (currTime >= timeNextHitInstruction_[limb]) {
@@ -135,9 +152,9 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
       song_->goToNextSemiquaver();
     }
   } else {
-    if (firstAfterStop_) {
+    if (isFirstAfterStop_) {
       sendRobotToRest();
-      firstAfterStop_ = false;
+      isFirstAfterStop_ = false;
     }
     initialTime_ = currTime;
   }
@@ -149,10 +166,11 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstr
   byte currentPosition = limb < NB_POS_JOINTS ? nextPos_[limb] : 0;
 
   if (nextInstruction_[limb] == HIT) {
-    if (simulation_) {
+    if (isSimulation_) {
       Serial.println(robot_->getPosName(limb, currentPosition));
+    } else {
+      robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), printOutput_);
     }
-    robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), printOutput_);
 
     timeNextHitInstruction_[limb] += robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
     nextInstruction_[limb] = REST;
@@ -219,7 +237,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
   if (!hasStarted_) {
     hasStarted_ = true;
-    firstAfterStart_ = true;
+    isFirstAfterStart_ = true;
   }
 }
 
@@ -227,7 +245,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStopMsg() {
   if (hasStarted_) {
     hasStarted_ = false;
-    firstAfterStop_ = true;
+    isFirstAfterStop_ = true;
   }
 }
 
@@ -249,6 +267,22 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmIdxCha
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatModeChangeMsg(uint8_t messageContent) {
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStopMsg(uint8_t messageContent) {
+  if (messageContent < NB_HIT_JOINTS) {
+    isLimbActive_[messageContent] = false;
+    isActivationPending_[messageContent] = true;
+  }
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStartMsg(uint8_t messageContent) {
+  if (messageContent < NB_HIT_JOINTS) {
+    isLimbActive_[messageContent] = true;
+    isActivationPending_[messageContent] = true;
+  }
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>

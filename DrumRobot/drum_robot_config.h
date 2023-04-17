@@ -23,7 +23,7 @@
 const signed char _dirRLDr = -1;
 const signed char _dirLADr = +1;
 const signed char _dirRADr = -1;
-const signed char _dirHead = +1;
+const signed char _dirHdDr = +1;
 
 // Head
 const byte _hitAngleHD = 70;
@@ -63,6 +63,12 @@ const byte _restAngleCr = 97;
 const byte _posAngleHHSn = 90;
 const byte _posAngleSnSn = 78;
 const byte _posAngleSnCr = 65;
+
+// InactiveAngles
+const byte _inactiveAngleLADr = 40;
+const byte _inactiveAngleRADr = 110;
+const byte _inactiveAngleRLDr = 100;
+const byte _inactiveAngleHdDr = 90;
 
 const float _wServoDr = 0.3;
 
