@@ -15,22 +15,22 @@ public:
   unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0);
   String getPosName(byte limb, byte pos);
 
-  void setLimbParams(signed char directionLeft, signed char directionRight,
-                     byte hitAngleLeft, byte hitAngleRight,
-                     byte restAngleLeft, byte restAngleRight,
-                     byte posAnglesLeft[NB_POS_LA_GL], byte posAnglesRight[NB_POS_RA_GL],
-                     String posNamesLeft[NB_POS_LA_GL], String posNamesRight[NB_POS_RA_GL]);
+  void setLimbParams(signed char directionLeft, signed char directionRight, signed char directionHead,
+                     byte hitAngleLeft, byte hitAngleRight, byte hitAngleHead,
+                     byte restAngleLeft, byte restAngleRight, byte restAngleHead,
+                     byte posAnglesLeft[NB_POS_LA_GL], byte posAnglesRight[NB_POS_RA_GL], byte posAnglesHead[NB_POS_HD_GL],
+                     String posNamesLeft[NB_POS_LA_GL], String posNamesRight[NB_POS_RA_GL], String posNamesHead[NB_POS_HD_GL]);
 
 private:
   void setLimbParams();
 
   byte hitAngles_[NB_HIT_JOINTS_GL], restAngles_[NB_HIT_JOINTS_GL];
 
-  byte posAnglesLeft_[NB_POS_LA_GL], posAnglesRight_[NB_POS_LA_GL];
-  byte* posAngles_[NB_POS_JOINTS_GL] = { posAnglesLeft_, posAnglesRight_ };
+  byte posAnglesLeft_[NB_POS_LA_GL], posAnglesRight_[NB_POS_LA_GL], posAnglesHead_[NB_POS_HD_GL];
+  byte* posAngles_[NB_POS_JOINTS_GL] = { posAnglesLeft_, posAnglesRight_, posAnglesHead_ };
 
-  String posNamesLeft_[NB_POS_LA_GL], posNamesRight_[NB_POS_RA_GL];
-  String* posNames_[NB_POS_JOINTS_GL] = { posNamesLeft_, posNamesRight_ };
+  String posNamesLeft_[NB_POS_LA_GL], posNamesRight_[NB_POS_RA_GL], posNamesHead_[NB_POS_HD_GL];
+  String* posNames_[NB_POS_JOINTS_GL] = { posNamesLeft_, posNamesRight_, posNamesHead_ };
 };
 
 #endif

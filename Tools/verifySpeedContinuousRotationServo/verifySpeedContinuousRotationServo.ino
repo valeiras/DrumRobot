@@ -20,9 +20,9 @@ bool firstLoop;
 int loopCount, securityCount;
 unsigned long timeEllapsed, timeStart;
 
-int currOrder = 76;
+int currOrder = 75;
 
-const int nbLoops = 10;
+const int nbLoops = 100;
 
 void setup() {
   Serial.begin(9600);

@@ -22,39 +22,48 @@
 #define SEMIQUAVERS_PER_QUAVER 2
 
 #define NB_SPOTLIGHTS 6
+#define NB_BOTTOM_SPOTLIGHTS 3
+#define NB_METERS 2
 
 #define NB_PRIMARY_COLORS 3
 #define NB_PALETTE_COLORS 4
 
 #define BAR_WIDTH 2
 
+#define MAX_METER_OUTPUT 15
+
 class LightingRobot : public RoboReceptor {
 public:
-  LightingRobot();
   LightingRobot(int matrixWidth, int matrixHeight, int nbMatricesHor, int nbMatricesVert, FastLED_NeoMatrix *fastLedMatrix,
-                int spotlightPin[NB_SPOTLIGHTS], int brightness, int address);
+                int spotlightPins[NB_SPOTLIGHTS], int meterPins[NB_METERS], int brightness, int address);
 
   void setBpm(uint8_t bpm);
-  void setBpm(float bpm); 
+  void setBpm(float bpm);
 
   void doLighting(unsigned long currTime);
 
   void treatStartMsg();
+  void treatStopMsg();
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
   void treatBpmIdxChangeMsg(uint8_t messageContent);
   void treatModeChangeMsg(uint8_t messageContent);
+  void treatBrightnessChangeMsg(uint8_t messageContent);
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
 private:
-  void doMatrixName(unsigned long ellapsedTime);
-  void doMatrixBlinking(unsigned long ellapsedTime);
-  void doMatrixLogo(unsigned long ellapsedTime);
-  void doMatrixRectangles(unsigned long ellapsedTime);
-  void doMatrixBars(unsigned long ellapsedTime);
+  void doMatrixName();
+  void doMatrixBlinking();
+  void doMatrixLogo();
+  void doMatrixRectangles();
+  void doMatrixBars();
 
-  void doSpotlightBlinking(unsigned long ellapsedTime);
-  void doSpotlightSequence(unsigned long ellapsedTime);
+  void doSpotlightTop();
+  void doSpotlightBottom();
+  void doSpotlightBlinking();
+  void doSpotlightSequence();
+
+  void doMeterMovement(unsigned long currTime);
 
   void initializeMatrixMode();
   void initializeSpotlightMode();
@@ -65,7 +74,9 @@ private:
   void printMatrixBars();
 
   void clearAllLights();
+  void clearMeters();
   void clearMatrix();
+  void turnOnMatrix();
   void turnOffSpotlights();
   void turnOnSpotlights();
 
@@ -76,18 +87,22 @@ private:
   unsigned int w_, h_, nbMtxHor_;
   FastLED_NeoMatrix *fastLedMatrix_;
 
-  int spotlightPins_[NB_SPOTLIGHTS];
+  int spotlightPins_[NB_SPOTLIGHTS], meterPins_[NB_METERS];
   int currSpotlight_;
 
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
-  bool hasStarted_, matrixOn_, spotlightsOn_;
+  bool hasStarted_, firstAfterStart_, firstAfterStop_, firstAfterMatrixModeChange_, firstAfterSpotlightModeChange_, matrixOn_, spotlightsOn_;
+  bool isBpmChangePending_, isBrightnessChangePending_;
+  float pendingBpm_, pendingBrightness_;
 
   unsigned long lastSemiquaverChange_, semiquaverInterval_;
+  unsigned long lastQuarterNoteChange_, quarterNoteInterval_;
   unsigned int semiquaverCount_;
 
   bool wholeNoteChange_, halfNoteChange_, quarterNoteChange_, quaverChange_, semiquaverChange_;
   unsigned int halfSize_;
+  bool matrixPending_;
 };
 
 #endif

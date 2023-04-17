@@ -5,6 +5,7 @@
 #include "glocken_song.h"
 #include "glocken_robot_config.h"
 
+#define HEAD_HIT_PIN_GL 3
 #define LEFT_HIT_PIN_GL 5
 #define RIGHT_HIT_PIN_GL 6
 #define LEFT_POS_PIN_GL 9
@@ -29,8 +30,7 @@ void setup() {
     song->printPatterns();
   }
 
-  // ------------------------------------------------------- Servo Attaching ---------------------------------------------
-  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };
+  byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL, HEAD_HIT_PIN_GL };
   byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
   robot = new GlockenRobot(hitPins, posPins);
 

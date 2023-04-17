@@ -45,6 +45,15 @@ void receiveMessage(int howMany) {
         case MODE_CHANGE:
           receptor->treatModeChangeMsg(msgContent8);
           break;
+        case BRIGHTNESS_CHANGE:
+          receptor->treatBrightnessChangeMsg(msgContent8);
+          break;
+        case LIMB_STOP:
+          receptor->treatLimbStopMsg(msgContent8);
+          break;
+        case LIMB_START:
+          receptor->treatLimbStartMsg(msgContent8);
+          break;
       }
       break;
     case 3:
@@ -55,4 +64,14 @@ void receiveMessage(int howMany) {
       receptor->treatSetResyncTimeMsg(msgContent16);
       break;
   }
+}
+
+// We provide empty implementations of some of these functions, as not all of the robots need them
+void RoboReceptor::treatBrightnessChangeMsg(uint8_t messageContent) {
+}
+
+void RoboReceptor::treatLimbStopMsg(uint8_t messageContent) {
+}
+
+void RoboReceptor::treatLimbStartMsg(uint8_t messageContent) {
 }

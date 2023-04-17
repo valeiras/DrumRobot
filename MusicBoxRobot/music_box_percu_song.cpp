@@ -27,7 +27,7 @@ void MusicBoxPercuSong::createPredefinedPatterns(byte songName, bool printOutput
 
         // Head
         // -----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(HEAD_MB, patternId0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, printOutput);
+        setHitPattern(HEAD_MB, patternId0, HITP, REST, REST, REST, HITP, REST, REST, REST, HITP, REST, REST, REST, HITP, REST, REST, REST, printOutput);
         setVelPattern(HEAD_MB, patternId0, V015, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V015, V000, V000, V000, printOutput);
 
         setHitPattern(HEAD_MB, patternId1, HITP, REST, REST, REST, HITP, REST, REST, REST, HITP, REST, REST, REST, HITP, REST, REST, REST, printOutput);
