@@ -120,7 +120,6 @@ void LightingRobot::doLighting(unsigned long currTime) {
     if (firstAfterStart_) {
       lastSemiquaverChange_ = currTime;
       firstAfterStart_ = false;
-      turnOnSpotlights();
       turnOnMatrix();
     }
 
@@ -140,8 +139,13 @@ void LightingRobot::doLighting(unsigned long currTime) {
       case SPOTLIGHT_OFF_MODE:
       case SPOTLIGHT_CONSTANT_MODE:
         break;
+      case SPOTLIGHT_TOP_MODE:
+        doSpotlightTop();
+        break;
+      case SPOTLIGHT_BOTTOM_MODE:
+        break;
       case SPOTLIGHT_BLINKING_MODE:
-        doSpotlightBlinking();
+        doSpotlightBottom();
         break;
       case SPOTLIGHT_SEQUENCE_MODE:
         doSpotlightSequence();
@@ -152,6 +156,7 @@ void LightingRobot::doLighting(unsigned long currTime) {
 
     switch (matrixMode_) {
       case MATRIX_OFF_MODE:
+      case MATRIX_CONSTANT_MODE:
         break;
       case MATRIX_BLINKING_MODE:
         doMatrixBlinking();
@@ -229,6 +234,20 @@ void LightingRobot::doMatrixBars() {
     printMatrixBars();
   }
 }
+
+
+void LightingRobot::doSpotlightBottom() {
+  for (unsigned int ii = 0; ii < NB_BOTTOM_SPOTLIGHTS; ii++) {
+    digitalWrite(spotlightPins_[ii], HIGH);
+  }
+}
+
+void LightingRobot::doSpotlightTop() {
+  for (unsigned int ii = NB_BOTTOM_SPOTLIGHTS; ii < NB_SPOTLIGHTS; ii++) {
+    digitalWrite(spotlightPins_[ii], HIGH);
+  }
+}
+
 
 void LightingRobot::doSpotlightBlinking() {
   if (quaverChange_) {
@@ -362,6 +381,9 @@ void LightingRobot::initializeMatrixMode() {
       break;
     case MATRIX_BARS_MODE:
       printMatrixBars();
+      break;
+    case MATRIX_CONSTANT_MODE:
+      turnOnMatrix();
       break;
   }
 }

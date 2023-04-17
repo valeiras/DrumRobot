@@ -120,47 +120,89 @@ void notifyBrightnessChange(uint8_t brightness) {
 void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
-    case PAD_09:
-      notifyChangeLightingMode(MATRIX_OFF_MODE, MATRIX);
-      break;
-    case PAD_10:
-      notifyChangeLightingMode(MATRIX_BLINKING_MODE, MATRIX);
-      break;
-    case PAD_11:
-      notifyChangeLightingMode(MATRIX_NAME_MODE, MATRIX);
-      break;
-    case PAD_12:
-      notifyChangeLightingMode(MATRIX_LOGO_MODE, MATRIX);
-      break;
-    case PAD_05:
-      notifyChangeLightingMode(MATRIX_RECTANGLES_MODE, MATRIX);
-      break;
-    case PAD_06:
-      notifyChangeLightingMode(MATRIX_BARS_MODE, MATRIX);
-      break;
-    case PAD_01:
-      notifyChangeLightingMode(SPOTLIGHT_OFF_MODE, SPOTLIGHT);
-      break;
-    case PAD_02:
-      notifyChangeLightingMode(SPOTLIGHT_BLINKING_MODE, SPOTLIGHT);
-      break;
-    case PAD_03:
-      notifyChangeLightingMode(SPOTLIGHT_SEQUENCE_MODE, SPOTLIGHT);
-      break;
-    case PAD_04:
-      notifyChangeLightingMode(SPOTLIGHT_CONSTANT_MODE, SPOTLIGHT);
-      break;
-    case PAD_15:
+    case PAD_45:
       notifyRobots(START);
       break;
-    case PAD_16:
+    case PAD_46:
       notifyRobots(STOP);
+      break;
+    case PAD_47:
+      notifyChangeLightingMode(MATRIX_BLINKING_MODE, MATRIX);
+      break;
+    case PAD_48:
+      notifyChangeLightingMode(MATRIX_NAME_MODE, MATRIX);
+      break;
+    case PAD_41:
+      notifyChangeLightingMode(MATRIX_LOGO_MODE, MATRIX);
+      break;
+    case PAD_42:
+      notifyChangeLightingMode(MATRIX_RECTANGLES_MODE, MATRIX);
+      break;
+    case PAD_43:
+      notifyChangeLightingMode(MATRIX_BARS_MODE, MATRIX);
+      break;
+    case PAD_44:
+      notifyChangeLightingMode(SPOTLIGHT_TOP_MODE, SPOTLIGHT);
+      break;
+    case PAD_37:
+      notifyChangeLightingMode(SPOTLIGHT_BOTTOM_MODE, SPOTLIGHT);
+      break;
+    case PAD_38:
+      notifyChangeLightingMode(SPOTLIGHT_BLINKING_MODE, SPOTLIGHT);
+      break;
+    case PAD_39:
+      notifyChangeLightingMode(SPOTLIGHT_SEQUENCE_MODE, SPOTLIGHT);
+      break;
+    case PAD_40:
+      sendMessage(MUSIC_BOX_ROBOT, LIMB_STOP, uint8_t(0));
+      break;
+    case PAD_33:
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(0));
+      break;
+    case PAD_34:
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(1));
+      break;
+    case PAD_35:
+      sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(0));
+      break;
+    case PAD_36:
+      sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(1));
       break;
   }
 }
 
 void handleNoteOff(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, LOW);
+  switch (pitch) {
+    case PAD_47:
+    case PAD_48:
+    case PAD_41:
+    case PAD_42:
+    case PAD_43:
+      notifyChangeLightingMode(MATRIX_CONSTANT_MODE, MATRIX);
+      break;
+    case PAD_44:
+    case PAD_37:
+    case PAD_38:
+    case PAD_39:
+      notifyChangeLightingMode(SPOTLIGHT_OFF_MODE, SPOTLIGHT);
+      break;
+    case PAD_40:
+      sendMessage(MUSIC_BOX_ROBOT, LIMB_START, uint8_t(0));
+      break;
+    case PAD_33:
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(0));
+      break;
+    case PAD_34:
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(1));
+      break;
+    case PAD_35:
+      sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(0));
+      break;
+    case PAD_36:
+      sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(1));
+      break;
+  }
 }
 
 void handleCCMessage(byte channel, byte number, byte value) {
@@ -180,7 +222,7 @@ void checkFadersPending(unsigned long currTime) {
   if (fad1Pending && currTime - lastFad1Time > minTimeInterval) {
     lastFad1Time = currTime;
     fad1Pending = false;
-    int newBpmIdx = map(lastFad1Val, CC_MAX, CC_MIN, MIN_BPM_IDX, NB_BPM_VALUES-1);
+    int newBpmIdx = map(lastFad1Val, CC_MAX, CC_MIN, MIN_BPM_IDX, NB_BPM_VALUES - 1);
     if (newBpmIdx != bpmIdx) {
       bpmIdx = newBpmIdx;
       notifyRobots(BPM_IDX_CHANGE, bpmIdx);

@@ -22,6 +22,7 @@
 #define SEMIQUAVERS_PER_QUAVER 2
 
 #define NB_SPOTLIGHTS 6
+#define NB_BOTTOM_SPOTLIGHTS 3
 #define NB_METERS 2
 
 #define NB_PRIMARY_COLORS 3
@@ -57,6 +58,8 @@ private:
   void doMatrixRectangles();
   void doMatrixBars();
 
+  void doSpotlightTop();
+  void doSpotlightBottom();
   void doSpotlightBlinking();
   void doSpotlightSequence();
 
