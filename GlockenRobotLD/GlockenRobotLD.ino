@@ -1,9 +1,9 @@
 #include <percu_controller.h>
 #include <robo_communication.h>
 
-#include "glocken_robot.h"
-#include "glocken_song.h"
-#include "glocken_robot_config.h"
+#include "glocken_robot_ld.h"
+#include "glocken_song_ld.h"
+#include "glocken_robot_config_ld.h"
 
 #define HEAD_HIT_PIN_GL 3
 #define LEFT_HIT_PIN_GL 5
@@ -16,15 +16,15 @@ bool simulation = false;
 
 byte songName = FRERE_JACQUES;
 
-GlockenRobot *robot;
-GlockenSong *song;
+GlockenRobotLD *robot;
+GlockenSongLD *song;
 PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL> *roboController;
 
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song = new GlockenSong();
+  song = new GlockenSongLD();
   song->createPredefinedPatterns(songName, false);
   if (printOutput) {
     song->printPatterns();
@@ -32,7 +32,7 @@ void setup() {
 
   byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL, HEAD_HIT_PIN_GL };
   byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
-  robot = new GlockenRobot(hitPins, posPins);
+  robot = new GlockenRobotLD(hitPins, posPins);
 
   roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, simulation, printOutput);
   roboController->setReceptor();

@@ -21,7 +21,7 @@ class PercuRobot {
   virtual byte getHitAngle(byte limb, byte pos, byte velocity) = 0;
   virtual byte getRestAngle(byte limb, byte pos) = 0;
   virtual byte getPosAngle(byte limb, byte pos) = 0;
-  virtual byte getInactiveAngle(byte limb) = 0;
+  virtual byte getInactiveAngle(byte limb);
   virtual unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0) = 0;
   virtual String getPosName(byte limb, byte pos) = 0;
 
@@ -39,6 +39,7 @@ class PercuRobot {
   byte nbPos_[NB_HIT_JOINTS];
   Servo posServos_[NB_POS_JOINTS];
   bool isLimbActive_[NB_HIT_JOINTS];
+  byte inactiveAngle_[NB_HIT_JOINTS];
 
   // rotational speed degrees per ms
   float wServo_;
@@ -50,7 +51,7 @@ class PercuRobot {
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]) {
   attachServos(hitPins, posPins);
-  for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++){
+  for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++) {
     isLimbActive_[ii] = true;
   }
 }
@@ -87,6 +88,13 @@ template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte hitAngle) {
   if (limb < NB_HIT_JOINTS && isLimbActive_[limb]) {
     hitServos_[limb].write(hitAngle);
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+byte PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getInactiveAngle(byte limb) {
+  if (limb < NB_HIT_JOINTS) {
+    return inactiveAngle_[limb];
   }
 }
 

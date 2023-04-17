@@ -1,5 +1,5 @@
-#ifndef Glocken_robot_config_h
-#define Glocken_robot_config_h
+#ifndef Glocken_robot_config_ld_h
+#define Glocken_robot_config_ld_h
 
 #define LEFT_ARM_GL 0
 #define RIGHT_ARM_GL 1
@@ -44,6 +44,10 @@ const byte _restAngleRAGl = 75;
 
 const byte _hitAngleHdGl = 125;
 const byte _restAngleHdGl = 105;
+
+const byte _inactiveAngleLAGL = 80;
+const byte _inactiveAngleRAGL = 90;
+const byte _inactiveAngleHdGL = 100;
 
 // Angles for the left arm
 const byte _posAngleC00L = 148;

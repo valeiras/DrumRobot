@@ -1,12 +1,12 @@
-#include "glocken_song.h"
+#include "glocken_song_ld.h"
 
-GlockenSong::GlockenSong()
+GlockenSongLD::GlockenSongLD()
   : PercuSong<NB_HIT_JOINTS_GL, BITS_FOR_POS_GL>::PercuSong() {
   nbOfPositions_[LEFT_ARM_GL] = NB_POS_LA_GL;
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
 
-void GlockenSong::createPredefinedPatterns(byte songName, bool printOutput = false) {
+void GlockenSongLD::createPredefinedPatterns(byte songName, bool printOutput = false) {
   switch (songName) {
     // -------------------------------------------- FRERE JACQUES -----------------------------------------------------
     case FRERE_JACQUES:

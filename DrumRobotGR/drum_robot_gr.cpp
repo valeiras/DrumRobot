@@ -1,6 +1,6 @@
-#include "drum_robot.h"
+#include "drum_robot_gr.h"
 
-DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR])
+DrumRobotGR::DrumRobotGR(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_DR])
   : PercuRobot(hitPins, posPins) {
   nbPos_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbPos_[RIGHT_ARM_DR] = NB_POS_RA_DR;
@@ -13,7 +13,7 @@ DrumRobot::DrumRobot(byte hitPins[NB_HIT_JOINTS_DR], byte posPins[NB_POS_JOINTS_
 }
 
 // We use the default values defined in robot_config.h
-void DrumRobot::setLimbParams() {
+void DrumRobotGR::setLimbParams() {
   signed char directions[NB_HIT_JOINTS_DR] = { _dirLADr, _dirRLDr, _dirRADr };
 
   byte anglesLeftArm[NB_POS_LA_DR][3] = { { _hitAngleSticksLeft, _restAngleSticksLeft, _posAngleSticksLeft },
@@ -29,20 +29,25 @@ void DrumRobot::setLimbParams() {
   byte anglesRightLeg[NB_POS_RL_DR][3] = { { _hitAngleBD, _restAngleBD, _posAngleBD } };
   String namesRightLeg[NB_POS_RL_DR] = { "BD" };
 
+  byte inactiveAngles[NB_HIT_JOINTS_DR] = { _inactiveAngleLADr, _inactiveAngleRADr, _inactiveAngleRLDr };
+
 
   setLimbParams(directions,
                 anglesLeftArm, namesLeftArm,
                 anglesRightArm, namesRightArm,
-                anglesRightLeg, namesRightLeg);
+                anglesRightLeg, namesRightLeg,
+                inactiveAngles);
 }
 
-void DrumRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_DR],
+void DrumRobotGR::setLimbParams(signed char directions[NB_HIT_JOINTS_DR],
                               byte anglesLeftArm[NB_POS_LA_DR][3], String namesLeftArm[NB_POS_LA_DR],
                               byte anglesRightArm[NB_POS_RA_DR][3], String namesRightArm[NB_POS_RA_DR],
-                              byte anglesRightLeg[NB_POS_RL_DR][3], String namesRightLeg[NB_POS_RL_DR]) {
+                              byte anglesRightLeg[NB_POS_RL_DR][3], String namesRightLeg[NB_POS_RL_DR],
+                              byte inactiveAngles[NB_HIT_JOINTS_DR]) {
 
   for (unsigned int ii = 0; ii < NB_HIT_JOINTS_DR; ii++) {
     hitDirection_[ii] = directions[ii];
+    inactiveAngle_[ii] = inactiveAngles[ii];
   }
 
   for (unsigned int ii = 0; ii < NB_POS_LA_DR; ii++) {
@@ -58,7 +63,7 @@ void DrumRobot::setLimbParams(signed char directions[NB_HIT_JOINTS_DR],
   }
 }
 
-byte DrumRobot::getHitAngle(byte limb, byte pos, byte velocity) {
+byte DrumRobotGR::getHitAngle(byte limb, byte pos, byte velocity) {
   if (pos < nbPos_[limb]) {
     return posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER;
   } else {
@@ -66,7 +71,7 @@ byte DrumRobot::getHitAngle(byte limb, byte pos, byte velocity) {
   }
 }
 
-byte DrumRobot::getRestAngle(byte limb, byte pos) {
+byte DrumRobotGR::getRestAngle(byte limb, byte pos) {
   if (pos < nbPos_[limb]) {
     return posParameters_[limb][pos].restAngle;
   } else {
@@ -74,7 +79,7 @@ byte DrumRobot::getRestAngle(byte limb, byte pos) {
   }
 }
 
-byte DrumRobot::getPosAngle(byte limb, byte pos) {
+byte DrumRobotGR::getPosAngle(byte limb, byte pos) {
   if (pos < nbPos_[limb]) {
     return posParameters_[limb][pos].posAngle;
   } else {
@@ -82,7 +87,7 @@ byte DrumRobot::getPosAngle(byte limb, byte pos) {
   }
 }
 
-unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
+unsigned int DrumRobotGR::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
   if (pos < nbPos_[limb]) {
     float result = abs(posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER - posParameters_[limb][pos].restAngle) / wServo_;
     return round(result);
@@ -91,7 +96,7 @@ unsigned int DrumRobot::getHitTime(byte limb, byte pos, byte velocity, bool prin
   }
 }
 
-String DrumRobot::getPosName(byte limb, byte pos) {
+String DrumRobotGR::getPosName(byte limb, byte pos) {
   if (pos < nbPos_[limb]) {
     return posParameters_[limb][pos].posName;
   } else {

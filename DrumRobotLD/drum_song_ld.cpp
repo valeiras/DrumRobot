@@ -1,6 +1,6 @@
-#include "drum_song.h"
+#include "drum_song_ld.h"
 
-DrumSong::DrumSong()
+DrumSongLD::DrumSongLD()
   : PercuSong<NB_HIT_JOINTS_DR, BITS_FOR_POS_DR>::PercuSong() {
   nbOfPositions_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbOfPositions_[LEFT_ARM_DR] = NB_POS_LA_DR;
@@ -8,7 +8,7 @@ DrumSong::DrumSong()
   nbOfPositions_[HEAD_DR] = NB_POS_HD_DR;
 }
 
-void DrumSong::createPredefinedPatterns(byte rythmName, bool printOutput = false) {
+void DrumSongLD::createPredefinedPatterns(byte rythmName, bool printOutput = false) {
   switch (rythmName) {
     // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
     case SIMPLEST_RYTHM:

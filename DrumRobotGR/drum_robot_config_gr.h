@@ -1,5 +1,5 @@
-#ifndef Drum_robot_config_h
-#define Drum_robot_config_h
+#ifndef Drum_robot_config_gr_h
+#define Drum_robot_config_gr_h
 
 #define LEFT_ARM_DR 0
 #define RIGHT_ARM_DR 1
@@ -57,6 +57,11 @@ const byte _posAngleSnRight = 55;
 const byte _hitAngleCrash = 90;
 const byte _restAngleCrash = 110;
 const byte _posAngleCrash = 30;
+
+// InactiveAngles
+const byte _inactiveAngleLADr = 40;
+const byte _inactiveAngleRADr = 110;
+const byte _inactiveAngleRLDr = 100;
 
 const float _wServoDr = 0.6;
 
