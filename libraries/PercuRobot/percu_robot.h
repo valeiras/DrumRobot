@@ -122,6 +122,7 @@ template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::activateLimb(byte limb) {
   if (limb < NB_HIT_JOINTS) {
     isLimbActive_[limb] = true;
+    rest(limb);
   }
 }
 

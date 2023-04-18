@@ -39,8 +39,8 @@ const byte _restAngleLAGl = 107;
 const byte _hitAngleRAGl = 68;
 const byte _restAngleRAGl = 83;
 
-const byte _inactiveAngleLAGL = 80;
-const byte _inactiveAngleRAGL = 90;
+const byte _inactiveAngleLAGL = 50;
+const byte _inactiveAngleRAGL = 140;
 
 // Angles for the left arm
 const byte _posAngleC00 = 180;

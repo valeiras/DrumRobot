@@ -52,8 +52,8 @@ void GlockenRobotLD::setLimbParams(signed char directionLeft, signed char direct
   restAngle_[HEAD_GL] = restAngleHead;
 
   inactiveAngle_[LEFT_ARM_GL] = inactiveAngleLA;
-  inactiveAngle_[RIGHT_ARM_GL] = inactiveAngleLA;
-  inactiveAngle_[HEAD_GL] = inactiveAngleLA;
+  inactiveAngle_[RIGHT_ARM_GL] = inactiveAngleRA;
+  inactiveAngle_[HEAD_GL] = inactiveAngleHd;
 
   for (unsigned int ii = 0; ii < NB_POS_LA_GL; ii++) {
     posAngleLeft_[ii] = posAngleLeft[ii];

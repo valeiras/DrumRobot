@@ -9,7 +9,7 @@
 
 #include "Arduino.h"
 
-#define POS_SECURITY_FACTOR 0.5
+#define POS_SECURITY_FACTOR 0.4
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class PercuController : public RoboReceptor {

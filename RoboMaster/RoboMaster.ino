@@ -20,21 +20,21 @@ const uint16_t RESYNC_TIME = 10000;
 uint8_t bpm = DEFAULT_BPM;
 uint8_t bpmIdx = DEFAULT_BPM_IDX;
 
-unsigned long lastFad1Time = 0, lastFad2Time = 0;
-byte lastFad1Val, lastFad2Val;
-bool fad1Pending, fad2Pending;
+unsigned long lastBpmTime = 0, lastBrightnessTime = 0;
+byte lastBpmControllerVal, lastBrightnessControllerVal;
+bool isBpmPending, isBrightnessPending;
 unsigned int minTimeInterval = 100;
 
 short minBpm = 60;
 short maxBpm = 150;
 
-bool robotIsPresent[NB_ROBOTS];
+bool isRobotPresent[NB_ROBOTS];
 
 void setup() {
-  robotIsPresent[DRUM_ROBOT] = true;
-  robotIsPresent[GLOCKEN_ROBOT] = true;
-  robotIsPresent[MUSIC_BOX_ROBOT] = true;
-  robotIsPresent[LIGHTING_ROBOT] = true;
+  isRobotPresent[DRUM_ROBOT] = true;
+  isRobotPresent[GLOCKEN_ROBOT] = true;
+  isRobotPresent[MUSIC_BOX_ROBOT] = false;
+  isRobotPresent[LIGHTING_ROBOT] = false;
 
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
   MIDI.setHandleNoteOn(handleNoteOn);
@@ -49,54 +49,67 @@ void setup() {
 
 void loop() {
   MIDI.read();
-  checkFadersPending(millis());
+  checkCCPending(millis());
 }
 
 void notifyRobots(uint8_t messageType) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
-    if (robotIsPresent[ii]) {
-      sendMessage(robotAddresses[ii], messageType);
-    }
+    sendMessage(ii, messageType);
   }
 }
 
 void notifyRobots(uint8_t messageType, uint8_t messageContent) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
-    if (robotIsPresent[ii]) {
-      sendMessage(robotAddresses[ii], messageType, messageContent);
-    }
+    sendMessage(ii, messageType, messageContent);
   }
 }
 
 void notifyRobots(uint8_t messageType, uint16_t messageContent) {
   for (unsigned int ii = 0; ii < NB_ROBOTS; ii++) {
-    if (robotIsPresent[ii]) {
-      sendMessage(robotAddresses[ii], messageType, messageContent);
-    }
+    sendMessage(ii, messageType, messageContent);
   }
 }
 
-void sendMessage(uint8_t robotAddress, uint8_t messageType) {
-  Wire.beginTransmission(robotAddress);
-  Wire.write(messageType);
-  Wire.endTransmission();
+void sendMessage(uint8_t robot, uint8_t messageType) {
+  if (isRobotPresent[robot]) {
+    Serial.print("Sending message to robot ");
+    Serial.print(robot);
+    Serial.print(" at address ");
+    Serial.println(_robotAddress[robot]);
+    Wire.beginTransmission(_robotAddress[robot]);
+    Wire.write(messageType);
+    Wire.endTransmission();
+  }
 }
 
-void sendMessage(uint8_t robotAddress, uint8_t messageType, uint8_t messageContent) {
-  Wire.beginTransmission(robotAddress);
-  Wire.write(messageType);
-  Wire.write(messageContent);
-  Wire.endTransmission();
+void sendMessage(uint8_t robot, uint8_t messageType, uint8_t messageContent) {
+  if (isRobotPresent[robot]) {
+    Serial.print("Sending message to robot ");
+    Serial.print(robot);
+    Serial.print(" at address ");
+    Serial.println(_robotAddress[robot]);
+    Wire.beginTransmission(_robotAddress[robot]);
+    Wire.write(messageType);
+    Wire.write(messageContent);
+    Wire.endTransmission();
+  }
 }
 
-void sendMessage(uint8_t robotAddress, uint8_t messageType, uint16_t messageContent) {
-  uint8_t messageArray[BYTES_PER_UINT16];
-  uint16ToArray(messageContent, messageArray);
+void sendMessage(uint8_t robot, uint8_t messageType, uint16_t messageContent) {
+  if (isRobotPresent[robot]) {
+    Serial.print("Sending message to robot ");
+    Serial.print(robot);
+    Serial.print(" at address ");
+    Serial.println(_robotAddress[robot]);
 
-  Wire.beginTransmission(robotAddress);
-  Wire.write(messageType);
-  Wire.write(messageArray, BYTES_PER_UINT16);
-  Wire.endTransmission();
+    uint8_t messageArray[BYTES_PER_UINT16];
+    uint16ToArray(messageContent, messageArray);
+
+    Wire.beginTransmission(_robotAddress[robot]);
+    Wire.write(messageType);
+    Wire.write(messageArray, BYTES_PER_UINT16);
+    Wire.endTransmission();
+  }
 }
 
 void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
@@ -105,14 +118,14 @@ void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
 }
 
 void notifyChangeLightingMode(uint8_t lightingMode, uint8_t elementBit) {
-  if (robotIsPresent[LIGHTING_ROBOT]) {
+  if (isRobotPresent[LIGHTING_ROBOT]) {
     uint8_t messageContent = (lightingMode << BITS_PER_ELEMENT_IDENTIFIER) | elementBit;
     sendMessage(LIGHTING_ADDRESS, MODE_CHANGE, messageContent);
   }
 }
 
 void notifyBrightnessChange(uint8_t brightness) {
-  if (robotIsPresent[LIGHTING_ROBOT]) {
+  if (isRobotPresent[LIGHTING_ROBOT]) {
     sendMessage(LIGHTING_ADDRESS, BRIGHTNESS_CHANGE, brightness);
   }
 }
@@ -120,53 +133,53 @@ void notifyBrightnessChange(uint8_t brightness) {
 void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
-    case PAD_45:
+    case START_KEY:
       notifyRobots(START);
       break;
-    case PAD_46:
+    case STOP_KEY:
       notifyRobots(STOP);
       break;
-    case PAD_47:
+    case MTX_BLINK_KEY:
       notifyChangeLightingMode(MATRIX_BLINKING_MODE, MATRIX);
       break;
-    case PAD_48:
+    case MTX_NAME_KEY:
       notifyChangeLightingMode(MATRIX_NAME_MODE, MATRIX);
       break;
-    case PAD_41:
+    case MTX_LOGO_KEY:
       notifyChangeLightingMode(MATRIX_LOGO_MODE, MATRIX);
       break;
-    case PAD_42:
+    case MTX_RCT_KEY:
       notifyChangeLightingMode(MATRIX_RECTANGLES_MODE, MATRIX);
       break;
-    case PAD_43:
+    case MTX_BARS_KEY:
       notifyChangeLightingMode(MATRIX_BARS_MODE, MATRIX);
       break;
-    case PAD_44:
+    case SPL_TOP_KEY:
       notifyChangeLightingMode(SPOTLIGHT_TOP_MODE, SPOTLIGHT);
       break;
-    case PAD_37:
+    case SPL_BOTTOM_KEY:
       notifyChangeLightingMode(SPOTLIGHT_BOTTOM_MODE, SPOTLIGHT);
       break;
-    case PAD_38:
+    case SPL_BLINK_KEY:
       notifyChangeLightingMode(SPOTLIGHT_BLINKING_MODE, SPOTLIGHT);
       break;
-    case PAD_39:
+    case SPL_SEQ_KEY:
       notifyChangeLightingMode(SPOTLIGHT_SEQUENCE_MODE, SPOTLIGHT);
       break;
-    case PAD_40:
-      sendMessage(MUSIC_BOX_ROBOT, LIMB_STOP, uint8_t(0));
+    case MB_STOP_KEY:
+      sendMessage(MUSIC_BOX_ADDRESS, LIMB_STOP, uint8_t(0));
       break;
-    case PAD_33:
-      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(0));
-      break;
-    case PAD_34:
-      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(1));
-      break;
-    case PAD_35:
+    case DRUM_LA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(0));
       break;
-    case PAD_36:
+    case DRUM_RA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(1));
+      break;
+    case GLOCK_LA_STOP_KEY:
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(0));
+      break;
+    case GLOCK_RA_STOP_KEY:
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(1));
       break;
   }
 }
@@ -174,64 +187,64 @@ void handleNoteOn(byte channel, byte pitch, byte velocity) {
 void handleNoteOff(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, LOW);
   switch (pitch) {
-    case PAD_47:
-    case PAD_48:
-    case PAD_41:
-    case PAD_42:
-    case PAD_43:
+    case MTX_BLINK_KEY:
+    case MTX_NAME_KEY:
+    case MTX_LOGO_KEY:
+    case MTX_RCT_KEY:
+    case MTX_BARS_KEY:
       notifyChangeLightingMode(MATRIX_CONSTANT_MODE, MATRIX);
       break;
-    case PAD_44:
-    case PAD_37:
-    case PAD_38:
-    case PAD_39:
+    case SPL_TOP_KEY:
+    case SPL_BOTTOM_KEY:
+    case SPL_BLINK_KEY:
+    case SPL_SEQ_KEY:
       notifyChangeLightingMode(SPOTLIGHT_OFF_MODE, SPOTLIGHT);
       break;
-    case PAD_40:
+    case MB_STOP_KEY:
       sendMessage(MUSIC_BOX_ROBOT, LIMB_START, uint8_t(0));
       break;
-    case PAD_33:
-      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(0));
-      break;
-    case PAD_34:
-      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(1));
-      break;
-    case PAD_35:
+    case DRUM_LA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(0));
       break;
-    case PAD_36:
+    case DRUM_RA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(1));
+      break;
+    case GLOCK_LA_STOP_KEY:
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(0));
+      break;
+    case GLOCK_RA_STOP_KEY:
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(1));
       break;
   }
 }
 
 void handleCCMessage(byte channel, byte number, byte value) {
   switch (number) {
-    case FAD1:
-      lastFad1Val = value;
-      fad1Pending = true;
+    case BPM_CONTROLLER:
+      lastBpmControllerVal = value;
+      isBpmPending = true;
       break;
-    case FAD2:
-      lastFad2Val = value;
-      fad2Pending = true;
+    case BRIGHTNESS_CONTROLLER:
+      lastBrightnessControllerVal = value;
+      isBrightnessPending = true;
       break;
   }
 }
 
-void checkFadersPending(unsigned long currTime) {
-  if (fad1Pending && currTime - lastFad1Time > minTimeInterval) {
-    lastFad1Time = currTime;
-    fad1Pending = false;
-    int newBpmIdx = map(lastFad1Val, CC_MAX, CC_MIN, MIN_BPM_IDX, NB_BPM_VALUES - 1);
+void checkCCPending(unsigned long currTime) {
+  if (isBpmPending && currTime - lastBpmTime > minTimeInterval) {
+    lastBpmTime = currTime;
+    isBpmPending = false;
+    int newBpmIdx = map(lastBpmControllerVal, CC_MAX, CC_MIN, MIN_BPM_IDX, NB_BPM_VALUES - 1);
     if (newBpmIdx != bpmIdx) {
       bpmIdx = newBpmIdx;
       notifyRobots(BPM_IDX_CHANGE, bpmIdx);
     }
   }
-  if (fad2Pending && currTime - lastFad2Time > minTimeInterval) {
-    lastFad2Time = currTime;
-    fad2Pending = false;
-    uint8_t newBrightness = map(lastFad2Val, CC_MIN, CC_MAX, 0, MAX_BRIGHTNESS);
+  if (isBrightnessPending && currTime - lastBrightnessTime > minTimeInterval) {
+    lastBrightnessTime = currTime;
+    isBrightnessPending = false;
+    uint8_t newBrightness = map(lastBrightnessControllerVal, CC_MIN, CC_MAX, 0, MAX_BRIGHTNESS);
     notifyBrightnessChange(newBrightness);
   }
 }

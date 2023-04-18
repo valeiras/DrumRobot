@@ -45,7 +45,7 @@ void DrumSongGR::createPredefinedPatterns(byte rythmName, bool printOutput = fal
       {
         // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
         nbPatterns_ = 3;
-        nbMeasures_ = 10;
+        nbMeasures_ = 9;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
@@ -119,7 +119,7 @@ void DrumSongGR::createPredefinedPatterns(byte rythmName, bool printOutput = fal
 
         setHitPattern(RIGHT_ARM_DR, patternId2, REST, REST, REST, REST, SNRG, REST, REST, SNRG, REST, REST, REST, REST, SNRG, REST, SNRG, REST, printOutput);
         setVelPattern(RIGHT_ARM_DR, patternId2, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, printOutput);
-        byte basicPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+        byte basicPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2 };
 
         setPatternSequence(basicPattSeq);
         break;

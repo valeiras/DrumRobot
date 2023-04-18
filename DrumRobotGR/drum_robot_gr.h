@@ -33,7 +33,6 @@ private:
 
   struct posParamsDrum paramsLeftArm_[NB_POS_LA_DR], paramsRightArm_[NB_POS_RA_DR], paramsRightLeg_[NB_POS_RL_DR];
   posParamsDrum *posParameters_[NB_HIT_JOINTS_DR] = { paramsLeftArm_, paramsRightArm_, paramsRightLeg_ };
-  byte inactiveAngle_[NB_HIT_JOINTS_DR];
 };
 
 #endif

@@ -1,3 +1,10 @@
+#ifndef midi_notes_h
+#define midi_notes_h
+
+#define GR
+//#define LD
+
+#ifdef LD
 #define PAD_01 36
 #define PAD_02 37
 #define PAD_03 38
@@ -57,3 +64,88 @@
 #define REC 62
 
 #define MOD 01
+
+#define START_KEY PAD_45
+#define STOP_KEY PAD_46
+#define MTX_BLINK_KEY PAD_47
+#define MTX_NAME_KEY PAD_48
+#define MTX_LOGO_KEY PAD_41
+#define MTX_RCT_KEY PAD_42
+#define MTX_BARS_KEY PAD_43
+#define SPL_TOP_KEY PAD_44
+#define SPL_BOTTOM_KEY PAD_37
+#define SPL_BLINK_KEY PAD_38
+#define SPL_SEQ_KEY PAD_39
+#define MB_STOP_KEY PAD_40
+#define DRUM_LA_STOP_KEY PAD_34
+#define DRUM_RA_STOP_KEY PAD_33
+#define GLOCK_LA_STOP_KEY PAD_36
+#define GLOCK_RA_STOP_KEY PAD_35
+
+#define BPM_CONTROLLER FAD1
+#define BRIGHTNESS_CONTROLLER FAD2
+
+
+#endif
+
+#ifdef GR
+#define C03 48
+#define CS3 49
+#define D03 50
+#define DS3 51
+#define E03 52
+#define F03 53
+#define FS3 54
+#define G03 55
+#define GS3 56
+#define A03 57
+#define AS3 58
+#define B03 59
+#define C04 60
+#define CS4 61
+#define D04 62
+#define DS4 63
+#define E04 64
+#define F04 65
+#define FS4 66
+#define G04 67
+#define GS4 68
+#define A04 69
+#define AS4 70
+#define B04 71
+#define C05 72
+
+#define POT1 74
+#define POT2 71
+#define POT3 79
+#define POT4 78
+#define POT5 14
+#define POT6 15
+#define POT7 73
+#define POT8 09
+
+#define MOD 01
+
+#define START_KEY C05
+#define STOP_KEY B04
+#define MTX_BLINK_KEY A03
+#define MTX_NAME_KEY B03
+#define MTX_LOGO_KEY C04
+#define MTX_RCT_KEY D04
+#define MTX_BARS_KEY E04
+#define SPL_TOP_KEY F04
+#define SPL_BOTTOM_KEY G04
+#define SPL_BLINK_KEY A04
+#define SPL_SEQ_KEY AS4
+#define MB_STOP_KEY C03
+#define DRUM_LA_STOP_KEY E03
+#define DRUM_RA_STOP_KEY D03
+#define GLOCK_LA_STOP_KEY G03
+#define GLOCK_RA_STOP_KEY F03
+
+#define BPM_CONTROLLER POT1
+#define BRIGHTNESS_CONTROLLER POT2
+
+#endif
+
+#endif
