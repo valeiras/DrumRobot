@@ -15,8 +15,11 @@ class RoboReceptor {
   virtual void treatStopMsg() = 0;
   virtual void treatResyncMsg() = 0;
   virtual void treatBpmChangeMsg(uint8_t messageContent) = 0;
-  virtual void treatBpmIdxChangeMsg(uint8_t messageContent) = 0;  
-  virtual void treatModeChangeMsg(uint8_t messageContent) = 0;
+  virtual void treatBpmIdxChangeMsg(uint8_t messageContent) = 0;
+  virtual void treatMtxModeChangeMsg(uint8_t messageContent);
+  virtual void treatSplModeChangeMsg(uint8_t messageContent);
+  virtual void treatMtxBlinkChangeMsg(uint8_t messageContent);
+  virtual void treatSplBlinkChangeMsg(uint8_t messageContent);
   virtual void treatLimbStopMsg(uint8_t messageContent);
   virtual void treatLimbStartMsg(uint8_t messageContent);
   virtual void treatBrightnessChangeMsg(uint8_t messageContent);

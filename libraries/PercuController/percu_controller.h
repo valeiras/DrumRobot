@@ -36,7 +36,6 @@ class PercuController : public RoboReceptor {
   virtual void treatResyncMsg();
   virtual void treatBpmChangeMsg(uint8_t messageContent);
   virtual void treatBpmIdxChangeMsg(uint8_t messageContent);
-  virtual void treatModeChangeMsg(uint8_t messageContent);
   virtual void treatLimbStopMsg(uint8_t messageContent);
   virtual void treatLimbStartMsg(uint8_t messageContent);
   virtual void treatSetResyncTimeMsg(uint16_t messageContent);
@@ -263,10 +262,6 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmIdxChangeMsg(uint8_t messageContent) {
   isBpmChangePending_ = true;
   pendingBpm_ = bpmValues[messageContent];
-}
-
-template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatModeChangeMsg(uint8_t messageContent) {
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>

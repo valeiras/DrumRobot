@@ -16,6 +16,8 @@
 #define MS_PER_MIN 60000
 #define SEMIQUAVERS_PER_BEAT 4
 
+#define NB_BLINKING_INTERVALS 5
+
 #define SEMIQUAVERS_PER_WHOLE_NOTE 16
 #define SEMIQUAVERS_PER_HALF_NOTE 8
 #define SEMIQUAVERS_PER_QUARTER_NOTE 4
@@ -47,7 +49,10 @@ public:
   void treatResyncMsg();
   void treatBpmChangeMsg(uint8_t messageContent);
   void treatBpmIdxChangeMsg(uint8_t messageContent);
-  void treatModeChangeMsg(uint8_t messageContent);
+  void treatMtxModeChangeMsg(uint8_t messageContent);
+  void treatSplModeChangeMsg(uint8_t messageContent);
+  void treatMtxBlinkChangeMsg(uint8_t messageContent);
+  void treatSplBlinkChangeMsg(uint8_t messageContent);
   void treatBrightnessChangeMsg(uint8_t messageContent);
   void treatSetResyncTimeMsg(uint16_t messageContent);
 
@@ -58,8 +63,6 @@ private:
   void doMatrixRectangles();
   void doMatrixBars();
 
-  void doSpotlightTop();
-  void doSpotlightBottom();
   void doSpotlightBlinking();
   void doSpotlightSequence();
 
@@ -67,6 +70,8 @@ private:
 
   void initializeMatrixMode();
   void initializeSpotlightMode();
+  void initializeSpotlightSequence();
+  void initializeSpotlightBlinking();
 
   void printMatrixName();
   void printMatrixLogo();
@@ -77,22 +82,25 @@ private:
   void clearMeters();
   void clearMatrix();
   void turnOnMatrix();
-  void turnOffSpotlights();
-  void turnOnSpotlights();
+
+  void switchSpotlights(byte onOrOff);
+  void switchSpotlightsTop(byte onOrOff);
+  void switchSpotlightsBottom(byte onOrOff);
 
   void checkNoteChanges(unsigned long currTime);
 
-  uint8_t matrixMode_, spotlightMode_;
+  uint8_t matrixMode_;
   float bpm_;
   unsigned int w_, h_, nbMtxHor_;
   FastLED_NeoMatrix *fastLedMatrix_;
 
   int spotlightPins_[NB_SPOTLIGHTS], meterPins_[NB_METERS];
-  int currSpotlight_;
+  uint8_t currSpotlight_;
 
   uint16_t primaryColors_[NB_PRIMARY_COLORS], paletteColors_[NB_PALETTE_COLORS];
   int x_, currColorIndex_, currBitmap_;
-  bool hasStarted_, firstAfterStart_, firstAfterStop_, firstAfterMatrixModeChange_, firstAfterSpotlightModeChange_, matrixOn_, spotlightsOn_;
+  bool hasStarted_, isFirstAfterStart_, isFirstAfterStop_, isFirstAfterMatrixModeChange_, isFirstAfterSpotlightModeChange_, isFirstAfterMatrixBlinkChange_, isFirstAfterSpotlightBlinkChange_;
+  bool isMatrixOn_, areSpotlightsOn_;
   bool isBpmChangePending_, isBrightnessChangePending_;
   float pendingBpm_, pendingBrightness_;
 
@@ -100,9 +108,14 @@ private:
   unsigned long lastQuarterNoteChange_, quarterNoteInterval_;
   unsigned int semiquaverCount_;
 
-  bool wholeNoteChange_, halfNoteChange_, quarterNoteChange_, quaverChange_, semiquaverChange_;
+  bool hasIntervalChanged_[NB_BLINKING_INTERVALS];
+  uint8_t currMtxBlinkInterval_, currSplBlinkInterval_;
+  uint8_t mtxOrderCount_;
+
+  bool isSplBlinkOn_, isSplSeqOn_, isSplTopOn_, isSplBottomOn_;
+
   unsigned int halfSize_;
-  bool matrixPending_;
+  bool isMatrixPending_;
 };
 
 #endif

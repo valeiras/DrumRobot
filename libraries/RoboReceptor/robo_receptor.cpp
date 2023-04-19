@@ -42,8 +42,17 @@ void receiveMessage(int howMany) {
         case BPM_IDX_CHANGE:
           receptor->treatBpmIdxChangeMsg(msgContent8);
           break;
-        case MODE_CHANGE:
-          receptor->treatModeChangeMsg(msgContent8);
+        case MTX_MODE_CHANGE:
+          receptor->treatMtxModeChangeMsg(msgContent8);
+          break;
+        case SPL_MODE_CHANGE:
+          receptor->treatSplModeChangeMsg(msgContent8);
+          break;
+        case MTX_BLINK_CHANGE:
+          receptor->treatMtxBlinkChangeMsg(msgContent8);
+          break;
+        case SPL_BLINK_CHANGE:
+          receptor->treatSplBlinkChangeMsg(msgContent8);
           break;
         case BRIGHTNESS_CHANGE:
           receptor->treatBrightnessChangeMsg(msgContent8);
@@ -67,11 +76,10 @@ void receiveMessage(int howMany) {
 }
 
 // We provide empty implementations of some of these functions, as not all of the robots need them
-void RoboReceptor::treatBrightnessChangeMsg(uint8_t messageContent) {
-}
-
-void RoboReceptor::treatLimbStopMsg(uint8_t messageContent) {
-}
-
-void RoboReceptor::treatLimbStartMsg(uint8_t messageContent) {
-}
+void RoboReceptor::treatBrightnessChangeMsg(uint8_t messageContent) {}
+void RoboReceptor::treatLimbStopMsg(uint8_t messageContent) {}
+void RoboReceptor::treatLimbStartMsg(uint8_t messageContent) {}
+void RoboReceptor::treatMtxModeChangeMsg(uint8_t messageContent) {}
+void RoboReceptor::treatSplModeChangeMsg(uint8_t messageContent) {}
+void RoboReceptor::treatMtxBlinkChangeMsg(uint8_t messageContent) {}
+void RoboReceptor::treatSplBlinkChangeMsg(uint8_t messageContent) {}
