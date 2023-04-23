@@ -10,13 +10,13 @@
 #define GLOCKEN_ADDRESS 2
 #define MUSIC_BOX_ADDRESS 3
 #define LIGHTING_ADDRESS 4
-#define SINGER_ADDRESS 4
+#define SINGER_ADDRESS 5
 
 #define DRUM_ROBOT 0
 #define GLOCKEN_ROBOT 1
 #define MUSIC_BOX_ROBOT 2
 #define LIGHTING_ROBOT 3
-#define SINGER_ROBOT 3
+#define SINGER_ROBOT 4
 
 #define MATRIX 0
 #define SPOTLIGHT 1
@@ -38,6 +38,8 @@ enum MessageType {
   BRIGHTNESS_CHANGE,
   LIMB_STOP,
   LIMB_START,
+  NOTE_ON,
+  NOTE_OFF,
   SET_RESYNC_TIME
 };
 

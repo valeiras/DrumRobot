@@ -15,7 +15,7 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasVibrato = false;
+bool hasVibrato = true;
 
 const byte openPos = 150;
 const byte closedPos = 180;

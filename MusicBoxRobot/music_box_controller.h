@@ -18,13 +18,13 @@ public:
                      MusicBoxPercuRobot* prcRobot, PercuSong<NB_HIT_JOINTS_MB, BITS_FOR_POS_MB>* prcSong,
                      int address, bool simulation, bool printOutput);
 
-  void treatStartMsg();
-  void treatStopMsg();
-  void treatResyncMsg();
-  void treatBpmChangeMsg(uint8_t messageContent);
-  void treatBpmIdxChangeMsg(uint8_t messageContent);
-  void treatModeChangeMsg(uint8_t messageContent);
-  void treatSetResyncTimeMsg(uint16_t messageContent);
+  void processStartMsg();
+  void processStopMsg();
+  void processResyncMsg();
+  void processBpmChangeMsg(uint8_t messageContent);
+  void processBpmIdxChangeMsg(uint8_t messageContent);
+  void processModeChangeMsg(uint8_t messageContent);
+  void processSetResyncTimeMsg(uint16_t messageContent);
 
   void goToTime(unsigned long currTime);
 

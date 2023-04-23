@@ -161,6 +161,9 @@ void handleNoteOn(byte channel, byte pitch, byte velocity) {
     case GLOCK_RA_STOP_KEY:
       sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(RIGHT_LIMB));
       break;
+    case C06 ... C08:
+      sendMessage(SINGER_ROBOT, NOTE_ON, uint8_t(pitch));
+      break;
   }
 }
 
@@ -200,6 +203,9 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
       break;
     case GLOCK_RA_STOP_KEY:
       sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(RIGHT_LIMB));
+      break;
+    case C06 ... C08:
+      sendMessage(SINGER_ROBOT, NOTE_OFF, uint8_t(pitch));
       break;
   }
 }
