@@ -36,10 +36,11 @@ short maxBpm = 150;
 bool isRobotPresent[NB_ROBOTS];
 
 void setup() {
-  isRobotPresent[DRUM_ROBOT] = true;
+  isRobotPresent[DRUM_ROBOT] = false;
   isRobotPresent[GLOCKEN_ROBOT] = false;
   isRobotPresent[MUSIC_BOX_ROBOT] = false;
-  isRobotPresent[LIGHTING_ROBOT] = true;
+  isRobotPresent[LIGHTING_ROBOT] = false;
+  isRobotPresent[SINGER_ROBOT] = true;
 
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
   MIDI.setHandleNoteOn(handleNoteOn);
