@@ -9,21 +9,25 @@
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 class PercuRobot {
  public:
+  PercuRobot();
+  PercuRobot(byte hitPins[NB_HIT_JOINTS]);
   PercuRobot(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]);
 
-  virtual void hit(byte limb, byte pos, byte velocity, bool printOutput = 0);
-  virtual void rest(byte limb, byte pos = 0, bool printOutput = 0);
+  virtual void hit(byte limb, byte pos, byte velocity, bool hasOutput = 0);
+  virtual void rest(byte limb, byte pos = 0, bool hasOutput = 0);
   virtual void goToPos(byte limb, byte pos);
 
   void goToPosAngle(byte limb, byte posAngle);
   void goToHitAngle(byte limb, byte hitAngle);
 
-  virtual byte getHitAngle(byte limb, byte pos, byte velocity) = 0;
-  virtual byte getRestAngle(byte limb, byte pos) = 0;
-  virtual byte getPosAngle(byte limb, byte pos) = 0;
+  virtual void stop();
+
+  virtual byte getHitAngle(byte limb, byte pos, byte velocity);
+  virtual byte getRestAngle(byte limb, byte pos);
+  virtual byte getPosAngle(byte limb, byte pos);
+  virtual unsigned int getHitTime(byte limb, byte pos, byte velocity, bool hasOutput = 0);
+  virtual String getPosName(byte limb, byte pos);
   virtual byte getInactiveAngle(byte limb);
-  virtual unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0) = 0;
-  virtual String getPosName(byte limb, byte pos) = 0;
 
   void setServoSpeed(float wServo);
   float getServoSpeed();
@@ -33,11 +37,12 @@ class PercuRobot {
 
  protected:
   virtual void setLimbParams() = 0;
-  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput = 0);
+  void attachServos(byte hitPins[NB_HIT_JOINTS], bool hasOutput = 0);
+  void attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool hasOutput = 0);
 
   signed char hitDirection_[NB_HIT_JOINTS];
   byte nbPos_[NB_HIT_JOINTS];
-  Servo posServos_[NB_POS_JOINTS];
+  Servo hitServos_[NB_HIT_JOINTS], posServos_[NB_POS_JOINTS];
   bool isLimbActive_[NB_HIT_JOINTS];
   byte inactiveAngle_[NB_HIT_JOINTS];
 
@@ -45,26 +50,31 @@ class PercuRobot {
   float wServo_;
 
  private:
-  Servo hitServos_[NB_HIT_JOINTS];
 };
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot() {
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot(byte hitPins[NB_HIT_JOINTS]) {
+  attachServos(hitPins);
+}
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::PercuRobot(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS]) {
   attachServos(hitPins, posPins);
-  for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++) {
-    isLimbActive_[ii] = true;
-  }
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte velocity, bool printOutput) {
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::hit(byte limb, byte pos, byte velocity, bool hasOutput) {
   if (limb < NB_HIT_JOINTS && isLimbActive_[limb]) {
     hitServos_[limb].write(getHitAngle(limb, pos, velocity));
   }
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::rest(byte limb, byte pos, bool printOutput) {
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::rest(byte limb, byte pos, bool hasOutput) {
   if (limb < NB_HIT_JOINTS && isLimbActive_[limb]) {
     hitServos_[limb].write(getRestAngle(limb, pos));
   }
@@ -92,6 +102,37 @@ void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte hitA
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::stop() {
+  for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
+    rest(limb);
+  }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+byte PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getHitAngle(byte limb, byte pos, byte velocity) {
+  return 0;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+byte PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getRestAngle(byte limb, byte pos) {
+  return 0;
+}
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+byte PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getPosAngle(byte limb, byte pos) {
+  return 0;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+unsigned int PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getHitTime(byte limb, byte pos, byte velocity, bool hasOutput = 0) {
+  return 0;
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+String PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getPosName(byte limb, byte pos) {
+  return "";
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
 byte PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getInactiveAngle(byte limb) {
   if (limb < NB_HIT_JOINTS) {
     return inactiveAngle_[limb];
@@ -109,10 +150,16 @@ float PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::getServoSpeed() {
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool printOutput) {
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], bool hasOutput) {
   for (unsigned int ii = 0; ii < NB_HIT_JOINTS; ii++) {
     hitServos_[ii].attach(hitPins[ii]);
+    isLimbActive_[ii] = true;
   }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::attachServos(byte hitPins[NB_HIT_JOINTS], byte posPins[NB_POS_JOINTS], bool hasOutput) {
+  attachServos(hitPins);
   for (unsigned int ii = 0; ii < NB_POS_JOINTS; ii++) {
     posServos_[ii].attach(posPins[ii]);
   }
