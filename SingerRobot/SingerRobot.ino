@@ -1,4 +1,5 @@
-#include <Servo.h>
+#include <percu_controller.h>
+#include <robo_communication.h>
 
 #include "singer_robot.h"
 #include "singer_song.h"
@@ -12,51 +13,107 @@
 #define BUZZ_PIN_SINGER2 4
 #define BUZZ_PIN_SINGER3 5
 
-unsigned int initialDelay = 1000;
-unsigned long currTime, initTime;
+bool hasOutput = false;
+bool isSimulation = false;
+bool hasVibrato = false;
 
-bool printOutput = false;
-bool simulation = true;
-
-SingerRobot singer;
-SingerSong song;
-
-const byte openPos = 160;
+const byte openPos = 150;
 const byte closedPos = 180;
-const byte vibratoAmp = 10;
+const byte vibratoAmp = 5;
 
-unsigned long timeCurrSemiquaver, timePerSemiquaver, timeNextInstruction[NB_SINGERS];
-bool nextInstruction[NB_SINGERS];
-unsigned short bpm = 120;
+bool isNoteOn[NB_SINGERS] = { 0, 0, 0 };
+bool isPeak[NB_SINGERS] = { 0, 0, 0 };
 
-bool toggle[NB_SINGERS] = { 0, 0, 0 };
-bool noteOn[NB_SINGERS] = { 0, 0, 0 };
 int count[NB_SINGERS] = { 0, 0, 0 };
 int count2toggle[NB_SINGERS] = { 0, 0, 0 };
-
-byte buzzPins[NB_SINGERS] = { BUZZ_PIN_SINGER1, BUZZ_PIN_SINGER2, BUZZ_PIN_SINGER3 };
 
 const int ts = 64;  // sampling period in us
 
 /* Timer reload value, globally available */
 unsigned int tcnt2;
 
+byte buzzPins[NB_SINGERS] = { BUZZ_PIN_SINGER1, BUZZ_PIN_SINGER2, BUZZ_PIN_SINGER3 };
+byte vibratoPins[NB_SINGERS] = { SERVO_PIN_SINGER1, SERVO_PIN_SINGER2, SERVO_PIN_SINGER3 };
+
+SingerRobot *robot;
+SingerSong *song;
+PercuController<NB_SINGERS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG> *roboController;
+
 void setup() {
   Serial.begin(9600);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
-  song.createPredefinedPatterns(C_SCALE, false);
+  song = new SingerSong();
+  song->createPredefinedPatterns(C_SCALE, false);
 
-  unsigned long timeQuarter = int(60000.0 / bpm);  // us per quarter note
-  timePerSemiquaver = int(timeQuarter / 4.0);
+  // -------------------------------------------------------- Servo attaching ----------------------------------------------------------
+  robot = new SingerRobot(vibratoPins);
+  robot->setVibrato(hasVibrato);
+  robot->setVibratoParams(closedPos, openPos, vibratoAmp);
+  robot->setServoSpeed(0.2);
 
-  byte vibratoPins[NB_SINGERS] = { SERVO_PIN_SINGER1, SERVO_PIN_SINGER2, SERVO_PIN_SINGER3 };
-  singer.attachServos(vibratoPins);
-  singer.setVibratoParams(closedPos, openPos, vibratoAmp);
-  singer.setServoSpeed(0.2);
+  // Configure buzzPins for output and the timer
+  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
+    pinMode(buzzPins[ii], OUTPUT);
+  }
 
-  initTime = millis();
+  configureTimer2();
 
+  // -------------------------------------------------------- Creation of the controller ------------------------------------------------
+  roboController = new PercuController<NB_SINGERS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG>(robot, song, SINGER_ADDRESS, isSimulation, hasOutput);
+  roboController->setReceptor();
+}
+
+/* Install the Interrupt Service Routine (ISR) for Timer2. */
+ISR(TIMER2_OVF_vect) {
+  /* Reload the timer */
+  TCNT2 = tcnt2;
+
+  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
+    count[ii]++;
+    if (isNoteOn[ii] && count[ii] == count2toggle[ii]) {
+      isPeak[ii] = !isPeak[ii];
+      digitalWrite(buzzPins[ii], isPeak[ii]);
+      count[ii] = 0;
+    }
+  }
+}
+
+void loop() {
+  unsigned int currTime = millis();
+  roboController->goToTime(currTime, hasOutput);
+  for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
+    if (robot->isNoteOn(singerIdx)) {
+      if (robot->isNoteOnPending(singerIdx)) {        
+        makeNoteOn(singerIdx, robot->getFrequency(singerIdx));
+        robot->startVibrato(singerIdx, currTime);
+        robot->unsetNoteOnPending(singerIdx);
+      }
+      robot->checkVibrato(singerIdx, currTime);
+    } else if (robot->isNoteOffPending(singerIdx)) {
+      makeNoteOff(singerIdx);
+      robot->stopVibrato(singerIdx);
+      robot->unsetNoteOffPending(singerIdx);
+    }
+  }
+}
+
+void makeNoteOn(int idx, int freq) {  //(int idx, unsigned long currTime) {
+                                      //  int freq= song.getFreqNextHit(idx);
+  isNoteOn[idx] = true;
+  count[idx] = 0;
+  count2toggle[idx] = 1e6 / (2.0 * freq * ts);
+
+  isPeak[idx] = true;
+  digitalWrite(buzzPins[idx], HIGH);
+}
+
+void makeNoteOff(int idx) {
+  digitalWrite(buzzPins[idx], LOW);
+  isNoteOn[idx] = false;
+}
+
+void configureTimer2() {
   /* First disable the timer overflow interrupt*/
   TIMSK2 &= ~(1 << TOIE2);
 
@@ -88,88 +145,4 @@ void setup() {
   /* Finally load end enable the timer */
   TCNT2 = tcnt2;
   TIMSK2 |= (1 << TOIE2);
-
-  //Configure I/O Pin Directions
-  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
-    pinMode(buzzPins[ii], OUTPUT);
-  }
-
-  // makeNoteOn(0, currTime);
-  makeNoteOn(0, FREQ_C04);
-  delay(500);
-  makeNoteOn(1, FREQ_E04);
-  makeNoteOn(2, FREQ_G04);
-  //makeNoteOn(1, currTime);
-}
-
-/* Install the Interrupt Service Routine (ISR) for Timer2. */
-ISR(TIMER2_OVF_vect) {
-  /* Reload the timer */
-  TCNT2 = tcnt2;
-
-  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
-    count[ii]++;
-    if (noteOn[ii] && count[ii] == count2toggle[ii]) {
-      digitalWrite(buzzPins[ii], toggle[ii] == 0 ? HIGH : LOW);
-      toggle[ii] = !toggle[ii];
-      count[ii] = 0;
-    }
-  }
-}
-
-void loop() {
-  currTime = millis() - initTime;
-
-  // for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
-  //   if (currTime >= timeNextInstruction[singerIdx]) {
-  //     if (nextInstruction[singerIdx] == NOTE_ON) {
-  //       makeNoteOn(singerIdx, currTime);
-  //     } else {
-  //       makeNoteOff(singerIdx);
-  //     }
-  //     getNextNote(singerIdx);
-  //   }
-  // }
-  singer.checkVibrato(currTime, printOutput);
-
-  // if (currTime >= timeCurrSemiquaver) {
-  //   timeCurrSemiquaver += timePerSemiquaver;
-  //   song.goToNextSemiquaver();
-  // }
-  // for (int ii = 0; ii < NB_NOTES_SG; ii++) {
-  //   makeNoteOn(1, _freqs[ii]);
-  //   delay(200);
-  // }
-}
-
-void getNextNote(unsigned int singerIdx) {
-  song.computeNextHit(singerIdx, printOutput);
-  nextInstruction[singerIdx] = song.getVelNextHit(singerIdx);
-  timeNextInstruction[singerIdx] = timeCurrSemiquaver + song.getSemiquaversToNextHit(singerIdx) * timePerSemiquaver;
-}
-
-void setBpm(unsigned short newBpm) {
-  // bpm = newBpm;
-  // unsigned long timeQuarter = int(60000.0 / bpm);  // us per quarter note
-  // timePerSemiquaver = int(timeQuarter / 4.0);      // us per semiquaver note
-
-  // // We update the Sing instructions
-  // for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
-  //   timeNextInstruction[singerIdx] = timeCurrSemiquaver + song.getSemiquaversToNextHit(singerIdx) * timePerSemiquaver;
-  // }
-}
-
-void makeNoteOn(int idx, int freq) {  //(int idx, unsigned long currTime) {
-                                      //  int freq= song.getFreqNextHit(idx);
-
-  singer.noteOn(idx, currTime);
-
-  noteOn[idx] = true;
-  count[idx] = 0;
-  count2toggle[idx] = 1e6 / (2.0 * freq * ts);
-}
-
-void makeNoteOff(int idx) {
-  digitalWrite(buzzPins[idx], LOW);
-  noteOn[idx] = false;
 }
