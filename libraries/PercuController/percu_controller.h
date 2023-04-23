@@ -15,11 +15,11 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 class PercuController : public RoboReceptor {
  public:
   PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot, PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song,
-                  int address, bool isSimulation, bool printOutput);
+                  int address, bool isSimulation, bool hasOutput);
 
   void initialize(unsigned long currTime);
 
-  virtual int goToTime(unsigned long currTime, bool printOutput = 0);
+  virtual int goToTime(unsigned long currTime, bool hasOutput = 0);
 
   void manageHitInstruction(byte limb, unsigned long currTime);
   void managePosInstruction(byte limb);
@@ -60,13 +60,13 @@ class PercuController : public RoboReceptor {
   unsigned int timePerSemiquaver_;
   unsigned long timeNextSemiquaver_, initialTime_;
 
-  bool isSimulation_, printOutput_;
+  bool isSimulation_, hasOutput_;
 };
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot,
                                                                              PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song, int address,
-                                                                             bool isSimulation, bool printOutput) : RoboReceptor(address) {
+                                                                             bool isSimulation, bool hasOutput) : RoboReceptor(address) {
   robot_ = robot;
   song_ = song;
 
@@ -80,7 +80,7 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   }
 
   isSimulation_ = isSimulation;
-  printOutput_ = printOutput;
+  hasOutput_ = hasOutput;
 
   sendRobotToRest();
 }
@@ -94,7 +94,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(uns
     moveLimb_[limb] = false;
   }
 
-  song_->goToFirstSemiquaver(printOutput_);
+  song_->goToFirstSemiquaver(hasOutput_);
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     nextInstruction_[limb] = HIT;
 
@@ -113,7 +113,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(uns
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool printOutput) {
+int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool hasOutput) {
   int semiquaversEllapsed = 0;
 
   if (isBpmChangePending_) {
@@ -152,7 +152,7 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
     }
   } else {
     if (isFirstAfterStop_) {
-      sendRobotToRest();
+      robot_->stop();
       isFirstAfterStop_ = false;
     }
     initialTime_ = currTime;
@@ -168,12 +168,12 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstr
     if (isSimulation_) {
       Serial.println(robot_->getPosName(limb, currentPosition));
     } else {
-      robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), printOutput_);
+      robot_->hit(limb, currentPosition, song_->getVelNextHit(limb), hasOutput_);
     }
 
     timeNextHitInstruction_[limb] += robot_->getHitTime(limb, currentPosition, song_->getVelNextHit(limb));
     nextInstruction_[limb] = REST;
-    song_->computeNextHit(limb, printOutput_);
+    song_->computeNextHit(limb, hasOutput_);
   } else if (nextInstruction_[limb] == REST) {
     if (limb < NB_POS_JOINTS) {
       // We check if we need to move
@@ -184,7 +184,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstr
         timeNextPosInstruction_[limb] = currTime + abs(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)) - robot_->getRestAngle(limb, nextPos_[limb])) / (POS_SECURITY_FACTOR * robot_->getServoSpeed());
         currentPosition = nextPos_[limb];
       }
-      robot_->rest(limb, nextPos_[limb], printOutput_);
+      robot_->rest(limb, nextPos_[limb], hasOutput_);
     } else {
       robot_->rest(limb);
     }
