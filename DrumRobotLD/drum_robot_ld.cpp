@@ -97,7 +97,7 @@ byte DrumRobotLD::getPosAngle(byte limb, byte pos) {
   }
 }
 
-unsigned int DrumRobotLD::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
+unsigned int DrumRobotLD::getHitTime(byte limb, byte pos, byte velocity, bool hasOutput) {
   if (pos < nbPos_[limb]) {
     float result = abs(posParameters_[limb][pos].hitAngle + hitDirection_[limb] * velocity * VEL_MULTIPLIER - posParameters_[limb][pos].restAngle) / wServo_;
     return round(result);

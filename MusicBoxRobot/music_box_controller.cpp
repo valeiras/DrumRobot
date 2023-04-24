@@ -2,9 +2,9 @@
 
 MusicBoxController::MusicBoxController(MusicBoxRobot* mbRobot, MusicBoxSong* mbSong,
                                        MusicBoxPercuRobot* prcRobot, PercuSong<NB_HIT_JOINTS_MB, BITS_FOR_POS_MB>* prcSong,
-                                       int address, bool simulation, bool printOutput)
+                                       int address, bool isSimulation, bool hasOutput)
   : PercuController<NB_HIT_JOINTS_MB, NB_POS_JOINTS_MB, BITS_FOR_POS_MB>(prcRobot, prcSong,
-                                                                         address, simulation, printOutput) {
+                                                                         address, isSimulation, hasOutput) {
   mbSong_ = mbSong;
   mbRobot_ = mbRobot;
 

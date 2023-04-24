@@ -10,8 +10,8 @@
 #define LEFT_POS_PIN_GL 9
 #define RIGHT_POS_PIN_GL 10
 
-bool printOutput = false;
-bool simulation = false;
+bool hasOutput = false;
+bool isSimulation = false;
 
 byte songName = FRERE_JACQUES;
 
@@ -25,7 +25,7 @@ void setup() {
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new GlockenSongGR();
   song->createPredefinedPatterns(songName, false);
-  if (printOutput) {
+  if (hasOutput) {
     song->printPatterns();
   }
 
@@ -34,10 +34,10 @@ void setup() {
   byte posPins[NB_POS_JOINTS_GL] = { LEFT_POS_PIN_GL, RIGHT_POS_PIN_GL };
   robot = new GlockenRobotGR(hitPins, posPins);
 
-  roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, simulation, printOutput);
+  roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
 }
 
 void loop() {
-  roboController->goToTime(millis(), printOutput);
+  roboController->goToTime(millis(), hasOutput);
 }

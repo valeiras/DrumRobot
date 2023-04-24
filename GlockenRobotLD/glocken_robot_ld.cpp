@@ -87,7 +87,7 @@ byte GlockenRobotLD::getPosAngle(byte limb, byte pos) {
   }
 }
 
-unsigned int GlockenRobotLD::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
+unsigned int GlockenRobotLD::getHitTime(byte limb, byte pos, byte velocity, bool hasOutput) {
   float result = abs(hitAngle_[limb] + hitDirection_[limb] * velocity * VEL_MULTIPLIER - restAngle_[limb]) / wServo_;
   return round(result);
 }

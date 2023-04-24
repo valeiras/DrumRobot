@@ -18,7 +18,7 @@ public:
   DrumSongLD();
 
   // Default patterns for the different songs. Empty method in the base class
-  void createPredefinedPatterns(byte rythmName, bool printOutput = false);
+  void createPredefinedPatterns(byte rythmName, bool hasOutput = false);
 };
 
 #endif

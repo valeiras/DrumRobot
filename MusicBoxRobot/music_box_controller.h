@@ -16,7 +16,7 @@ class MusicBoxController : public PercuController<NB_HIT_JOINTS_MB, NB_POS_JOINT
 public:
   MusicBoxController(MusicBoxRobot* mbRobot, MusicBoxSong* mbSong,
                      MusicBoxPercuRobot* prcRobot, PercuSong<NB_HIT_JOINTS_MB, BITS_FOR_POS_MB>* prcSong,
-                     int address, bool simulation, bool printOutput);
+                     int address, bool isSimulation, bool hasOutput);
 
   void processStartMsg();
   void processStopMsg();

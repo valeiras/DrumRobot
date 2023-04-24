@@ -13,8 +13,8 @@
 
 #define SENSOR_PIN A0
 
-bool printOutput = false;
-bool simulation = false;
+bool hasOutput = false;
+bool isSimulation = false;
 
 MusicBoxRobot *mbRobot;
 MusicBoxSong *mbSong;
@@ -38,7 +38,7 @@ void setup() {
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   prcSong = new MusicBoxPercuSong();
   prcSong->createPredefinedPatterns(SIMPLEST_RYTHM, false);
-  if (printOutput) {
+  if (hasOutput) {
     prcSong->printPatterns();
   }
 
@@ -46,7 +46,7 @@ void setup() {
   byte hitPins[NB_HIT_JOINTS_MB] = { FOOT_PIN, HEAD_PIN };
   prcRobot = new MusicBoxPercuRobot(hitPins);
 
-  controller = new MusicBoxController(mbRobot, mbSong, prcRobot, prcSong, MUSIC_BOX_ADDRESS, simulation, printOutput);
+  controller = new MusicBoxController(mbRobot, mbSong, prcRobot, prcSong, MUSIC_BOX_ADDRESS, isSimulation, hasOutput);
   controller->setReceptor();
 }
 

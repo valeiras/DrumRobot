@@ -14,8 +14,8 @@
 // This is a temporary hack: this was supposed to be the left pos servo, but we are using it to move the head against the movement of the hips
 #define HEAD_POS_PIN 11
 
-bool printOutput = false;
-bool simulation = false;
+bool hasOutput = false;
+bool isSimulation = false;
 
 DrumRobotLD *robot;
 DrumSongLD *song;
@@ -27,7 +27,7 @@ void setup() {
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new DrumSongLD();
   song->createPredefinedPatterns(BASIC_RYTHM, false);
-  if (printOutput) {
+  if (hasOutput) {
     song->printPatterns();
   }
 
@@ -36,10 +36,10 @@ void setup() {
   byte posPins[NB_POS_JOINTS_DR] = { HIPS_POS_PIN, HEAD_POS_PIN };
   robot = new DrumRobotLD(hitPins, posPins);
 
-  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, simulation, printOutput);
+  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
 }
 
 void loop() {
-  roboController->goToTime(millis(), printOutput);
+  roboController->goToTime(millis(), hasOutput);
 }
