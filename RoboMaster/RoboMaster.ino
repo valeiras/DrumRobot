@@ -8,6 +8,8 @@
 #define CC_MAX 127
 #define MAX_BRIGHTNESS 64
 
+#define MIN_VIBRATO_AMP 0
+#define MAX_VIBRATO_AMP 20
 #define LED_PIN 13
 
 #define MIN_BPM_CHANGE 5
@@ -23,10 +25,11 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 uint8_t bpmIdx = DEFAULT_BPM_IDX;
 uint8_t mtxBlinkInterval = QUARTER_INTERVAL;
 uint8_t splBlinkInterval = QUARTER_INTERVAL;
+uint8_t vibratoAmp = 0;
 
-unsigned long lastBpmTime = 0, lastBrightnessTime = 0, lastMtxBlinkTime = 0, lastSplBlinkTime = 0;
-byte lastBpmControllerVal, lastBrightnessControllerVal, lastMtxBlinkControllerVal, lastSplBlinkControllerVal;
-bool isBpmPending = false, isBrightnessPending = false, isMtxBlinkPending = false, isSplBlinkPending = false;
+unsigned long lastBpmTime = 0, lastBrightnessTime = 0, lastMtxBlinkTime = 0, lastSplBlinkTime = 0, lastVibratoAmpTime = 0;
+byte lastBpmControllerVal, lastBrightnessControllerVal, lastMtxBlinkControllerVal, lastSplBlinkControllerVal, lastVibratoAmpControllerVal;
+bool isBpmPending = false, isBrightnessPending = false, isMtxBlinkPending = false, isSplBlinkPending = false, isVibratoAmpPending = false;
 
 unsigned int minTimeInterval = 100;
 
@@ -161,6 +164,9 @@ void handleNoteOn(byte channel, byte pitch, byte velocity) {
     case GLOCK_RA_STOP_KEY:
       sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(RIGHT_LIMB));
       break;
+    case C06 ... C08:
+      sendMessage(SINGER_ROBOT, NOTE_ON, uint8_t(pitch));
+      break;
   }
 }
 
@@ -201,6 +207,9 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
     case GLOCK_RA_STOP_KEY:
       sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(RIGHT_LIMB));
       break;
+    case C06 ... C08:
+      sendMessage(SINGER_ROBOT, NOTE_OFF, uint8_t(pitch));
+      break;
   }
 }
 
@@ -221,6 +230,10 @@ void handleCCMessage(byte channel, byte number, byte value) {
     case SPL_BLINK_CONTROLLER:
       lastSplBlinkControllerVal = value;
       isSplBlinkPending = true;
+      break;
+    case VIBRATO_AMP_CONTROLLER:
+      lastVibratoAmpControllerVal = value;
+      isVibratoAmpPending = true;
       break;
   }
 }
@@ -260,6 +273,16 @@ void checkCCPending(unsigned long currTime) {
     if (newSplBlinkInterval != splBlinkInterval) {
       splBlinkInterval = newSplBlinkInterval;
       sendMessage(LIGHTING_ROBOT, SPL_BLINK_CHANGE, newSplBlinkInterval);
+    }
+  }
+
+  if (isVibratoAmpPending && currTime - lastVibratoAmpTime > minTimeInterval) {
+    lastVibratoAmpTime = currTime;
+    isVibratoAmpPending = false;
+    uint8_t newVibratoAmp = map(lastVibratoAmpControllerVal, CC_MIN, CC_MAX, MIN_VIBRATO_AMP, MAX_VIBRATO_AMP);
+    if (newVibratoAmp != vibratoAmp) {
+      vibratoAmp = newVibratoAmp;
+      sendMessage(SINGER_ROBOT, VIBRATO_AMP_CHANGE, newVibratoAmp);
     }
   }
 }

@@ -31,14 +31,17 @@ class PercuController : public RoboReceptor {
   void setTimePerSemiquaver(unsigned long timePerSemiquaver);
 
   // Inherited methods from RoboReceptor
-  virtual void treatStartMsg();
-  virtual void treatStopMsg();
-  virtual void treatResyncMsg();
-  virtual void treatBpmChangeMsg(uint8_t messageContent);
-  virtual void treatBpmIdxChangeMsg(uint8_t messageContent);
-  virtual void treatLimbStopMsg(uint8_t messageContent);
-  virtual void treatLimbStartMsg(uint8_t messageContent);
-  virtual void treatSetResyncTimeMsg(uint16_t messageContent);
+  virtual void processStartMsg();
+  virtual void processStopMsg();
+  virtual void processResyncMsg();
+  virtual void processBpmChangeMsg(uint8_t messageContent);
+  virtual void processBpmIdxChangeMsg(uint8_t messageContent);
+  virtual void processLimbStopMsg(uint8_t messageContent);
+  virtual void processLimbStartMsg(uint8_t messageContent);
+  virtual void processNoteOnMsg(uint8_t messageContent);
+  virtual void processNoteOffMsg(uint8_t messageContent);
+  virtual void processVibratoAmpChangeMsg(uint8_t messageContent);
+  virtual void processSetResyncTimeMsg(uint16_t messageContent);
 
  protected:
   bool hasStarted_, isFirstAfterStart_, isFirstAfterStop_, isBpmChangePending_;
@@ -233,7 +236,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setTimePerSemi
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processStartMsg() {
   if (!hasStarted_) {
     Serial.println("Start!");
     hasStarted_ = true;
@@ -242,7 +245,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStartMsg(
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStopMsg() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processStopMsg() {
   if (hasStarted_) {
     hasStarted_ = false;
     isFirstAfterStop_ = true;
@@ -250,23 +253,23 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatStopMsg()
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatResyncMsg() {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processResyncMsg() {
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmChangeMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processBpmChangeMsg(uint8_t messageContent) {
   isBpmChangePending_ = true;
   pendingBpm_ = messageContent;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatBpmIdxChangeMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processBpmIdxChangeMsg(uint8_t messageContent) {
   isBpmChangePending_ = true;
   pendingBpm_ = bpmValues[messageContent];
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStopMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processLimbStopMsg(uint8_t messageContent) {
   if (messageContent < NB_HIT_JOINTS) {
     isLimbActive_[messageContent] = false;
     isActivationPending_[messageContent] = true;
@@ -274,7 +277,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStopM
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStartMsg(uint8_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processLimbStartMsg(uint8_t messageContent) {
   if (messageContent < NB_HIT_JOINTS) {
     isLimbActive_[messageContent] = true;
     isActivationPending_[messageContent] = true;
@@ -282,7 +285,22 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatLimbStart
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
-void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::treatSetResyncTimeMsg(uint16_t messageContent) {
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processNoteOnMsg(uint8_t messageContent) {
+  robot_->processNoteOnMessage(messageContent);
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processNoteOffMsg(uint8_t messageContent){
+   robot_->processNoteOffMessage(messageContent);
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processVibratoAmpChangeMsg(uint8_t messageContent){
+   robot_->processVibratoAmpChangeMessage(messageContent);
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processSetResyncTimeMsg(uint16_t messageContent) {
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>

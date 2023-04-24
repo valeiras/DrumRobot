@@ -20,6 +20,10 @@ class PercuRobot {
   void goToPosAngle(byte limb, byte posAngle);
   void goToHitAngle(byte limb, byte hitAngle);
 
+  virtual void processNoteOnMessage(byte noteIdx);
+  virtual void processNoteOffMessage(byte noteIdx);
+  virtual void processVibratoAmpChangeMessage(byte vibratoAmp);
+
   virtual void stop();
 
   virtual byte getHitAngle(byte limb, byte pos, byte velocity);
@@ -99,6 +103,18 @@ void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte hitA
   if (limb < NB_HIT_JOINTS && isLimbActive_[limb]) {
     hitServos_[limb].write(hitAngle);
   }
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOnMessage(byte noteIdx) {
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOffMessage(byte noteIdx) {
+}
+
+template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processVibratoAmpChangeMessage(byte vibratoAmp) {
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>

@@ -15,11 +15,19 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasVibrato = false;
+bool hasVibrato = true;
 
-const byte openPos = 150;
-const byte closedPos = 180;
-const byte vibratoAmp = 5;
+const byte openPos1 = 150;
+const byte openPos2 = 140;
+const byte openPos3 = 140;
+const byte closedPos1 = 180;
+const byte closedPos2 = 180;
+const byte closedPos3 = 180;
+
+const byte vibratoAmp = 0;
+
+byte closedPositions[NB_SINGERS] = {closedPos1, closedPos2, closedPos3};
+byte openPositions[NB_SINGERS] = {openPos1, openPos2, openPos3};
 
 bool isNoteOn[NB_SINGERS] = { 0, 0, 0 };
 bool isPeak[NB_SINGERS] = { 0, 0, 0 };
@@ -49,7 +57,7 @@ void setup() {
   // -------------------------------------------------------- Servo attaching ----------------------------------------------------------
   robot = new SingerRobot(vibratoPins);
   robot->setVibrato(hasVibrato);
-  robot->setVibratoParams(closedPos, openPos, vibratoAmp);
+  robot->setVibratoParams(closedPositions, openPositions, vibratoAmp);
   robot->setServoSpeed(0.2);
 
   // Configure buzzPins for output and the timer

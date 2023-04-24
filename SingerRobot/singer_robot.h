@@ -5,6 +5,8 @@
 #include <percu_robot.h>
 #include "singer_robot_config.h"
 
+#define FIRST_AVAILABLE_NOTE_IDX 84
+
 class SingerRobot : public PercuRobot<NB_SINGERS, NB_POS_JOINTS_SG> {
 public:
   SingerRobot(byte vibratoPins[NB_SINGERS]);
@@ -17,6 +19,7 @@ public:
 
   void processNoteOnMessage(byte noteIdx);
   void processNoteOffMessage(byte noteIdx);
+  void processVibratoAmpChangeMessage(byte vibratoAmp);
 
   void stop();
 
@@ -34,7 +37,7 @@ public:
   void checkVibrato(byte singerIdx, unsigned long currTime, bool hasOutput = 0);
 
   void setVibrato(bool hasVibrato);
-  void setVibratoParams(byte closedPos, byte openPos, byte vibratoAmp);
+  void setVibratoParams(byte closedPos[NB_SINGERS], byte openPos[NB_SINGERS], byte vibratoAmp);
 
 private:
   void setLimbParams();
@@ -53,7 +56,7 @@ private:
   bool hasVibrato_;
   signed char vibratoDirection_[NB_SINGERS];
   unsigned long nextVibratoInstructionTime_[NB_SINGERS];
-  byte closedPosition_, openPosition_, vibratoAmplitude_;
+  byte closedPosition_[NB_SINGERS], openPosition_[NB_SINGERS], vibratoAmplitude_;
 };
 
 #endif
