@@ -17,12 +17,14 @@ uint16_t arrayToUint16(uint8_t* arr) {
 }
 
 void receiveMessage(int howMany) {
+  Serial.println("Robo receptor: message received");
   MessageType msgType = Wire.read();
 
   switch (howMany) {
     case 1:
       switch (msgType) {
         case START:
+          Serial.println("RoboReceptor -> start");
           receptor->processStartMsg();
           break;
         case STOP:

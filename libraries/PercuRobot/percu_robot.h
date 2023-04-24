@@ -20,8 +20,8 @@ class PercuRobot {
   void goToPosAngle(byte limb, byte posAngle);
   void goToHitAngle(byte limb, byte hitAngle);
 
-  virtual void processNoteOn(byte noteIdx);
-  virtual void processNoteOff(byte noteIdx);
+  virtual void processNoteOnMessage(byte noteIdx);
+  virtual void processNoteOffMessage(byte noteIdx);
 
   virtual void stop();
 
@@ -105,11 +105,11 @@ void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::goToHitAngle(byte limb, byte hitA
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOn(byte noteIdx){   
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOnMessage(byte noteIdx){   
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>
-void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOff(byte noteIdx){
+void PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS>::processNoteOffMessage(byte noteIdx){
 }
 
 template <int NB_HIT_JOINTS, int NB_POS_JOINTS>

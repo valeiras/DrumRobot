@@ -237,6 +237,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setTimePerSemi
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processStartMsg() {
   if (!hasStarted_) {
+    Serial.println("Start!");
     hasStarted_ = true;
     isFirstAfterStart_ = true;
   }
@@ -284,12 +285,12 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processLimbSta
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processNoteOnMsg(uint8_t messageContent) {
-  robot_->processNoteOn(messageContent);
+  robot_->processNoteOnMessage(messageContent);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processNoteOffMsg(uint8_t messageContent){
-   robot_->processNoteOff(messageContent);
+   robot_->processNoteOffMessage(messageContent);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>

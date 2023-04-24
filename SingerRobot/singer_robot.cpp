@@ -18,6 +18,8 @@ SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS])
   }
 
   setFrequencies();
+
+  currSinger_ = 0;
 }
 
 unsigned int SingerRobot::getFrequency(byte singerIdx) {
@@ -47,6 +49,14 @@ void SingerRobot::hit(byte singerIdx, byte pos, byte noteIdx, bool hasOutput = 0
 }
 
 void SingerRobot::rest(byte singerIdx, byte pos = 0, bool hasOutput = 0) {
+}
+
+void SingerRobot::processNoteOnMessage(byte noteIdx) {
+  makeNoteOn(++currSinger_%NB_SINGERS, noteIdx - 84);
+}
+
+void SingerRobot::processNoteOffMessage(byte noteIdx) {
+  makeNoteOff(currSinger_);
 }
 
 void SingerRobot::stop() {

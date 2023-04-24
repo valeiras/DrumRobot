@@ -14,6 +14,10 @@ public:
 
   void hit(byte singerIdx, byte pos, byte noteIdx, bool hasOutput = 0);
   void rest(byte singerIdx, byte pos = 0, bool hasOutput = 0);
+
+  void processNoteOnMessage(byte noteIdx);
+  void processNoteOffMessage(byte noteIdx);
+
   void stop();
 
   void makeNoteOn(byte singerIdx, byte noteIdx, bool hasOutput = 0);
@@ -43,6 +47,8 @@ private:
 
   bool noteOn_[NB_SINGERS], noteOnPending_[NB_SINGERS], noteOffPending_[NB_SINGERS];
   byte currNoteIdx_[NB_SINGERS];
+
+  unsigned int currSinger_;
 
   bool hasVibrato_;
   signed char vibratoDirection_[NB_SINGERS];
