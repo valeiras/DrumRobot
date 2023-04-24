@@ -11,8 +11,8 @@
 #define LEFT_POS_PIN 10
 #define RIGHT_POS_PIN 11
 
-bool printOutput = false;
-bool simulation = false;
+bool hasOutput = false;
+bool isSimulation = false;
 
 DrumRobotGR *robot;
 DrumSongGR *song;
@@ -24,7 +24,7 @@ void setup() {
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new DrumSongGR();
   song->createPredefinedPatterns(BASIC_RYTHM, false);
-  if (printOutput) {
+  if (hasOutput) {
     song->printPatterns();
   }
 
@@ -33,10 +33,10 @@ void setup() {
   byte posPins[NB_POS_JOINTS_DR] = { LEFT_POS_PIN, RIGHT_POS_PIN };
   robot = new DrumRobotGR(hitPins, posPins);
 
-  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, simulation, printOutput);
+  roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
 }
 
 void loop() {
-  roboController->goToTime(millis(), printOutput);
+  roboController->goToTime(millis(), hasOutput);
 }

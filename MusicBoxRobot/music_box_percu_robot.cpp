@@ -41,7 +41,7 @@ byte MusicBoxPercuRobot::getPosAngle(byte limb, byte pos) {
   return 0;
 }
 
-unsigned int MusicBoxPercuRobot::getHitTime(byte limb, byte pos, byte velocity, bool printOutput) {
+unsigned int MusicBoxPercuRobot::getHitTime(byte limb, byte pos, byte velocity, bool hasOutput) {
   float result = abs(hitAngles_[limb] + hitDirection_[limb] * velocity * VEL_MULTIPLIER - restAngles_[limb]) / wServo_;
   return round(result);
 }

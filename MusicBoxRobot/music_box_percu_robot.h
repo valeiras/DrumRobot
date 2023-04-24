@@ -13,7 +13,7 @@ public:
   byte getPosAngle(byte limb, byte pos);
   String getPosName(byte limb, byte pos);
 
-  unsigned int getHitTime(byte limb, byte pos, byte velocity, bool printOutput = 0);
+  unsigned int getHitTime(byte limb, byte pos, byte velocity, bool hasOutput = 0);
 
   void setLimbParams(signed char directionFoot, signed char directionHead,
                      byte hitAngleFoot, byte hitAngleHead,
