@@ -115,17 +115,6 @@
 #define AS4 70
 #define B04 71
 #define C05 72
-#define CS5 73
-#define D05 74
-#define DS5 75
-#define E05 76
-#define F05 77
-#define FS5 78
-#define G05 79
-#define GS5 80
-#define A05 81
-#define AS5 82
-#define B05 83
 
 #define POT1 74
 #define POT2 71
@@ -161,31 +150,5 @@
 #define SPL_BLINK_CONTROLLER POT4
 
 #endif
-
-#define C06 84
-#define CS6 85
-#define D06 86
-#define DS6 87
-#define E06 88
-#define F06 89
-#define FS6 90
-#define G06 91
-#define GS6 92
-#define A06 93
-#define AS6 94
-#define B06 95
-#define C07 96
-#define CS7 97
-#define D07 98
-#define DS7 99
-#define E07 100
-#define F07 101
-#define FS7 102
-#define G07 103
-#define GS7 104
-#define A07 105
-#define AS7 106
-#define B07 107
-#define C08 108
 
 #endif

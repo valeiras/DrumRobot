@@ -11,21 +11,19 @@ class RoboReceptor {
   // This method needs to be called after the derived class has been instantiated
   setReceptor();
 
-  virtual void processStartMsg() = 0;
-  virtual void processStopMsg() = 0;
-  virtual void processResyncMsg() = 0;
-  virtual void processBpmChangeMsg(uint8_t messageContent) = 0;
-  virtual void processBpmIdxChangeMsg(uint8_t messageContent) = 0;
-  virtual void processMtxModeChangeMsg(uint8_t messageContent);
-  virtual void processSplModeChangeMsg(uint8_t messageContent);
-  virtual void processMtxBlinkChangeMsg(uint8_t messageContent);
-  virtual void processSplBlinkChangeMsg(uint8_t messageContent);
-  virtual void processLimbStopMsg(uint8_t messageContent);
-  virtual void processLimbStartMsg(uint8_t messageContent);
-  virtual void processNoteOnMsg(uint8_t messageContent);
-  virtual void processNoteOffMsg(uint8_t messageContent);
-  virtual void processBrightnessChangeMsg(uint8_t messageContent);
-  virtual void processSetResyncTimeMsg(uint16_t messageContent) = 0;
+  virtual void treatStartMsg() = 0;
+  virtual void treatStopMsg() = 0;
+  virtual void treatResyncMsg() = 0;
+  virtual void treatBpmChangeMsg(uint8_t messageContent) = 0;
+  virtual void treatBpmIdxChangeMsg(uint8_t messageContent) = 0;
+  virtual void treatMtxModeChangeMsg(uint8_t messageContent);
+  virtual void treatSplModeChangeMsg(uint8_t messageContent);
+  virtual void treatMtxBlinkChangeMsg(uint8_t messageContent);
+  virtual void treatSplBlinkChangeMsg(uint8_t messageContent);
+  virtual void treatLimbStopMsg(uint8_t messageContent);
+  virtual void treatLimbStartMsg(uint8_t messageContent);
+  virtual void treatBrightnessChangeMsg(uint8_t messageContent);
+  virtual void treatSetResyncTimeMsg(uint16_t messageContent) = 0;
 };
 
 // I could not find another way to solve this: the function to be passed to the onReceive method of the Wire library

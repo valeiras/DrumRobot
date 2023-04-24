@@ -44,17 +44,17 @@ public:
 
   void doLighting(unsigned long currTime);
 
-  void processStartMsg();
-  void processStopMsg();
-  void processResyncMsg();
-  void processBpmChangeMsg(uint8_t messageContent);
-  void processBpmIdxChangeMsg(uint8_t messageContent);
-  void processMtxModeChangeMsg(uint8_t messageContent);
-  void processSplModeChangeMsg(uint8_t messageContent);
-  void processMtxBlinkChangeMsg(uint8_t messageContent);
-  void processSplBlinkChangeMsg(uint8_t messageContent);
-  void processBrightnessChangeMsg(uint8_t messageContent);
-  void processSetResyncTimeMsg(uint16_t messageContent);
+  void treatStartMsg();
+  void treatStopMsg();
+  void treatResyncMsg();
+  void treatBpmChangeMsg(uint8_t messageContent);
+  void treatBpmIdxChangeMsg(uint8_t messageContent);
+  void treatMtxModeChangeMsg(uint8_t messageContent);
+  void treatSplModeChangeMsg(uint8_t messageContent);
+  void treatMtxBlinkChangeMsg(uint8_t messageContent);
+  void treatSplBlinkChangeMsg(uint8_t messageContent);
+  void treatBrightnessChangeMsg(uint8_t messageContent);
+  void treatSetResyncTimeMsg(uint16_t messageContent);
 
 private:
   void doMatrixName();

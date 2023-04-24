@@ -14,31 +14,31 @@ MusicBoxController::MusicBoxController(MusicBoxRobot* mbRobot, MusicBoxSong* mbS
   semiquaverCount_ = 0;
 }
 
-void MusicBoxController::processStartMsg() {
+void MusicBoxController::treatStartMsg() {
   if (!hasStarted_) {
     mbSong_->restartSong();
     currInstructionIsOn_ = mbSong_->getNextInstruction(nbSemiquaversNextInstruction_);
     semiquaverCount_ = 0;
     firstMbAfterStart_ = true;
   }
-  PercuController::processStartMsg();
+  PercuController::treatStartMsg();
 }
 
-void MusicBoxController::processStopMsg() {
+void MusicBoxController::treatStopMsg() {
   mbRobot_->stop();
-  PercuController::processStopMsg();
+  PercuController::treatStopMsg();
 }
 
-void MusicBoxController::processResyncMsg() {
-  PercuController::processResyncMsg();
+void MusicBoxController::treatResyncMsg() {
+  PercuController::treatResyncMsg();
 }
 
-void MusicBoxController::processBpmChangeMsg(uint8_t messageContent) {
-  PercuController::processBpmChangeMsg(messageContent);
+void MusicBoxController::treatBpmChangeMsg(uint8_t messageContent) {
+  PercuController::treatBpmChangeMsg(messageContent);
 }
 
-void MusicBoxController::processBpmIdxChangeMsg(uint8_t messageContent) {
-  PercuController::processBpmIdxChangeMsg(messageContent);
+void MusicBoxController::treatBpmIdxChangeMsg(uint8_t messageContent) {
+  PercuController::treatBpmIdxChangeMsg(messageContent);
 
   currVelOrder_ = bpmOrders[messageContent];
   if (hasStarted_ && currInstructionIsOn_) {
@@ -46,14 +46,14 @@ void MusicBoxController::processBpmIdxChangeMsg(uint8_t messageContent) {
   }
 }
 
-void MusicBoxController::processModeChangeMsg(uint8_t messageContent) {
+void MusicBoxController::treatModeChangeMsg(uint8_t messageContent) {
 PercuController:
-  processModeChangeMsg(messageContent);
+  treatModeChangeMsg(messageContent);
 }
 
-void MusicBoxController::processSetResyncTimeMsg(uint16_t messageContent) {
+void MusicBoxController::treatSetResyncTimeMsg(uint16_t messageContent) {
 PercuController:
-  processSetResyncTimeMsg(messageContent);
+  treatSetResyncTimeMsg(messageContent);
 }
 
 void MusicBoxController::goToTime(unsigned long currTime) {
