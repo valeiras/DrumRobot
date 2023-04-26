@@ -125,7 +125,6 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
 
   checkPendingMessages();
 
-  Serial.println(currTime);
   if (hasStarted_) {
     if (isFirstAfterSongStart_) {
       song_->createPredefinedPatterns(songIdx_);

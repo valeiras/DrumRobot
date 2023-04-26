@@ -33,8 +33,8 @@
 const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
 
-const byte _hitAngleLAGl = 122;
-const byte _restAngleLAGl = 107;
+const byte _hitAngleLAGl = 110;
+const byte _restAngleLAGl = 90;
 
 const byte _hitAngleRAGl = 68;
 const byte _restAngleRAGl = 83;
@@ -43,16 +43,16 @@ const byte _inactiveAngleLAGL = 50;
 const byte _inactiveAngleRAGL = 140;
 
 // Angles for the left arm
-const byte _posAngleC00 = 180;
-const byte _posAngleCS0 = 165;
-const byte _posAngleD00 = 145;
-const byte _posAngleDS0 = 128;
-const byte _posAngleE00 = 110;
-const byte _posAngleF00 = 85;
-const byte _posAngleFS0 = 70;
-const byte _posAngleG00 = 48;
-const byte _posAngleGS0 = 33;
-const byte _posAngleA00 = 18;
+const byte _posAngleC00 = 175;
+const byte _posAngleCS0 = 160;
+const byte _posAngleD00 = 140;
+const byte _posAngleDS0 = 123;
+const byte _posAngleE00 = 105;
+const byte _posAngleF00 = 80;
+const byte _posAngleFS0 = 65;
+const byte _posAngleG00 = 43;
+const byte _posAngleGS0 = 18;
+const byte _posAngleA00 = 13;
 
 // Angles for the right arm
 const byte _posAngleAS0 = 150;

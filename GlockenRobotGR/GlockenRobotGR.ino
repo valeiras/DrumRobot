@@ -12,6 +12,8 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
+bool hasAutomaticStart = true;
+Songs automaticSong = HOUND_DOG;
 
 byte songName = FRERE_JACQUES;
 
@@ -36,6 +38,10 @@ void setup() {
 
   roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
+
+  if (hasAutomaticStart) {
+    roboController->processStartSongMsg(automaticSong);
+  }
 }
 
 void loop() {

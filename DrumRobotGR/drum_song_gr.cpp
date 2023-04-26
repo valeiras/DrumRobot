@@ -9,38 +9,6 @@ DrumSongGR::DrumSongGR()
 
 void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
   switch (songName) {
-    // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
-    case SIMPLEST_RYTHM:
-    default:
-      {
-        nbPatterns_ = 1;
-        nbMeasures_ = 1;
-        initializeBlankPatterns(nbPatterns_, nbMeasures_);
-
-        byte patternId = 0;
-
-        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId, 1, hasOutput);
-        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 3, hasOutput);
-        setQuaverHit(RIGHT_LEG_DR, BDRU, V014, patternId, 6, hasOutput);
-
-        setQuaverHit(LEFT_ARM_DR, HHAT, V014, patternId, 1, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId, 2, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 3, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId, 4, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId, 5, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId, 6, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 7, hasOutput);
-        setQuaverHit(LEFT_ARM_DR, SNLT, V009, patternId, 8, hasOutput);
-
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 1, hasOutput);
-        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 2, hasOutput);
-        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId, 4, hasOutput);
-
-        byte simplestPattSeq[nbMeasures_] = { 0 };
-        setPatternSequence(simplestPattSeq);
-
-        break;
-      }
     case FRERE_JACQUES:
       {
         // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
@@ -122,6 +90,107 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte basicPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2 };
 
         setPatternSequence(basicPattSeq);
+        break;
+      }
+      // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
+    case HOUND_DOG:
+      {
+        nbPatterns_ = 3;
+        nbMeasures_ = 6;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte patternId0 = 0;
+        byte patternId1 = 1;
+        byte patternId2 = 2;
+
+        // --------------------------------------------- Pattern 0--------------------------------------------------------------
+
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId0, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId0, 2, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId0, 3, hasOutput);
+
+        setSemiquaverHit(LEFT_ARM_DR, SNLT, V014, patternId0, 2, hasOutput);
+        setSemiquaverHit(LEFT_ARM_DR, SNLT, V008, patternId0, 4, hasOutput);
+        setSemiquaverHit(LEFT_ARM_DR, SNLT, V006, patternId0, 6, hasOutput);
+        setSemiquaverHit(LEFT_ARM_DR, SNLT, V009, patternId0, 8, hasOutput);
+
+        setSemiquaverHit(RIGHT_ARM_DR, SNRG, V012, patternId0, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_DR, SNRG, V011, patternId0, 3, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_DR, CRSH, V013, patternId0, 5, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_DR, CRSH, V012, patternId0, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_DR, CRSH, V015, patternId0, 9, hasOutput);
+
+        // --------------------------------------------- Pattern 1--------------------------------------------------------------
+
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId1, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId1, 3, hasOutput);
+
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId1, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId1, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId1, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId1, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId1, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId1, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId1, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V009, patternId1, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId1, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId1, 4, hasOutput);
+
+        // --------------------------------------------- Pattern 2--------------------------------------------------------------
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId2, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId2, 3, hasOutput);
+        setSemiquaverHit(RIGHT_LEG_DR, BDRU, V014, patternId2, 11, hasOutput);
+
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId2, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId2, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId2, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId2, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId2, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId2, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId2, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V009, patternId2, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId2, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId2, 2, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_DR, SNRG, V014, patternId2, 8, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId2, 4, hasOutput);
+
+        byte HoundDogPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1 };
+        setPatternSequence(HoundDogPattSeq);
+
+        break;
+      }
+      // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
+    case SIMPLEST_RYTHM:
+    default:
+      {
+        nbPatterns_ = 1;
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte patternId = 0;
+
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId, 3, hasOutput);
+        setQuaverHit(RIGHT_LEG_DR, BDRU, V014, patternId, 6, hasOutput);
+
+        setQuaverHit(LEFT_ARM_DR, HHAT, V014, patternId, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, SNLT, V009, patternId, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId, 4, hasOutput);
+
+        byte simplestPattSeq[nbMeasures_] = { 0 };
+        setPatternSequence(simplestPattSeq);
+
         break;
       }
     case BASIC_RYTHM_WO_ACC:

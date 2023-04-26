@@ -142,6 +142,7 @@ void configureTimer2() {
   /* Configure timer2 in normal mode (no PWM) */
   TCCR2A &= ~((1 << WGM21) | (1 << WGM20));
   TCCR2B &= ~(1 << WGM22);
+  //TCCR2A = 0;
 
   /* Select clock source: internal I/O clock */
   ASSR &= ~(1 << AS2);
@@ -149,10 +150,11 @@ void configureTimer2() {
   /* Disable Compare Match A interrupt (only overflow) */
   TIMSK2 &= ~(1 << OCIE2A);
 
-  /* Configure the prescaler to CPU clock divided by 128 */
+  /* Configure the prescaler to CPU clock divided by 64 */
   TCCR2B |= (1 << CS22);   // Set bit
-  TCCR2B &= ~(1 << CS20);  // Clear bits
-  TCCR2B &= ~(1 << CS21);
+  TCCR2B &= ~(1 << CS21);  // Clear bits
+  TCCR2B |= (1 << CS20);
+  //TCCR2B = 0b000000010;
 
   /* We need to calculate a proper value to load the counter.
   * The following loads the value 248 into the Timer 2 counter

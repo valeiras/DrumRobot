@@ -22,65 +22,65 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte patternId4 = 4;
 
         // Singer 1
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId1, 1, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, G03G, patternId1, 2, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId1, 3, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, OFFG, patternId1, 4, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId1, 1, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, G03S, patternId1, 2, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId1, 3, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, OFFS, patternId1, 4, hasOutput);
 
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId2, 1, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, G03G, patternId2, 2, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId2, 3, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, OFFG, patternId2, 4, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId2, 1, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, G03S, patternId2, 2, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId2, 3, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, OFFS, patternId2, 4, hasOutput);
 
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId3, 1, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, G03G, patternId3, 2, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId3, 3, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, OFFG, patternId3, 4, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId3, 1, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, G03S, patternId3, 2, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId3, 3, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, OFFS, patternId3, 4, hasOutput);
 
-        setQuarterHit(SINGER_1, POS_SG, G03G, patternId4, 1, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId4, 3, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, OFFG, patternId4, 4, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, G03S, patternId4, 1, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId4, 3, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, OFFS, patternId4, 4, hasOutput);
 
         // Singer 2
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId1, 1, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, B03G, patternId1, 2, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId1, 3, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, OFFG, patternId1, 4, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId1, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, B03S, patternId1, 2, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId1, 3, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, patternId1, 4, hasOutput);
 
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId2, 1, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, B03G, patternId2, 2, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId2, 3, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, OFFG, patternId2, 4, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId2, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, B03S, patternId2, 2, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId2, 3, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, patternId2, 4, hasOutput);
 
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId3, 1, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, B03G, patternId3, 2, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId3, 3, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, OFFG, patternId3, 4, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId3, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, B03S, patternId3, 2, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId3, 3, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, patternId3, 4, hasOutput);
 
-        setQuarterHit(SINGER_2, POS_SG, B03G, patternId4, 1, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, E03G, patternId4, 3, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, OFFG, patternId4, 4, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, B03S, patternId4, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, E03S, patternId4, 3, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, patternId4, 4, hasOutput);
 
         // Singer 3
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId1, 1, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, D04G, patternId1, 2, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId1, 3, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, OFFG, patternId1, 4, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId1, 1, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, D04S, patternId1, 2, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId1, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, patternId1, 4, hasOutput);
 
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId2, 1, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, D04G, patternId2, 2, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId2, 3, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, OFFG, patternId2, 4, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId2, 1, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, D04S, patternId2, 2, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId2, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, patternId2, 4, hasOutput);
 
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId3, 1, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, D04G, patternId3, 2, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId3, 3, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, OFFG, patternId3, 4, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId3, 1, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, D04S, patternId3, 2, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId3, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, patternId3, 4, hasOutput);
 
-        setQuarterHit(SINGER_3, POS_SG, D04G, patternId4, 1, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, F04G, patternId4, 2, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, G03G, patternId4, 3, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, OFFG, patternId4, 4, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, D04S, patternId4, 1, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, F04S, patternId4, 2, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, G03S, patternId4, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, patternId4, 4, hasOutput);
 
         byte frereJacquesPattSeq[nbMeasures_] = { 0, 1, 1, 2, 2, 3, 3, 4, 4 };
         setPatternSequence(frereJacquesPattSeq);
@@ -99,64 +99,64 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte patternG = 3;
 
         // Pattern 0
-        setSemiquaverHit(SINGER_1, POS_SG, C03G, initialChord, 1, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, initialChord, 9, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, C03S, initialChord, 1, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, initialChord, 9, hasOutput);
 
-        setSemiquaverHit(SINGER_2, POS_SG, E03G, initialChord, 4, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, initialChord, 9, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, E03S, initialChord, 4, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, initialChord, 9, hasOutput);
 
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, initialChord, 1, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, G03G, initialChord, 7, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, initialChord, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, initialChord, 1, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, G03S, initialChord, 7, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, initialChord, 9, hasOutput);
 
         // Pattern 1: C
-        setSemiquaverHit(SINGER_1, POS_SG, C03G, patternC, 1, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternC, 4, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, C03G, patternC, 9, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternC, 12, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, C03S, patternC, 1, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternC, 4, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, C03S, patternC, 9, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternC, 12, hasOutput);
 
-        setSemiquaverHit(SINGER_2, POS_SG, E03G, patternC, 4, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternC, 7, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, E03G, patternC, 12, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternC, 15, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, E03S, patternC, 4, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternC, 7, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, E03S, patternC, 12, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternC, 15, hasOutput);
 
-        setSemiquaverHit(SINGER_3, POS_SG, G03G, patternC, 7, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternC, 9, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, G03G, patternC, 15, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternC, 1, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, G03S, patternC, 7, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternC, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, G03S, patternC, 15, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternC, 1, hasOutput);
 
 
         // Pattern 2: F
-        setSemiquaverHit(SINGER_1, POS_SG, F03G, patternF, 1, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternF, 4, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, F03G, patternF, 9, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternF, 12, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, F03S, patternF, 1, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternF, 4, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, F03S, patternF, 9, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternF, 12, hasOutput);
 
-        setSemiquaverHit(SINGER_2, POS_SG, A03G, patternF, 4, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternF, 7, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, A03G, patternF, 12, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternF, 15, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, A03S, patternF, 4, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternF, 7, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, A03S, patternF, 12, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternF, 15, hasOutput);
 
-        setSemiquaverHit(SINGER_3, POS_SG, C04G, patternF, 7, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternF, 9, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, C04G, patternF, 15, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternF, 1, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, C04S, patternF, 7, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternF, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, C04S, patternF, 15, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternF, 1, hasOutput);
 
         // Pattern 3: G
-        setSemiquaverHit(SINGER_1, POS_SG, G03G, patternG, 1, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternG, 4, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, F03G, patternG, 9, hasOutput);
-        setSemiquaverHit(SINGER_1, POS_SG, OFFG, patternG, 12, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, G03S, patternG, 1, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternG, 4, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, F03S, patternG, 9, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, patternG, 12, hasOutput);
 
-        setSemiquaverHit(SINGER_2, POS_SG, B03G, patternG, 4, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternG, 7, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, A03G, patternG, 12, hasOutput);
-        setSemiquaverHit(SINGER_2, POS_SG, OFFG, patternG, 15, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, B03S, patternG, 4, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternG, 7, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, A03S, patternG, 12, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, patternG, 15, hasOutput);
 
-        setSemiquaverHit(SINGER_3, POS_SG, D04G, patternG, 7, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternG, 9, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, C04G, patternG, 15, hasOutput);
-        setSemiquaverHit(SINGER_3, POS_SG, OFFG, patternG, 1, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, D04S, patternG, 7, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternG, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, C04S, patternG, 15, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, patternG, 1, hasOutput);
 
         byte houndDogPattSeq[nbMeasures_] = { initialChord, patternC, patternC, patternF,
                                               patternC, patternG };
@@ -174,14 +174,14 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
 
         byte patternId = 0;
 
-        setQuarterHit(SINGER_1, POS_SG, C03G, patternId, 1, hasOutput);
-        setQuarterHit(SINGER_1, POS_SG, OFFG, patternId, 2, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, C03S, patternId, 1, hasOutput);
+        setQuarterHit(SINGER_1, POS_SG, OFFS, patternId, 2, hasOutput);
 
-        setQuarterHit(SINGER_2, POS_SG, C03G, patternId, 3, hasOutput);
-        setQuarterHit(SINGER_2, POS_SG, OFFG, patternId, 4, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, C03S, patternId, 3, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, patternId, 4, hasOutput);
 
-        setQuarterHit(SINGER_3, POS_SG, C03G, patternId, 3, hasOutput);
-        setQuarterHit(SINGER_3, POS_SG, OFFG, patternId, 4, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, C03S, patternId, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, patternId, 4, hasOutput);
 
         byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
