@@ -8,8 +8,8 @@ DrumSongLD::DrumSongLD()
   nbOfPositions_[HEAD_DR] = NB_POS_HD_DR;
 }
 
-void DrumSongLD::createPredefinedPatterns(byte rythmName, bool hasOutput = false) {
-  switch (rythmName) {
+void DrumSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
+  switch (songName) {
     // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
     case SIMPLEST_RYTHM:
     default:

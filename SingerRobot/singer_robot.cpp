@@ -69,7 +69,6 @@ void SingerRobot::processNoteOffMessage(byte noteIdx) {
 }
 
 void SingerRobot::processVibratoAmpChangeMessage(byte vibratoAmp){
-  Serial.println("Vibrato change message!");
   vibratoAmplitude_ = vibratoAmp;
   hasVibrato_ = vibratoAmp != 0;
 }
@@ -114,7 +113,7 @@ bool SingerRobot::unsetNoteOffPending(byte singerIdx) {
 
 void SingerRobot::startVibrato(byte singerIdx, unsigned long currTime, bool hasOutput = 0) {
   vibratoDirection_[singerIdx] = 1;
-  hitServos_[singerIdx].write(openPosition_[singerIdx] + vibratoAmplitude_);
+  hitServos_[singerIdx].write(openPosition_[singerIdx]);
   nextVibratoInstructionTime_[singerIdx] = currTime + abs((openPosition_[singerIdx] + vibratoAmplitude_ - closedPosition_[singerIdx]) / wServo_);
 }
 
@@ -135,7 +134,8 @@ void SingerRobot::setVibrato(bool hasVibrato) {
 }
 
 void SingerRobot::goToNextVibratoPosition(byte singerIdx) {
-  vibratoDirection_[singerIdx] = -vibratoDirection_[singerIdx];
+  //We switch the vibrato direction between 0 and 1
+  vibratoDirection_[singerIdx] = vibratoDirection_[singerIdx] == 1? 0 : 1;
   hitServos_[singerIdx].write(openPosition_[singerIdx] + vibratoDirection_[singerIdx] * vibratoAmplitude_);
   nextVibratoInstructionTime_[singerIdx] += 2 * vibratoAmplitude_ / wServo_;
 }

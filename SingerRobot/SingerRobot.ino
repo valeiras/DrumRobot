@@ -16,21 +16,25 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasVibrato = true;
+bool hasAutomaticStart = false;
+Songs automaticSong = HOUND_DOG;
 
-const byte openPos1 = 150;
+const byte openPos1 = 140;
 const byte openPos2 = 140;
-const byte openPos3 = 140;
+const byte openPos3 = 160;
 const byte closedPos1 = 180;
 const byte closedPos2 = 180;
 const byte closedPos3 = 180;
 
 const byte vibratoAmp = 0;
 
-byte closedPositions[NB_SINGERS] = {closedPos1, closedPos2, closedPos3};
-byte openPositions[NB_SINGERS] = {openPos1, openPos2, openPos3};
+byte closedPositions[NB_SINGERS] = { closedPos1, closedPos2, closedPos3 };
+byte openPositions[NB_SINGERS] = { openPos1, openPos2, openPos3 };
 
 bool isNoteOn[NB_SINGERS] = { 0, 0, 0 };
 bool isPeak[NB_SINGERS] = { 0, 0, 0 };
+
+bool isFirstAfterNoteOn[NB_SINGERS] = { false, false, false };
 
 int count[NB_SINGERS] = { 0, 0, 0 };
 int count2toggle[NB_SINGERS] = { 0, 0, 0 };
@@ -52,7 +56,7 @@ void setup() {
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new SingerSong();
-  song->createPredefinedPatterns(C_SCALE, false);
+  song->createPredefinedPatterns(HOUND_DOG, false);
 
   // -------------------------------------------------------- Servo attaching ----------------------------------------------------------
   robot = new SingerRobot(vibratoPins);
@@ -70,6 +74,9 @@ void setup() {
   // -------------------------------------------------------- Creation of the controller ------------------------------------------------
   roboController = new PercuController<NB_SINGERS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG>(robot, song, SINGER_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
+  if (hasAutomaticStart) {
+    roboController->processStartSongMsg(automaticSong);
+  }
 }
 
 /* Install the Interrupt Service Routine (ISR) for Timer2. */
@@ -78,21 +85,28 @@ ISR(TIMER2_OVF_vect) {
   TCNT2 = tcnt2;
 
   for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
-    count[ii]++;
-    if (isNoteOn[ii] && count[ii] == count2toggle[ii]) {
-      isPeak[ii] = !isPeak[ii];
-      digitalWrite(buzzPins[ii], isPeak[ii]);
-      count[ii] = 0;
+    if (isNoteOn[ii]) {
+      if (isFirstAfterNoteOn[ii]) {
+        count[ii] = 0;
+        isFirstAfterNoteOn[ii] = false;
+      }
+
+      //count[ii]++;
+      if (++count[ii] == count2toggle[ii]) {
+        isPeak[ii] = !isPeak[ii];
+        digitalWrite(buzzPins[ii], isPeak[ii]);
+        count[ii] = 0;
+      }
     }
   }
 }
 
 void loop() {
-  unsigned int currTime = millis();
+  unsigned long currTime = millis();
   roboController->goToTime(currTime, hasOutput);
   for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
     if (robot->isNoteOn(singerIdx)) {
-      if (robot->isNoteOnPending(singerIdx)) {        
+      if (robot->isNoteOnPending(singerIdx)) {
         makeNoteOn(singerIdx, robot->getFrequency(singerIdx));
         robot->startVibrato(singerIdx, currTime);
         robot->unsetNoteOnPending(singerIdx);
@@ -109,7 +123,7 @@ void loop() {
 void makeNoteOn(int idx, int freq) {  //(int idx, unsigned long currTime) {
                                       //  int freq= song.getFreqNextHit(idx);
   isNoteOn[idx] = true;
-  count[idx] = 0;
+  isFirstAfterNoteOn[idx] = true;
   count2toggle[idx] = 1e6 / (2.0 * freq * ts);
 
   isPeak[idx] = true;
@@ -136,8 +150,9 @@ void configureTimer2() {
   TIMSK2 &= ~(1 << OCIE2A);
 
   /* Configure the prescaler to CPU clock divided by 128 */
-  TCCR2B |= (1 << CS22) | (1 << CS20);  // Set bits
-  TCCR2B &= ~(1 << CS21);               // Clear bit
+  TCCR2B |= (1 << CS22);   // Set bit
+  TCCR2B &= ~(1 << CS20);  // Clear bits
+  TCCR2B &= ~(1 << CS21);
 
   /* We need to calculate a proper value to load the counter.
   * The following loads the value 248 into the Timer 2 counter

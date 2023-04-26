@@ -6,11 +6,34 @@ GlockenSongGR::GlockenSongGR()
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
 
-void GlockenSongGR::createPredefinedPatterns(byte songName, bool hasOutput = false) {
+void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
   switch (songName) {
-    // -------------------------------------------- FRERE JACQUES -----------------------------------------------------
-    case FRERE_JACQUES:
+      // -------------------------------------------- SIMPLEST_RYTHM -----------------------------------------------------
+    case SIMPLEST_RYTHM:
     default:
+      {
+        nbPatterns_ = 1;
+        nbMeasures_ = 1;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte patternId = 0;
+        // Left Arm
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, patternId, A00G, REST, REST, REST, E00G, REST, REST, REST, A00G, REST, REST, REST, E00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, patternId, V015, V000, V000, V000, V006, V000, V000, V000, V008, V000, V000, V000, V015, V000, V000, V000, hasOutput);
+
+        // Right Arm
+        // -----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, patternId, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, patternId, V009, V000, V012, V000, V006, V000, V008, V000, V008, V000, V012, V000, V006, V000, V009, V000, hasOutput);
+
+        byte simplestPattSeq[nbMeasures_] = { 0 };
+        setPatternSequence(simplestPattSeq);
+
+        break;
+      }
+      // -------------------------------------------- FRERE_JACQUES -----------------------------------------------------
+    case FRERE_JACQUES:
       {
         nbPatterns_ = 5;
         nbMeasures_ = 9;

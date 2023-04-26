@@ -1,6 +1,7 @@
 #ifndef Percu_song_h
 #define Percu_song_h
 
+#include <robo_communication.h>
 #include <Array.h>
 
 #include "Arduino.h"
@@ -39,7 +40,7 @@ class PercuSong {
   PercuSong();
 
   // Default patterns for the different songs. Empty method in the base class
-  virtual void createPredefinedPatterns(byte rythmName, bool hasOutput = false) = 0;
+  virtual void createPredefinedPatterns(Songs songName, bool hasOutput = false) = 0;
   void initializeBlankPatterns(unsigned int nbPatterns, unsigned int nbMeasures);
 
   byte getPosNextHit(byte limb);
@@ -305,6 +306,7 @@ void PercuSong<NB_LIMBS, BITS_FOR_POS>::setVelPattern(byte limb, byte patternId,
 
 template <int NB_LIMBS, int BITS_FOR_POS>
 void PercuSong<NB_LIMBS, BITS_FOR_POS>::setPatternSequence(byte pattSeq[]) {
+  patternSequence_.clear();
   for (int ii = 0; ii < nbMeasures_; ii++) {
     if (pattSeq[ii] < nbPatterns_) {
       patternSequence_.push_back(pattSeq[ii]);

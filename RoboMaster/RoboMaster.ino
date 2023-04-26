@@ -26,6 +26,7 @@ uint8_t bpmIdx = DEFAULT_BPM_IDX;
 uint8_t mtxBlinkInterval = QUARTER_INTERVAL;
 uint8_t splBlinkInterval = QUARTER_INTERVAL;
 uint8_t vibratoAmp = 0;
+uint8_t currSongIdx = 0;
 
 unsigned long lastBpmTime = 0, lastBrightnessTime = 0, lastMtxBlinkTime = 0, lastSplBlinkTime = 0, lastVibratoAmpTime = 0;
 byte lastBpmControllerVal, lastBrightnessControllerVal, lastMtxBlinkControllerVal, lastSplBlinkControllerVal, lastVibratoAmpControllerVal;
@@ -39,8 +40,8 @@ short maxBpm = 150;
 bool isRobotPresent[NB_ROBOTS];
 
 void setup() {
-  isRobotPresent[DRUM_ROBOT] = false;
-  isRobotPresent[GLOCKEN_ROBOT] = false;
+  isRobotPresent[DRUM_ROBOT] = true;
+  isRobotPresent[GLOCKEN_ROBOT] = true;
   isRobotPresent[MUSIC_BOX_ROBOT] = false;
   isRobotPresent[LIGHTING_ROBOT] = false;
   isRobotPresent[SINGER_ROBOT] = true;
@@ -117,7 +118,9 @@ void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
     case START_KEY:
-      notifyRobots(START);
+      notifyRobots(START_SONG, _songs[currSongIdx]);
+      currSongIdx = ++currSongIdx % NB_SONGS;
+      //notifyRobots(START);
       break;
     case STOP_KEY:
       notifyRobots(STOP);

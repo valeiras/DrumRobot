@@ -4,7 +4,7 @@ MusicBoxPercuSong::MusicBoxPercuSong()
   : PercuSong<NB_HIT_JOINTS_MB, BITS_FOR_POS_MB>::PercuSong() {
 }
 
-void MusicBoxPercuSong::createPredefinedPatterns(byte songName, bool hasOutput = false) {
+void MusicBoxPercuSong::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
   switch (songName) {
     // -------------------------------------------- SIMPLEST -----------------------------------------------------
     case SIMPLEST_RYTHM:

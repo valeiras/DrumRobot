@@ -36,6 +36,9 @@ void receiveMessage(int howMany) {
     case 2:
       uint8_t msgContent8 = Wire.read();
       switch (msgType) {
+        case START_SONG:
+          receptor->processStartSongMsg(msgContent8);
+          break;
         case BPM_CHANGE:
           receptor->processBpmChangeMsg(msgContent8);
           break;

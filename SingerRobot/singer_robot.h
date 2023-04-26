@@ -54,7 +54,7 @@ private:
   unsigned int currSinger_;
 
   bool hasVibrato_;
-  signed char vibratoDirection_[NB_SINGERS];
+  unsigned char vibratoDirection_[NB_SINGERS];
   unsigned long nextVibratoInstructionTime_[NB_SINGERS];
   byte closedPosition_[NB_SINGERS], openPosition_[NB_SINGERS], vibratoAmplitude_;
 };

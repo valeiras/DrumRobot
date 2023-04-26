@@ -2,6 +2,7 @@
 #define Singer_song__h
 
 #include <percu_song.h>
+#include <robo_communication.h>
 #include <Arduino.h>
 
 #include "singer_robot_config.h"
@@ -10,15 +11,14 @@
 #define NB_LIMBS_SG 3
 
 #define POS_SG 0
-
-#define C_SCALE 0
+#define SING 1
 
 class SingerSong : public PercuSong<NB_LIMBS_SG, BITS_FOR_POS_SG> {
 public:
   SingerSong();
 
   // Default patterns for the different songs. Empty method in the base class
-  void createPredefinedPatterns(byte rythmName, bool hasOutput = false);
+  void createPredefinedPatterns(Songs songName, bool hasOutput = false);
 
 private:
 };

@@ -12,6 +12,7 @@ class RoboReceptor {
   setReceptor();
 
   virtual void processStartMsg() = 0;
+  virtual void processStartSongMsg(uint8_t messageContent) = 0;
   virtual void processStopMsg() = 0;
   virtual void processResyncMsg() = 0;
   virtual void processBpmChangeMsg(uint8_t messageContent) = 0;
@@ -31,7 +32,7 @@ class RoboReceptor {
 
 // I could not find another way to solve this: the function to be passed to the onReceive method of the Wire library
 // needs to be static, which means that we cannot access pure virtual methods from it. We then use an outter method, and rely
-// on the declaration of receptor
+// on the declaration of this receptor
 inline RoboReceptor* receptor;
 
 uint16_t arrayToUint16(uint8_t* arr);

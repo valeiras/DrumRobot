@@ -300,39 +300,39 @@ void LightingRobot::doMeterMovement(unsigned long currTime) {
   }
 }
 
-void LightingRobot::treatStartMsg() {
+void LightingRobot::processStartMsg() {
   if (!hasStarted_) {
     hasStarted_ = true;
     isFirstAfterStart_ = true;
   }
 }
 
-void LightingRobot::treatStopMsg() {
+void LightingRobot::processStopMsg() {
   if (hasStarted_) {
     hasStarted_ = false;
     isFirstAfterStop_ = true;
   }
 }
 
-void LightingRobot::treatResyncMsg() {
+void LightingRobot::processResyncMsg() {
 }
 
-void LightingRobot::treatBpmChangeMsg(uint8_t messageContent) {
+void LightingRobot::processBpmChangeMsg(uint8_t messageContent) {
   isBpmChangePending_ = true;
   pendingBpm_ = messageContent;
 }
 
-void LightingRobot::treatBpmIdxChangeMsg(uint8_t messageContent) {
+void LightingRobot::processBpmIdxChangeMsg(uint8_t messageContent) {
   isBpmChangePending_ = true;
   pendingBpm_ = bpmValues[messageContent];
 }
 
-void LightingRobot::treatMtxModeChangeMsg(uint8_t messageContent) {
+void LightingRobot::processMtxModeChangeMsg(uint8_t messageContent) {
   matrixMode_ = messageContent;
   isFirstAfterMatrixModeChange_ = true;
 }
 
-void LightingRobot::treatSplModeChangeMsg(uint8_t messageContent) {
+void LightingRobot::processSplModeChangeMsg(uint8_t messageContent) {
   switch (messageContent) {
     case SPL_TOP_ON:
       isSplTopOn_ = true;
@@ -366,21 +366,21 @@ void LightingRobot::treatSplModeChangeMsg(uint8_t messageContent) {
   isFirstAfterSpotlightModeChange_ = true;
 }
 
-void LightingRobot::treatMtxBlinkChangeMsg(uint8_t messageContent) {
+void LightingRobot::processMtxBlinkChangeMsg(uint8_t messageContent) {
   currMtxBlinkInterval_ = messageContent;
 }
 
-void LightingRobot::treatSplBlinkChangeMsg(uint8_t messageContent) {
+void LightingRobot::processSplBlinkChangeMsg(uint8_t messageContent) {
   currSplBlinkInterval_ = messageContent;
 }
 
-void LightingRobot::treatBrightnessChangeMsg(uint8_t messageContent) {
+void LightingRobot::processBrightnessChangeMsg(uint8_t messageContent) {
   isBrightnessChangePending_ = true;
   pendingBrightness_ = messageContent;
   isMatrixPending_ = true;
 }
 
-void LightingRobot::treatSetResyncTimeMsg(uint16_t messageContent) {
+void LightingRobot::processSetResyncTimeMsg(uint16_t messageContent) {
 }
 
 void LightingRobot::clearAllLights() {

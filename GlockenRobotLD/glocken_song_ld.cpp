@@ -6,7 +6,7 @@ GlockenSongLD::GlockenSongLD()
   nbOfPositions_[RIGHT_ARM_GL] = NB_POS_RA_GL;
 }
 
-void GlockenSongLD::createPredefinedPatterns(byte songName, bool hasOutput = false) {
+void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
   switch (songName) {
     // -------------------------------------------- FRERE JACQUES -----------------------------------------------------
     case FRERE_JACQUES:

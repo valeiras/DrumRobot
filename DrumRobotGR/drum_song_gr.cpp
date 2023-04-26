@@ -7,8 +7,8 @@ DrumSongGR::DrumSongGR()
   nbOfPositions_[RIGHT_LEG_DR] = NB_POS_RL_DR;
 }
 
-void DrumSongGR::createPredefinedPatterns(byte rythmName, bool hasOutput = false) {
-  switch (rythmName) {
+void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
+  switch (songName) {
     // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
     case SIMPLEST_RYTHM:
     default:
@@ -34,14 +34,14 @@ void DrumSongGR::createPredefinedPatterns(byte rythmName, bool hasOutput = false
 
         setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 1, hasOutput);
         setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId, 2, hasOutput);
-        setQuarterHit(RIGHT_ARM_DR, CRSH, V010, patternId, 4, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId, 4, hasOutput);
 
         byte simplestPattSeq[nbMeasures_] = { 0 };
         setPatternSequence(simplestPattSeq);
 
         break;
       }
-    case BASIC_RYTHM:
+    case FRERE_JACQUES:
       {
         // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
         nbPatterns_ = 3;
@@ -53,7 +53,7 @@ void DrumSongGR::createPredefinedPatterns(byte rythmName, bool hasOutput = false
         byte patternId2 = 2;
 
         // Right leg
-        // ----------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+        // -----------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(RIGHT_LEG_DR, patternId0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
         setVelPattern(RIGHT_LEG_DR, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
