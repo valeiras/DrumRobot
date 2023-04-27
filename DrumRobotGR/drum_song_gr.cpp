@@ -11,7 +11,7 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
   switch (songName) {
     case FRERE_JACQUES:
       {
-        // -------------------------------------------- BASIC RYTHM -----------------------------------------------------
+        // -------------------------------------------- FRERE JACQUES    -----------------------------------------------------
         nbPatterns_ = 3;
         nbMeasures_ = 9;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);

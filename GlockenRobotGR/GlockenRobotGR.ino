@@ -12,7 +12,7 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasAutomaticStart = true;
+bool hasAutomaticStart = false;
 Songs automaticSong = HOUND_DOG;
 
 byte songName = FRERE_JACQUES;
