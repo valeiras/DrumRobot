@@ -142,8 +142,8 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setSemiquaverHit(LEFT_ARM_GL, D00L, V015, patternE, 15, hasOutput);
 
         // Right Arm
-        setQuaverHit(RIGHT_ARM_GL, G0SR, V012, patternE, 1, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, G0SR, V009, patternE, 2, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, GS0R, V012, patternE, 1, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, GS0R, V009, patternE, 2, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V012, patternE, 3, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V009, patternE, 4, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, A00R, V012, patternE, 5, hasOutput);
@@ -154,6 +154,83 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         byte houndDogPattSeq[nbMeasures_] = { initialChord, patternA, patternA, patternD,
                                               patternA, patternE };
         setPatternSequence(houndDogPattSeq);
+
+        break;
+      }
+      // ----------------------------- RUDY -----------------------------------------
+    case RUDY:
+      {
+        nbPatterns_ = 6;
+        nbMeasures_ = 10;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+        byte pattern4 = 4;
+        byte pattern5 = 5;
+
+        // Pattern 0 ----------------------------------------------------------
+        setQuarterHit(LEFT_ARM_GL, D00L, V010, pattern0, 1, hasOutput);
+        setQuarterHit(LEFT_ARM_GL, E00L, V010, pattern0, 3, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_GL, A00R, V008, pattern0, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V008, pattern0, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, B00R, V008, pattern0, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, GS0R, V015, pattern0, 4, hasOutput);
+
+        // Pattern 1
+        setQuarterHit(LEFT_ARM_GL, E00L, V015, pattern1, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, CS0L, V009, pattern1, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern1, 1, hasOutput);
+
+        // Pattern 2
+        setQuaverHit(LEFT_ARM_GL, D00L, V015, pattern2, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00L, V009, pattern2, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00L, V009, pattern2, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00L, V009, pattern2, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00L, V009, pattern2, 7, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_GL, A00R, V009, pattern2, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V012, pattern2, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern2, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern2, 4, hasOutput);
+
+        // Pattern 3
+        setQuarterHit(LEFT_ARM_GL, CS0L, V015, pattern3, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, CS0L, V009, pattern3, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_GL, A00R, V009, pattern2, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V012, pattern2, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern2, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern2, 4, hasOutput);
+
+        // Pattern 4
+        setQuaverHit(LEFT_ARM_GL, D00L, V015, pattern4, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00L, V009, pattern4, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00L, V009, pattern4, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00L, V009, pattern4, 5, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_GL, A00R, V009, pattern4, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, A00R, V012, pattern4, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern4, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern4, 4, hasOutput);
+
+        // Pattern 5
+        setSemiquaverHit(LEFT_ARM_GL, E00L, V012, pattern5, 1, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, FS0L, V012, pattern5, 3, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, FS0L, V012, pattern5, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, FS0L, V012, pattern0, 9, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, E00L, V012, pattern0, 15, hasOutput);
+
+        setSemiquaverHit(RIGHT_ARM_GL, A00R, V015, pattern5, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, A00R, V015, pattern5, 8, hasOutput);
+
+
+        byte RudyPattSeq[nbMeasures_] = { 0, 1, 2, 3, 4, 5, 0, 5, 0, 5 };
+        setPatternSequence(RudyPattSeq);
 
         break;
       }

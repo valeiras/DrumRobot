@@ -156,8 +156,66 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
         setSemiquaverHit(RIGHT_ARM_DR, SNRG, V014, patternId2, 8, hasOutput);
         setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId2, 4, hasOutput);
 
-        byte HoundDogPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1 };
-        setPatternSequence(HoundDogPattSeq);
+        byte houndDogPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1 };
+        setPatternSequence(houndDogPattSeq);
+
+        break;
+      }
+      // -------------------------------------------- RUDY RYTHM -----------------------------------------------------
+    case RUDY:
+      {
+        nbPatterns_ = 3;
+        nbMeasures_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte patternId0 = 0;
+        byte patternId1 = 1;
+        byte patternId2 = 2;
+
+        // --------------------------------------------- Pattern 0--------------------------------------------------------------
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId0, 4, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V013, patternId0, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V012, patternId0, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId0, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, CRSH, V015, patternId0, 4, hasOutput);
+
+        // --------------------------------------------- Pattern 1--------------------------------------------------------------
+
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId1, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId1, 3, hasOutput);
+
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId1, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId1, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId1, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId1, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId1, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId1, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId1, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V009, patternId1, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId1, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId1, 4, hasOutput);
+
+        // --------------------------------------------- Pattern 2--------------------------------------------------------------
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V012, patternId2, 1, hasOutput);
+        setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId2, 3, hasOutput);
+        setSemiquaverHit(RIGHT_LEG_DR, BDRU, V014, patternId2, 11, hasOutput);
+
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId2, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V007, patternId2, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId2, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V008, patternId2, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V010, patternId2, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V006, patternId2, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V012, patternId2, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_DR, HHAT, V009, patternId2, 8, hasOutput);
+
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V014, patternId2, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_DR, SNRG, V015, patternId2, 4, hasOutput);
+
+        byte rudyPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1 };
+        setPatternSequence(rudyPattSeq);
 
         break;
       }

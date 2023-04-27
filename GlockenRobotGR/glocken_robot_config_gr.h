@@ -51,7 +51,7 @@ const byte _posAngleE00 = 105;
 const byte _posAngleF00 = 80;
 const byte _posAngleFS0 = 65;
 const byte _posAngleG00 = 43;
-const byte _posAngleGS0 = 18;
+const byte _posAngleGS0 = 25;
 const byte _posAngleA00 = 13;
 
 // Angles for the right arm

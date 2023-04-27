@@ -16,8 +16,8 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasVibrato = true;
-bool hasAutomaticStart = true;
-Songs automaticSong = HOUND_DOG;
+bool hasAutomaticStart = false;
+Songs automaticSong = RUDY;
 
 const byte openPos1 = 140;
 const byte openPos2 = 140;

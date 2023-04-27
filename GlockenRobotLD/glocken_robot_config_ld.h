@@ -22,7 +22,7 @@
 #define G00L 7
 
 #define G00R 0
-#define G0SR 1
+#define GS0R 1
 #define A00R 2
 #define AS0R 3
 #define B00R 4

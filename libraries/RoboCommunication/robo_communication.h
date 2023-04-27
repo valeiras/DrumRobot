@@ -24,7 +24,7 @@ enum Robots {
   SINGER_ROBOT
 };
 
-#define NB_SONGS 1
+#define NB_SONGS 2
 
 enum Songs {
   FRERE_JACQUES,
@@ -39,7 +39,7 @@ enum Songs {
   QUARTER_NOTES
 };
 
-inline const uint8_t _songs[NB_SONGS] = {HOUND_DOG};  // HOUND_DOG, RUDY, SHOULD_I_STAY, ONE_WAY};
+inline const uint8_t _songs[NB_SONGS] = {HOUND_DOG, RUDY};  // HOUND_DOG, RUDY, SHOULD_I_STAY, ONE_WAY};
 
 #define MATRIX 0
 #define SPOTLIGHT 1

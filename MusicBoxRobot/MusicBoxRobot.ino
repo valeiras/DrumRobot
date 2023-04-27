@@ -30,10 +30,7 @@ void setup() {
   mbRobot = new MusicBoxRobot(MUSIC_BOX_PIN, SENSOR_PIN);
   mbSong = new MusicBoxSong();
 
-  for (unsigned int ii = 0; ii < 10; ii++) {
-    mbSong->setOffInstruction(16);
-    mbSong->setOnInstruction(112);
-  }
+  mbSong->setOnInstruction(16);
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   prcSong = new MusicBoxPercuSong();

@@ -6,7 +6,7 @@
 
 #include "Arduino.h"
 
-#define MAX_NB_PATTERNS 5
+#define MAX_NB_PATTERNS 9
 #define MAX_NB_MEASURES 50
 
 #define BITS_FOR_HIT 1

@@ -149,6 +149,74 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
         break;
       }
+      // ----------------------------- RUDY -----------------------------------------
+    case RUDY:
+      {
+        nbPatterns_ = 6;
+        nbMeasures_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+        byte pattern4 = 4;
+        byte pattern5 = 5;
+
+        // Left Arm
+        // Pattern 0 ----------------------------------------------------------
+        setQuarterHit(LEFT_ARM_GL, GS0G, V009, pattern0, 4, hasOutput);
+
+        // Pattern 1
+        setQuarterHit(LEFT_ARM_GL, A00G, V015, pattern1, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, CS0G, V009, pattern1, 8, hasOutput);
+
+        // Pattern 2
+        setQuaverHit(LEFT_ARM_GL, D00G, V015, pattern2, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00G, V009, pattern2, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00G, V009, pattern2, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00G, V009, pattern2, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00G, V009, pattern2, 7, hasOutput);
+
+        // Pattern 3
+        setQuarterHit(LEFT_ARM_GL, CS0G, V015, pattern3, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, CS0G, V009, pattern3, 8, hasOutput);
+
+        // Pattern 4
+        setQuaverHit(LEFT_ARM_GL, D00G, V015, pattern4, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00G, V009, pattern4, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, D00G, V009, pattern4, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00G, V009, pattern4, 5, hasOutput);
+
+        // Pattern 5: empty
+
+        // Right Arm
+        // Pattern 0: empty
+        // Pattern 1:
+        setQuaverHit(RIGHT_ARM_GL, E00G, V009, pattern1, 4, hasOutput);
+
+        // Pattern 2: D-E -------------------------------------------------------
+        setQuarterHit(RIGHT_ARM_GL, D01G, V009, pattern2, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, D01G, V012, pattern2, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, E01G, V015, pattern2, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, E01G, V015, pattern2, 4, hasOutput);
+
+        // Pattern 3:
+        setQuaverHit(RIGHT_ARM_GL, E00G, V009, pattern3, 4, hasOutput);
+
+        // Pattern 4:
+        setQuarterHit(RIGHT_ARM_GL, D01G, V009, pattern4, 1, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, D01G, V012, pattern4, 2, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, E01G, V015, pattern4, 3, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, E01G, V015, pattern4, 4, hasOutput);
+
+        // Pattern 5: empty
+
+        byte RudyPattSeq[nbMeasures_] = { 0, 1, 2, 3, 4, 5, 5, 5 };
+        setPatternSequence(RudyPattSeq);
+
+        break;
+      }
       // -------------------------------------------- SIMPLEST_RYTHM -----------------------------------------------------
     case SIMPLEST_RYTHM:
     default:

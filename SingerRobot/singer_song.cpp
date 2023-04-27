@@ -164,6 +164,45 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
 
         break;
       }
+      // ----------------------------- RUDY -----------------------------------------
+    case RUDY:
+      {
+        nbPatterns_ = 3;
+        nbMeasures_ = 8;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte emptyPattern = 2;
+
+        // Pattern 0 ----------------------------------------------------------
+        setSemiquaverHit(SINGER_1, POS_SG, E03S, pattern0, 1, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, pattern0, 3, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, FS3S, pattern0, 3, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, pattern0, 4, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, A03S, pattern0, 4, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, pattern0, 7, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, FS3S, pattern0, 7, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, OFFS, pattern0, 8, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, A03S, pattern0, 8, hasOutput);
+        setSemiquaverHit(SINGER_2, POS_SG, OFFS, pattern0, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, FS3S, pattern0, 9, hasOutput);
+        setSemiquaverHit(SINGER_3, POS_SG, OFFS, pattern0, 15, hasOutput);
+        setSemiquaverHit(SINGER_1, POS_SG, E03S, pattern0, 15, hasOutput);
+
+        // Pattern 1
+        setQuarterHit(SINGER_1, POS_SG, OFFS, pattern1, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, D03S, pattern1, 1, hasOutput);
+        setQuarterHit(SINGER_2, POS_SG, OFFS, pattern1, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, E03S, pattern1, 3, hasOutput);
+        setQuarterHit(SINGER_3, POS_SG, OFFS, pattern1, 4, hasOutput);
+     
+
+        byte RudyPattSeq[nbMeasures_] = { 1, 2, 2, 2, 2, 0, 1, 0 };
+        setPatternSequence(RudyPattSeq);
+
+        break;
+      }
       // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------
     case SIMPLEST_RYTHM:
     default:

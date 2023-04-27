@@ -78,10 +78,6 @@ void MusicBoxController::goToTime(unsigned long currTime) {
       mbRobot_->stop();
     }
     unsigned long ellapsedTime = currTime - lastOrderTime_;
-    Serial.print("Ellapsed time = ");
-    Serial.println(ellapsedTime);
-    Serial.print("Sensor read: ");
-    Serial.println(mbRobot_->getSensorRead());
     lastOrderTime_ = currTime;
   }
 }
