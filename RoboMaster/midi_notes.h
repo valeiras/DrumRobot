@@ -131,7 +131,7 @@
 #define POT2 71
 #define POT3 79
 #define POT4 78
-#define POT5 14
+#define POT5 16
 #define POT6 15
 #define POT7 73
 #define POT8 09

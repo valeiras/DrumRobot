@@ -136,7 +136,7 @@ void DrumSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = false
         setQuarterHit(HEAD_DR, BDRU, V008, patternId0, 2, hasOutput);
         setQuarterHit(HEAD_DR, BDRU, V008, patternId0, 3, hasOutput);
         setQuarterHit(HEAD_DR, BDRU, V008, patternId0, 4, hasOutput);
-        
+
         setQuarterHit(RIGHT_LEG_DR, BDRU, V008, patternId0, 4, hasOutput);
 
         setQuarterHit(LEFT_ARM_DR, SNCR, V013, patternId0, 1, hasOutput);
@@ -185,6 +185,70 @@ void DrumSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = false
 
         byte rudyPattSeq[nbMeasures_] = { 0, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
         setPatternSequence(rudyPattSeq);
+        break;
+      }
+      // -------------------------------------------- SMOKE -----------------------------------------------------
+    case SMOKE:
+      {
+        nbPatterns_ = 3;
+        nbMeasures_ = 22;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte patternId0 = 0;
+        byte patternId1 = 1;
+        byte patternId2 = 2;
+
+        // Head
+        // ----------------------------------------0001----------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_DR, patternId0, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_DR, patternId0, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, hasOutput);
+
+        setHitPattern(HEAD_DR, patternId1, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_DR, patternId1, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, hasOutput);
+
+        setHitPattern(HEAD_DR, patternId2, HEAD, REST, REST, REST, HEAD, REST, REST, REST, HEAD, REST, HEAD, REST, HEAD, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_DR, patternId2, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, hasOutput);
+
+        // Right leg
+        // -----------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_LEG_DR, patternId0, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_LEG_DR, patternId0, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, hasOutput);
+
+        setHitPattern(RIGHT_LEG_DR, patternId1, BDRU, REST, REST, REST, REST, REST, REST, REST, BDRU, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_LEG_DR, patternId1, V012, V000, V000, V000, V000, V000, V000, V000, V008, V000, V015, V000, V000, V000, V000, V000, hasOutput);
+
+        setHitPattern(RIGHT_LEG_DR, patternId2, BDRU, REST, REST, REST, BDRU, REST, REST, REST, BDRU, REST, REST, REST, BDRU, REST, BDRU, REST, hasOutput);
+        setVelPattern(RIGHT_LEG_DR, patternId2, V012, V000, V000, V000, V012, V000, V000, V000, V008, V000, V015, V000, V006, V000, V004, V000, hasOutput);
+
+
+        // Left arm
+        // ----------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+
+        setHitPattern(LEFT_ARM_DR, patternId0, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, HHSN, hasOutput);
+        setVelPattern(LEFT_ARM_DR, patternId0, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V000, V007, V000, hasOutput);
+
+        setHitPattern(LEFT_ARM_DR, patternId1, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, HHSN, REST, hasOutput);
+        setVelPattern(LEFT_ARM_DR, patternId1, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V006, V008, V005, hasOutput);
+
+        setHitPattern(LEFT_ARM_DR, patternId2, SNCR, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_DR, patternId2, V012, V000, V008, V000, V012, V000, V007, V000, V014, V000, V007, V000, V012, V006, V008, V005, hasOutput);
+
+        // Right arm
+        // ---------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_DR, patternId0, REST, REST, REST, REST, HHSN, REST, REST, REST, REST, REST, REST, REST, HHSN, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId0, V014, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V012, V000, V000, V000, hasOutput);
+
+        setHitPattern(RIGHT_ARM_DR, patternId1, REST, REST, REST, REST, HHSN, REST, REST, REST, REST, REST, REST, REST, HHSN, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId1, V000, V000, V000, V000, V012, V000, V000, V008, V000, V000, V000, V000, V014, V000, V012, V000, hasOutput);
+
+        setHitPattern(RIGHT_ARM_DR, patternId2, SNCR, REST, REST, REST, SNCR, REST, REST, REST, SNCR, REST, REST, REST, SNCR, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId2, V012, V000, V000, V000, V012, V000, V000, V008, V012, V000, V000, V000, V014, V000, V012, V000, hasOutput);
+
+        byte smokePattSeq[nbMeasures_] = { 0, 0, 0, 0, 0, 0, 0, 0,
+                                           1, 1, 1, 1, 1, 1, 1, 1,
+                                           2, 2, 1, 1, 2, 2 };
+        setPatternSequence(smokePattSeq);
+
         break;
       }
     // -------------------------------------------- SIMPLEST RYTHM -----------------------------------------------------

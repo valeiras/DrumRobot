@@ -55,6 +55,7 @@ void SingerRobot::rest(byte singerIdx, byte pos = 0, bool hasOutput = 0) {
 }
 
 void SingerRobot::processNoteOnMessage(byte noteIdx) {
+  Serial.println("Note on");
   makeNoteOn(currSinger_, noteIdx - FIRST_AVAILABLE_NOTE_IDX + NOTE_ON);
   currSinger_ = ++currSinger_ % NB_SINGERS;
 }
@@ -69,6 +70,8 @@ void SingerRobot::processNoteOffMessage(byte noteIdx) {
 }
 
 void SingerRobot::processVibratoAmpChangeMessage(byte vibratoAmp){
+  Serial.print("Vibrato: ");
+  Serial.println(vibratoAmp);
   vibratoAmplitude_ = vibratoAmp;
   hasVibrato_ = vibratoAmp != 0;
 }

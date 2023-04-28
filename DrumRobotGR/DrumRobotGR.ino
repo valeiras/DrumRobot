@@ -13,6 +13,8 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
+bool hasAutomaticStart = false;
+Songs automaticSong = SMOKE;
 
 DrumRobotGR *robot;
 DrumSongGR *song;
@@ -20,7 +22,7 @@ PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR> *roboContro
 
 void setup() {
   Serial.begin(9600);
-  
+
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new DrumSongGR();
   song->createPredefinedPatterns(BASIC_RYTHM, false);
@@ -35,6 +37,10 @@ void setup() {
 
   roboController = new PercuController<NB_HIT_JOINTS_DR, NB_POS_JOINTS_DR, BITS_FOR_POS_DR>(robot, song, DRUM_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
+
+  if (hasAutomaticStart) {
+    roboController->processStartSongMsg(automaticSong);
+  }
 }
 
 void loop() {
