@@ -13,9 +13,7 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasAutomaticStart = false;
-Songs automaticSong = SMOKE;
-
-byte songName = FRERE_JACQUES;
+Songs automaticSong = SMELLS_LIKE;
 
 GlockenRobotGR *robot;
 GlockenSongGR *song;
@@ -26,10 +24,6 @@ void setup() {
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new GlockenSongGR();
-  song->createPredefinedPatterns(songName, false);
-  if (hasOutput) {
-    song->printPatterns();
-  }
 
   // ------------------------------------------------------- Servo Attaching ---------------------------------------------
   byte hitPins[NB_HIT_JOINTS_GL] = { LEFT_HIT_PIN_GL, RIGHT_HIT_PIN_GL };

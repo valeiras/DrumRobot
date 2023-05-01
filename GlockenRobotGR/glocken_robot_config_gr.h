@@ -36,7 +36,7 @@ const signed char _dirRAGl = -1;
 const byte _hitAngleLAGl = 110;
 const byte _restAngleLAGl = 90;
 
-const byte _hitAngleRAGl = 68;
+const byte _hitAngleRAGl = 65;
 const byte _restAngleRAGl = 83;
 
 const byte _inactiveAngleLAGL = 50;

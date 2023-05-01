@@ -354,8 +354,216 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
         break;
       }
-      // -------------------------------------------- SIMPLEST_RYTHM -----------------------------------------------------
-    case SIMPLEST_RYTHM:
+      // ----------------------------- SHOULD I STAY -----------------------------------------
+    case SHOULD_I_STAY:
+      {
+        nbPatterns_ = 4;
+        nbMeasures_ = 14;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+        byte pattern4 = 4;
+        byte pattern5 = 5;
+        byte pattern6 = 6;
+        byte pattern7 = 7;
+        byte pattern8 = 8;
+
+        // Pattern 0: FS-B without melody ----------------------------------------------------------
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern0, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern0, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern0, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern0, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern0, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern0, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern0, 8, hasOutput);
+
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V009, pattern0, 2, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V009, pattern0, 3, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V009, pattern0, 4, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern0, 5, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern0, 6, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern0, 7, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern0, 8, hasOutput);
+
+        // Pattern 1: one Fs hit without melody  ----------------------------------------------------------
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern1, 1, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V009, pattern1, 1, hasOutput);
+
+        // Pattern 2: one Fs hit with melody  ----------------------------------------------------------
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern2, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern2, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, E00G, V015, pattern2, 8, hasOutput);
+
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V009, pattern2, 1, hasOutput);
+
+        // Pattern 3: one Fs hit with b melody  ----------------------------------------------------------
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern3, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern3, 8, hasOutput);
+
+        setQuaverHit(RIGHT_ARM_GL, CS1G, V015, pattern3, 1, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern3, 3, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern3, 4, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, D00G, V015, pattern3, 5, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern3, 6, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern3, 7, hasOutput);
+
+
+        // Pattern 4: B-A ----------------------------------------------------------
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern4, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern4, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern4, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern4, 5, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern4, 6, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern4, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V015, pattern4, 8, hasOutput);
+
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern4, 2, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern4, 3, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern4, 4, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, E01G, V009, pattern4, 5, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, E01G, V009, pattern4, 6, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, E01G, V009, pattern4, 7, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, E01G, V009, pattern4, 8, hasOutput);
+
+        setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern4, 2, hasOutput);
+
+        setQuaverHit(RIGHT_ARM_GL, B00G, V015, pattern4, 2, hasOutput);
+
+        byte shouldIStayPattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1 };
+        setPatternSequence(shouldIStayPattSeq);
+
+        break;
+      }
+      // ----------------------------- SMELLS_LIKE -----------------------------------------
+    case SMELLS_LIKE:
+      {
+        nbPatterns_ = 4;
+        nbMeasures_ = 20;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+
+        // Pattern 0: FS-B ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern0, FS0G, REST, REST, FS0G, FS0G, REST, REST, REST, REST, REST, FS0G, REST, FS0G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V006, V000, V006, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern0, CS1G, REST, REST, CS1G, CS1G, REST, REST, REST, REST, REST, B00G, REST, B00G, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // Pattern 1: A-D ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern1, A00G, REST, REST, A00G, A00G, REST, REST, REST, REST, REST, A00G, REST, A00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern1, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V002, V000, V002, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern1, E01G, REST, REST, E01G, E01G, REST, REST, REST, REST, REST, D01G, REST, D01G, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern1, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // Pattern 2: FS-B ----------------------------------------------------------
+        // ----------------------------------------------0001------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern2, FS0G, REST, FS0G, REST, FS0G, REST, FS0G, REST, FS0G, REST, FS0G, REST, FS0G, REST, FS0G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern2, V015, V000, V009, V000, V009, V000, V012, V000, V002, V000, V002, V000, V002, V000, V002, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////-----
+        setHitPattern(RIGHT_ARM_GL, pattern2, CS1G, REST, CS1G, REST, CS1G, REST, CS1G, REST, B00G, REST, B00G, REST, B00G, REST, B00G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern2, V006, V000, V006, V000, V006, V000, V006, V000, V015, V000, V015, V000, V015, V000, V015, V000, hasOutput);
+
+        // Pattern 3: A-D ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern3, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern3, V015, V000, V009, V000, V015, V000, V012, V000, V002, V000, V002, V000, V002, V000, V002, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern3, E01G, REST, E01G, REST, E01G, REST, E01G, REST, D01G, REST, D01G, REST, D01G, REST, D01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern3, V006, V000, V006, V000, V006, V000, V006, V000, V015, V000, V015, V000, V015, V000, V015, V000, hasOutput);
+
+        byte smellsLikePattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1, 0, 1,
+                                                2, 3, 2, 3, 2, 3, 2, 3,
+                                                0, 1, 0, 1 };
+        setPatternSequence(smellsLikePattSeq);
+
+        break;
+      }
+      // ----------------------------- SEVEN_NATION -----------------------------------------
+    case SEVEN_NATION:
+      {
+        nbPatterns_ = 5;
+        nbMeasures_ = 10;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+        byte pattern4 = 4;
+
+        // Pattern 0:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern0, FS0G, REST, REST, REST, REST, REST, FS0G, REST, A00G, REST, FS0G, REST, E00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V006, V000, V006, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // Pattern 1: ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern1, D00G, REST, REST, REST, REST, REST, REST, REST, CS0G, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern1, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V002, V000, V002, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern1, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern1, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // Pattern 2: ----------------------------------------------------------
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern2, D00G, REST, E00G, REST, REST, REST, D00G, REST, CS0G, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern2, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V002, V000, V002, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern2, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern2, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // Pattern 3: ----------------------------------------------------------
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern3, G00G, REST, G00G, REST, G00G, REST, G00G, REST, G00G, REST, G00G, REST, G00G, REST, G00G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern3, V015, V000, V012, V000, V015, V000, V010, V000, V013, V000, V008, V000, V014, V000, V012, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern3, D01G, REST, D01G, REST, D01G, REST, D01G, REST, D01G, REST, D01G, REST, D01G, REST, D01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern3, V014, V000, V008, V006, V014, V015, V012, V000, V014, V000, V009, V000, V015, V000, V008, V000, hasOutput);
+
+        // Pattern 4: ----------------------------------------------------------
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern4, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, A00G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern4, V015, V000, V012, V000, V015, V000, V010, V000, V013, V000, V008, V000, V014, V000, V012, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern4, E01G, REST, E01G, REST, E01G, REST, E01G, REST, E01G, REST, E01G, REST, E01G, REST, E01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern4, V014, V000, V008, V006, V014, V015, V012, V000, V014, V000, V009, V000, V015, V000, V008, V000, hasOutput);
+
+
+        byte sevenNationPattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1, 0, 2,
+                                                3, 4 };
+        setPatternSequence(sevenNationPattSeq);
+
+        break;
+      }
+      // -------------------------------------------- BASIC_RYTHM -----------------------------------------------------
+    case BASIC_RYTHM:
     default:
       {
         nbPatterns_ = 1;
@@ -373,8 +581,8 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setHitPattern(RIGHT_ARM_GL, patternId, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, CS1G, REST, E01G, REST, hasOutput);
         setVelPattern(RIGHT_ARM_GL, patternId, V009, V000, V012, V000, V006, V000, V008, V000, V008, V000, V012, V000, V006, V000, V009, V000, hasOutput);
 
-        byte simplestPattSeq[nbMeasures_] = { 0 };
-        setPatternSequence(simplestPattSeq);
+        byte basicPattSeq[nbMeasures_] = { 0 };
+        setPatternSequence(basicPattSeq);
 
         break;
       }

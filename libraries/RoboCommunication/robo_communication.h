@@ -24,22 +24,21 @@ enum Robots {
   SINGER_ROBOT
 };
 
-#define NB_SONGS 2
+#define NB_SONGS 1
 
 enum Songs {
   FRERE_JACQUES,
   HOUND_DOG,
+  SMOKE,
+  SMELLS_LIKE,
+  SEVEN_NATION,
+  HEY_HO,
+  BASIC_RYTHM,
   RUDY,
   SHOULD_I_STAY,
-  ONE_WAY,
-  SIMPLEST_RYTHM,
-  BASIC_RYTHM,
-  BASIC_RYTHM_WO_ACC,
-  CRESCENDO,
-  QUARTER_NOTES
 };
 
-inline const uint8_t _songs[NB_SONGS] = {HOUND_DOG, RUDY};  // HOUND_DOG, RUDY, SHOULD_I_STAY, ONE_WAY};
+inline const uint8_t _songs[NB_SONGS] = {SMELLS_LIKE};  // HOUND_DOG, RUDY, SHOULD_I_STAY, ONE_WAY};
 
 #define MATRIX 0
 #define SPOTLIGHT 1

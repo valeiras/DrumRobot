@@ -91,6 +91,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setSemiquaverHit(RIGHT_ARM_GL, A00R, V012, initialChord, 4, hasOutput);
         setSemiquaverHit(RIGHT_ARM_GL, A00R, V015, initialChord, 7, hasOutput);
 
+        setHitPattern(HEAD_GL, initialChord, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, initialChord, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 1: A--------------------------------------------------------
         // Left Arm
         setSemiquaverHit(LEFT_ARM_GL, CS0L, V009, patternA, 1, hasOutput);
@@ -110,6 +113,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, A00R, V009, patternA, 6, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, G00R, V012, patternA, 7, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, G00R, V009, patternA, 8, hasOutput);
+
+        setHitPattern(HEAD_GL, patternA, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, patternA, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         // Pattern 2: D--------------------------------------------------------
         // Left Arm
@@ -131,6 +137,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, B00R, V012, patternD, 7, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V009, patternD, 8, hasOutput);
 
+        setHitPattern(HEAD_GL, patternD, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, patternD, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 3: E--------------------------------------------------------
         // Left Arm
         setSemiquaverHit(LEFT_ARM_GL, E00L, V009, patternE, 1, hasOutput);
@@ -150,6 +159,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, A00R, V009, patternE, 6, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V012, patternE, 7, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V009, patternE, 8, hasOutput);
+
+        setHitPattern(HEAD_GL, patternD, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, patternD, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         byte houndDogPattSeq[nbMeasures_] = { initialChord, patternA, patternA, patternD,
                                               patternA, patternE };
@@ -180,11 +192,17 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, B00R, V008, pattern0, 3, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, GS0R, V015, pattern0, 4, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern0, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern0, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 1
         setQuarterHit(LEFT_ARM_GL, E00L, V015, pattern1, 1, hasOutput);
         setQuaverHit(LEFT_ARM_GL, CS0L, V009, pattern1, 8, hasOutput);
 
         setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern1, 1, hasOutput);
+
+        setHitPattern(HEAD_GL, pattern1, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern1, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         // Pattern 2
         setQuaverHit(LEFT_ARM_GL, D00L, V015, pattern2, 1, hasOutput);
@@ -198,6 +216,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern2, 3, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern2, 4, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern2, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern2, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 3
         setQuarterHit(LEFT_ARM_GL, CS0L, V015, pattern3, 1, hasOutput);
         setQuaverHit(LEFT_ARM_GL, CS0L, V009, pattern3, 8, hasOutput);
@@ -206,6 +227,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, A00R, V012, pattern2, 2, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern2, 3, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, A00R, V015, pattern2, 4, hasOutput);
+
+        setHitPattern(HEAD_GL, pattern3, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         // Pattern 4
         setQuaverHit(LEFT_ARM_GL, D00L, V015, pattern4, 1, hasOutput);
@@ -218,6 +242,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern4, 3, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, B00R, V015, pattern4, 4, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern4, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern4, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 5
         setSemiquaverHit(LEFT_ARM_GL, E00L, V012, pattern5, 1, hasOutput);
         setSemiquaverHit(LEFT_ARM_GL, FS0L, V012, pattern5, 3, hasOutput);
@@ -228,6 +255,8 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setSemiquaverHit(RIGHT_ARM_GL, A00R, V015, pattern5, 4, hasOutput);
         setSemiquaverHit(RIGHT_ARM_GL, A00R, V015, pattern5, 8, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern5, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern5, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         byte RudyPattSeq[nbMeasures_] = { 0, 1, 2, 3, 4, 5, 0, 5, 0, 5 };
         setPatternSequence(RudyPattSeq);
@@ -263,6 +292,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, B00R, V015, pattern0, 5, hasOutput);
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V005, pattern0, 8, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern0, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern0, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 1 ----------------------------------------------------------
         setQuaverHit(LEFT_ARM_GL, E00L, V009, pattern1, 2, hasOutput);
 
@@ -270,16 +302,22 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, C01R, V009, pattern1, 4, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V015, pattern1, 5, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern1, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern1, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 2 ----------------------------------------------------------
         setQuaverHit(LEFT_ARM_GL, FS0L, V015, pattern2, 1, hasOutput);
         setQuaverHit(LEFT_ARM_GL, E00L, V015, pattern2, 3, hasOutput);
-        //setQuaverHit(LEFT_ARM_GL, FS0G, V005, pattern0, 5, hasOutput);
+        // setQuaverHit(LEFT_ARM_GL, FS0G, V005, pattern0, 5, hasOutput);
         setQuaverHit(LEFT_ARM_GL, E00L, V015, pattern2, 8, hasOutput);
 
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V005, pattern2, 1, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, A00R, V005, pattern2, 3, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V014, pattern2, 5, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, A00R, V005, pattern2, 8, hasOutput);
+
+        setHitPattern(HEAD_GL, pattern2, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern2, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         // Pattern 3
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern3, 2, hasOutput);
@@ -289,6 +327,9 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern3, 2, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern3, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
         // Pattern 4: FS
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern4, 1, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern4, 2, hasOutput);
@@ -296,6 +337,10 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern4, 5, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern4, 6, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V015, pattern4, 7, hasOutput);
+
+        setHitPattern(HEAD_GL, pattern4, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern4, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
 
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern4, 1, hasOutput);
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern4, 2, hasOutput);
@@ -319,6 +364,10 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuaverHit(RIGHT_ARM_GL, B00R, V009, pattern5, 6, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, B00R, V009, pattern5, 7, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern5, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern5, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+
         // Pattern 6: B
         setQuarterHit(LEFT_ARM_GL, FS0L, V015, pattern6, 1, hasOutput);
         setQuarterHit(LEFT_ARM_GL, FS0L, V005, pattern6, 2, hasOutput);
@@ -332,6 +381,10 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, B00R, V008, pattern6, 4, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, A00R, V015, pattern6, 7, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern6, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern6, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+
         // Pattern 7: G
         setQuaverHit(LEFT_ARM_GL, FS0L, V015, pattern7, 4, hasOutput);
         setQuaverHit(LEFT_ARM_GL, DS0L, V009, pattern7, 6, hasOutput);
@@ -343,30 +396,110 @@ void GlockenSongLD::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setQuarterHit(RIGHT_ARM_GL, G00R, V015, pattern7, 3, hasOutput);
         setQuarterHit(RIGHT_ARM_GL, G00R, V015, pattern7, 4, hasOutput);
 
+        setHitPattern(HEAD_GL, pattern7, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern7, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+
         // Pattern 8: FS
-        //setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern8, 1, hasOutput);
+        // setQuaverHit(LEFT_ARM_GL, FS0G, V009, pattern8, 1, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern8, 2, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern8, 3, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V015, pattern8, 4, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern8, 5, hasOutput);
         setQuaverHit(LEFT_ARM_GL, FS0L, V009, pattern8, 6, hasOutput);
         setQuaverHit(LEFT_ARM_GL, E00L, V009, pattern8, 7, hasOutput);
-        //setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern8, 8, hasOutput);
+        // setQuaverHit(LEFT_ARM_GL, FS0G, V015, pattern8, 8, hasOutput);
 
-        //setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 1, hasOutput);
-        // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 2, hasOutput);
-        // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 3, hasOutput);
-        // setQuaverHit(RIGHT_ARM_GL, CS0G, V015, pattern8, 4, hasOutput);
+        // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 1, hasOutput);
+        //  setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 2, hasOutput);
+        //  setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 3, hasOutput);
+        //  setQuaverHit(RIGHT_ARM_GL, CS0G, V015, pattern8, 4, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, A00R, V015, pattern8, 5, hasOutput);
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V015, pattern8, 6, hasOutput);
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 7, hasOutput);
         // setQuaverHit(RIGHT_ARM_GL, CS0G, V009, pattern8, 8, hasOutput);
+
+        setHitPattern(HEAD_GL, pattern8, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDLF, REST, REST, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern8, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
 
         byte smokePattSeq[nbMeasures_] = { 7, 0, 1, 2, 3, 0, 1, 2, 3,
                                            4, 4, 5, 4, 4, 4, 5, 4,
                                            6, 7, 8, 8, 6 };
 
         setPatternSequence(smokePattSeq);
+
+        break;
+      }
+      // ----------------------------- SMELLS_LIKE -----------------------------------------
+    case SMELLS_LIKE:
+      {
+        nbPatterns_ = 4;
+        nbMeasures_ = 20;
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+
+        // Pattern 0: FS-B ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern0, FS0L, REST, REST, FS0L, FS0L, REST, REST, REST, REST, REST, FS0L, REST, FS0L, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V006, V000, V006, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, B00R, REST, B00R, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // -----------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_GL, pattern0, HDCN, REST, REST, HDLF, HDRG, REST, REST, REST, REST, REST, HDRG, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern0, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+
+        // Pattern 1: A-D ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern1, E00L, REST, REST, E00L, E00L, REST, REST, REST, REST, REST, D00L, REST, D00L, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern1, V009, V000, V000, V009, V008, V000, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern1, A00R, REST, REST, A00R, A00R, REST, REST, REST, REST, REST, A00R, REST, A00R, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern1, V015, V000, V000, V015, V015, V015, V000, V000, V008, V000, V002, V000, V005, V000, V000, V000, hasOutput);
+
+        // -----------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_GL, pattern1, HDCN, REST, REST, HDLF, HDRG, REST, REST, REST, REST, REST, HDRG, REST, HDCN, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern1, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+        // Pattern 2: FS-B ----------------------------------------------------------
+        // ----------------------------------------------0001------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern2, FS0L, REST, FS0L, REST, FS0L, REST, FS0L, REST, FS0L, REST, FS0L, REST, FS0L, REST, FS0L, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern2, V015, V000, V009, V000, V009, V000, V012, V000, V002, V000, V002, V000, V002, V000, V002, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////-----
+        setHitPattern(RIGHT_ARM_GL, pattern2, REST, REST, REST, REST, REST, REST, REST, REST, B00R, REST, B00R, REST, B00R, REST, B00R, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern2, V006, V000, V006, V000, V006, V000, V006, V000, V015, V000, V015, V000, V015, V000, V015, V000, hasOutput);
+
+        // -----------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_GL, pattern2, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDCN, REST, REST, REST, HDLF, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern2, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+        // Pattern 3: A-D ----------------------------------------------------------
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern3, E00L, REST, E00L, REST, E00L, REST, E00L, REST, D00L, REST, D00L, REST, D00L, REST, D00L, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern3, V005, V000, V005, V000, V005, V000, V005, V000, V015, V000, V015, V000, V015, V000, V015, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern3, A00R, REST, A00R, REST, A00R, REST, A00R, REST, A00R, REST, A00R, REST, A00R, REST, A00R, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern3, V015, V000, V015, V000, V015, V000, V015, V000, V005, V000, V005, V000, V005, V000, V005, V000, hasOutput);
+
+        // -----------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(HEAD_GL, pattern3, HDCN, REST, REST, REST, HDRG, REST, REST, REST, HDCN, REST, REST, REST, HDLF, REST, REST, REST, hasOutput);
+        setVelPattern(HEAD_GL, pattern3, V009, V000, V000, V000, V006, V000, V000, V000, V015, V000, V000, V000, V000, V000, V000, V000, hasOutput);
+
+        byte smellsLikePattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1, 0, 1,
+                                                2, 3, 2, 3, 2, 3, 2, 3,
+                                                0, 1, 0, 1 };
+        setPatternSequence(smellsLikePattSeq);
 
         break;
       }

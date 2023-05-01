@@ -59,7 +59,7 @@ class PercuController : public RoboReceptor {
 
   unsigned long timeNextHitInstruction_[NB_HIT_JOINTS], timeNextPosInstruction_[NB_POS_JOINTS];
   byte nextInstruction_[NB_HIT_JOINTS];
-  bool moveLimb_[NB_POS_JOINTS];
+  bool hasToMove_[NB_POS_JOINTS];
   byte nextPos_[NB_POS_JOINTS];
 
   float bpm_;
@@ -98,7 +98,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(uns
 
   for (unsigned int limb = 0; limb < NB_POS_JOINTS; limb++) {
     timeNextPosInstruction_[limb] = 0;
-    moveLimb_[limb] = false;
+    hasToMove_[limb] = false;
   }
 
   song_->goToFirstSemiquaver(hasOutput_);
@@ -179,7 +179,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstr
       nextPos_[limb] = song_->getPosNextHit(limb);
 
       if (currentPosition != nextPos_[limb]) {
-        moveLimb_[limb] = true;
+        hasToMove_[limb] = true;
         timeNextPosInstruction_[limb] = currTime + abs(robot_->getHitAngle(limb, currentPosition, song_->getVelNextHit(limb)) - robot_->getRestAngle(limb, nextPos_[limb])) / (POS_SECURITY_FACTOR * robot_->getServoSpeed());
         currentPosition = nextPos_[limb];
       }
@@ -197,12 +197,12 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::manageHitInstr
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::managePosInstruction(byte limb) {
   robot_->goToPos(limb, nextPos_[limb]);
-  moveLimb_[limb] = false;
+  hasToMove_[limb] = false;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 bool PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::isTimeToChangePos(byte limb, unsigned long ellapsedTime) {
-  return (limb < NB_POS_JOINTS && moveLimb_[limb] && ellapsedTime >= timeNextPosInstruction_[limb]);
+  return (limb < NB_POS_JOINTS && hasToMove_[limb] && ellapsedTime >= timeNextPosInstruction_[limb]);
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
