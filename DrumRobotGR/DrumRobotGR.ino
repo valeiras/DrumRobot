@@ -14,7 +14,7 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasAutomaticStart = false;
-Songs automaticSong = SMOKE;
+Songs automaticSong = SEVEN_NATION;
 
 DrumRobotGR *robot;
 DrumSongGR *song;

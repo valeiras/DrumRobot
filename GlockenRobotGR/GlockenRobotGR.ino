@@ -13,7 +13,7 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasAutomaticStart = false;
-Songs automaticSong = SMELLS_LIKE;
+Songs automaticSong = SEVEN_NATION;
 
 GlockenRobotGR *robot;
 GlockenSongGR *song;

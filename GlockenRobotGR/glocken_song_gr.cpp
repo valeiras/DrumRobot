@@ -501,7 +501,7 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
     case SEVEN_NATION:
       {
         nbPatterns_ = 5;
-        nbMeasures_ = 10;
+        nbMeasures_ = 14;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte pattern0 = 0;
@@ -512,12 +512,12 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
         // Pattern 0:
         // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
-        setHitPattern(LEFT_ARM_GL, pattern0, FS0G, REST, REST, REST, REST, REST, FS0G, REST, A00G, REST, FS0G, REST, E00G, REST, REST, REST, hasOutput);
-        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V006, V000, V006, V000, V000, V000, hasOutput);
+        setHitPattern(LEFT_ARM_GL, pattern0, FS0G, REST, REST, REST, REST, REST, FS0G, REST, A00G, REST, REST, FS0G, REST, REST, E00G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V000, V009, V000, V000, V015, V000, V008, V000, V006, V013, V006, V015, V012, V000, hasOutput);
 
         // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
-        setHitPattern(RIGHT_ARM_GL, pattern0, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
-        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V000, V015, V000, V000, V000, hasOutput);
+        setHitPattern(RIGHT_ARM_GL, pattern0, CS1G, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, CS1G, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V015, V015, V000, V000, V000, hasOutput);
 
         // Pattern 1: ----------------------------------------------------------
         // ----------------------------------------------0001-------////--------0002-------////--------0003--------////--------0004--------////------
@@ -530,7 +530,7 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
         // Pattern 2: ----------------------------------------------------------
         // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
-        setHitPattern(LEFT_ARM_GL, pattern2, D00G, REST, E00G, REST, REST, REST, D00G, REST, CS0G, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setHitPattern(LEFT_ARM_GL, pattern2, D00G, REST, REST, E00G, REST, REST, D00G, REST, CS0G, REST, REST, REST, REST, REST, REST, REST, hasOutput);
         setVelPattern(LEFT_ARM_GL, pattern2, V015, V000, V000, V009, V000, V000, V000, V000, V008, V000, V002, V000, V002, V000, V000, V000, hasOutput);
 
         // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
@@ -557,7 +557,7 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
 
         byte sevenNationPattSeq[nbMeasures_] = { 0, 1, 0, 1, 0, 1, 0, 2,
-                                                3, 4 };
+                                                3, 4, 0, 1, 0, 2 };
         setPatternSequence(sevenNationPattSeq);
 
         break;
