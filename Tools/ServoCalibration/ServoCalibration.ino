@@ -10,7 +10,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  servo1.write(180);
+  servo1.write(90);
   delay(100);
   servo1.write(180);
   delay(100);

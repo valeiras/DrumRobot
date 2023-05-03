@@ -14,6 +14,9 @@
 bool hasOutput = false;
 bool isSimulation = false;
 
+bool hasAutomaticStart = false;
+Songs automaticSong = SMOKE;
+
 byte songName = FRERE_JACQUES;
 
 GlockenRobotLD *robot;
@@ -36,6 +39,10 @@ void setup() {
 
   roboController = new PercuController<NB_HIT_JOINTS_GL, NB_POS_JOINTS_GL, BITS_FOR_POS_GL>(robot, song, GLOCKEN_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
+
+  if (hasAutomaticStart) {
+    roboController->processStartSongMsg(automaticSong);
+  }
 }
 
 void loop() {

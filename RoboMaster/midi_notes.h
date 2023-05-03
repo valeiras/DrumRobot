@@ -1,8 +1,8 @@
 #ifndef midi_notes_h
 #define midi_notes_h
 
-#define GR
-//#define LD
+//#define GR
+#define LD
 
 #ifdef LD
 #define PAD_01 36
@@ -65,22 +65,22 @@
 
 #define MOD 01
 
-#define START_KEY PAD_45
-#define STOP_KEY PAD_46
-#define MTX_BLINK_KEY PAD_47
-#define MTX_NAME_KEY PAD_48
-#define MTX_LOGO_KEY PAD_41
-#define MTX_RCT_KEY PAD_42
-#define MTX_BARS_KEY PAD_43
-#define SPL_TOP_KEY PAD_44
-#define SPL_BOTTOM_KEY PAD_37
-#define SPL_BLINK_KEY PAD_38
-#define SPL_SEQ_KEY PAD_39
-#define MB_STOP_KEY PAD_40
-#define DRUM_LA_STOP_KEY PAD_34
-#define DRUM_RA_STOP_KEY PAD_33
-#define GLOCK_LA_STOP_KEY PAD_36
-#define GLOCK_RA_STOP_KEY PAD_35
+#define START_KEY PAD_13
+#define STOP_KEY PAD_14
+#define MTX_BLINK_KEY PAD_15
+#define MTX_NAME_KEY PAD_16
+#define MTX_LOGO_KEY PAD_09
+#define MTX_RCT_KEY PAD_10
+#define MTX_BARS_KEY PAD_11
+#define SPL_TOP_KEY PAD_12
+#define SPL_BOTTOM_KEY PAD_05
+#define SPL_BLINK_KEY PAD_06
+#define SPL_SEQ_KEY PAD_07
+#define MB_STOP_KEY PAD_08
+#define DRUM_LA_STOP_KEY PAD_02
+#define DRUM_RA_STOP_KEY PAD_01
+#define GLOCK_LA_STOP_KEY PAD_04
+#define GLOCK_RA_STOP_KEY PAD_03
 
 #define BPM_CONTROLLER FAD1
 #define BRIGHTNESS_CONTROLLER FAD2
@@ -131,10 +131,6 @@
 #define POT2 71
 #define POT3 79
 #define POT4 78
-#define POT5 16
-#define POT6 15
-#define POT7 73
-#define POT8 09
 
 #define MOD 01
 
@@ -187,6 +183,11 @@
 #define AS7 106
 #define B07 107
 #define C08 108
+
+#define POT5 16
+#define POT6 15
+#define POT7 73
+#define POT8 09
 
 #define VIBRATO_AMP_CONTROLLER POT5
 

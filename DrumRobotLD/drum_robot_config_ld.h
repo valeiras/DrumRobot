@@ -36,16 +36,16 @@ const byte _restAngleBD = 95;
 const byte _posAngleBD = 0;
 
 // Left arm, position 0: HH-Snare
-const byte _hitAngleHH = 70;
-const byte _restAngleHH = 55;
+const byte _hitAngleHH = 95;
+const byte _restAngleHH = 80;
 
 // Left arm, positions 1: Sn-Sn
-const byte _hitAngleSn1L = 70;
-const byte _restAngleSn1L = 55;
+const byte _hitAngleSn1L = 100;
+const byte _restAngleSn1L = 85;
 
 // Left arm, positions 1: Sn-Sn
-const byte _hitAngleSn2L = 75;
-const byte _restAngleSn2L = 60;
+const byte _hitAngleSn2L = 100;
+const byte _restAngleSn2L = 85;
 
 // Right arm, position 0 and 1: Snare
 const byte _hitAngleSn1R = 75;
@@ -66,7 +66,7 @@ const byte _posAngleSnCr = 65;
 
 // InactiveAngles
 const byte _inactiveAngleLADr = 40;
-const byte _inactiveAngleRADr = 110;
+const byte _inactiveAngleRADr = 130;
 const byte _inactiveAngleRLDr = 100;
 const byte _inactiveAngleHdDr = 90;
 

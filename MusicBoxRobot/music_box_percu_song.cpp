@@ -7,7 +7,7 @@ MusicBoxPercuSong::MusicBoxPercuSong()
 void MusicBoxPercuSong::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
   switch (songName) {
     // -------------------------------------------- SIMPLEST -----------------------------------------------------
-    case SIMPLEST_RYTHM:
+    case BASIC_RYTHM:
     default:
       {
         nbPatterns_ = 1;

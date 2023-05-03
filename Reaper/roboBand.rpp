@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "6.78/win64" 1682960361
+<REAPER_PROJECT 0.1 "6.79/win64" 1683122649
   RIPPLE 0
   GROUPOVERRIDE 0 1 0
   AUTOXFADE 129
@@ -14,8 +14,8 @@
   TIMEMODE 1 5 -1 30 0 0 -1
   VIDEO_CONFIG 0 0 256
   PANMODE 3
-  CURSOR 4.85835833469225
-  ZOOM 40.75450725528714 0 0
+  CURSOR 0
+  ZOOM 12.49495666665683 12754 0
   VZOOMEX 6 0
   USE_REC_CFG 0
   RECMODE 1
@@ -65,13 +65,18 @@
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 92 0
   MASTERPEAKCOL 16576
-  MASTERMUTESOLO 0
+  MASTERMUTESOLO 1
   MASTERTRACKVIEW 0 0.6667 0.5 0.5 0 0 0 0 0 0 -1 -1 0
   MASTERHWOUT 0 0 1 0 0 0 0 -1
   MASTER_NCH 2 2
   MASTER_VOLUME 1 0 -1 -1 1
   MASTER_FX 1
   MASTER_SEL 0
+  <MASTERFXLIST
+    SHOW 0
+    LASTSEL 0
+    DOCKED 0
+  >
   <MASTERPLAYSPEEDENV
     EGUID {99AA6A00-28D2-42D7-9271-FF602BB2AF5E}
     ACT 0 -1
@@ -103,7 +108,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -127,7 +132,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 -1 -1 -1
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 74 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -144,7 +149,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS ix/SwixMitch ""
-        2 1 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        2 1 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS 707 365 670 248
       FXID {8568BB1F-B976-4006-B13A-0735E0EFCA16}
@@ -165,7 +170,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -181,15 +186,15 @@
     PEAKCOL 33554176
     BEAT -1
     AUTOMODE 0
-    VOLPAN 1 0 -1 -1 1
+    VOLPAN 0.41604610749285 0 -1 -1 1
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    SEL 1
-    REC 0 2 1 0 0 0 0 0
+    SEL 0
+    REC 1 0 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -218,7 +223,7 @@
       WAK 0 0
       BYPASS 0 0 0
       <JS loser/Exciter ""
-        100 2.6 36 -6 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        100 2.6 36 -6 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS 55 83 670 208
       FXID {4875DB5F-2346-462C-98BE-E216310D71D1}
@@ -238,7 +243,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -256,7 +261,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS synthesis/tonegenerator ""
-        -12 -6 63 0 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        -12 -6 63 0 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS -1311 259 670 288
       FXID {7796CF09-1D50-470E-9D0F-EF3C154638E6}
@@ -285,7 +290,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -303,7 +308,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS midi/drumtrigger ""
-        -17 -23 30 0 10 36 1 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        -17 -23 30 0 10 36 1 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS -1405 313 670 304
       FXID {5E8E4A57-35D2-48BF-8128-591F5DA571E6}
@@ -335,7 +340,7 @@
     BUSCOMP 1 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 3 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 137 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -351,7 +356,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS ix/SwixMitch ""
-        2 1 0 0 0.46 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        2 1 0 0 0.46 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS 23 51 670 248
       FXID {DA2841AE-50ED-4933-8D7C-3140616B78CD}
@@ -372,7 +377,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 170 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -396,7 +401,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 3 1 0 0 0 0 0
+    REC 1 1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -429,7 +434,7 @@
     PEAKCOL 21004543
     BEAT -1
     AUTOMODE 0
-    VOLPAN 0.10150085140418 0 -1 -1 1
+    VOLPAN 0.31923937255319 0 -1 -1 1
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
@@ -437,7 +442,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -455,7 +460,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS Liteon/pinknoisegen ""
-        0 -6 -6 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        0 -6 -6 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS -1198 424 670 212
       FXID {F5F6085C-3A21-4AB2-98F5-FE2868B20AD7}
@@ -484,7 +489,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -502,7 +507,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS synthesis/tonegenerator ""
-        -12 -6 250 0 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        -12 -6 250 0 0 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS -1311 259 670 288
       FXID {3FF591FC-1879-4E43-9597-1C2E0B2F4906}
@@ -531,7 +536,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 1 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -549,7 +554,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS midi/drumtrigger ""
-        -17 -24 30 0 10 43 1 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        -17 -24 30 0 10 43 1 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS -1737 44 670 304
       FXID {E839AA02-9F78-4065-A1B9-C14D81699C19}
@@ -581,7 +586,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 1024 0 0 0 0 0 0
+    REC 1 4 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 70 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -622,7 +627,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 1 5 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -662,7 +667,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 0 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -701,8 +706,8 @@
     ISBUS 0 0
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    SEL 0
-    REC 0 0 0 0 0 0 0 0
+    SEL 1
+    REC 1 2 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -726,7 +731,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 1 3 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -742,7 +747,7 @@
     PEAKCOL 25165952
     BEAT -1
     AUTOMODE 0
-    VOLPAN 0.68128641571928 0 -1 -1 1
+    VOLPAN 0.07340987323634 0 -1 -1 1
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
@@ -750,7 +755,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -819,7 +824,7 @@
         OTk2OTQ4MjQyMTg3NSAtODAgMTY3Ljg5OTk5Mzg5NjQ4NDM3NSAtNjAgNCAwLjc1IDAuMTAwMDAwMDAxNDkwMTE2MTE5MzgKNTQgMCAyIDg2ODIgMCAwLjMwMDAwMDAx
         MTkyMDkyODk1NTA4IDEgNzMuMjAwMDAwMDAwMDAwMDAyODQyICoKMSAwICogKiAwICogKiA2IDAKMSAxIDEgMSAwIDAgMzQ5OSAxNSAwCiogKiAqICogKiAqICogKiAq
         CiogKiAqIDAgKiAqICogPC9QYXJhbWV0ZXJzPgogICAgICAgIDwvUHJlc2V0RGF0YT4KICAgIDwvUHJlc2V0Pgo8L1ByZXNldENodW5rWE1MVHJlZT4KZWU+Cg==
-        AAAQAAAA
+        AFByb2dyYW0gMQAQAAAA
       >
       FLOATPOS 23 51 676 436
       FXID {445AC9D3-579F-41B5-BDEF-0B8970A41A01}
@@ -856,7 +861,7 @@
     PEAKCOL 25165952
     BEAT -1
     AUTOMODE 0
-    VOLPAN 0.68128641571928 0 -1 -1 1
+    VOLPAN 0.24786097903016 0 -1 -1 1
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
@@ -864,7 +869,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -940,7 +945,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -1001,8 +1006,8 @@
         LjA5OTk5ODQ3NDEyMTA5Mzc1CjEzNC42MDAwMDYxMDM1MTU2MjUgLTgwIDE0OC4xOTk5OTY5NDgyNDIxODc1IC04MCAxNjcuODk5OTkzODk2NDg0Mzc1IC02MCA0IDAu
         NzUgMC4xMDAwMDAwMDE0OTAxMTYxMTkzOAo1NCAwIDIgODY4MiAwIDAuMzAwMDAwMDExOTIwOTI4OTU1MDggMSA3My4yMDAwMDAwMDAwMDAwMDI4NDIgKgoxIDAgKiAq
         IDAgKiAqIDYgMAoxIDEgMSAxIDAgMCAzNDk5IDE1IDAKKiAqICogKiAqICogKiAqICoKKiAqICogMCAqICogKiA8L1BhcmFtZXRlcnM+CiAgICAgICAgPC9QcmVzZXRE
-        YXRhPgogICAgPC9QcmVzZXQ+CjwvUHJlc2V0Q2h1bmtYTUxUcmVlPgoAAAAA
-        AAAQAAAA
+        YXRhPgogICAgPC9QcmVzZXQ+CjwvUHJlc2V0Q2h1bmtYTUxUcmVlPgowwj0A
+        AFByb2dyYW0gMQAQAAAA
       >
       FLOATPOS 23 51 676 436
       FXID {8AA83F1E-6B49-4ABC-8F47-330A9A129DDC}
@@ -1039,7 +1044,7 @@
     PEAKCOL 33489024
     BEAT -1
     AUTOMODE 0
-    VOLPAN 0.02293171218527 0 -1 -1 1
+    VOLPAN 0.00265292957572 0 -1 -1 1
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
@@ -1047,7 +1052,7 @@
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 -1 0
     SEL 0
-    REC 0 0 0 0 0 0 0 0
+    REC 0 -1 1 0 0 0 0 0
     VU 2
     TRACKHEIGHT 30 0 0 0 -1 0
     INQ 0 0 0 0.5 100 0 0 100
@@ -1065,7 +1070,7 @@
       DOCKED 0
       BYPASS 0 0 0
       <JS delay/delay ""
-        5 -4 0 -6 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        5 -4 0 -6 0 0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       >
       FLOATPOS 23 51 670 260
       FXID {A1BD429E-1034-4AFF-9DBA-DDBBE4F5D920}
@@ -1074,7 +1079,7 @@
   >
   <EXTENSIONS
     <DRIVEN_BY_MOSS
-      LAUNCHPAD_MKII="Iw0KI01vbiBNYXkgMDEgMTg6NTk6MjEgQ0VTVCAyMDIzDQpOT1RFX1JFUEVBVF9MRU5HVEg9MS8xNg0KTk9URV9SRVBFQVRfQUNUSVZFPU9mZg0KU0NBTEVTX0JBU0U9Qw0KU0NBTEVTX1NDQUxFPU1ham9yDQpTQ0FMRVNfTEFZT1VUPTR0aCBeDQpOT1RFX1JFUEVBVF9QRVJJT0Q9MS8xNg0KTk9URV9SRVBFQVRfTU9ERT1VcA0KU0NBTEVTX0lOX0tFWT1JbiBLZXkNCg==" 
+      LAUNCHPAD_MKII="Iw0KI1dlZCBNYXkgMDMgMTY6MDQ6MDkgQ0VTVCAyMDIzDQpOT1RFX1JFUEVBVF9MRU5HVEg9MS8xNg0KTk9URV9SRVBFQVRfQUNUSVZFPU9mZg0KU0NBTEVTX0JBU0U9Qw0KU0NBTEVTX1NDQUxFPU1ham9yDQpTQ0FMRVNfTEFZT1VUPTR0aCBeDQpOT1RFX1JFUEVBVF9QRVJJT0Q9MS8xNg0KTk9URV9SRVBFQVRfTU9ERT1VcA0KU0NBTEVTX0lOX0tFWT1JbiBLZXkNCg==" 
     >
   >
 >

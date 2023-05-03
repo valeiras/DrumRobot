@@ -13,7 +13,7 @@
 #define LED_PIN 13
 
 #define MIN_BPM_CHANGE 5
-#define MIN_BPM_IDX 11
+#define MIN_BPM_IDX 15
 
 #define LEFT_LIMB 0
 #define RIGHT_LIMB 1
@@ -42,8 +42,8 @@ bool isRobotPresent[NB_ROBOTS];
 void setup() {
   isRobotPresent[DRUM_ROBOT] = true;
   isRobotPresent[GLOCKEN_ROBOT] = true;
-  isRobotPresent[MUSIC_BOX_ROBOT] = false;
-  isRobotPresent[LIGHTING_ROBOT] = false;
+  isRobotPresent[MUSIC_BOX_ROBOT] = true;
+  isRobotPresent[LIGHTING_ROBOT] = true;
   isRobotPresent[SINGER_ROBOT] = true;
 
   MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
@@ -153,7 +153,11 @@ void handleNoteOn(byte channel, byte pitch, byte velocity) {
       sendMessage(LIGHTING_ROBOT, SPL_MODE_CHANGE, uint8_t(SPL_SEQ_ON));
       break;
     case MB_STOP_KEY:
-      sendMessage(MUSIC_BOX_ADDRESS, LIMB_STOP, uint8_t(MB_LIMB));
+      //sendMessage(MUSIC_BOX_ADDRESS, LIMB_STOP, uint8_t(MB_LIMB));
+      sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(LEFT_LIMB));
+      sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(RIGHT_LIMB));
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(LEFT_LIMB));
+      sendMessage(GLOCKEN_ROBOT, LIMB_STOP, uint8_t(RIGHT_LIMB));
       break;
     case DRUM_LA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_STOP, uint8_t(LEFT_LIMB));
@@ -181,7 +185,7 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
     case MTX_LOGO_KEY:
     case MTX_RCT_KEY:
     case MTX_BARS_KEY:
-      sendMessage(LIGHTING_ROBOT, MTX_MODE_CHANGE, uint8_t(MTX_CONSTANT_MODE));
+      //sendMessage(LIGHTING_ROBOT, MTX_MODE_CHANGE, uint8_t(MTX_CONSTANT_MODE));
       break;
     case SPL_TOP_KEY:
       sendMessage(LIGHTING_ROBOT, SPL_MODE_CHANGE, uint8_t(SPL_TOP_OFF));
@@ -196,7 +200,10 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
       sendMessage(LIGHTING_ROBOT, SPL_MODE_CHANGE, uint8_t(SPL_SEQ_OFF));
       break;
     case MB_STOP_KEY:
-      sendMessage(MUSIC_BOX_ROBOT, LIMB_START, uint8_t(MB_LIMB));
+      sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(LEFT_LIMB));
+      sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(RIGHT_LIMB));
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(LEFT_LIMB));
+      sendMessage(GLOCKEN_ROBOT, LIMB_START, uint8_t(RIGHT_LIMB));
       break;
     case DRUM_LA_STOP_KEY:
       sendMessage(DRUM_ROBOT, LIMB_START, uint8_t(LEFT_LIMB));

@@ -15,6 +15,8 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
+bool hasAutomaticStart = false;
+Songs automaticSong = SEVEN_NATION;
 
 MusicBoxRobot *mbRobot;
 MusicBoxSong *mbSong;
@@ -34,7 +36,7 @@ void setup() {
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   prcSong = new MusicBoxPercuSong();
-  prcSong->createPredefinedPatterns(SIMPLEST_RYTHM, false);
+  prcSong->createPredefinedPatterns(BASIC_RYTHM, false);
   if (hasOutput) {
     prcSong->printPatterns();
   }
@@ -45,6 +47,9 @@ void setup() {
 
   controller = new MusicBoxController(mbRobot, mbSong, prcRobot, prcSong, MUSIC_BOX_ADDRESS, isSimulation, hasOutput);
   controller->setReceptor();
+  if (hasAutomaticStart) {
+    controller->processStartSongMsg(automaticSong);
+  }
 }
 
 void loop() {

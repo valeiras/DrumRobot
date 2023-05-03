@@ -45,6 +45,7 @@ public:
   void doLighting(unsigned long currTime);
 
   void processStartMsg();
+  void processStartSongMsg(uint8_t messageContent);
   void processStopMsg();
   void processResyncMsg();
   void processBpmChangeMsg(uint8_t messageContent);
