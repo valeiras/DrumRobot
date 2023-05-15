@@ -10,7 +10,7 @@ In order to install mido in blender python, go to Blender folder and make:
 """
 
 from mido import MidiFile
-mid = MidiFile("C:/Users/david/Documents/Arduino/RoboBand/MusicBoxRobot/Tools/MidiFiles/Pentatonic_A.MID", clip=True)
+mid = MidiFile("./MidiFiles/Pentatonic_A.MID", clip=True)
 #print(mid)
 
 
