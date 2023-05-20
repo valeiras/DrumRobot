@@ -24,8 +24,8 @@ const signed char _dirLADr = +1;
 const signed char _dirRADr = -1;
 
 // Right leg, position 0: base drum
-const byte _hitAngleBD = 70;
-const byte _restAngleBD = 95;
+const byte _hitAngleBD = 65;
+const byte _restAngleBD = 85;
 const byte _posAngleBD = 0;
 
 // Left arm, position 0: Sticks
@@ -39,9 +39,9 @@ const byte _restAngleHH = 90;
 const byte _posAngleHH = 150;
 
 // Left arm, position 2: Snare
-const byte _hitAngleSnLeft = 125;
-const byte _restAngleSnLeft = 105;
-const byte _posAngleSnLeft = 125;
+const byte _hitAngleSnLeft = 120;
+const byte _restAngleSnLeft = 100;
+const byte _posAngleSnLeft = 115;
 
 // Right arm, position 0: Sticks
 const byte _hitAngleSticksRight = 105;
@@ -51,11 +51,11 @@ const byte _posAngleSticksRight = 60;
 // Right arm, position 1:
 const byte _hitAngleSnRight = 70;
 const byte _restAngleSnRight = 85;
-const byte _posAngleSnRight = 55;
+const byte _posAngleSnRight = 50;
 
 // _Right arm, position 2:
-const byte _hitAngleCrash = 90;
-const byte _restAngleCrash = 110;
+const byte _hitAngleCrash = 80;
+const byte _restAngleCrash = 100;
 const byte _posAngleCrash = 30;
 
 // InactiveAngles

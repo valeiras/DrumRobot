@@ -31,21 +31,21 @@ const byte _restAngleHD = 100;
 const byte _posAngleHD = 0;
 
 // Right leg, position 0: base drum
-const byte _hitAngleBD = 75;
-const byte _restAngleBD = 95;
+const byte _hitAngleBD = 70;
+const byte _restAngleBD = 90;
 const byte _posAngleBD = 0;
 
 // Left arm, position 0: HH-Snare
-const byte _hitAngleHH = 95;
-const byte _restAngleHH = 80;
+const byte _hitAngleHH = 65;
+const byte _restAngleHH = 45;
 
 // Left arm, positions 1: Sn-Sn
-const byte _hitAngleSn1L = 100;
-const byte _restAngleSn1L = 85;
+const byte _hitAngleSn1L = 65;
+const byte _restAngleSn1L = 45;
 
 // Left arm, positions 1: Sn-Sn
-const byte _hitAngleSn2L = 100;
-const byte _restAngleSn2L = 85;
+const byte _hitAngleSn2L = 65;
+const byte _restAngleSn2L = 45;
 
 // Right arm, position 0 and 1: Snare
 const byte _hitAngleSn1R = 75;
