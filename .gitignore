@@ -1,0 +1,7 @@
+# Reaper media, render and backup files
+Reaper/media/*
+Reaper/renders/*
+*.bkk
+
+# Blender backup file
+*blend1
