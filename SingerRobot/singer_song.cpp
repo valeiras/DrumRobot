@@ -1,7 +1,7 @@
 #include "singer_song.h"
 
 SingerSong::SingerSong()
-  : PercuSong<NB_LIMBS_SG, BITS_FOR_POS_SG>::PercuSong() {
+  : PercuSong<NB_SINGERS, BITS_FOR_POS_SG>::PercuSong() {
   nbOfPositions_[SINGER_1] = 1;
   nbOfPositions_[SINGER_2] = 1;
   nbOfPositions_[SINGER_3] = 1;
@@ -22,6 +22,7 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte patternId3 = 3;
         byte patternId4 = 4;
 
+        // Disgusting temporary hack: we have the patterns for the three robots, even when we do not use them
         setQuaverHit(SINGER_2, POS_SG, DS3S, patternId0, 1, hasOutput);
         setQuaverHit(SINGER_3, POS_SG, DS3S, patternId0, 2, hasOutput);
 

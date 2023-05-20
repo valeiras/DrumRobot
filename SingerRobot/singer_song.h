@@ -8,12 +8,11 @@
 #include "singer_robot_config.h"
 
 #define BITS_FOR_POS_SG 1
-#define NB_LIMBS_SG 3
 
 #define POS_SG 0
 #define SING 1
 
-class SingerSong : public PercuSong<NB_LIMBS_SG, BITS_FOR_POS_SG> {
+class SingerSong : public PercuSong<NB_SINGERS, BITS_FOR_POS_SG> {
 public:
   SingerSong();
 
