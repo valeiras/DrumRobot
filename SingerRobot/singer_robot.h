@@ -12,7 +12,6 @@ public:
   SingerRobot(byte vibratoPins[NB_SINGERS]);
 
   unsigned int getFrequency(byte singerIdx);
-  String getNoteName(byte singerIdx);
 
   void hit(byte singerIdx, byte pos, byte noteIdx, bool hasOutput = 0);
   void rest(byte singerIdx, byte pos = 0, bool hasOutput = 0);
@@ -46,7 +45,6 @@ private:
   void goToNextVibratoPosition(byte singerIdx);
 
   Array<unsigned int, NB_NOTES_SG> frequencies_;
-  Array<String, NB_NOTES_SG> noteNames_;
 
   bool noteOn_[NB_SINGERS], noteOnPending_[NB_SINGERS], noteOffPending_[NB_SINGERS];
   byte currNoteIdx_[NB_SINGERS];

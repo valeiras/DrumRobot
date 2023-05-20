@@ -23,6 +23,7 @@ SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS])
   setFrequencies();
 
   currSinger_ = 0;
+  Serial.println("Constructor done");
 }
 
 unsigned int SingerRobot::getFrequency(byte singerIdx) {
@@ -33,21 +34,14 @@ unsigned int SingerRobot::getFrequency(byte singerIdx) {
   }
 }
 
-String SingerRobot::getNoteName(byte singerIdx) {
-  if (singerIdx < NB_SINGERS) {
-    return noteNames_[currNoteIdx_[singerIdx]];
-  } else {
-    return "";
-  }
-}
-
 void SingerRobot::hit(byte singerIdx, byte pos, byte noteIdx, bool hasOutput = 0) {
-  if (noteIdx == 0) {
-    makeNoteOff(singerIdx);
-  } else if (noteIdx < NB_NOTES_SG) {
-    makeNoteOn(singerIdx, noteIdx, hasOutput);
-  } else {
-    makeNoteOn(singerIdx, NB_NOTES_SG - 1, hasOutput);
+  if (isNoteOn(currSinger_)) {
+    makeNoteOff(currSinger_);
+  }
+
+  if (noteIdx != OFFS) {
+    currSinger_ = ++currSinger_ % NB_SINGERS;
+    makeNoteOn(currSinger_, min(noteIdx, NB_NOTES_SG - 1), hasOutput);
   }
 }
 
@@ -55,7 +49,6 @@ void SingerRobot::rest(byte singerIdx, byte pos = 0, bool hasOutput = 0) {
 }
 
 void SingerRobot::processNoteOnMessage(byte noteIdx) {
-  Serial.println("Note on");
   makeNoteOn(currSinger_, noteIdx - FIRST_AVAILABLE_NOTE_IDX + NOTE_ON);
   currSinger_ = ++currSinger_ % NB_SINGERS;
 }
@@ -69,15 +62,13 @@ void SingerRobot::processNoteOffMessage(byte noteIdx) {
   }
 }
 
-void SingerRobot::processVibratoAmpChangeMessage(byte vibratoAmp){
-  Serial.print("Vibrato: ");
-  Serial.println(vibratoAmp);
+void SingerRobot::processVibratoAmpChangeMessage(byte vibratoAmp) {
   vibratoAmplitude_ = vibratoAmp;
   hasVibrato_ = vibratoAmp != 0;
 }
 
 void SingerRobot::stop() {
-  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {   
+  for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
     hitServos_[ii].write(closedPosition_[ii]);
     makeNoteOff(ii);
   }
@@ -138,7 +129,7 @@ void SingerRobot::setVibrato(bool hasVibrato) {
 
 void SingerRobot::goToNextVibratoPosition(byte singerIdx) {
   //We switch the vibrato direction between 0 and 1
-  vibratoDirection_[singerIdx] = vibratoDirection_[singerIdx] == 1? 0 : 1;
+  vibratoDirection_[singerIdx] = vibratoDirection_[singerIdx] == 1 ? 0 : 1;
   hitServos_[singerIdx].write(openPosition_[singerIdx] + vibratoDirection_[singerIdx] * vibratoAmplitude_);
   nextVibratoInstructionTime_[singerIdx] += 2 * vibratoAmplitude_ / wServo_;
 }
@@ -156,6 +147,18 @@ void SingerRobot::setLimbParams() {
 
 void SingerRobot::setFrequencies() {
   frequencies_.push_back(NOTE_OFF);
+  frequencies_.push_back(FREQ_C02);
+  frequencies_.push_back(FREQ_CS2);
+  frequencies_.push_back(FREQ_D02);
+  frequencies_.push_back(FREQ_DS2);
+  frequencies_.push_back(FREQ_E02);
+  frequencies_.push_back(FREQ_F02);
+  frequencies_.push_back(FREQ_FS2);
+  frequencies_.push_back(FREQ_G02);
+  frequencies_.push_back(FREQ_GS2);
+  frequencies_.push_back(FREQ_A02);
+  frequencies_.push_back(FREQ_AS2);
+  frequencies_.push_back(FREQ_B02);
   frequencies_.push_back(FREQ_C03);
   frequencies_.push_back(FREQ_CS3);
   frequencies_.push_back(FREQ_D03);
@@ -180,30 +183,4 @@ void SingerRobot::setFrequencies() {
   frequencies_.push_back(FREQ_A04);
   frequencies_.push_back(FREQ_AS4);
   frequencies_.push_back(FREQ_B04);
-
-  noteNames_.push_back("OFF");
-  noteNames_.push_back("C03");
-  noteNames_.push_back("CS3");
-  noteNames_.push_back("D03");
-  noteNames_.push_back("DS3");
-  noteNames_.push_back("E03");
-  noteNames_.push_back("F03");
-  noteNames_.push_back("FS3");
-  noteNames_.push_back("G03");
-  noteNames_.push_back("GS3");
-  noteNames_.push_back("A03");
-  noteNames_.push_back("AS3");
-  noteNames_.push_back("B03");
-  noteNames_.push_back("C04");
-  noteNames_.push_back("CS4");
-  noteNames_.push_back("D04");
-  noteNames_.push_back("DS4");
-  noteNames_.push_back("E04");
-  noteNames_.push_back("F04");
-  noteNames_.push_back("FS4");
-  noteNames_.push_back("G04");
-  noteNames_.push_back("GS4");
-  noteNames_.push_back("A04");
-  noteNames_.push_back("AS4");
-  noteNames_.push_back("B04");
 }

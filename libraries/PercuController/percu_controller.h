@@ -121,6 +121,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(uns
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool hasOutput) {
+  //Serial.println("Going to time");
   int semiquaversEllapsed = 0;
 
   checkPendingMessages();
