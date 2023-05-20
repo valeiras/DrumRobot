@@ -37,7 +37,7 @@ const byte _hitAngleLAGl = 110;
 const byte _restAngleLAGl = 90;
 
 const byte _hitAngleRAGl = 65;
-const byte _restAngleRAGl = 83;
+const byte _restAngleRAGl = 85;
 
 const byte _inactiveAngleLAGL = 50;
 const byte _inactiveAngleRAGL = 140;
@@ -52,17 +52,17 @@ const byte _posAngleF00 = 80;
 const byte _posAngleFS0 = 65;
 const byte _posAngleG00 = 43;
 const byte _posAngleGS0 = 25;
-const byte _posAngleA00 = 13;
+const byte _posAngleA00 = 15;
 
 // Angles for the right arm
-const byte _posAngleAS0 = 150;
+const byte _posAngleAS0 = 145;
 const byte _posAngleB00 = 130;
 const byte _posAngleC01 = 110;
-const byte _posAngleCS1 = 90;
+const byte _posAngleCS1 = 85;
 const byte _posAngleD01 = 70;
 const byte _posAngleDS1 = 50;
-const byte _posAngleE01 = 30;
-const byte _posAngleF01 = 15;
+const byte _posAngleE01 = 35;
+const byte _posAngleF01 = 25;
 
 const float _wServoGl = 0.6;
 

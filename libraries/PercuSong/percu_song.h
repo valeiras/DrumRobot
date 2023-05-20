@@ -6,8 +6,9 @@
 
 #include "Arduino.h"
 
-#define MAX_NB_PATTERNS 9
-#define MAX_NB_MEASURES 50
+//#define MAX_NB_PATTERNS 9
+#define MAX_NB_PATTERNS 15
+#define MAX_NB_MEASURES 25
 
 #define BITS_FOR_HIT 1
 #define BITS_PER_BYTE 8
@@ -91,7 +92,7 @@ class PercuSong {
 
   Array<byte, MAX_NB_MEASURES> patternSequence_;
 
-  Array<Array<byte[16], MAX_NB_PATTERNS>, NB_LIMBS> patternArrays_;
+  Array<Array<byte[SEMIQUAVERS_PER_MEASURE], MAX_NB_PATTERNS>, NB_LIMBS> patternArrays_;
 
   uint8_t posMask_, velMask_;
   byte maxVel_;

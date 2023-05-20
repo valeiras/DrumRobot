@@ -36,11 +36,11 @@ const signed char _dirLAGl = +1;
 const signed char _dirRAGl = -1;
 const signed char _dirHdGl = +1;
 
-const byte _hitAngleLAGl = 133;
-const byte _restAngleLAGl = 118;
+const byte _hitAngleLAGl = 120;
+const byte _restAngleLAGl = 105;
 
-const byte _hitAngleRAGl = 60;
-const byte _restAngleRAGl = 75;
+const byte _hitAngleRAGl = 70;
+const byte _restAngleRAGl = 85;
 
 const byte _hitAngleHdGl = 125;
 const byte _restAngleHdGl = 105;

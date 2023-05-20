@@ -12,8 +12,9 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasAutomaticStart = false;
-Songs automaticSong = SEVEN_NATION;
+bool hasAutomaticStart = true;
+uint8_t automaticBpm = 100;
+Songs automaticSong = MR_SANDMAN;
 
 GlockenRobotGR *robot;
 GlockenSongGR *song;
@@ -34,10 +35,12 @@ void setup() {
   roboController->setReceptor();
 
   if (hasAutomaticStart) {
+    roboController->setBpm(automaticBpm);
     roboController->processStartSongMsg(automaticSong);
   }
 }
 
 void loop() {
+  Serial.println("Loop");
   roboController->goToTime(millis(), hasOutput);
 }
