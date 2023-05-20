@@ -4,4 +4,7 @@ Reaper/renders/*
 *.bkk
 
 # Blender backup file
-*blend1
+*.blend1
+
+# VSCode configuration files
+*.json
