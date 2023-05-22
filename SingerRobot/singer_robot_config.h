@@ -79,11 +79,9 @@
 #define NOTE_OFF 0
 #define NOTE_ON 1
 
-#define SINGER_1 0
-#define SINGER_2 1
-#define SINGER_3 2
 #define AUTOMATIC_SINGER 0
 
+#define NB_SHEETS 1
 #define NB_SINGERS 3
 #define NB_POS_JOINTS_SG 0
 #define NB_NOTES_SG 37

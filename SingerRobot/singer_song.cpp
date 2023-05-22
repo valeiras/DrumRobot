@@ -1,14 +1,11 @@
 #include "singer_song.h"
 
 SingerSong::SingerSong()
-  : PercuSong<NB_SINGERS, BITS_FOR_POS_SG>::PercuSong() {
-  nbOfPositions_[SINGER_1] = 1;
-  nbOfPositions_[SINGER_2] = 1;
-  nbOfPositions_[SINGER_3] = 1;
+  : PercuSong<NB_SHEETS, BITS_FOR_POS_SG>::PercuSong() {
+  nbOfPositions_[AUTOMATIC_SINGER] = 1;
 }
 
 void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false) {
-  Serial.println("Song: Creating predefined patterns");
   switch (songName) {
     case FRERE_JACQUES:
       {
@@ -21,10 +18,6 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte patternId2 = 2;
         byte patternId3 = 3;
         byte patternId4 = 4;
-
-        // Disgusting temporary hack: we have the patterns for the three robots, even when we do not use them
-        setQuaverHit(SINGER_2, POS_SG, DS3S, patternId0, 1, hasOutput);
-        setQuaverHit(SINGER_3, POS_SG, DS3S, patternId0, 2, hasOutput);
 
         // Singer 1
         setQuarterHit(AUTOMATIC_SINGER, POS_SG, C03S, patternId1, 1, hasOutput);
@@ -103,9 +96,6 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte patternF = 2;
         byte patternG = 3;
 
-        setQuaverHit(SINGER_2, POS_SG, DS3S, initialChord, 1, hasOutput);
-        setQuaverHit(SINGER_3, POS_SG, DS3S, initialChord, 2, hasOutput);
-
         // Pattern 0
         setSemiquaverHit(AUTOMATIC_SINGER, POS_SG, C03S, initialChord, 1, hasOutput);
         setSemiquaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, initialChord, 4, hasOutput);
@@ -175,8 +165,8 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
       // -------------------------------------------- MR_SANDMAN -----------------------------------------------------
     case MR_SANDMAN:
       {
-        nbPatterns_ = 15;
-        nbMeasures_ = 21;
+        nbPatterns_ = 16;
+        nbMeasures_ = 23;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte pattern0 = 0;
@@ -195,9 +185,6 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         byte pattern13 = 13;
         byte pattern14 = 14;
         byte empty = 15;
-
-        setQuaverHit(SINGER_2, POS_SG, DS3S, pattern0, 1, hasOutput);
-        setQuaverHit(SINGER_3, POS_SG, DS3S, pattern0, 2, hasOutput);
 
         // --------------------------------------------------- Pattern 0:
         setQuaverHit(AUTOMATIC_SINGER, POS_SG, DS3S, pattern0, 1, hasOutput);
@@ -473,10 +460,10 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         setQuaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, pattern13, 8, hasOutput);
 
         // --------------------------------------------------- Pattern 14:
-        setQuaverHit(AUTOMATIC_SINGER, POS_SG, DS4S, pattern13, 1, hasOutput);
-        setQuaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, pattern13, 2, hasOutput);
+        setQuaverHit(AUTOMATIC_SINGER, POS_SG, DS4S, pattern14, 1, hasOutput);
+        setQuaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, pattern14, 2, hasOutput);
 
-        byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 4, 5, 6, 11, 12, 13, 14 };
+        byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 4, 5, 6, 11, 12, 13, 13, 13, 14 };
         setPatternSequence(mrSandmanPattSeq);
 
         break;
@@ -490,9 +477,6 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId = 0;
-
-        setQuaverHit(SINGER_2, POS_SG, DS3S, patternId, 1, hasOutput);
-        setQuaverHit(SINGER_3, POS_SG, DS3S, patternId, 2, hasOutput);
 
         setQuarterHit(AUTOMATIC_SINGER, POS_SG, C03S, patternId, 1, hasOutput);
         setQuarterHit(AUTOMATIC_SINGER, POS_SG, OFFS, patternId, 2, hasOutput);
@@ -509,5 +493,4 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
         break;
       }
   }
-  Serial.println("Creating patterns done");
 }

@@ -7,7 +7,7 @@
 
 #define FIRST_AVAILABLE_NOTE_IDX 84
 
-class SingerRobot : public PercuRobot<NB_SINGERS, NB_POS_JOINTS_SG> {
+class SingerRobot : public PercuRobot<NB_SHEETS, NB_POS_JOINTS_SG> {
 public:
   SingerRobot(byte vibratoPins[NB_SINGERS]);
 
@@ -48,8 +48,10 @@ private:
 
   bool noteOn_[NB_SINGERS], noteOnPending_[NB_SINGERS], noteOffPending_[NB_SINGERS];
   byte currNoteIdx_[NB_SINGERS];
+  Servo vibratoServos_[NB_SINGERS];
 
   unsigned int currSinger_;
+
 
   bool hasVibrato_;
   unsigned char vibratoDirection_[NB_SINGERS];

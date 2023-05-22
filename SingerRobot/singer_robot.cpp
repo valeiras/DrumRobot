@@ -1,8 +1,6 @@
 #include "singer_robot.h"
 
-SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS])
-  : PercuRobot(vibratoPins) {
-
+SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS]){
   // We initialize the default parameters
   byte defaultClosedPositions[NB_SINGERS] = { DEFAULT_CLOSED_POS, DEFAULT_CLOSED_POS, DEFAULT_CLOSED_POS };
   byte defaultOpenPositions[NB_SINGERS] = { DEFAULT_OPEN_POS, DEFAULT_OPEN_POS, DEFAULT_OPEN_POS };
@@ -14,6 +12,8 @@ SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS])
   stop();
 
   for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
+    vibratoServos_[ii].attach(vibratoPins[ii]);
+
     noteOn_[ii] = 0;
     noteOnPending_[ii] = false;
     noteOffPending_[ii] = false;
@@ -23,7 +23,6 @@ SingerRobot::SingerRobot(byte vibratoPins[NB_SINGERS])
   setFrequencies();
 
   currSinger_ = 0;
-  Serial.println("Constructor done");
 }
 
 unsigned int SingerRobot::getFrequency(byte singerIdx) {
@@ -69,7 +68,7 @@ void SingerRobot::processVibratoAmpChangeMessage(byte vibratoAmp) {
 
 void SingerRobot::stop() {
   for (unsigned int ii = 0; ii < NB_SINGERS; ii++) {
-    hitServos_[ii].write(closedPosition_[ii]);
+    vibratoServos_[ii].write(closedPosition_[ii]);
     makeNoteOff(ii);
   }
 }
@@ -107,12 +106,12 @@ bool SingerRobot::unsetNoteOffPending(byte singerIdx) {
 
 void SingerRobot::startVibrato(byte singerIdx, unsigned long currTime, bool hasOutput = 0) {
   vibratoDirection_[singerIdx] = 1;
-  hitServos_[singerIdx].write(openPosition_[singerIdx]);
+  vibratoServos_[singerIdx].write(openPosition_[singerIdx]);
   nextVibratoInstructionTime_[singerIdx] = currTime + abs((openPosition_[singerIdx] + vibratoAmplitude_ - closedPosition_[singerIdx]) / wServo_);
 }
 
 void SingerRobot::stopVibrato(byte singerIdx, bool hasOutput = 0) {
-  hitServos_[singerIdx].write(closedPosition_[singerIdx]);
+  vibratoServos_[singerIdx].write(closedPosition_[singerIdx]);
 }
 
 void SingerRobot::checkVibrato(byte singerIdx, unsigned long currTime, bool hasOutput = 0) {
@@ -130,7 +129,7 @@ void SingerRobot::setVibrato(bool hasVibrato) {
 void SingerRobot::goToNextVibratoPosition(byte singerIdx) {
   //We switch the vibrato direction between 0 and 1
   vibratoDirection_[singerIdx] = vibratoDirection_[singerIdx] == 1 ? 0 : 1;
-  hitServos_[singerIdx].write(openPosition_[singerIdx] + vibratoDirection_[singerIdx] * vibratoAmplitude_);
+  vibratoServos_[singerIdx].write(openPosition_[singerIdx] + vibratoDirection_[singerIdx] * vibratoAmplitude_);
   nextVibratoInstructionTime_[singerIdx] += 2 * vibratoAmplitude_ / wServo_;
 }
 

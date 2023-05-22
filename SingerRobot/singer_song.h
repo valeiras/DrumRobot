@@ -12,7 +12,7 @@
 #define POS_SG 0
 #define SING 1
 
-class SingerSong : public PercuSong<NB_SINGERS, BITS_FOR_POS_SG> {
+class SingerSong : public PercuSong<NB_SHEETS, BITS_FOR_POS_SG> {
 public:
   SingerSong();
 

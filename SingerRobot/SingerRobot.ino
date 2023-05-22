@@ -18,15 +18,16 @@ bool isSimulation = false;
 bool hasVibrato = true;
 bool hasAutomaticStart = true;
 Songs automaticSong = MR_SANDMAN;
+uint8_t automaticBpm = 100;
 
-const byte openPos1 = 140;
+const byte openPos1 = 165;
 const byte openPos2 = 140;
-const byte openPos3 = 160;
+const byte openPos3 = 150;
 const byte closedPos1 = 180;
 const byte closedPos2 = 180;
 const byte closedPos3 = 180;
 
-const byte vibratoAmp = 0;
+const byte vibratoAmp = 10;
 
 byte closedPositions[NB_SINGERS] = { closedPos1, closedPos2, closedPos3 };
 byte openPositions[NB_SINGERS] = { openPos1, openPos2, openPos3 };
@@ -36,7 +37,7 @@ byte vibratoPins[NB_SINGERS] = { SERVO_PIN_SINGER1, SERVO_PIN_SINGER2, SERVO_PIN
 
 SingerRobot *robot;
 SingerSong *song;
-PercuController<NB_SINGERS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG> *roboController;
+PercuController<NB_SHEETS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG> *roboController;
 
 void setup() {
   Serial.begin(9600);
@@ -58,17 +59,26 @@ void setup() {
   }
 
   // -------------------------------------------------------- Creation of the controller ------------------------------------------------
-  roboController = new PercuController<NB_SINGERS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG>(robot, song, SINGER_ADDRESS, isSimulation, hasOutput);
+  roboController = new PercuController<NB_SHEETS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG>(robot, song, SINGER_ADDRESS, isSimulation, hasOutput);
   roboController->setReceptor();
   if (hasAutomaticStart) {
+    roboController->setBpm(automaticBpm);
     roboController->processStartSongMsg(automaticSong);
   }
 }
 
 void loop() {
-  Serial.println("loop");
   unsigned long currTime = millis();
   roboController->goToTime(currTime, hasOutput);
+  // We first check if there a note to be turned off
+  for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
+    if (robot->isNoteOffPending(singerIdx)) {
+      noTone(buzzPins[singerIdx]);
+      robot->stopVibrato(singerIdx);
+      robot->unsetNoteOffPending(singerIdx);
+    }
+  }
+  // We then iterate again to check notes on
   for (unsigned int singerIdx = 0; singerIdx < NB_SINGERS; singerIdx++) {
     if (robot->isNoteOn(singerIdx)) {
       if (robot->isNoteOnPending(singerIdx)) {
@@ -77,10 +87,6 @@ void loop() {
         robot->unsetNoteOnPending(singerIdx);
       }
       robot->checkVibrato(singerIdx, currTime);
-    } else if (robot->isNoteOffPending(singerIdx)) {
-      noTone(buzzPins[singerIdx]);
-      robot->stopVibrato(singerIdx);
-      robot->unsetNoteOffPending(singerIdx);
     }
   }
 }
