@@ -12,7 +12,7 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasAutomaticStart = true;
+bool hasAutomaticStart = false;
 uint8_t automaticBpm = 100;
 Songs automaticSong = MR_SANDMAN;
 

@@ -1,7 +1,7 @@
 #include "drum_song_gr.h"
 
 DrumSongGR::DrumSongGR()
-  : PercuSong<NB_LIMBS_DR, BITS_FOR_POS_DR>::PercuSong() {
+  : PercuSong<NB_HIT_JOINTS_DR, BITS_FOR_POS_DR>::PercuSong() {
   nbOfPositions_[RIGHT_ARM_DR] = NB_POS_RA_DR;
   nbOfPositions_[LEFT_ARM_DR] = NB_POS_LA_DR;
   nbOfPositions_[RIGHT_LEG_DR] = NB_POS_RL_DR;
@@ -507,7 +507,7 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
     case MR_SANDMAN:
       {
         nbPatterns_ = 8;
-        nbMeasures_ = 21;
+        nbMeasures_ = 23;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
         byte patternId0 = 0;
@@ -539,11 +539,11 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
 
         // ---------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(LEFT_ARM_DR, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, hasOutput);
-        setVelPattern(LEFT_ARM_DR, patternId0, V012, V000, V000, V000, V010, V000, V000, V000, V012, V000, V000, V000, V010, V000, V000, V000, hasOutput);
+        setVelPattern(LEFT_ARM_DR, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
         // ----------------------------------------------0001--------////--------0002--------////--------0003--------////--------0004--------////------
         setHitPattern(RIGHT_ARM_DR, patternId0, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, STCK, REST, REST, REST, hasOutput);
-        setVelPattern(RIGHT_ARM_DR, patternId0, V012, V000, V000, V000, V010, V000, V000, V000, V012, V000, V000, V000, V010, V000, V000, V000, hasOutput);
+        setVelPattern(RIGHT_ARM_DR, patternId0, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, V000, hasOutput);
 
 
         // Pattern 1
@@ -630,9 +630,9 @@ void DrumSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = false
         setVelPattern(RIGHT_ARM_DR, patternId6, V014, V000, V000, V000, V012, V000, V012, V013, V000, V000, V011, V000, V012, V000, V013, V000, hasOutput);
 
 
-        byte coolestPattSeq[nbMeasures_] = { 0, 1, 2, 3, 2, 4, 5 };
+        byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 0, 1, 2, 3, 4, 3, 4, 3, 4, 5, 2, 3, 4, 3, 4, 4, 2, 2, 2, 6 };
 
-        setPatternSequence(coolestPattSeq);
+        setPatternSequence(mrSandmanPattSeq);
         break;
       }
       // -------------------------------------------- PUN TAS -----------------------------------------------------

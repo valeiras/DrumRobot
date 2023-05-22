@@ -16,7 +16,7 @@
 bool hasOutput = false;
 bool isSimulation = false;
 bool hasVibrato = true;
-bool hasAutomaticStart = true;
+bool hasAutomaticStart = false;
 Songs automaticSong = MR_SANDMAN;
 uint8_t automaticBpm = 100;
 
@@ -41,7 +41,6 @@ PercuController<NB_SHEETS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG> *roboController;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Setup");
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new SingerSong();

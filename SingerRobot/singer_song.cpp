@@ -461,7 +461,7 @@ void SingerSong::createPredefinedPatterns(Songs songName, bool hasOutput = false
 
         // --------------------------------------------------- Pattern 14:
         setQuaverHit(AUTOMATIC_SINGER, POS_SG, DS4S, pattern14, 1, hasOutput);
-        setQuaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, pattern14, 2, hasOutput);
+        setQuaverHit(AUTOMATIC_SINGER, POS_SG, OFFS, pattern14, 8, hasOutput);
 
         byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 4, 5, 6, 11, 12, 13, 13, 13, 14 };
         setPatternSequence(mrSandmanPattSeq);

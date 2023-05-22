@@ -20,7 +20,7 @@
 #define MB_LIMB 0
 
 // Create and bind the MIDI interface to the default hardware Serial port
-MIDI_CREATE_DEFAULT_INSTANCE();
+//MIDI_CREATE_DEFAULT_INSTANCE();
 
 uint8_t bpmIdx = DEFAULT_BPM_IDX;
 uint8_t mtxBlinkInterval = QUARTER_INTERVAL;
@@ -40,26 +40,33 @@ short maxBpm = 150;
 bool isRobotPresent[NB_ROBOTS];
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Setup");
+
   isRobotPresent[DRUM_ROBOT] = true;
   isRobotPresent[GLOCKEN_ROBOT] = true;
-  isRobotPresent[MUSIC_BOX_ROBOT] = true;
-  isRobotPresent[LIGHTING_ROBOT] = true;
+  isRobotPresent[MUSIC_BOX_ROBOT] = false;
+  isRobotPresent[LIGHTING_ROBOT] = false;
   isRobotPresent[SINGER_ROBOT] = true;
 
-  MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
-  MIDI.setHandleNoteOn(handleNoteOn);
-  MIDI.setHandleNoteOff(handleNoteOff);
-  MIDI.setHandleControlChange(handleCCMessage);
+  // MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
+  // MIDI.setHandleNoteOn(handleNoteOn);
+  // MIDI.setHandleNoteOff(handleNoteOff);
+  // MIDI.setHandleControlChange(handleCCMessage);
 
   Wire.begin();
-  notifyRobots(BPM_IDX_CHANGE, bpmIdx);
+  notifyRobots(STOP);
+  delay(10000);
+  // notifyRobots(BPM_IDX_CHANGE, bpmIdx);
 
-  pinMode(LED_PIN, OUTPUT);
+  // pinMode(LED_PIN, OUTPUT);
+  // notifyRobots(START_SONG, _songs[0]);
 }
 
 void loop() {
-  MIDI.read();
-  checkCCPending(millis());
+  Serial.println("loop");
+  // MIDI.read();
+  // checkCCPending(millis());
 }
 
 void notifyRobots(uint8_t messageType) {

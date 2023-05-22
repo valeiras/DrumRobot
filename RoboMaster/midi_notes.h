@@ -1,8 +1,8 @@
 #ifndef midi_notes_h
 #define midi_notes_h
 
-//#define GR
-#define LD
+#define GR
+//#define LD
 
 #ifdef LD
 #define PAD_01 36

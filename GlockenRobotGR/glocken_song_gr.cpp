@@ -507,8 +507,7 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
     case MR_SANDMAN:
       {
         nbPatterns_ = 13;
-        //nbMeasures_ = 21;
-nbMeasures_ = 17;
+        nbMeasures_ = 23;
 
         byte pattern0 = 0;
         byte pattern1 = 1;
@@ -656,8 +655,8 @@ nbMeasures_ = 17;
         setVelPattern(RIGHT_ARM_GL, pattern11, V015, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
 
 
-        //byte mrSandmanPattSeq[nbMeasures_] = { empty, empty, empty, empty, empty, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 8, 9, 10, 11 };
-        byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 8, 9, 10, 11};
+        byte mrSandmanPattSeq[nbMeasures_] = { empty, empty, empty, empty, empty, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 8, 9, 10, 10, 10, 11 };
+        //byte mrSandmanPattSeq[nbMeasures_] = { empty, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 8, 9, 10, 11};
         setPatternSequence(mrSandmanPattSeq);
         break;
       }

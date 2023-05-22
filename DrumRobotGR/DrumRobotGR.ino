@@ -13,8 +13,8 @@
 
 bool hasOutput = false;
 bool isSimulation = false;
-bool hasAutomaticStart = true;
-Songs automaticSong = PUN_TAS;
+bool hasAutomaticStart = false;
+Songs automaticSong = MR_SANDMAN;
 uint8_t automaticBpm = 95;
 
 DrumRobotGR *robot;
@@ -46,6 +46,5 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("loop");
   roboController->goToTime(millis(), hasOutput);
 }

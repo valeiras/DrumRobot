@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-#define SERVO_PIN 9
+#define SERVO_PIN 6
 
 Servo servo1;
 
@@ -10,7 +10,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  servo1.write(90);
+  servo1.write(180);
   delay(100);
   servo1.write(180);
   delay(100);

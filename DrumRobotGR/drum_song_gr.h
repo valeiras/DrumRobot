@@ -8,9 +8,8 @@
 #include "drum_robot_config_gr.h"
 
 #define BITS_FOR_POS_DR 3
-#define NB_LIMBS_DR 3
 
-class DrumSongGR : public PercuSong<NB_LIMBS_DR, BITS_FOR_POS_DR> {
+class DrumSongGR : public PercuSong<NB_HIT_JOINTS_DR, BITS_FOR_POS_DR> {
 public:
   DrumSongGR();
 
