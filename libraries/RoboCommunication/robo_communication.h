@@ -47,6 +47,7 @@ inline const uint8_t _songs[NB_SONGS] = {MR_SANDMAN};
 #define DEFAULT_BPM 90
 #define DEFAULT_BPM_IDX 17
 #define NB_BPM_VALUES 29
+#define DEFAULT_RESYNC_TIME 2000
 
 enum MessageType {
   START,

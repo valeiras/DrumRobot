@@ -26,7 +26,7 @@ void setup() {
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new DrumSongGR();
-  song->createPredefinedPatterns(BASIC_RYTHM, false);
+  song->createPredefinedPatterns(automaticSong, false);
   if (hasOutput) {
     song->printPatterns();
   }

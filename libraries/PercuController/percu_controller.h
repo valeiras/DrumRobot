@@ -30,6 +30,8 @@ class PercuController : public RoboReceptor {
   void setBpm(float bpm);
   void setTimePerSemiquaver(unsigned long timePerSemiquaver);
 
+  signed int getResyncCompensationTime();
+
   // Inherited methods from RoboReceptor
   virtual void processStartMsg();
   virtual void processStartSongMsg(uint8_t messageContent);
@@ -53,6 +55,7 @@ class PercuController : public RoboReceptor {
  private:
   void sendRobotToRest();
   void checkPendingMessages();
+  void updateResyncCompensationTime(unsigned long currTime);
 
   PercuRobot<NB_HIT_JOINTS, NB_POS_JOINTS> *robot_;
   PercuSong<NB_HIT_JOINTS, BITS_FOR_POS> *song_;
@@ -64,7 +67,13 @@ class PercuController : public RoboReceptor {
 
   float bpm_;
   unsigned int timePerSemiquaver_;
-  unsigned long timeNextSemiquaver_, initialTime_;
+  unsigned long timeNextSemiquaver_;
+
+  // Resync mechanism
+  unsigned long referenceTime_;
+  unsigned int resyncTime_;
+  signed int resyncCompensationTime_;
+  bool isResyncPending_;
 
   bool isSimulation_, hasOutput_;
 };
@@ -81,6 +90,7 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   isFirstAfterStart_ = false;
   isFirstAfterSongStart_ = false;
   isBpmChangePending_ = false;
+  isResyncPending_ = false;
 
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     isActivationPending_[limb] = false;
@@ -89,12 +99,18 @@ PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::PercuController(Per
   isSimulation_ = isSimulation;
   hasOutput_ = hasOutput;
 
+  resyncCompensationTime_ = 0;
+  resyncTime_ = DEFAULT_RESYNC_TIME;
+
   sendRobotToRest();
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(unsigned long currTime) {
   timeNextSemiquaver_ = currTime + timePerSemiquaver_;
+  referenceTime_ = currTime;
+  isResyncPending_ = false;
+  resyncCompensationTime_ = 0;
 
   for (unsigned int limb = 0; limb < NB_POS_JOINTS; limb++) {
     timeNextPosInstruction_[limb] = 0;
@@ -121,7 +137,6 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::initialize(uns
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsigned long currTime, bool hasOutput) {
-  //Serial.println("Going to time");
   int semiquaversEllapsed = 0;
 
   checkPendingMessages();
@@ -136,8 +151,20 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
       initialize(currTime);
       isFirstAfterStart_ = false;
     }
+    if (isResyncPending_) {
+      updateResyncCompensationTime(currTime);
+      isResyncPending_ = false;
+    }
+
+    unsigned long correctedTime = currTime - resyncCompensationTime_;
+   //  Serial.println("");
+   //  Serial.print("Current time: ");
+   //  Serial.print(currTime);
+   //  Serial.print(", Corrected time: ");
+   //  Serial.println(correctedTime);
+
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
-      if (currTime >= timeNextHitInstruction_[limb]) {
+      if (correctedTime >= timeNextHitInstruction_[limb]) {
         manageHitInstruction(limb, currTime);
       }
       if (isTimeToChangePos(limb, currTime)) {
@@ -145,7 +172,7 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
       }
     }
 
-    while (currTime > timeNextSemiquaver_) {
+    while (correctedTime > timeNextSemiquaver_) {
       timeNextSemiquaver_ += timePerSemiquaver_;
       semiquaversEllapsed++;
       song_->goToNextSemiquaver();
@@ -155,7 +182,6 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
       robot_->stop();
       isFirstAfterStop_ = false;
     }
-    initialTime_ = currTime;
   }
   return semiquaversEllapsed;
 }
@@ -233,6 +259,11 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::setTimePerSemi
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+signed int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::getResyncCompensationTime() {
+  return resyncCompensationTime_;
+}
+
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processStartMsg() {
   if (!hasStarted_) {
     hasStarted_ = true;
@@ -259,6 +290,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processStopMsg
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processResyncMsg() {
+  isResyncPending_ = true;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -310,6 +342,7 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processVibrato
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::processSetResyncTimeMsg(uint16_t messageContent) {
+  resyncTime_ = messageContent;
 }
 
 template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
@@ -337,4 +370,9 @@ void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::checkPendingMe
   }
 }
 
+template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
+void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::updateResyncCompensationTime(unsigned long currTime) {
+  resyncCompensationTime_ = (currTime - referenceTime_) - resyncTime_;
+  referenceTime_ += resyncTime_;
+}
 #endif

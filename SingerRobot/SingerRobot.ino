@@ -41,10 +41,12 @@ PercuController<NB_SHEETS, NB_POS_JOINTS_SG, BITS_FOR_POS_SG> *roboController;
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("");
+  Serial.println("SINGER: setup");
 
   // -------------------------------------------------------- Pattern setting ----------------------------------------------------------
   song = new SingerSong();
-  song->createPredefinedPatterns(HOUND_DOG, false);
+  song->createPredefinedPatterns(automaticSong, false);
 
   // -------------------------------------------------------- Servo attaching ----------------------------------------------------------
   robot = new SingerRobot(vibratoPins);
@@ -67,6 +69,7 @@ void setup() {
 }
 
 void loop() {
+  //Serial.println("SINGER: loop");
   unsigned long currTime = millis();
   roboController->goToTime(currTime, hasOutput);
   // We first check if there a note to be turned off

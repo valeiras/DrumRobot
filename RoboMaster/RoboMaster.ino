@@ -20,9 +20,10 @@
 #define MB_LIMB 0
 
 // Create and bind the MIDI interface to the default hardware Serial port
-//MIDI_CREATE_DEFAULT_INSTANCE();
+MIDI_CREATE_DEFAULT_INSTANCE();
 
 uint8_t bpmIdx = DEFAULT_BPM_IDX;
+uint8_t bpm = 110;
 uint8_t mtxBlinkInterval = QUARTER_INTERVAL;
 uint8_t splBlinkInterval = QUARTER_INTERVAL;
 uint8_t vibratoAmp = 0;
@@ -32,6 +33,11 @@ unsigned long lastBpmTime = 0, lastBrightnessTime = 0, lastMtxBlinkTime = 0, las
 byte lastBpmControllerVal, lastBrightnessControllerVal, lastMtxBlinkControllerVal, lastSplBlinkControllerVal, lastVibratoAmpControllerVal;
 bool isBpmPending = false, isBrightnessPending = false, isMtxBlinkPending = false, isSplBlinkPending = false, isVibratoAmpPending = false;
 
+// Resync mechanism
+bool hasStarted = false, isStartPending = false;
+unsigned long startTime;
+uint16_t resyncTime = DEFAULT_RESYNC_TIME;
+
 unsigned int minTimeInterval = 100;
 
 short minBpm = 60;
@@ -40,33 +46,34 @@ short maxBpm = 150;
 bool isRobotPresent[NB_ROBOTS];
 
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Setup");
-
   isRobotPresent[DRUM_ROBOT] = true;
   isRobotPresent[GLOCKEN_ROBOT] = true;
   isRobotPresent[MUSIC_BOX_ROBOT] = false;
   isRobotPresent[LIGHTING_ROBOT] = false;
   isRobotPresent[SINGER_ROBOT] = true;
 
-  // MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
-  // MIDI.setHandleNoteOn(handleNoteOn);
-  // MIDI.setHandleNoteOff(handleNoteOff);
-  // MIDI.setHandleControlChange(handleCCMessage);
+  MIDI.begin(MIDI_CHANNEL_OMNI);  // Initialize the Midi Library.
+  MIDI.setHandleNoteOn(handleNoteOn);
+  MIDI.setHandleNoteOff(handleNoteOff);
+  MIDI.setHandleControlChange(handleCCMessage);
 
   Wire.begin();
   notifyRobots(STOP);
-  delay(10000);
-  // notifyRobots(BPM_IDX_CHANGE, bpmIdx);
+  //delay(10000);
+  notifyRobots(BPM_CHANGE, bpm);
+  notifyRobots(SET_RESYNC_TIME, resyncTime);
 
-  // pinMode(LED_PIN, OUTPUT);
-  // notifyRobots(START_SONG, _songs[0]);
+  pinMode(LED_PIN, OUTPUT);
+  //notifyRobots(START_SONG, _songs[0]);
+  // isStartPending = true;
 }
 
 void loop() {
-  Serial.println("loop");
-  // MIDI.read();
-  // checkCCPending(millis());
+  MIDI.read();
+  unsigned long currTime = millis();
+  checkStartPending(currTime);
+  checkResync(currTime);
+  checkCCPending(currTime);
 }
 
 void notifyRobots(uint8_t messageType) {
@@ -118,19 +125,18 @@ void sendMessage(uint8_t robot, uint8_t messageType, uint16_t messageContent) {
 
 void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
   arr[0] = inputNumber & MASK_BYTE0;
-  arr[1] = inputNumber & MASK_BYTE1;
+  arr[1] = (inputNumber & MASK_BYTE1) >> BYTES_PER_UINT8 * BITS_PER_BYTE;
 }
 
 void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
     case START_KEY:
-      notifyRobots(START_SONG, _songs[currSongIdx]);
-      currSongIdx = ++currSongIdx % NB_SONGS;
-      //notifyRobots(START);
+      isStartPending = !hasStarted;
       break;
     case STOP_KEY:
       notifyRobots(STOP);
+      hasStarted = false;
       break;
     case MTX_BLINK_KEY:
       sendMessage(LIGHTING_ROBOT, MTX_MODE_CHANGE, uint8_t(MTX_BLINK_MODE));
@@ -252,6 +258,23 @@ void handleCCMessage(byte channel, byte number, byte value) {
       lastVibratoAmpControllerVal = value;
       isVibratoAmpPending = true;
       break;
+  }
+}
+
+void checkStartPending(unsigned long currTime) {
+  if (isStartPending) {
+    notifyRobots(START_SONG, _songs[currSongIdx]);
+    currSongIdx = ++currSongIdx % NB_SONGS;
+    startTime = currTime;
+    hasStarted = true;
+    isStartPending = false;
+  }
+}
+
+void checkResync(unsigned long currTime) {
+  if (hasStarted && currTime - startTime >= resyncTime) {
+    startTime += resyncTime;
+    notifyRobots(RESYNC);
   }
 }
 
