@@ -23,7 +23,7 @@
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 uint8_t bpmIdx = DEFAULT_BPM_IDX;
-uint8_t bpm = 110;
+uint8_t bpm = 100;
 uint8_t mtxBlinkInterval = QUARTER_INTERVAL;
 uint8_t splBlinkInterval = QUARTER_INTERVAL;
 uint8_t vibratoAmp = 0;
@@ -60,7 +60,6 @@ void setup() {
   Wire.begin();
   notifyRobots(STOP);
   //delay(10000);
-  notifyRobots(BPM_CHANGE, bpm);
   notifyRobots(SET_RESYNC_TIME, resyncTime);
 
   pinMode(LED_PIN, OUTPUT);
@@ -131,8 +130,17 @@ void uint16ToArray(uint16_t inputNumber, uint8_t* arr) {
 void handleNoteOn(byte channel, byte pitch, byte velocity) {
   digitalWrite(LED_BUILTIN, HIGH);
   switch (pitch) {
-    case START_KEY:
+    case START_KEY_0:
       isStartPending = !hasStarted;
+      currSongIdx = 0;
+      break;
+    case START_KEY_1:
+      isStartPending = !hasStarted;
+      currSongIdx = 1 % NB_SONGS; // We make an additional check, in case not enough song have been defined
+      break;
+    case START_KEY_2:
+      isStartPending = !hasStarted;
+      currSongIdx = 2 % NB_SONGS;
       break;
     case STOP_KEY:
       notifyRobots(STOP);
@@ -239,8 +247,8 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
 void handleCCMessage(byte channel, byte number, byte value) {
   switch (number) {
     case BPM_CONTROLLER:
-      lastBpmControllerVal = value;
-      isBpmPending = true;
+      // lastBpmControllerVal = value;
+      // isBpmPending = true;
       break;
     case BRIGHTNESS_CONTROLLER:
       lastBrightnessControllerVal = value;
@@ -263,8 +271,9 @@ void handleCCMessage(byte channel, byte number, byte value) {
 
 void checkStartPending(unsigned long currTime) {
   if (isStartPending) {
+    notifyRobots(BPM_CHANGE, bpm);
     notifyRobots(START_SONG, _songs[currSongIdx]);
-    currSongIdx = ++currSongIdx % NB_SONGS;
+    //currSongIdx = ++currSongIdx % NB_SONGS;
     startTime = currTime;
     hasStarted = true;
     isStartPending = false;

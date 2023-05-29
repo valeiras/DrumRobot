@@ -157,11 +157,6 @@ int PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::goToTime(unsign
     }
 
     unsigned long correctedTime = currTime - resyncCompensationTime_;
-   //  Serial.println("");
-   //  Serial.print("Current time: ");
-   //  Serial.print(currTime);
-   //  Serial.print(", Corrected time: ");
-   //  Serial.println(correctedTime);
 
     for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
       if (correctedTime >= timeNextHitInstruction_[limb]) {
@@ -349,6 +344,7 @@ template <byte NB_HIT_JOINTS, byte NB_POS_JOINTS, byte BITS_FOR_POS>
 void PercuController<NB_HIT_JOINTS, NB_POS_JOINTS, BITS_FOR_POS>::sendRobotToRest() {
   for (unsigned int limb = 0; limb < NB_HIT_JOINTS; limb++) {
     robot_->rest(limb);
+    robot_->goToPos(limb, 0);
   }
 }
 

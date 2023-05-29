@@ -14,7 +14,7 @@ bool hasOutput = false;
 bool isSimulation = false;
 bool hasAutomaticStart = false;
 uint8_t automaticBpm = 100;
-Songs automaticSong = MR_SANDMAN;
+Songs automaticSong = HOUND_DOG;
 
 GlockenRobotGR *robot;
 GlockenSongGR *song;
@@ -41,5 +41,6 @@ void setup() {
 }
 
 void loop() {
+  //Serial.println("Glock: loop");
   roboController->goToTime(millis(), hasOutput);
 }

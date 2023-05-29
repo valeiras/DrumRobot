@@ -62,7 +62,7 @@ const byte _posAngleCS1 = 85;
 const byte _posAngleD01 = 70;
 const byte _posAngleDS1 = 50;
 const byte _posAngleE01 = 35;
-const byte _posAngleF01 = 25;
+const byte _posAngleF01 = 20;
 
 const float _wServoGl = 0.6;
 

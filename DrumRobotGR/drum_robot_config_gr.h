@@ -29,13 +29,13 @@ const byte _restAngleBD = 85;
 const byte _posAngleBD = 0;
 
 // Left arm, position 0: Sticks
-const byte _hitAngleSticksLeft = 95;
-const byte _restAngleSticksLeft = 80;
+const byte _hitAngleSticksLeft = 100;
+const byte _restAngleSticksLeft = 85;
 const byte _posAngleSticksLeft = 115;
 
 // Left arm, position 1: HH
-const byte _hitAngleHH = 105;
-const byte _restAngleHH = 85;
+const byte _hitAngleHH = 110;
+const byte _restAngleHH = 100;
 const byte _posAngleHH = 150;
 
 // Left arm, position 2: Snare
@@ -49,13 +49,13 @@ const byte _restAngleSticksRight = 85;
 const byte _posAngleSticksRight = 70;
 
 // Right arm, position 1:
-const byte _hitAngleSnRight = 60;
-const byte _restAngleSnRight = 75;
+const byte _hitAngleSnRight = 65;
+const byte _restAngleSnRight = 80;
 const byte _posAngleSnRight = 55;
 
 // _Right arm, position 2:
 const byte _hitAngleCrash = 80;
-const byte _restAngleCrash = 100;
+const byte _restAngleCrash = 90;
 const byte _posAngleCrash = 30;
 
 // InactiveAngles

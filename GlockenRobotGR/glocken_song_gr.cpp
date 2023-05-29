@@ -63,88 +63,189 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
       // -------------------------------------------- HOUND_DOG -----------------------------------------------------
     case HOUND_DOG:
       {
-        nbPatterns_ = 4;
-        nbMeasures_ = 6;
+        nbPatterns_ = 12;
+        nbMeasures_ = 21;
         initializeBlankPatterns(nbPatterns_, nbMeasures_);
 
-        byte initialChord = 0;
-        byte patternC = 1;
-        byte patternF = 2;
-        byte patternG = 3;
+        byte empty = 0;
+        byte intro = 1;
+        byte patternC = 2;
+        byte patternF = 3;
+        byte patternG = 4;
+        byte endLoop = 5;
+        byte preSolo = 6;
+        byte solo1 = 7;
+        byte solo2 = 8;
+        byte solo3 = 9;
+        byte solo4 = 10;
+        byte solo5 = 11;
 
-        // Pattern 0 ----------------------------------------------------------
+
+        // Intro ----------------------------------------------------------
         // Left Arm
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V009, initialChord, 1, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, E00G, V012, initialChord, 4, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, initialChord, 7, hasOutput);
+        setQuarterHit(LEFT_ARM_GL, G00G, V015, intro, 3, hasOutput);
 
         // Right Arm
-        setSemiquaverHit(RIGHT_ARM_GL, C00G, V009, initialChord, 1, hasOutput);
-        setSemiquaverHit(RIGHT_ARM_GL, E00G, V009, initialChord, 4, hasOutput);
-        setSemiquaverHit(RIGHT_ARM_GL, C00G, V009, initialChord, 7, hasOutput);
+        setQuarterHit(RIGHT_ARM_GL, C01G, V009, intro, 3, hasOutput);
 
-        // Pattern 1: C--------------------------------------------------------
+        // Pattern C--------------------------------------------------------
         // Left Arm
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V009, patternC, 1, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, E00G, V012, patternC, 4, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, patternC, 7, hasOutput);
-
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V009, patternC, 9, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, E00G, V012, patternC, 12, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, patternC, 15, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, G00G, V012, patternC, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, G00G, V009, patternC, 2, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V013, patternC, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V009, patternC, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, G00G, V012, patternC, 5, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, patternC, 12, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V012, patternC, 7, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, A00G, V007, patternC, 8, hasOutput);
 
         // Right Arm
         setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternC, 1, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternC, 2, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, E01G, V012, patternC, 3, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, E01G, V009, patternC, 4, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternC, 3, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternC, 4, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternC, 5, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternC, 6, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, E01G, V012, patternC, 7, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, E01G, V009, patternC, 8, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternC, 7, hasOutput);
 
-        // Pattern 2: F--------------------------------------------------------
+        // Pattern F--------------------------------------------------------
         // Left Arm
-        setSemiquaverHit(LEFT_ARM_GL, F00G, V009, patternF, 1, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, A00G, V012, patternF, 4, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V015, patternF, 7, hasOutput);
-
-        setSemiquaverHit(LEFT_ARM_GL, F00G, V009, patternF, 9, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, A00G, V012, patternF, 12, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V015, patternF, 15, hasOutput);
+        //setQuaverHit(LEFT_ARM_GL, F00G, V009, patternF, 1, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, F00G, V013, patternF, 3, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, F00G, V009, patternF, 4, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, F00G, V012, patternF, 5, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V007, patternF, 12, hasOutput);
+        setQuaverHit(LEFT_ARM_GL, F00G, V007, patternF, 8, hasOutput);
 
         // Right Arm
-        setQuaverHit(RIGHT_ARM_GL, F01G, V012, patternF, 1, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, F01G, V009, patternF, 2, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternF, 3, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternF, 4, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, F01G, V012, patternF, 5, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, F01G, V009, patternF, 6, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternF, 7, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternF, 8, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V011, patternF, 2, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternF, 3, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternF, 4, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V008, patternF, 5, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V013, patternF, 6, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternF, 7, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V015, patternF, 8, hasOutput);
 
-        // Pattern 3: G--------------------------------------------------------
+        // Pattern G--------------------------------------------------------
         // Left Arm
         setSemiquaverHit(LEFT_ARM_GL, G00G, V009, patternG, 1, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, D00G, V012, patternG, 4, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, patternG, 4, hasOutput);
         setSemiquaverHit(LEFT_ARM_GL, G00G, V015, patternG, 7, hasOutput);
 
         setSemiquaverHit(LEFT_ARM_GL, F00G, V009, patternG, 9, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, A00G, V012, patternG, 12, hasOutput);
-        setSemiquaverHit(LEFT_ARM_GL, C00G, V015, patternG, 15, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V012, patternG, 12, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V015, patternG, 15, hasOutput);
 
         // Right Arm
-        setQuaverHit(RIGHT_ARM_GL, B00G, V012, patternG, 1, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, B00G, V009, patternG, 2, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, D01G, V012, patternG, 1, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, D01G, V009, patternG, 2, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, D01G, V012, patternG, 3, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, D01G, V009, patternG, 4, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, F01G, V012, patternG, 5, hasOutput);
-        setQuaverHit(RIGHT_ARM_GL, F01G, V009, patternG, 6, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternG, 5, hasOutput);
+        setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternG, 6, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, C01G, V012, patternG, 7, hasOutput);
         setQuaverHit(RIGHT_ARM_GL, C01G, V009, patternG, 8, hasOutput);
 
-        byte houndDogPattSeq[nbMeasures_] = { initialChord, patternC, patternC, patternF,
-                                              patternC, patternG };
+        // End loop --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, endLoop, 1, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, endLoop, 4, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, endLoop, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, endLoop, 9, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V015, endLoop, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V015, endLoop, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V015, endLoop, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V015, endLoop, 9, hasOutput);
+
+        // Pre solo --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, C00G, V009, preSolo, 1, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, C00G, V012, preSolo, 4, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, C00G, V015, preSolo, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, C00G, V009, preSolo, 9, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, preSolo, 15, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V012, preSolo, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V009, preSolo, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V012, preSolo, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V009, preSolo, 9, hasOutput);
+
+        // Solo 1 --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, solo1, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo1, 15, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V015, solo1, 16, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo1, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, B00G, V009, solo1, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo1, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo1, 9, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo1, 12, hasOutput);
+
+        // Solo 2 --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, solo2, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo2, 15, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo2, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo2, 2, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, B00G, V009, solo2, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, B00G, V009, solo2, 5, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo2, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo2, 9, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo2, 10, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo2, 12, hasOutput);
+
+        // Solo 3 --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V009, solo3, 5, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo3, 15, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V012, solo3, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V012, solo3, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo3, 5, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V009, solo3, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V012, solo3, 9, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, E01G, V015, solo3, 12, hasOutput);
+
+        // Solo 4 --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo4, 9, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V012, solo4, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, B00G, V012, solo4, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo4, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo4, 9, hasOutput);
+
+        // Solo 5 --------------------------------------------------------
+        // Left Arm
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo5, 1, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V009, solo5, 4, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, G00G, V012, solo5, 7, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V008, solo5, 9, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V014, solo5, 12, hasOutput);
+        setSemiquaverHit(LEFT_ARM_GL, F00G, V015, solo5, 15, hasOutput);
+
+        // Right Arm
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V012, solo5, 1, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V012, solo5, 4, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, D01G, V009, solo5, 7, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo5, 9, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo5, 11, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo5, 13, hasOutput);
+        setSemiquaverHit(RIGHT_ARM_GL, C01G, V009, solo5, 15, hasOutput);
+
+        byte houndDogPattSeq[nbMeasures_] = { empty, empty, intro,
+                                              patternC, patternC, patternF, patternC, patternG, endLoop,
+                                              patternC, patternC, patternF, patternC, patternG, preSolo,
+                                              solo1, solo2, solo3, solo4, solo5, endLoop };
         setPatternSequence(houndDogPattSeq);
 
         break;
@@ -504,7 +605,7 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         break;
       }
       // ----------------------------- MR_SANDMAN -----------------------------------------
-    case MR_SANDMAN:
+    case MR_SANDMAN_LONG:
       {
         nbPatterns_ = 13;
         nbMeasures_ = 23;
@@ -660,6 +761,118 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
         setPatternSequence(mrSandmanPattSeq);
         break;
       }
+      // ----------------------------- MR_SANDMAN -----------------------------------------
+    case MR_SANDMAN_SHORT:
+      {
+        nbPatterns_ = 13;
+        nbMeasures_ = 15;
+
+        byte pattern0 = 0;
+        byte pattern1 = 1;
+        byte pattern2 = 2;
+        byte pattern3 = 3;
+        byte pattern8 = 8;
+        byte pattern9 = 9;
+        byte pattern10 = 10;
+        byte pattern11 = 11;
+        byte empty = 12;
+
+        initializeBlankPatterns(nbPatterns_, nbMeasures_);
+
+        // Empty:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, empty, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, empty, V000, V000, V000, V009, V000, V000, V015, V000, V008, V000, V013, V013, V012, V015, V012, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, empty, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, empty, V006, V000, V000, V006, V006, V015, V000, V000, V008, V000, V015, V015, V015, V000, V000, V012, hasOutput);
+
+
+        // Pattern 0:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern0, REST, REST, G00G, REST, REST, REST, D00G, REST, REST, REST, REST, REST, G00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern0, V015, V000, V008, V009, V000, V000, V015, V000, V008, V000, V013, V013, V012, V015, V012, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern0, D01G, REST, REST, REST, AS0G, REST, REST, REST, REST, REST, AS0G, REST, REST, REST, DS1G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern0, V006, V000, V000, V006, V014, V015, V008, V000, V008, V000, V015, V015, V015, V000, V014, V012, hasOutput);
+
+
+        // Pattern 1:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern1, A00G, REST, A00G, REST, A00G, REST, REST, REST, A00G, REST, REST, REST, A00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern1, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern1, D01G, REST, D01G, REST, REST, REST, D01G, REST, D01G, REST, REST, REST, D01G, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern1, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V010, V015, V013, V000, hasOutput);
+
+
+        // Pattern 2:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern2, G00G, REST, REST, REST, G00G, REST, REST, REST, G00G, REST, REST, REST, G00G, REST, G00G, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern2, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern2, B00G, REST, REST, REST, B00G, REST, REST, REST, B00G, REST, REST, REST, B00G, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern2, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        // Pattern 3:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern3, REST, REST, G00G, REST, G00G, REST, REST, REST, G00G, REST, REST, REST, G00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern3, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern3, C01G, REST, REST, REST, C01G, REST, REST, REST, C01G, REST, REST, REST, C01G, REST, C01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern3, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        // Pattern 8:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern8, REST, REST, REST, REST, F00G, REST, REST, REST, F00G, REST, REST, REST, F00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern8, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern8, C01G, REST, REST, REST, C01G, REST, REST, REST, C01G, REST, REST, REST, REST, REST, C01G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern8, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        // Pattern 9:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern9, REST, REST, DS0G, REST, REST, REST, GS0G, REST, REST, REST, REST, REST, GS0G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern9, V006, V008, V012, V009, V007, V000, V008, V000, V008, V000, V013, V013, V008, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern9, REST, REST, REST, REST, B00G, REST, REST, REST, DS1G, REST, REST, REST, DS1G, REST, DS1G, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern9, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        // Pattern 10:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern10, DS0G, REST, REST, REST, DS0G, REST, REST, REST, F00G, REST, REST, REST, F00G, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern10, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern10, REST, REST, AS0G, REST, AS0G, REST, REST, REST, C01G, REST, REST, REST, C01G, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern10, V006, V000, V015, V009, V007, V000, V015, V000, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        // Pattern 11:
+        // ----------------------------------------------0001------////--------0002-------////--------0003--------////--------0004--------////------
+        setHitPattern(LEFT_ARM_GL, pattern11, DS0G, REST, DS0G, REST, DS0G, REST, DS0G, REST, DS0G, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(LEFT_ARM_GL, pattern11, V015, V000, V015, V009, V007, V000, V015, V000, V014, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+        // ----------------------------------------------0001-------////--------0002--------////--------0003--------////--------0004--------////------
+        setHitPattern(RIGHT_ARM_GL, pattern11, REST, AS0G, REST, AS0G, REST, AS0G, REST, AS0G, REST, REST, REST, REST, REST, REST, REST, REST, hasOutput);
+        setVelPattern(RIGHT_ARM_GL, pattern11, V015, V014, V015, V012, V007, V014, V015, V012, V008, V000, V013, V013, V004, V015, V013, V000, hasOutput);
+
+
+        byte mrSandmanPattSeq[nbMeasures_] = { empty, empty, empty, empty, empty, 0, 1, 2, 3, 8, 9, 10, 10, 10, 11 };
+        setPatternSequence(mrSandmanPattSeq);
+        break;
+      }
 
       // -------------------------------------------- BASIC_RYTHM -----------------------------------------------------
     case BASIC_RYTHM:
@@ -690,8 +903,8 @@ void GlockenSongGR::createPredefinedPatterns(Songs songName, bool hasOutput = fa
 
 
 // Temnlate:
-//   // ----------------------------- MR_SANDMAN -----------------------------------------
-// case MR_SANDMAN:
+//   // ----------------------------- TEMPLATE -----------------------------------------
+// case TEMPLATE:
 //   {
 //     byte pattern0 = 0;
 //     byte pattern1 = 1;

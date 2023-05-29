@@ -65,7 +65,9 @@
 
 #define MOD 01
 
-#define START_KEY PAD_13
+#define START_KEY_2 PAD_47
+#define START_KEY_1 PAD_48
+#define START_KEY_0 PAD_13
 #define STOP_KEY PAD_14
 #define MTX_BLINK_KEY PAD_15
 #define MTX_NAME_KEY PAD_16
@@ -134,17 +136,19 @@
 
 #define MOD 01
 
-#define START_KEY C05
-#define STOP_KEY B04
+#define START_KEY_2 G04
+#define START_KEY_1 A04
+#define START_KEY_0 B04
+#define STOP_KEY C05
 #define MTX_BLINK_KEY A03
 #define MTX_NAME_KEY B03
 #define MTX_LOGO_KEY C04
 #define MTX_RCT_KEY D04
-#define MTX_BARS_KEY E04
-#define SPL_TOP_KEY F04
-#define SPL_BOTTOM_KEY G04
-#define SPL_BLINK_KEY GS4
-#define SPL_SEQ_KEY AS4
+#define MTX_BARS_KEY DS4
+#define SPL_TOP_KEY E04
+#define SPL_BOTTOM_KEY GS4
+#define SPL_BLINK_KEY AS4
+#define SPL_SEQ_KEY FS4
 #define MB_STOP_KEY C03
 #define DRUM_LA_STOP_KEY E03
 #define DRUM_RA_STOP_KEY D03

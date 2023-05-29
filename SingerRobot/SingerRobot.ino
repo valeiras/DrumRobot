@@ -17,8 +17,8 @@ bool hasOutput = false;
 bool isSimulation = false;
 bool hasVibrato = true;
 bool hasAutomaticStart = false;
-Songs automaticSong = MR_SANDMAN;
-uint8_t automaticBpm = 100;
+Songs automaticSong = HOUND_DOG;
+uint8_t automaticBpm = 115;
 
 const byte openPos1 = 165;
 const byte openPos2 = 140;
